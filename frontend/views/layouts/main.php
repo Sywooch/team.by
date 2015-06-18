@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\bootstrap\Tabs;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use frontend\widgets\Alert;
@@ -60,6 +61,54 @@ AppAsset::register($this);
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
+        
+<?php 
+echo Tabs::widget([
+    'items' => [
+        [
+            'label' => 'Yii2',
+            'content' => '<h2>Фреймворк Yii 2 - один из самых быстрых, безопасных и "крутых" php-фреймворков.</h2>',
+            'active' => true
+        ],
+        [
+            'label' => 'jQuery',
+            'content' => '<h2>jQuery - один из самых популярных JavaScript фреймворков, который работает с объектами DOM.</h2>'
+        ],
+        [
+            'label' => 'Bootstrap',
+            'content' => '<h2>Twitter Bootstrap - супер фреймворк, объединяющий в себе html, css, и JavaScript для для верстки веб-интерфейсов и страниц.</h2>',
+            'headerOptions' => [
+                'id' => 'headerOptions'
+            ],
+            'options' => [
+                'id' => 'options'
+            ]
+        ],
+        [
+            'label' => 'Еще табы',
+            'content' => '<h2>Вы можете добавить любое количество табов. Просто опишите их структуру в массиве.</h2>'
+        ],
+        [
+            'label' => 'Выпадающий список табов',
+            'items' => [
+                [
+                    'label' => 'Первый таб из выпадающего списка',
+                    'content' => '<h2>Обновите свои познания в Yii 2 and Twitter Bootstrap. Все возможнсти уже обернуты в удобные интерфейсы.</h2>'
+                ],
+                [
+                    'label' => 'Второй таб из выпадающего списка',
+                    'content' => '<h2>Один в поле не воин, а двое - уже компания.</h2>'
+                ],
+                [
+                    'label' => 'Это третий таб из выпадающего списка',
+                    'content' => '<h2>Третий не лишний!</h2>'
+                ]
+            ]
+        ]
+    ]
+]);			
+			
+?>        
         </div>
     </div>
 

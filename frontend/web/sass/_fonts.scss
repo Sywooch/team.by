@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'dinpro-regular';
+    src: url('../fonts/dinpro-regular.eot');
+    src: url('../fonts/dinpro-regular.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/dinpro-regular.woff') format('woff'),
+         url('../fonts/dinpro-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'dinpro-bold';
+    src: url('../fonts/dinpro-bold.eot');
+    src: url('../fonts/dinpro-bold.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/dinpro-bold.woff') format('woff'),
+         url('../fonts/dinpro-bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.dinpro-r {font-family: 'dinpro-regular', Arial;}
+.dinpro-b {font-family: 'dinpro-bold', Arial;}

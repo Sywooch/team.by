@@ -54,7 +54,15 @@ return [
 					'allow' => true,
 					'roles' => ['admin'],
 				],
-			]
+			],
+			
+			'debug/default' => [	//controller
+				[
+					'actions' => ['toolbar', 'index', 'view'],
+					'allow' => true,
+				],
+			],
+			
 			 
 		],	
 		
