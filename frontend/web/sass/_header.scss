@@ -1,0 +1,316 @@
+.header__row1 {
+	background-color: #464646;
+
+	
+	@extend %c_fff;
+	
+	a {
+		@extend %c_fff;
+	}
+}
+
+.header_regions__list_cnt {
+	@extend %hide;
+}
+
+.show_specialists {
+	
+}
+
+.show_specialists__ttl {
+	@extend %db;
+	@extend %fl;
+	
+	margin-right: 20px;
+}
+
+.header__regions {
+	@extend %fl;
+	
+	padding-left: 15px;
+	padding-right: 30px;
+}
+
+.autorization_h,
+.header__regions {
+	@include background-image(linear-gradient(#636363, #525252));
+}
+
+
+.header_regions__active {
+	@extend %pos_rel;
+	
+	border-bottom: 2px dotted #fff;
+		
+	&:before,
+	&:after {
+		@extend %pos_abs;
+		
+		content: ''; 
+		right: -15px; 
+		bottom: 0;
+		border: 6px solid transparent;
+		border-top: 6px solid #fff;
+		
+	}
+	
+	&:after {
+		border-top: 6px solid #5c5c5c;
+		bottom: 2px;		
+	}
+}
+
+
+.currency_select__ttl,
+.currency_select__list_cnt,
+.currency_select__list,
+.currency_select__item {
+	@extend %dib;
+}
+
+.autorization_h__item,
+.show_specialists,
+.currency_select {
+	@extend %fl;
+	
+}
+
+.autorization_h {
+	@extend %fr;
+	
+	
+}
+
+.show_specialists__ttl,
+.header__regions,
+.currency_select,
+.autorization_h__item {
+	padding-top: 13px;
+	padding-bottom: 13px; 	
+}
+
+
+.currency_select {
+	margin-left: 100px;
+}
+
+.currency_select__byr_active,
+.currency_select__usd_active {
+	@extend %ico;
+}
+
+.currency_select__byr_active {
+	padding-right: 50px;
+	
+	&:before {
+		@extend .ico-curr-byr;
+		
+		right: 6px;
+		top: 5px;
+	}
+}
+
+.currency_select__usd_active {
+	padding-left: 50px;
+	
+	&:before {
+		@extend .ico-curr-usd;
+		
+		left: 6px;
+		top: 5px;
+	}
+}
+
+
+.currency_select__item a {
+	@include transition-property(background-color);
+	@include transition-duration(100ms);	
+	
+	@extend %underline_n_n;
+	
+	
+	&:hover {
+		color: lighten($blue1, 5%);
+	}	
+}
+
+.currency_select__byr_active a,
+.currency_select__usd_active a {
+	color: $blue1;
+	
+	&:hover {
+		color: lighten($blue1, 5%);
+	}
+}
+
+.autorization_h {
+	padding-left: 20px;
+	padding-right: 20px;	
+}
+
+
+.autorization_h__item_reg_spec {
+	border-right: 1px solid #525252;
+	padding-right: 17px;
+}
+
+.autorization_h__reg_spec {
+	@extend %ico;
+	@extend %db;
+	
+	padding-left: 32px;
+	
+	&:before {
+		@extend .ico-key1;
+		
+		left: 0;
+		top: 0;
+	}
+}
+
+.autorization_h__item_login {
+	border-left: 1px solid #696969;
+	padding-left: 17px;	
+}
+
+.autorization_h__login {
+	@extend %db;
+	@extend .ico-zamok;
+	@extend .hide-text;
+}
+
+.logo_top {
+	@extend %db;
+	@extend .mt-15;
+	@extend .mb-25;
+	@extend .clearfix;
+}
+
+.logo_top__img,
+.logo_top__cnt {
+	@extend %fl;
+}
+
+
+.logo_top__cnt {
+	margin-top: 10px;
+	margin-left: 25px;
+}
+
+.logo_top__sitename,
+.logo_top__slogan {
+	@extend %db;
+}
+
+.logo_top__sitename {
+	@extend %font_34;
+	@extend .dinpro-b;
+	
+	color: $blue4;
+}
+
+.logo_top__slogan {
+	color: $gray5;
+	margin-top: -3px;
+}
+
+.header_phone {
+	@extend %fr;
+	@extend .mt-35;
+}
+
+.header_phone__txt,
+.header_phone__number {
+	@extend %fl;
+}
+
+.header_phone__txt {
+	color: $gray7;
+	margin-top: 5px;
+}
+
+.header_phone__number {
+	@extend %ico;
+	
+	margin-left: 20px;
+	padding-left: 45px;
+	
+	&:before {
+		@extend .ico-header-phone;
+		
+		left: 0;
+		top: 9px;
+	}
+}
+.header_phone__number_cnt {
+	@extend %db;
+	@extend %font_34;
+	@extend .dinpro-b;
+	
+	color: $blue4;	
+	background: url(../images/header-dots.png) repeat-x bottom;
+}
+
+
+.header__row3 {
+	border-top: 1px solid $gray8;
+	border-bottom: 2px solid $gray9;
+}
+
+.header_navbar,
+.header_popular__ttl {
+	@extend %fl;	
+}
+
+
+.header_popular__ttl {
+	background-color: $red1;
+	height: 30px;
+	line-height: 30px;
+	padding-left: 12px;
+	padding-right: 5px;
+	margin-top: 20px;
+	margin-right: 25px;
+	
+	@extend %pos_rel;
+	@extend %c_fff;
+	@extend %db;
+	@extend .dinpro-m;
+	@include border-radius(3px 0 0 3px);
+	
+	&:after {
+		@extend %pos_abs;
+		
+		content: ''; 		
+		right: -30px; 
+		top: 0;
+		border: 15px solid transparent;
+		border-left: 15px solid $red1;
+	}
+}
+
+
+.header_navbar {
+	li {
+		border-left: 1px solid $gray8;
+
+		&:last-of-type {
+			border-right: 1px solid $gray8;
+		}	
+	}
+}
+
+.header_navbar__item {
+	@extend %text_c;
+	
+	color: $gray7;
+	
+	&:hover {
+		color: $gray7;
+	}
+
+	span {
+		@extend %db;
+		@extend .dinpro-b;
+	}
+}

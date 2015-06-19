@@ -11,6 +11,16 @@
 }
 
 @font-face {
+    font-family: 'dinpro-medium';
+    src: url('../fonts/dinpro-medium.eot');
+    src: url('../fonts/dinpro-medium.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/dinpro-medium.woff') format('woff'),
+         url('../fonts/dinpro-medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'dinpro-bold';
     src: url('../fonts/dinpro-bold.eot');
     src: url('../fonts/dinpro-bold.eot?#iefix') format('embedded-opentype'),
@@ -21,4 +31,5 @@
 }
 
 .dinpro-r {font-family: 'dinpro-regular', Arial;}
+.dinpro-m {font-family: 'dinpro-medium', Arial;}
 .dinpro-b {font-family: 'dinpro-bold', Arial;}

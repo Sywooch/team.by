@@ -21,8 +21,6 @@
 .font-24 { @extend %font_24; } 
 .font-30 { @extend %font_30; }
 
-.lh-18 { @extend %lh_18; }
-
 .c-fff { @extend %c_fff; }
 .c-000 { @extend %c_000; }
 
@@ -56,9 +54,11 @@
 
 .mt-5 { margin-top: 5px; }
 .mt-10 { margin-top: 10px; }
+.mt-15 { margin-top: 15px; }
 .mt-20 { margin-top: 20px; }
 .mt-25 { margin-top: 25px; }
 .mt-30 { margin-top: 30px; }
+.mt-35 { margin-top: 35px; }
 .mt-40 { margin-top: 40px; }
 
 .mr-5 { margin-right: 5px; }
