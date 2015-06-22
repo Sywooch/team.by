@@ -1,0 +1,120 @@
+.profi_search {
+	background: url(../images/main-img.jpg) no-repeat top center;
+	height: 500px;
+}
+
+.profi_search__cnt {
+	@include border-radius(4px);
+	
+	margin-top: 145px;
+	
+	background: url(../images/pattern.png);
+}
+
+.profi_search__ttl {
+	@extend .dinpro-m;
+	@extend %font_32;
+	
+	color: $gray7;
+	padding-top: 10px;
+	padding-left: 35px;
+	
+}
+
+.profi_search__tabs {
+	.tab-pane {
+		background-color: #fff;
+		padding: 15px;
+	}
+}
+
+.profi_search_tab_1__cnt {
+	@extend .clearfix;
+	@extend %ico;
+	@include border-radius(3px);
+	
+	border: 1px solid $gray10;
+	
+	&:before {
+		@extend .ico-search;
+		left: 7px;
+		top: 7px;
+	}
+	
+}
+.profi_search_tab_1_region__ttl {
+	@extend %db;
+	@extend %ico;
+	@extend %c_000;
+	
+	line-height: 32px;
+	padding-left: 35px;
+	padding-right: 5px;
+	
+	&:before {
+		@extend .ico-region;
+		left: 12px;
+		top: 8px;
+	}
+}
+
+.profi_search_tab_1_regions__active,	
+.profi_search_tab_1_region__ttl,
+.profi_search_tab_1__regions,
+.profi_search_tab_1__inputbox{
+	@extend %fl;
+}
+
+.profi_search_tab_1__region {
+	@extend .clearfix;
+	@extend %fr;
+	
+	border-left: 1px solid $gray10;
+}
+
+.profi_search_tab_1_regions__list_cnt {
+	@extend %hide;
+}
+
+.profi_search_tab_1__inputbox {
+	@extend %db;
+	
+	
+	padding-left: 40px;
+	width: 530px;
+	
+	border: none;
+	
+}
+
+.profi_search_tab_1_regions__active {
+	@extend %db;
+	@extend %pos_rel;
+	
+	color: $blue2;
+	border-bottom: 2px dotted $blue2;
+	margin-top: 6px;
+	margin-right: 35px;
+	
+	&:before,
+	&:after {
+		@extend %pos_abs;
+		
+		content: ''; 
+		right: -15px; 
+		bottom: 0;
+		border: 5px solid transparent;
+		border-top: 5px solid $blue2;
+		
+	}
+	
+	&:after {
+		border-top: 6px solid #fff;
+		bottom: 2px;		
+	}
+	
+}
+
+.profi_search__button {
+	display: block;
+}

@@ -1,0 +1,64 @@
+
+
+.how_it_work {
+	background: url(../images/pattern.png);
+	border-top: 1px solid $gray12;
+}
+
+.how_it_work__3_cnt,
+.how_it_work__2_cnt,
+.how_it_work__1_cnt {
+	@extend %text_c;
+	width: 290px;
+}
+
+.how_it_work__1_cnt {
+	@extend %fr;
+	/* width: 230px; */
+	
+}
+
+.how_it_work__2_cnt {
+	margin: 0 auto;
+}
+
+.how_it_work__3_cnt {
+	/* width: 220px; */
+}
+
+.how_it_work__phone {
+	@extend %db;
+	@extend %font_18;
+	@extend .dinpro-b;
+	color: $blue3;
+}
+
+.how_it_work__2_cnt,
+.how_it_work__1_cnt {
+	@extend %ico;
+	
+	&:before {
+		@extend .ico-how-it-work-arrow; 
+		right: -40px;
+		top: 60px;
+	}
+}
+
+.how_it_work__img {
+	@extend .mb-20;
+}
+
+.how_it_work__txt {
+	@extend %c_000;	
+}
+
+
+.how_it_work__bottom {
+	border-top: 1px solid $gray12;
+	@extend %font_24;
+	@extend %text_c;
+	@extend .pt-20;
+	@extend .mt-20;
+	@extend .pb-20;
+	@extend .dinpro-b;
+}

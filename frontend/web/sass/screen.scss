@@ -27,13 +27,23 @@ $ico-sprite-dimensions: true;
 @import "ico/*.png"; 
 @include all-ico-sprites;
 
+$btn-layout: vertical;
+//$btns-sprite-dimensions: true;
+@import "btn/*.png"; 
+@include all-btn-sprites;
+
+
 @import "_placeholders";
 @import "_fonts";
 @import "_font_colors";
 @import "_common-universal-classes";
 @import "_common";	//общие стили 
 @import "_header";
-//@import "_footer";
+@import "_profi-search";
+@import "_all-profi-list";
+@import "_how-it-work";
+@import "_reviews-block";
+@import "_footer";
 
 
 

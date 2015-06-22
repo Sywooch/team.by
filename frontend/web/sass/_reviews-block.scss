@@ -1,0 +1,32 @@
+.reviews_block {
+	background: url(../images/reviews-bg.jpg) no-repeat top center;
+	height: 283px;
+	
+	.container {
+		@extend %text_c;
+	}
+}
+
+
+.reviews_block__ttl {
+	color: #fff;
+	@extend .pt-30;
+}
+
+.reviews_block__cnt {
+	background: url(../images/pattern.png);
+	border: 1px solid $gray14;
+	padding: 15px 20px;
+	
+	@extend .mb-25;
+	@extend %ico;
+	
+	@include border-radius(4px);
+	
+	&:before {
+		@extend .ico-reviews-triangle;
+		bottom: -9px;
+		left: 50%;
+		margin-left: -7px;
+	}
+}
