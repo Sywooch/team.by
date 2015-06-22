@@ -1,4 +1,83 @@
+// $1d2dHm$^yyn
+
 .footer {
     height: 160px;
     background-color: #464646; 
+	
+	.container {
+		padding-top: 25px;
+	}
+}
+
+.logo_bottom {
+	@extend .mt-5;
+}
+
+.footer__cnt {
+	@extend %fl;
+	margin-left: 20px;
+}
+
+.footer_menu__list {
+	@extend .clearfix;
+}
+
+.footer_menu__item {
+	@extend %fl;
+	margin-right: 25px;
+	
+	a {
+		@extend %c_fff;
+		@extend %underline_y_n;
+		@extend .dinpro-m;
+		
+		&:hover {
+			@extend %c_fff;
+		}
+	}
+}
+
+.footer__info {
+	@extend %c_fff;
+	margin: 10px 0;
+}
+
+.created_by a,
+.created_by a:hover,
+.created_by {
+	@extend %c_fff;
+	color: $gray8;
+}
+
+.footer__buttons {
+	@extend %fr;
+	@extend .mt-10;
+	
+}
+
+.footer .footer__reg_btn,
+.footer .footer__login_btn {
+	display: block;
+	@extend %font_16;
+	@extend %ico;
+	@extend .dinpro-r;
+}
+
+.footer__reg_btn {
+	@extend %text_c;
+	@extend .mb-10;
+	
+	&:before {
+		@extend .ico-key2;
+		left: 65px;
+		top: 13px;
+	}
+}
+
+.footer__login_btn {
+	&:before {
+		@extend .ico-zamok;
+		left: 15px;
+		top: 9px;
+	}
 }

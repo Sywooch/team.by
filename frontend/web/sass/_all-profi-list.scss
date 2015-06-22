@@ -9,6 +9,7 @@
 .all_cats_show__cnt {
 	@extend %text_c;
 	@extend %ico;
+	@extend .mb-30;
 	
 	&:before {
 		@extend %w_100;
@@ -89,6 +90,7 @@
 	padding-left: 40px;	
 	&:before {
 		@extend .ico-cat-5;
+		top: -3px;
 	}
 }
 
@@ -110,6 +112,7 @@
 	padding-left: 35px;	
 	&:before {
 		@extend .ico-cat-8;
+		top: -2px;
 	}
 }
 

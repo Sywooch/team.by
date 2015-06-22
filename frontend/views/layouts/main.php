@@ -54,8 +54,11 @@ AppAsset::register($this);
 							<div class="currency_select__list_cnt">
 								<ul class="currency_select__list">
 									<li class="currency_select__item currency_select__byr_active"><a href="#">BYR</a></li>
-									<li class="currency_select__item currency_select__usd_active_"><a href="#">USD</a></li>
+									<li id="currency_select__usd" class="currency_select__item currency_select__usd_active_"><a href="#">USD</a></li>
 								</ul>
+							</div>
+							<div id="currency_select__popup" class="currency_select__popup popup_block">
+								Информация в USD приво- дится только для справки. Все расчеты происходят в белорусских рублях.
 							</div>
 						</div>
 
@@ -72,8 +75,8 @@ AppAsset::register($this);
 					<div class="container">
 						<div class="row clearfix">
 							<div class="col-lg-5">
-								<a href="#" class="logo_top">
-									<img class="logo_top__img" src="<?php echo Url::to('@web'); ?>/images/logo-top.png" alt="Профессионалы">
+								<a href="<?php echo Yii::$app->params['homeUrl']; ?>" class="logo_top">
+									<img class="logo_top__img" src="/images/logo-top.png" alt="Профессионалы">
 									<span class="logo_top__cnt">
 										<span class="logo_top__sitename">Профессионалы</span>
 										<span class="logo_top__slogan">Только проверенные специалисты</span>
@@ -81,11 +84,18 @@ AppAsset::register($this);
 								</a>
 							</div>
 
-
 							<div class="col-lg-5 col-lg-offset-2">
-								<div class="header_phone">
+								<div id="header_phone" class="header_phone">
 									<div class="header_phone__txt"><span class="bold">Единый номер для всех</span><br>мобильных операторов РБ:</div>
 									<div class="header_phone__number"><span class="header_phone__number_cnt">345-89-98</span></div>
+									<div id="header_phone__popup" class="header_phone__popup popup_block">
+										<ul class="header_phone_popup__list">
+											<li class="header_phone_popup__item header_phone_popup__phone">+375 (17) <span>345-89-98</span></li>
+											<li class="header_phone_popup__item header_phone_popup__velcom">+375 (33) <span>345-89-98</span></li>
+											<li class="header_phone_popup__item header_phone_popup__mts">+375 (44) <span>345-89-98</span></li>
+											<li class="header_phone_popup__item header_phone_popup__life">+375 (29) <span>345-89-98</span></li>
+										</ul>
+									</div>
 								</div>
 							</div>
 
@@ -189,7 +199,7 @@ AppAsset::register($this);
 
 
 			<?= $content ?>
-
+			
 			</div>
 
 			<div class="how_it_work">
@@ -198,19 +208,19 @@ AppAsset::register($this);
 					<div class="row clearfix">
 						<div class="col-lg-4">
 							<div class="how_it_work__1_cnt">
-								<img src="<?php echo Url::to('@web'); ?>/images/how-it-work-1.png" alt="как это работает" class="how_it_work__img" />
+								<img src="/images/how-it-work-1.png" alt="как это работает" class="how_it_work__img" />
 								<p class="how_it_work__txt">Выберите необходимую услугу<br>и ваш регион </p>
 							</div>
 						</div>
 						<div class="col-lg-4">
 							<div class="how_it_work__2_cnt">
-								<img src="<?php echo Url::to('@web'); ?>/images/how-it-work-2.png" alt="как это работает" class="how_it_work__img" />
+								<img src="/images/how-it-work-2.png" alt="как это работает" class="how_it_work__img" />
 								<p class="how_it_work__txt">Выберите профессионала и отправьте нам <a href="#">заявку одним кликом</a> или<br>телефонным звонком  <span class="how_it_work__phone">8 ( 033 ) 875-15-12</span></p>
 							</div>
 						</div>
 						<div class="col-lg-4">
 							<div class="how_it_work__3_cnt">
-								<img src="<?php echo Url::to('@web'); ?>/images/how-it-work-3.png" alt="как это работает" class="how_it_work__img" />
+								<img src="/images/how-it-work-3.png" alt="как это работает" class="how_it_work__img" />
 								<p class="how_it_work__txt">Специалист свяжется с вами</p>
 							</div>
 						</div>
@@ -233,8 +243,8 @@ AppAsset::register($this);
     </div>
 
 	<footer class="footer">
-		<div class="container">
-			<a href="<?php echo Url::to('@web'); ?>" class="logo_bottom pull-left"><img src="<?php echo Url::to('@web'); ?>/images/logo-bottom.png" alt=""></a>
+		<div class="container clearfix">
+			<a href="<?php echo Yii::$app->params['homeUrl']; ?>" class="logo_bottom pull-left"><img src="/images/logo-bottom.png" alt=""></a>
 
 
 			<div class="footer__cnt">
@@ -254,6 +264,17 @@ AppAsset::register($this);
 					]
 				]);
 				?>
+				
+				<p class="footer__info">
+					Единый номер для всех мобильных операторов РБ:  345-89-98<br>Время работы: 8:00 - 22:00
+				</p>
+				
+				<p class="created_by">Разработка сайта: <a href="http://www.medialine.by" target="_blank" title="Medialine.by">Medialine.by</a></p>
+			</div>
+			
+			<div class="footer__buttons">
+				<a href="#" class="button-gray footer__reg_btn">Стать специалистом</a>
+				<a href="#" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
 			</div>
 
 

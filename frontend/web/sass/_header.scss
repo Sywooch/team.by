@@ -91,6 +91,8 @@
 
 
 .currency_select {
+	@extend %pos_rel;
+	
 	margin-left: 100px;
 }
 
@@ -166,6 +168,11 @@
 		left: 0;
 		top: 0;
 	}
+	
+	&:active,
+	&:hover {
+		@extend %c_fff;
+	}
 }
 
 .autorization_h__item_login {
@@ -215,8 +222,9 @@
 }
 
 .header_phone {
+	@extend %pos_rel;
 	@extend %fr;
-	@extend .mt-35;
+	@extend .mt-35;	
 }
 
 .header_phone__txt,
@@ -313,4 +321,59 @@
 		@extend %db;
 		@extend .dinpro-b;
 	}
+}
+
+.header_phone_popup__item {
+	@extend %ico;
+	padding-left: 22px;
+	padding-bottom: 5px;
+	
+	&:before {
+		left: 0;
+		top: 5px;
+	}
+	
+	&:last-of-type {
+		padding-bottom: 0;
+	}
+}
+
+.header_phone_popup__phone {
+	&:before {
+		@extend .ico-phone;
+		left: 2px;
+	}
+}
+
+.header_phone_popup__velcom {
+	&:before {
+		@extend .ico-velcom;
+	}
+}
+
+.header_phone_popup__mts {
+	&:before {
+		@extend .ico-mts;
+		left: 2px;
+	}
+}
+
+.header_phone_popup__life {
+	&:before {
+		@extend .ico-life;
+		left: 3px;
+	}
+}
+
+.header_phone__popup {
+	right: 0;
+	top: 65px;
+	display: none;
+}
+
+.currency_select__popup {
+	width: 230px;
+	right: -100px;
+	top: 40px;
+	display: none;
 }
