@@ -38,6 +38,7 @@ a {
 	font-family: 'dinpro-regular', Arial;
 	font-size: 16px;
 	color: $gray6;
+	min-width: 1200px;
 }
 
 
@@ -111,8 +112,33 @@ h1,.h1 {
 	color: $gray3;
 }
 
+.h2__modal {
+	@extend .dinpro-b;
+	@extend %font_28;
+	@extend %text_c;
+	color: $gray7;
+}
+
 .wrap__cnt {
 
+}
+.container {
+	width: 1170px !important;
+}
+
+.col-lg-5 {
+	width: 41.66666667% !important;
+	@extend %fl;
+}
+
+.col-lg-4 {
+	width: 33.33333333% !important;
+	@extend %fl;
+}
+
+.col-lg-3 {
+	width: 25% !important;
+	@extend %fl;
 }
 
 .popup_block {
@@ -141,6 +167,60 @@ h1,.h1 {
 		@extend .dinpro-b;
 		color: $blue4;
 	}
+}
+
+.modal-dialog {
+	margin-top: 100px;
+}
+
+.modal-header {
+	background-color: $gray15;
+	border-bottom: 1px solid $gray9;
+	
+	.close {
+		width: 24px;
+		height: 24px;
+		background-color: $blue1;
+		right: -25px;
+		top: -25px;
+		filter: alpha(opacity=100);
+		opacity: 1;
+		text-shadow: none;
+
+
+
+		@include border-radius(50%);
+
+		@extend %pos_abs;
+		@extend %c_fff;
+
+		&:hover {
+			filter: alpha(opacity=100);
+			opacity: 1;
+			background-color: lighten($blue1, 5%);
+		}
+
+	}
+}
+
+.modal-body  {
+	padding: 15px 45px;
+}
+
+.modal-dialog__login {
+	width: 445px;
+}
+
+.reset_url,
+.signup_url {
+	@extendc %font_14;
+	color: $blue5;
+	padding-left: 18px;
+}
+
+.login_button {
+	padding-left: 30px;
+	padding-right: 30px;
 }
 
 .jumbotron {

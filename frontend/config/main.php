@@ -38,7 +38,7 @@ return [
         'rules' => [
 			'site' =>	[	//controller
 				[
-					'actions' => ['login', 'index'],
+					'actions' => ['login', 'index', 'signup'],
 					'allow' => true,
 				],
 				[

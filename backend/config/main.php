@@ -45,10 +45,10 @@ return [
 				'disabledCommands' => ['netmount'], //отключение ненужных команд https://github.com/Studio-42/elFinder/wiki/Client-configuration-options#commands
 				'roots' => [
 					[
-						//'baseUrl'=>'@web',
-						'baseUrl'=>'/frontend/web',
-						//'basePath'=>'@webroot',
-						'basePath'=>$_SERVER['DOCUMENT_ROOT'].'/frontend/web',
+						'baseUrl'=>'@web',
+						//'baseUrl'=>'/frontend/web',
+						'basePath'=>'@webroot',
+						//'basePath'=>$_SERVER['DOCUMENT_ROOT'].'/frontend/web',
 						'path' => 'files/global',
 						'name' => 'Global'
 					],
@@ -134,7 +134,16 @@ return [
 					'actions' => ['toolbar', 'index', 'view'],
 					'allow' => true,
 				],
-			]
+			],
+			
+			'elfinder' =>	[	//controller
+				[
+					'actions' => ['index','manager'],
+					'allow' => true,
+				],
+			],
+			
+			
 			 
 		],	
 		

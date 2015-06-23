@@ -77,8 +77,17 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
+		
+		$request = Yii::$app->request;
+		$modal = $request->get('modal');
+		
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
+        } elseif($modal == 1) {
+            return $this->renderPartial('login-modal', [
+                'model' => $model,
+            ]);
+			
         } else {
             return $this->render('login', [
                 'model' => $model,

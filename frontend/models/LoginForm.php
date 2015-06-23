@@ -1,5 +1,6 @@
 <?php
 namespace common\models;
+namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
@@ -83,12 +84,6 @@ class LoginForm extends Model
     {
         if ($this->_user === false) {
             $this->_user = User::findByUsername($this->username);
-        }
-		
-		//var_dump($this->_user);die;
-
-        if ($this->_user === null) {
-            $this->_user = User::findByEmail($this->username);
         }
 
         return $this->_user;

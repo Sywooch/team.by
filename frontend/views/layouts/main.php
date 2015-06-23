@@ -2,17 +2,21 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-use yii\bootstrap\Tabs;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use frontend\widgets\Alert;
 use yii\helpers\Url;
 use yii\widgets\Menu;
+use yii\bootstrap\Modal;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
 AppAsset::register($this);
+
+$current_controller = Yii::$app->controller->id;
+$current_action = Yii::$app->controller->action->id;
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -65,7 +69,7 @@ AppAsset::register($this);
 						<div class="autorization_h">
 							<ul class="autorization_h__list">
 								<li class="autorization_h__item autorization_h__item_reg_spec"><a class="autorization_h__reg_spec" href="#">Стать специалистом</a></li>
-								<li class="autorization_h__item autorization_h__item_login"><a class="autorization_h__login" href="#">Войти</a></li>
+								<li class="autorization_h__item autorization_h__item_login"><a id="login-modal" class="autorization_h__login" href="<?=Url::toRoute('/site/login')?>">Войти</a></li>
 							</ul>
 						</div>
 					</div>
@@ -126,70 +130,7 @@ AppAsset::register($this);
 				</div>
 			</div>
 
-
-			<div class="profi_search">
-				<div class="container">
-					<div class="col-lg-10 col-lg-offset-1">
-						<div class="profi_search__cnt">
-
-							<p class="profi_search__ttl">Бесплатный подбор профессионалов по вашим критериям</p>
-
-							<div class="profi_search__tabs">
-								<?php 
-								echo Tabs::widget([
-									'items' => [
-										[
-											'label' => 'Найти специалиста',
-											'content' => $this->render('_tab1', [], false, true),
-											'active' => true
-										],
-										[
-											'label' => 'Заказать подбор специалиста',
-											'content' => $this->render('_tab2', [], false, true),
-										],
-									]
-								]);			
-
-								?>        
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<?php
-			//echo'<pre>';print_r($this);echo'</pre>';
-	/*
-				NavBar::begin([
-					'brandLabel' => 'My Company',
-					'brandUrl' => Yii::$app->homeUrl,
-					'options' => [
-						'class' => 'navbar-inverse navbar-fixed-top',
-					],
-				]);
-				$menuItems = [
-					['label' => 'Home', 'url' => ['/site/index']],
-					['label' => 'About', 'url' => ['/site/about']],
-					['label' => 'Contact', 'url' => ['/site/contact']],
-				];
-				if (Yii::$app->user->isGuest) {
-					$menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-					$menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-				} else {
-					$menuItems[] = [
-						'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-						'url' => ['/site/logout'],
-						'linkOptions' => ['data-method' => 'post']
-					];
-				}
-				echo Nav::widget([
-					'options' => ['class' => 'navbar-nav navbar-right'],
-					'items' => $menuItems,
-				]);
-				NavBar::end();
-				*/
-			?>
+			<?php if($current_controller == 'site' && $current_action == 'index') echo $this->render('_profi_search', [], false, true); ?>
 
 			<div class="container">
 			<?= Breadcrumbs::widget([
@@ -201,44 +142,12 @@ AppAsset::register($this);
 			<?= $content ?>
 			
 			</div>
+			
+			<?php if($current_controller == 'site' && $current_action == 'index') echo $this->render('_how_it_work', [], false, true); ?>
+			
+			<?php if($current_controller == 'site' && $current_action == 'index') echo $this->render('_reviews_block', [], false, true); ?>
 
-			<div class="how_it_work">
-				<div class="container">
-					<p class="h1">Как это работает</p>
-					<div class="row clearfix">
-						<div class="col-lg-4">
-							<div class="how_it_work__1_cnt">
-								<img src="/images/how-it-work-1.png" alt="как это работает" class="how_it_work__img" />
-								<p class="how_it_work__txt">Выберите необходимую услугу<br>и ваш регион </p>
-							</div>
-						</div>
-						<div class="col-lg-4">
-							<div class="how_it_work__2_cnt">
-								<img src="/images/how-it-work-2.png" alt="как это работает" class="how_it_work__img" />
-								<p class="how_it_work__txt">Выберите профессионала и отправьте нам <a href="#">заявку одним кликом</a> или<br>телефонным звонком  <span class="how_it_work__phone">8 ( 033 ) 875-15-12</span></p>
-							</div>
-						</div>
-						<div class="col-lg-4">
-							<div class="how_it_work__3_cnt">
-								<img src="/images/how-it-work-3.png" alt="как это работает" class="how_it_work__img" />
-								<p class="how_it_work__txt">Специалист свяжется с вами</p>
-							</div>
-						</div>
-					</div>
 
-					<div class="how_it_work__bottom">Наша помощь по выбору специалистов всегда бесплатна!</div>
-				</div>
-			</div>
-
-			<div class="reviews_block">
-				<div class="container">
-					<p class="h1 reviews_block__ttl">Отзывы о специалистах</p>
-					<div class="reviews_block__cnt">
-						У каждого нашего клиента мы запрашиваем отзыв о работе специалиста. Отзыв могут оставить только наши клиенты, поэтому все отзывы у нас настоящие. Отзывы клиентов публикуются без редактирования, как есть. Негативные отзывы не удаляются.
-					</div>
-					<a href="#" class="button-red reviews_block__send">Оставить отзыв о специалисте</a>
-				</div>
-			</div>
 		</div>
     </div>
 
@@ -280,7 +189,7 @@ AppAsset::register($this);
 
 		</div>
 	</footer>
-
+	<div class="modal fade"></div>
     <?php $this->endBody() ?>
 </body>
 </html>
