@@ -15,12 +15,15 @@ use yii\bootstrap\Tabs;
 						'items' => [
 							[
 								'label' => 'Найти специалиста',
-								'content' => $this->render('_tab1', [], false, true),
-								'active' => true
+								'content' => $this->render('_profi_search_tab1', [], false, true),
+								'active' => true,
+								'linkOptions' => ['class' => 'profi_search_tabs__tab1'],
 							],
 							[
 								'label' => 'Заказать подбор специалиста',
-								'content' => $this->render('_tab2', [], false, true),
+								'content' => $this->render('_profi_search_tab2', [], false, true),
+								'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
+								'options' => ['class' => 'profi_search_tab__zakaz']
 							],
 						]
 					]);			

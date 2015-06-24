@@ -9,7 +9,7 @@ $this->title = 'My Yii Application';
         
         <ul class="row clearfix all_profi_list">
         	<li class="col-lg-3 all_profi_list__l1_item">
-        		<p class="all_profi_list__l1__ttl profi_1">Мастера по ремонту</p>
+				<p class="all_profi_list__l1__ttl profi_1"><a href="#" class="all_profi_list__l1_item_url">Мастера по ремонту</a></p>
         		<ul class="all_profi_list__l2">
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">сантехники</a></li>
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">электрики</a></li>
@@ -21,7 +21,7 @@ $this->title = 'My Yii Application';
         	</li>
         	
         	<li class="col-lg-3 all_profi_list__l1_item">
-        		<p class="all_profi_list__l1__ttl profi_2">Репетиторы</p>
+				<p class="all_profi_list__l1__ttl profi_2"><a href="#" class="all_profi_list__l1_item_url">Репетиторы</a></p>
         		<ul class="all_profi_list__l2">
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">английский язык</a></li>
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">математика</a></li>
@@ -34,7 +34,7 @@ $this->title = 'My Yii Application';
         	
         	
         	<li class="col-lg-3 all_profi_list__l1_item">
-        		<p class="all_profi_list__l1__ttl profi_3">Артисты</p>
+				<p class="all_profi_list__l1__ttl profi_3"><a href="#" class="all_profi_list__l1_item_url">Артисты</a></p>
         		<ul class="all_profi_list__l2">
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">музыканты</a></li>
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">танцоры</a></li>
@@ -47,7 +47,7 @@ $this->title = 'My Yii Application';
         	
         	
         	<li class="col-lg-3 all_profi_list__l1_item">
-        		<p class="all_profi_list__l1__ttl profi_4">Автоинструкторы</p>
+				<p class="all_profi_list__l1__ttl profi_4"><a href="#" class="all_profi_list__l1_item_url">Автоинструкторы</a></p>
         		<ul class="all_profi_list__l2">
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">вождение (МКПП)</a></li>
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">вождение (АКПП)</a></li>
@@ -60,7 +60,7 @@ $this->title = 'My Yii Application';
         	
         	
         	<li class="col-lg-3 all_profi_list__l1_item">
-        		<p class="all_profi_list__l1__ttl profi_5">Мастера красоты</p>
+				<p class="all_profi_list__l1__ttl profi_5"><a href="#" class="all_profi_list__l1_item_url">Мастера красоты</a></p>
         		<ul class="all_profi_list__l2">
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">макияж</a></li>
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">маникюр, педикюр</a></li>
@@ -73,7 +73,7 @@ $this->title = 'My Yii Application';
         	
         	
         	<li class="col-lg-3 all_profi_list__l1_item">
-        		<p class="all_profi_list__l1__ttl profi_6">Врачи</p>
+				<p class="all_profi_list__l1__ttl profi_6"><a href="#" class="all_profi_list__l1_item_url">Врачи</a></p>
         		<ul class="all_profi_list__l2">
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">стоматологи</a></li>
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">гинекологи</a></li>
@@ -86,7 +86,7 @@ $this->title = 'My Yii Application';
         	
         	
         	<li class="col-lg-3 all_profi_list__l1_item">
-        		<p class="all_profi_list__l1__ttl profi_7">Спортивные тренеры</p>
+				<p class="all_profi_list__l1__ttl profi_7"><a href="#" class="all_profi_list__l1_item_url">Спортивные тренеры</a></p>
         		<ul class="all_profi_list__l2">
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">йога</a></li>
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">единоборства</a></li>
@@ -99,7 +99,7 @@ $this->title = 'My Yii Application';
         	
         	
         	<li class="col-lg-3 all_profi_list__l1_item">
-        		<p class="all_profi_list__l1__ttl profi_8">Мастера по ремонту авто</p>
+				<p class="all_profi_list__l1__ttl profi_8"><a href="#" class="all_profi_list__l1_item_url">Мастера по ремонту авто</a></p>
         		<ul class="all_profi_list__l2">
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">фотографы</a></li>
         			<li class="all_profi_list__l2_item"><a href="#" class="all_profi_list__l2_item_url">логопеды</a></li>

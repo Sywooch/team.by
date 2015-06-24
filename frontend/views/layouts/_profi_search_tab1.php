@@ -3,12 +3,12 @@
 	<div class="profi_search_tab_1__region">
 		<span class="profi_search_tab_1_region__ttl">Ваш регион:</span>
 		<div class="profi_search_tab_1__regions">
-			<span class="profi_search_tab_1_regions__active">Минск</span>
-			<div class="profi_search_tab_1_regions__list_cnt">
+			<span id="profi_search_tab_1_regions__active" class="profi_search_tab_1_regions__active">Минск</span>
+			<div id="profi_search_tab_1_regions__list_cnt" class="profi_search_tab_1_regions__list_cnt popup_block">
 				<ul class="profi_search_tab_1_regions__list">
-					<li class="profi_search_tab_1_regions__item">Гомель</li>
-					<li class="profi_search_tab_1_regions__item">Могилев</li>
-					<li class="profi_search_tab_1_regions__item">Брест</li>
+					<li class="profi_search_tab_1_regions__item"><a href="#">Гомель</a></li>
+					<li class="profi_search_tab_1_regions__item"><a href="#">Могилев</a></li>
+					<li class="profi_search_tab_1_regions__item"><a href="#">Брест</a></li>
 				</ul>
 			</div>
 			

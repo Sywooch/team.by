@@ -9,8 +9,35 @@
 	}
 }
 
+.header__regions {
+	@extend %pos_rel;
+}
 .header_regions__list_cnt {
 	@extend %hide;
+	
+	top: 60px;
+	left: 50%;
+	margin-left: -93px;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.header_regions__item {
+	a {
+		@extend %db;
+		@extend %underline_n_n;
+		
+		line-height: 26px;
+		white-space: nowrap;
+		padding-left: 15px;
+		padding-right: 15px;
+		
+		&:focus,
+		&:hover {
+			background-color: $gray7;
+			color: #fff;
+		}
+	}
 }
 
 .show_specialists {
@@ -39,6 +66,7 @@
 
 .header_regions__active {
 	@extend %pos_rel;
+	@extend %pointer;
 	
 	border-bottom: 2px dotted #fff;
 		
@@ -61,6 +89,7 @@
 }
 
 
+.currency_select__list li,
 .currency_select__ttl,
 .currency_select__list_cnt,
 .currency_select__list,
@@ -84,10 +113,12 @@
 .show_specialists__ttl,
 .header__regions,
 .currency_select,
-.autorization_h__item {
+.autorization_h__item_reg_spec {
 	padding-top: 13px;
 	padding-bottom: 13px; 	
 }
+
+
 
 
 .currency_select {
@@ -96,35 +127,49 @@
 	margin-left: 100px;
 }
 
-.currency_select__byr_active,
-.currency_select__usd_active {
+.currency_select__byr,
+.currency_select__usd {
 	@extend %ico;
 }
 
-.currency_select__byr_active {
+.currency_select__byr {
 	padding-right: 50px;
 	
 	&:before {
-		@extend .ico-curr-byr;
+		@extend .ico-curr-usd;
 		
 		right: 6px;
 		top: 5px;
 	}
 }
 
-.currency_select__usd_active {
+.currency_select__byr_active {
+	padding-right: 0;
+	&:before {
+		@extend %hide;
+	}
+}
+
+.currency_select__usd {
 	padding-left: 50px;
 	
 	&:before {
-		@extend .ico-curr-usd;
+		@extend .ico-curr-byr;
 		
 		left: 6px;
 		top: 5px;
 	}
 }
 
+.currency_select__usd_active {
+	padding-left: 0;
+	&:before {
+		@extend %hide;
+	}	
+}
 
-.currency_select__item a {
+
+.currency_select__item {
 	@include transition-property(background-color);
 	@include transition-duration(100ms);	
 	
@@ -136,8 +181,8 @@
 	}	
 }
 
-.currency_select__byr_active a,
-.currency_select__usd_active a {
+a.currency_select__byr_active,
+a.currency_select__usd_active {
 	color: $blue1;
 	
 	&:hover {
@@ -147,7 +192,7 @@
 
 .autorization_h {
 	padding-left: 20px;
-	padding-right: 20px;	
+//	padding-right: 20px;	
 }
 
 
@@ -177,13 +222,25 @@
 
 .autorization_h__item_login {
 	border-left: 1px solid #696969;
-	padding-left: 17px;	
 }
 
 .autorization_h__login {
 	@extend %db;
-	@extend .ico-zamok;
+	@extend %ico;
+	@extend %pos_rel;
 	@extend .hide-text;
+	
+	width: 54px;
+	height: 48px;
+	
+	&:before {
+		@extend .ico-zamok;		
+		left: 18px;
+		top: 14px;
+	}
+	
+
+	
 }
 
 .logo_top {

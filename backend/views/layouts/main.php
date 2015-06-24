@@ -33,6 +33,7 @@ AppAsset::register($this);
             ]);
             $menuItems = [
                 ['label' => 'Home', 'url' => ['/site/index']],
+                ['label' => 'Категории', 'url' => ['/category/index']],
                 ['label' => 'Страницы', 'url' => ['/page/index']],
                 ['label' => 'Пользователи', 'url' => ['/user/index']],
                 ['label' => 'Роли', 'url' => ['/permit/access/role']],

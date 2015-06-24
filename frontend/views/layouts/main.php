@@ -40,15 +40,15 @@ $current_action = Yii::$app->controller->action->id;
 							<span class="show_specialists__ttl">Отображать профессионалов:</span>
 							<div class="header__regions">
 								<p id="header_regions__active" class="header_regions__active">Вся Беларусь</p>
-								<div id="header_regions__list_cnt" class="header_regions__list_cnt">
+								<div id="header_regions__list_cnt" class="header_regions__list_cnt popup_block popup_block_dark">
 									<ul class="header_regions__list">
-									<li class="header_regions__item"><a href="#" data-region="1">Минская область</a></li>
-									<li class="header_regions__item"><a href="#" data-region="2">Гомельская область</a></li>
-									<li class="header_regions__item"><a href="#" data-region="3">Брестская область</a></li>
-									<li class="header_regions__item"><a href="#" data-region="4">Гродненская область</a></li>
-									<li class="header_regions__item"><a href="#" data-region="5">Витебская область</a></li>
-									<li class="header_regions__item"><a href="#" data-region="6">Могилёвская область</a></li>
-								</ul>
+										<li class="header_regions__item"><a href="<?php echo Yii::$app->params['homeUrl']; ?>" data-region="1">Минская область</a></li>
+										<li class="header_regions__item"><a href="<?php echo Yii::$app->params['homeUrl']; ?>" data-region="2">Гомельская область</a></li>
+										<li class="header_regions__item"><a href="<?php echo Yii::$app->params['homeUrl']; ?>" data-region="3">Брестская область</a></li>
+										<li class="header_regions__item"><a href="<?php echo Yii::$app->params['homeUrl']; ?>" data-region="4">Гродненская область</a></li>
+										<li class="header_regions__item"><a href="<?php echo Yii::$app->params['homeUrl']; ?>" data-region="5">Витебская область</a></li>
+										<li class="header_regions__item"><a href="<?php echo Yii::$app->params['homeUrl']; ?>" data-region="6">Могилёвская область</a></li>
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -57,8 +57,8 @@ $current_action = Yii::$app->controller->action->id;
 							<p class="currency_select__ttl">Выбор валюты:</p>
 							<div class="currency_select__list_cnt">
 								<ul class="currency_select__list">
-									<li class="currency_select__item currency_select__byr_active"><a href="#">BYR</a></li>
-									<li id="currency_select__usd" class="currency_select__item currency_select__usd_active_"><a href="#">USD</a></li>
+									<li class=""><a href="#" class="currency_select__item currency_select__byr currency_select__byr_active_">BYR</a></li>
+									<li id="currency_select__usd" class=""><a href="#" class="currency_select__item currency_select__usd currency_select__usd_active">USD</a></li>
 								</ul>
 							</div>
 							<div id="currency_select__popup" class="currency_select__popup popup_block">
@@ -160,10 +160,10 @@ $current_action = Yii::$app->controller->action->id;
 				<?php
 				echo Menu::widget([
 					'items' => [
-						['label' => 'Условия использования', 'url' => '#'],
+						//['label' => 'Условия использования', 'url' => '#'],
 						['label' => 'Правовые документы', 'url' => '#'],
-						['label' => 'О компании', 'url' => '#'],
-						['label' => 'Чёрный список', 'url' => '#'],
+						//['label' => 'О компании', 'url' => '#'],
+						//['label' => 'Чёрный список', 'url' => '#'],
 					],
 					'options' => [
 						'class' => 'footer_menu__list',
@@ -191,6 +191,16 @@ $current_action = Yii::$app->controller->action->id;
 	</footer>
 	<div class="modal fade"></div>
     <?php $this->endBody() ?>
+    <script>
+var $buoop = {vs:{i:9,f:25,o:12.1,s:7},c:2}; 
+function $buo_f(){ 
+ var e = document.createElement("script"); 
+ e.src = "//browser-update.org/update.min.js"; 
+ document.body.appendChild(e);
+};
+try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
+catch(e){window.attachEvent("onload", $buo_f)}
+	</script>
 </body>
 </html>
 <?php $this->endPage() ?>

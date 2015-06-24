@@ -100,6 +100,14 @@ return [
 				],
 			],
 			
+			'category' =>	[	//controller
+				[
+					'actions' => ['index', 'create', 'update', 'delete'],
+					'allow' => true,
+					'roles' => ['admin'],					
+				],
+			],
+			
 			'post' => [	//controller
 				[
 					'actions' => ['index'],

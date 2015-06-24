@@ -43,7 +43,9 @@
 	
 }
 .profi_search_tab_1__regions {
-	width: 220px;
+	@extend %pos_rel;
+	
+	width: 235px;
 }
 .profi_search_tab_1_region__ttl {
 	@extend %db;
@@ -77,6 +79,11 @@
 
 .profi_search_tab_1_regions__list_cnt {
 	@extend %hide;
+	top: 45px;
+	left: -10px;
+//	left: 50%;
+//	margin-left: -47px;
+	
 }
 
 .profi_search_tab_1__inputbox {
@@ -84,7 +91,7 @@
 	
 	
 	padding-left: 40px;
-	width: 530px;
+	width: 510px;
 	
 	border: none;
 	
@@ -93,6 +100,7 @@
 .profi_search_tab_1_regions__active {
 	@extend %db;
 	@extend %pos_rel;
+	@extend %pointer;
 	
 	color: $blue2;
 	border-bottom: 2px dotted $blue2;
@@ -118,7 +126,83 @@
 	
 }
 
+.profi_search_tab_1_regions__item {
+	a {
+		@extend %underline_n_n;
+		color: $gray6;
+		
+		&:hover {
+			color: $blue3;
+		}
+	}
+}
+
 .profi_search__button {
 	display: block;
 	@extend %fr;
+}
+
+.profi_search__tabs {
+	
+	.nav-tabs {
+		
+		li > a {
+			margin-right: 20px;
+		}
+		a {
+			@extend .dinpro-b;
+			@extend %font_18;
+			@extend %ico;
+			@extend %pos_rel;
+			color: $gray16;
+			background-color: $gray17;
+			
+			&:before {
+
+				background: url(../images/tab-dots.png) repeat-x;
+				left: 0;
+				top: 35px;
+				height: 2px;
+				margin: 0 15px;
+				
+			}
+			
+			&:hover{
+				background-color: #fff;
+				border: 1px solid #ddd;
+				border-bottom: 1px solid #fff;
+			}
+		}
+		
+		.active {
+			a {
+				color: $blue4;
+				border-bottom: none;
+				background-color: #fff;
+				border-bottom: 1px solid #fff;
+				
+				&:before {
+					@extend %hide;
+				}
+				
+				&:focus {
+					color: $blue4;
+				}
+			}
+
+		}
+	}
+}
+
+.profi_search_tabs__tab1:before {
+	width: 85%;
+}
+.profi_search_tabs__tab2:before {
+	width: 89%;
+}
+
+.profi_search_tab__zakaz {
+	.inputbox {
+		margin-bottom: 15px;
+	}
 }

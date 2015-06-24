@@ -32,7 +32,7 @@ return [
         ],
     ],
     'params' => $params,
-	
+	/*
 	'as AccessBehavior' => [
 		'class' => AccessBehavior::className(),
         'rules' => [
@@ -66,6 +66,6 @@ return [
 			 
 		],	
 		
-	],	
+	],	*/
 	
 ];

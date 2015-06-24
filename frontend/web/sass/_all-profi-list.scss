@@ -58,6 +58,16 @@
 	}
 }
 
+
+.all_profi_list__l1_item_url {
+	@extend %underline_n_n;
+	
+	color: $gray11;
+	&:hover {
+		color: $blue3;
+	}
+}
+
 .profi_1 {
 	padding-left: 30px;	
 	&:before {
