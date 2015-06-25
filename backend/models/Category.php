@@ -22,7 +22,7 @@ use creocoder\nestedsets\NestedSetsBehavior;
 class Category extends \yii\db\ActiveRecord
 {
 	
-	//public $parent_id = 0;
+	public $parent_id_old = 0;
 	
     /**
      * @inheritdoc
@@ -38,10 +38,10 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tree', 'lft', 'rgt', 'depth', 'parent_id'], 'integer'],
+            [['tree', 'lft', 'rgt', 'depth', 'parent_id', 'popular'], 'integer'],
             [['name'], 'required'],
-            [['description', 'meta_descr'], 'string'],
-            [['name', 'meta_title', 'meta_keyword'], 'string', 'max' => 255]
+            [['description', 'meta_descr', 's_descr'], 'string'],
+            [['name', 'meta_title', 'meta_keyword', 's_descr'], 'string', 'max' => 255]
         ];
     }
 
@@ -56,8 +56,11 @@ class Category extends \yii\db\ActiveRecord
             'lft' => 'Lft',
             'rgt' => 'Rgt',
             'depth' => 'Depth',
-            'name' => 'Name',
-            'description' => 'Description',
+            'parent_id' => 'Родитель',
+            'popular' => 'Популярная',
+            'name' => 'Название категории',
+            's_descr' => 'Текстовая подпись',
+            'description' => 'Описание',
             'meta_title' => 'Meta Title',
             'meta_keyword' => 'Meta Keyword',
             'meta_descr' => 'Meta Descr',

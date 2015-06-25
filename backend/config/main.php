@@ -102,7 +102,7 @@ return [
 			
 			'category' =>	[	//controller
 				[
-					'actions' => ['index', 'create', 'update', 'delete'],
+					'actions' => ['index', 'create', 'update', 'delete', 'moveup', 'movedown'],
 					'allow' => true,
 					'roles' => ['admin'],					
 				],

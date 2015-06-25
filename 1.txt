@@ -1,0 +1,16 @@
+https://github.com/developeruz/yii2-db-rbac
+
+http://developer.uz/blog/rbac-%D1%80%D0%BE%D0%BB%D0%B8-%D0%B8-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B8-%D0%B2-yii2/
+
+http://www.elisdn.ru/blog/71/seo-service-on-yii2-user-profile
+
+http://www.elisdn.ru/blog/69/seo-service-on-yii2-interface-amendments
+
+
+Yii2: все плюшки Twitter Bootstrap
+http://nix-tips.ru/yii2-vse-plyushki-twitter-bootstrap.html
+
+Yii2 Starter Kit - шаблон для старта приложения
+http://www.yiiframework.ru/forum/viewtopic.php?f=9&t=19306
+
+http://www.w3schools.com/bootstrap/bootstrap_ref_comp_glyphs.asp

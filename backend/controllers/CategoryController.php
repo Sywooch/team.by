@@ -34,7 +34,7 @@ class CategoryController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Category::find()->orderBy('lft, rgt'),
+            'query' => Category::find()->where('id <> 1')->orderBy('lft, rgt'),
         ]);
 
         return $this->render('index', [
@@ -67,12 +67,9 @@ class CategoryController extends Controller
 			//echo'<pre>';print_r($model->attributes);echo'<pre>';die;
 			//$model->save();
 			
-			if($model->parent_id == 0) {
-				$model->makeRoot();
-			}	else	{
-				$parent_category = Category::find()->where(['id' => $model->parent_id])->one();
-				$model->appendTo($parent_category);
-			}			
+			$parent_category = Category::find()->where(['id' => $model->parent_id])->one();
+			$model->appendTo($parent_category);
+			
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
@@ -91,12 +88,21 @@ class CategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+		$model->parent_id_old = $model->parent_id;
+		
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+			if($model->parent_id_old == $model->parent_id) {
+				$model->save();
+			}	else	{
+				$parent_category = Category::find()->where(['id' => $model->parent_id])->one();
+				$model->appendTo($parent_category);
+			}
+				
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
+				'categories' => $this->getCategoriesDropDownList(),
             ]);
         }
     }
@@ -114,23 +120,34 @@ class CategoryController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionMakeroot()
+    public function actionMoveup($id)
     {
-		$countries = new Category(['name' => 'Countries']);
-		$countries->makeRoot();		
-		return $this->redirect(['index']);
+		$model = $this->findModel($id);
+		
+		$model_prev = $model->prev()->one();
+		
+		if($model_prev != null)
+			$model->insertBefore($model_prev);
+		
+		//echo'<pre>';print_r($model);echo'</pre>';//die;
+		//echo'<pre>';var_dump($model_prev);echo'</pre>';die;
+		
+		return $this->redirect(['index']);		
     }
 
-    public function actionPrependto()
+    public function actionMovedown($id)
     {
-		//$countries = Category(['name' => 'Countries']);
+		$model = $this->findModel($id);
 		
-		$countries = Category::find()
-			->where(['id' => 1])
-			->one();
-		$russia = new Category(['name' => 'Russia']);
-		$russia->appendTo($countries);		
-		return $this->redirect(['index']);
+		$model_next = $model->next()->one();
+		
+		if($model_next != null)
+			$model->insertAfter($model_next);
+		
+		//echo'<pre>';print_r($model);echo'</pre>';//die;
+		//echo'<pre>';var_dump($model_prev);echo'</pre>';die;
+		
+		return $this->redirect(['index']);		
     }
 
     /**
@@ -152,7 +169,7 @@ class CategoryController extends Controller
     //получает список категорий для выпадающего списка
 	protected function getCategoriesDropDownList()
     {
-		$categories = Category::find()->orderBy('lft, rgt')->all();
+		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
 
 		foreach($categories as $c){
 			$separator = '';
@@ -160,7 +177,7 @@ class CategoryController extends Controller
 			$c->name = $separator.$c->name;
 		}
 		
-		$categories = [0=>'Верхний уровень'] + ArrayHelper::map($categories, 'id', 'name');
+		$categories = [1=>'Верхний уровень'] + ArrayHelper::map($categories, 'id', 'name');
 
 		return $categories;
     }
