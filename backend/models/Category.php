@@ -41,7 +41,7 @@ class Category extends \yii\db\ActiveRecord
             [['tree', 'lft', 'rgt', 'depth', 'parent_id', 'popular'], 'integer'],
             [['name'], 'required'],
             [['description', 'meta_descr', 's_descr'], 'string'],
-            [['name', 'meta_title', 'meta_keyword', 's_descr'], 'string', 'max' => 255]
+            [['name', 'alias', 'meta_title', 'meta_keyword', 's_descr'], 'string', 'max' => 255]
         ];
     }
 
@@ -59,6 +59,7 @@ class Category extends \yii\db\ActiveRecord
             'parent_id' => 'Родитель',
             'popular' => 'Популярная',
             'name' => 'Название категории',
+            'alias' => 'Псевдоним',
             's_descr' => 'Текстовая подпись',
             'description' => 'Описание',
             'meta_title' => 'Meta Title',
@@ -90,6 +91,28 @@ class Category extends \yii\db\ActiveRecord
     {
         return new CategoryQuery(get_called_class());
     }
+	
+	/**
+	 * Транслит
+	 * @param $text
+	 * @return string
+	 */
+	public static function ToTranslit($text)
+	{
+		$find=array('А','а','Б','б','В','в','Г','г','Д','д','Е','е','Ё','ё',
+			'Ж','ж','З','з','И','и','Й','й','К','к','Л','л','М','м',
+			'Н','н','О','о','П','п','Р','р','С','с','Т','т','У','у',
+			'Ф','ф','Х','х','Ц','ц','Ч','ч','Ш','ш','Щ','щ','Ъ','ъ',
+			'Ы','ы','Ь','ь','Э','э','Ю','ю','Я','я', '№',' ');
+
+		$replace=array('A','a','B','b','V','v','G','g','D','d','E','e','Yo','yo',
+			'Zh','zh','Z','z','I','i','J','j','K','k','L','l','M','m',
+			'N','n','O','o','P','p','R','r','S','s','T','t','U','u','F',
+			'f','H','h','Ts','ts','CH','ch','Sh','sh','Sch','sch',
+			'','','Y','y','','','E','e','Yu','yu','Ya','ya', '',' ');
+
+	   return preg_replace('/[^\w\d\s_-]*/','',str_replace($find,$replace,$text));
+	}	
 	
 	/*
 	public function save($runValidation = true, $attributeNames = null)
@@ -126,5 +149,26 @@ class Category extends \yii\db\ActiveRecord
 		return parent::beforeSave($insert);
 	}	
 	*/
+	
+
+	public function afterSave($insert, $changedAttribute)
+	{
+		//echo'<pre>';print_r($this->attributes);echo'<pre>';die;
+		if ($this->path == '')	{
+			$parents = $this->parents()->all();
+			$aliases = [];
+			foreach($parents as $p) {
+				if($p->id != 1) $aliases[] = $p->alias;
+			}
+				
+			$aliases[] = $this->alias;
+			$this->path = implode('/', $aliases);
+			$this->save(false);
+			
+		}
+
+		//return parent::afterSave($insert);
+	}	
+	
 	
 }

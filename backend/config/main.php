@@ -108,6 +108,14 @@ return [
 				],
 			],
 			
+			'region' =>	[	//controller
+				[
+					'actions' => ['index', 'create', 'update', 'delete', 'moveup', 'movedown'],
+					'allow' => true,
+					'roles' => ['admin'],					
+				],
+			],
+			
 			'post' => [	//controller
 				[
 					'actions' => ['index'],

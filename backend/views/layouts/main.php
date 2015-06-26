@@ -34,6 +34,7 @@ AppAsset::register($this);
             $menuItems = [
                 ['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'Категории', 'url' => ['/category/index']],
+                ['label' => 'Регионы', 'url' => ['/region/index']],
                 ['label' => 'Страницы', 'url' => ['/page/index']],
                 ['label' => 'Пользователи', 'url' => ['/user/index']],
                 ['label' => 'Роли', 'url' => ['/permit/access/role']],

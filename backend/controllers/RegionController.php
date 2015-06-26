@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
-use app\models\Category;
+use app\models\Region;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -11,9 +11,9 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
 /**
- * CategoryController implements the CRUD actions for Category model.
+ * RegionController implements the CRUD actions for Region model.
  */
-class CategoryController extends Controller
+class RegionController extends Controller
 {
     public function behaviors()
     {
@@ -28,13 +28,13 @@ class CategoryController extends Controller
     }
 
     /**
-     * Lists all Category models.
+     * Lists all Region models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Category::find()->where('id <> 1')->orderBy('lft, rgt'),
+            'query' => Region::find()->where('id <> 1')->orderBy('lft, rgt'),
         ]);
 
         return $this->render('index', [
@@ -43,7 +43,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Displays a single Category model.
+     * Displays a single Region model.
      * @param integer $id
      * @return mixed
      */
@@ -55,33 +55,30 @@ class CategoryController extends Controller
     }
 
     /**
-     * Creates a new Category model.
+     * Creates a new Region model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Category();
+        $model = new Region();
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-			$this->checkAlias($model);
-			//echo'<pre>';print_r($model->attributes);echo'<pre>';die;
-			//$model->save();
-			
-			$parent_category = Category::find()->where(['id' => $model->parent_id])->one();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {		
+			$parent_category = Region::find()->where(['id' => $model->parent_id])->one();
 			$model->appendTo($parent_category);
 			
             return $this->redirect(['index']);
+            //return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'categories' => $this->getCategoriesDropDownList(),
+				'categories' => $this->getCategoriesDropDownList(),
             ]);
         }
     }
 
     /**
-     * Updates an existing Category model.
+     * Updates an existing Region model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -90,29 +87,26 @@ class CategoryController extends Controller
     {
         $model = $this->findModel($id);
 		$model->parent_id_old = $model->parent_id;
-		$model->path = '';
-		
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {			
-			$this->checkAlias($model);
 
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 			if($model->parent_id_old == $model->parent_id) {
 				$model->save();
 			}	else	{
-				$parent_category = Category::find()->where(['id' => $model->parent_id])->one();
+				$parent_category = Region::find()->where(['id' => $model->parent_id])->one();
 				$model->appendTo($parent_category);
 			}
 				
             return $this->redirect(['index']);
+            //return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
-				'categories' => $this->getCategoriesDropDownList(),
             ]);
         }
     }
 
     /**
-     * Deletes an existing Category model.
+     * Deletes an existing Region model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -123,7 +117,7 @@ class CategoryController extends Controller
 
         return $this->redirect(['index']);
     }
-
+	
     public function actionMoveup($id)
     {
 		$model = $this->findModel($id);
@@ -153,17 +147,26 @@ class CategoryController extends Controller
 		
 		return $this->redirect(['index']);		
     }
+	
+    public function actionMakeroot()
+    {
+		$model = new Region(['name' => 'ROOT']);
+		$model->makeRoot();		
+		
+		return $this->redirect(['index']);		
+    }
+	
 
     /**
-     * Finds the Category model based on its primary key value.
+     * Finds the Region model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Category the loaded model
+     * @return Region the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Category::findOne($id)) !== null) {
+        if (($model = Region::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -173,7 +176,7 @@ class CategoryController extends Controller
     //получает список категорий для выпадающего списка
 	protected function getCategoriesDropDownList()
     {
-		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
+		$categories = Region::find()->where('id <> 1')->orderBy('lft, rgt')->all();
 
 		foreach($categories as $c){
 			$separator = '';
@@ -185,13 +188,5 @@ class CategoryController extends Controller
 
 		return $categories;
     }
-	
-	protected function checkAlias(&$model)
-    {
-		$search = [' ', '(', ')', '/', '*'];
-		$replace = ['-', '', '', '-', ''];
-		if($model->alias == '') $model->alias = str_replace($search, $replace, (strtolower($model->ToTranslit($model->name)))) ;
-	}
-	
 	
 }

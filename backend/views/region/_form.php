@@ -30,15 +30,13 @@ use yii\widgets\ActiveForm;
     <?//= $form->field($model, 'depth')->textInput() ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-    
-    <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
       
 	<?= $form->field($model, 'parent_id')->dropDownList($categories, [$model->parent_id]) ?>   
 	
-    <?= $form->field($model, 's_descr')->textInput(['maxlength' => true]) ?>	
+    <?//= $form->field($model, 's_descr')->textInput(['maxlength' => true]) ?>	
 	 
 	<?//= $form->field($model, 'popular')->radioList([0=>'да', 1=>'нет'], ['class'=>'bs-switch']) ?> 
-	<?= $form->field($model, 'popular')->checkbox(['class'=>'bs-switch']) ?> 
+	<?//= $form->field($model, 'popular')->checkbox(['class'=>'bs-switch']) ?> 
 	
 	<?php 
 	echo $form->field($model, 'description')->widget(CKEditor::className(), [
