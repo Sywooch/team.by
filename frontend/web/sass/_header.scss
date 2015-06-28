@@ -6,6 +6,11 @@
 	
 	a {
 		@extend %c_fff;
+		
+		&.header_regions_item_active {
+			color: $blue1;
+		}
+
 	}
 }
 
@@ -38,6 +43,10 @@
 			color: #fff;
 		}
 	}
+}
+
+.header_regions__item_l2 a {
+	padding-left: 30px;
 }
 
 .show_specialists {
@@ -176,6 +185,8 @@
 	@extend %underline_n_n;
 	
 	
+	&:focus,
+	&:active,
 	&:hover {
 		color: lighten($blue1, 5%);
 	}	

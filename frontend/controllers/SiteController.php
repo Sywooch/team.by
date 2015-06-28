@@ -3,15 +3,23 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\LoginForm;
+use common\models\Category;
+
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+
+
 use yii\base\InvalidParamException;
+
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+
+use yii\web\Cookie;
 
 /**
  * Site controller
@@ -67,7 +75,37 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
+		
+		$cats_l1 = [];
+
+		foreach($categories as $c){
+			if($c->parent_id == 1)	$cats_l1[] = [
+				'id'=>$c->id,
+				'name'=>$c->name,
+				'alias'=>$c->alias,
+				'path'=>$c->path,
+				'children'=>[],
+			];
+		}		
+		
+		foreach($cats_l1 as &$c_l1){
+			foreach($categories as $c){
+				if($c->parent_id == $c_l1['id']) {
+					$c_l1['children'][] = [
+						'id'=>$c->id,
+						'name'=>$c->name,
+						'alias'=>$c->alias,
+						'path'=>$c->path,
+					];
+				}
+			}
+		}
+		//echo'<pre>';print_r($cats_l1);echo'</pre>';
+		
+		return $this->render('index', [
+			'categories' => $cats_l1,
+		]);
     }
 
     public function actionLogin()
@@ -176,5 +214,47 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+	
+    public function actionSetRegion()
+    {
+		$return_url = (string) Yii::$app->request->post('return_url', '');
+		$region_id = (int) Yii::$app->request->post('region_id', 0);
+		
+		if($return_url == '' || $region_id == 0) {
+			return $this->goHome();
+		}	else	{
+			
+			$cookie = new Cookie([
+				'name' => 'region',
+				'value' => $region_id,
+				'expire' => time() + 86400 * 365,
+			]);
+			
+			\Yii::$app->getResponse()->getCookies()->add($cookie);
+			
+			return $this->redirect($return_url);
+		}
+    }
+	
+    public function actionSetCurrency()
+    {
+		$return_url = (string) Yii::$app->request->post('return_url', '');
+		$currency_id = (int) Yii::$app->request->post('currency_id', 0);
+		
+		if($return_url == '' || $currency_id == 0) {
+			return $this->goHome();
+		}	else	{
+			
+			$cookie = new Cookie([
+				'name' => 'currency',
+				'value' => $currency_id,
+				'expire' => time() + 86400 * 365,
+			]);
+			
+			\Yii::$app->getResponse()->getCookies()->add($cookie);
+			
+			return $this->redirect($return_url);
+		}
     }
 }

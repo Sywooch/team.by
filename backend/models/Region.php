@@ -90,7 +90,7 @@ class Region extends \yii\db\ActiveRecord
 
     public static function find()
     {
-        return new CategoryQuery(get_called_class());
+        return new RegionQuery(get_called_class());
     }
 	
 	

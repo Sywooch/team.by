@@ -38,4 +38,15 @@ jQuery(function($) {
         return false;
     });
 	
+	$('.header_regions__item a').on('click', function(e){
+		$('#region_id').val($(this).data('region'));
+		$('#header_regions__list_cnt').fadeToggle();
+		$('#set-region-frm').submit();
+	});
+	
+	$('.currency_select__item').on('click', function(e){
+		$('#currency_id').val($(this).data('currency'));
+		$('#set-currency-frm').submit();
+	});
+	
 });

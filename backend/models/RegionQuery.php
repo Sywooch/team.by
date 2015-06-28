@@ -1,5 +1,5 @@
 <?php
-namespace app\models;
+namespace common\models;
 
 use Yii;
 use creocoder\nestedsets\NestedSetsQueryBehavior;

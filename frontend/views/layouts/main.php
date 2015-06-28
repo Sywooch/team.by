@@ -9,6 +9,11 @@ use yii\helpers\Url;
 use yii\widgets\Menu;
 use yii\bootstrap\Modal;
 
+use frontend\widgets\Regions;
+use frontend\widgets\Currency;
+use frontend\widgets\PopularCategories;
+use frontend\widgets\ProfiSearch;
+
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -35,37 +40,11 @@ $current_action = Yii::$app->controller->action->id;
 			<div class="header">
 				<div class="header__row1">
 					<div class="container clearfix">
-
-						<div class="show_specialists clearfix">
-							<span class="show_specialists__ttl">Отображать профессионалов:</span>
-							<div class="header__regions">
-								<p id="header_regions__active" class="header_regions__active">Вся Беларусь</p>
-								<div id="header_regions__list_cnt" class="header_regions__list_cnt popup_block popup_block_dark">
-									<ul class="header_regions__list">
-										<li class="header_regions__item"><a href="<?php echo Yii::$app->params['homeUrl']; ?>" data-region="1">Минская область</a></li>
-										<li class="header_regions__item"><a href="<?php echo Yii::$app->params['homeUrl']; ?>" data-region="2">Гомельская область</a></li>
-										<li class="header_regions__item"><a href="<?php echo Yii::$app->params['homeUrl']; ?>" data-region="3">Брестская область</a></li>
-										<li class="header_regions__item"><a href="<?php echo Yii::$app->params['homeUrl']; ?>" data-region="4">Гродненская область</a></li>
-										<li class="header_regions__item"><a href="<?php echo Yii::$app->params['homeUrl']; ?>" data-region="5">Витебская область</a></li>
-										<li class="header_regions__item"><a href="<?php echo Yii::$app->params['homeUrl']; ?>" data-region="6">Могилёвская область</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-
-						<div class="currency_select">
-							<p class="currency_select__ttl">Выбор валюты:</p>
-							<div class="currency_select__list_cnt">
-								<ul class="currency_select__list">
-									<li class=""><a href="#" class="currency_select__item currency_select__byr currency_select__byr_active_">BYR</a></li>
-									<li id="currency_select__usd" class=""><a href="#" class="currency_select__item currency_select__usd currency_select__usd_active">USD</a></li>
-								</ul>
-							</div>
-							<div id="currency_select__popup" class="currency_select__popup popup_block">
-								Информация в USD приво- дится только для справки. Все расчеты происходят в белорусских рублях.
-							</div>
-						</div>
-
+				        
+				        <?= Regions::widget() ?>
+				        
+				        <?= Currency::widget() ?>
+				        
 						<div class="autorization_h">
 							<ul class="autorization_h__list">
 								<li class="autorization_h__item autorization_h__item_reg_spec"><a class="autorization_h__reg_spec" href="#">Стать специалистом</a></li>
@@ -108,38 +87,20 @@ $current_action = Yii::$app->controller->action->id;
 				</div>
 
 				<div class="header__row3">
-					<div class="container">
-						<span class="header_popular__ttl">Популярные категории</span>
-
-
-						<?php 
-						echo Nav::widget([
-						'options' => [
-						'class' => 'navbar-nav navbar-left header_navbar'
-						],
-						'items' => [
-						'<li><a href="#" class="header_navbar__item"><span>Репетиторы</span>учителя и лекторы</a></li>',
-						'<li><a href="#" class="header_navbar__item"><span>Артисты</span>певцы и ведущие</a></li>',
-						'<li><a href="#" class="header_navbar__item"><span>Мастера красоты</span>учителя и ученики</a></li>',
-						'<li><a href="#" class="header_navbar__item"><span>Фотографы</span>Свадебные съемки</a></li>',
-						'<li><a href="#" class="header_navbar__item"><span>Спортивные тренеры</span>индивидуальные тренера</a></li>',
-						]
-						]);				   
-						?>
-					</div>
+					<?= PopularCategories::widget() ?>
 				</div>
 			</div>
 
-			<?php if($current_controller == 'site' && $current_action == 'index') echo $this->render('_profi_search', [], false, true); ?>
+			<?php if($current_controller == 'site' && $current_action == 'index') echo ProfiSearch::widget() ?>
 
 			<div class="container">
-			<?= Breadcrumbs::widget([
-				'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-			]) ?>
-			<?= Alert::widget() ?>
+				<?= Breadcrumbs::widget([
+					'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+				]) ?>
+				<?= Alert::widget() ?>
 
 
-			<?= $content ?>
+				<?= $content ?>
 			
 			</div>
 			
@@ -204,3 +165,4 @@ catch(e){window.attachEvent("onload", $buo_f)}
 </body>
 </html>
 <?php $this->endPage() ?>
+	
