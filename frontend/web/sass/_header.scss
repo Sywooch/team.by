@@ -225,6 +225,7 @@ a.currency_select__usd_active {
 		top: 0;
 	}
 	
+	&:focus,
 	&:active,
 	&:hover {
 		@extend %c_fff;
