@@ -47,8 +47,8 @@ $current_action = Yii::$app->controller->action->id;
 				        
 						<div class="autorization_h">
 							<ul class="autorization_h__list">
-								<li class="autorization_h__item autorization_h__item_reg_spec"><a class="autorization_h__reg_spec" href="#">Стать специалистом</a></li>
-								<li class="autorization_h__item autorization_h__item_login"><a id="login-modal" class="autorization_h__login" href="<?=Url::toRoute('/site/login')?>">Войти</a></li>
+								<li class="autorization_h__item autorization_h__item_reg_spec"><a class="autorization_h__reg_spec" href="<?= Url::toRoute('/site/reg')?>">Стать специалистом</a></li>
+								<li class="autorization_h__item autorization_h__item_login"><a id="login-modal" class="autorization_h__login" href="<?= Url::toRoute('/site/login')?>">Войти</a></li>
 							</ul>
 						</div>
 					</div>
@@ -113,6 +113,10 @@ $current_action = Yii::$app->controller->action->id;
     </div>
 
 	<footer class="footer">
+		<?php if($current_controller == 'site' && $current_action == 'reg') {	?>
+			<img src="/images/reg-img-left.jpg" alt="" class="site_reg__footer_img_left">
+			<img src="/images/reg-img-right.jpg" alt="" class="site_reg__footer_img_right">
+		<?php 	}	?>
 		<div class="container clearfix">
 			<a href="<?php echo Yii::$app->params['homeUrl']; ?>" class="logo_bottom pull-left"><img src="/images/logo-bottom.png" alt=""></a>
 

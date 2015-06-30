@@ -231,6 +231,15 @@ h1,.h1 {
 	padding-right: 30px;
 }
 
+.dashed-border-block {
+	@extend .bg-fff;
+	@include border-radius(5px);
+	
+	padding: 10px;
+	border: 1px dashed $gray8;
+}
+
+/**----------------------------------*/
 .jumbotron {
     text-align: center;
     background-color: transparent;

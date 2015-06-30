@@ -1,6 +1,8 @@
 // $1d2dHm$^yyn
 
 .footer {
+    @extend %pos_rel;
+	
     height: 160px;
     background-color: #464646;
 	min-width: 1200px;

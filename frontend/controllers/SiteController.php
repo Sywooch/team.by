@@ -9,6 +9,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use frontend\models\RegStep1Form;
 
 
 use yii\base\InvalidParamException;
@@ -179,6 +180,27 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionReg()
+    {
+        return $this->render('reg', []);
+    }
+	
+	public function actionRegStep1()
+	{
+		$model = new RegStep1Form();
+
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+				// form inputs are valid, do something here
+				return;
+			}
+		}
+
+		return $this->render('reg-step1', [
+			'model' => $model,
+		]);
+	}	
+
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
@@ -189,8 +211,14 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
                 Yii::$app->getSession()->setFlash('success', 'Инструкции высланы на Ваш e-mail.');
+				if($modal == 1) {
+					return $this->renderPartial('requestPasswordResetToken-success-modal', [
+						'model' => $model,
+					]);
+				}	else	{
+					return $this->goHome();
+				}
 
-                return $this->goHome();
             } else {
                 Yii::$app->getSession()->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
             }
