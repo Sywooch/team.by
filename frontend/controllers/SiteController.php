@@ -205,6 +205,8 @@ class SiteController extends Controller
 	public function actionRegStep2()
 	{
 		$model = new RegStep2Form();
+		
+		//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';die;
 
 		if ($model->load(Yii::$app->request->post())) {
 			if ($model->validate()) {
@@ -212,9 +214,38 @@ class SiteController extends Controller
 				return;
 			}
 		}
+		
+		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
+		
+		$cats_l1 = [];
+
+		foreach($categories as $c){
+			if($c->parent_id == 1)	$cats_l1[] = [
+				'id'=>$c->id,
+				'name'=>$c->name,
+				'alias'=>$c->alias,
+				'path'=>$c->path,
+				'children'=>[],
+			];
+		}		
+		
+		foreach($cats_l1 as &$c_l1){
+			foreach($categories as $c){
+				if($c->parent_id == $c_l1['id']) {
+					$c_l1['children'][] = [
+						'id'=>$c->id,
+						'name'=>$c->name,
+						'alias'=>$c->alias,
+						'path'=>$c->path,
+					];
+				}
+			}
+		}
+		
 
 		return $this->render('reg-step2', [
 			'model' => $model,
+			'categories' => $cats_l1,
 		]);
 	}
 	

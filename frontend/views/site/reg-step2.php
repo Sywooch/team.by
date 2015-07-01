@@ -6,9 +6,11 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\RegStep2Form */
 /* @var $form ActiveForm */
+
+//echo'<pre>';print_r($categories);echo'</pre>';
 ?>
 <div class="site-reg-step2">
-<?/*
+
 <script type="text/javascript">
 $(document).ready(function() {
 var upload = new AjaxUpload('#userfile', {
@@ -58,30 +60,65 @@ var upload = new AjaxUpload('#userfile', {
   
   <div></div>
   
-	<p><label for="userfile">Choose images(s) to upload:</label> 
- <input id="userfile" class="input" type="file" name="userfile" /></p>
+<p><label for="userfile">Choose images(s) to upload:</label>
+ <input id="userfile" class="input" type="file" name="userfile" />
+ </p>
  <div id="loading"><img src="ajax-loader.gif" alt="Loading" /> Loading, please wait...</div>
  <div id="errormes"></div>
   
-<noscript>
-<input type="submit" value="submit" class="button2" />
-</noscript>
+<noscript><input type="submit" value="submit" class="button2" /></noscript>
 </form>
-*/?>
+
    
-    <?php $form = ActiveForm::begin(['options'=> ['enctype' => 'multipart/form-data' ]] ); ?>
-    
-		<?//= $form->field($model, 'region')->dropDownList($model->regionsDropDownList, [$model->region, 3=>['disabled' => true]]) ?>   
-		<?= $form->field($model, 'region')->dropDownList($model->regionsDropDownList, ['3'=>['disabled' => true]]) ?>   
-        <?= $form->field($model, 'about') ?>
-        <?= $form->field($model, 'education') ?>
-        <?= $form->field($model, 'experience') ?>
-        <?= $form->field($model, 'price_list') ?>
-        <?= $form->field($model, 'avatar') ?>
-    
-        <div class="form-group">
-            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
-        </div>
-    <?php ActiveForm::end(); ?>
+	<?php $form = ActiveForm::begin(['options'=> ['enctype' => 'multipart/form-data' ]] ); ?>
+
+		<?= $form->field($model, 'region')->dropDownList($model->regionsDropDownList, [$model->region]) ?>
+		
+		<div class="form-group">
+			<a href="" id="site-reg-add-new-city" class="site-reg__add-new-city">Добавить город</a>
+		</div>
+		
+		
+		<div class="row">
+			<div class="col-lg-6">
+				<?= $form->field($model, 'region_parent_id')->dropDownList($model->regionsDropDownList, [$model->region]) ?>   
+			</div>
+			
+			<div class="col-lg-6">
+				<?= $form->field($model, 'region_name') ?>
+			</div>
+		</div>
+		
+		<?= $form->field($model, 'about')->textarea() ?>
+		<?= $form->field($model, 'education')->textarea() ?>
+		
+		
+		<?= $form->field($model, 'experience')->textarea() ?>
+		
+		<div class="row">
+			<?php foreach($categories as $cat1)	{	?>
+				<?php if(count($cat1['children']))	{	?>
+					<div class="col-lg-3">
+						<p><?php echo $cat1['name']?></p>
+						<ul>
+						<?php 
+							foreach($cat1['children'] as $cat2)	{
+								echo Html::tag('li', Html::checkbox('RegStep2Form[category][]', false, ['label' => $cat2['name'], 'value'=>$cat2['id']]));	
+							}	
+						?>
+						</ul>
+					</div>
+				<?php	}	?>
+			<?php	}	?>
+		</div>
+		
+		
+		<?= $form->field($model, 'price_list') ?>
+		<?= $form->field($model, 'avatar') ?>
+
+		<div class="form-group">
+			<?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+		</div>
+	<?php ActiveForm::end(); ?>
 
 </div><!-- site-reg-step2 -->
