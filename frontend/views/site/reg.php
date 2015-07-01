@@ -6,7 +6,7 @@ use yii\helpers\Url;
 /* @var $model \frontend\models\SignupForm */
 
 $this->title = 'Стать специалистом';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-reg">
     <?/*<h1><?= Html::encode($this->title) ?></h1>*/?>

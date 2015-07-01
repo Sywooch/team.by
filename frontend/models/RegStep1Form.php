@@ -26,7 +26,7 @@ class RegStep1Form extends Model
     {
         return [
 			
-			['user_type', 'required'],
+			['user_type', 'required', 'message' => 'Укажите вид вашей деятельности.'],
 			[['user_type'], 'integer'],
 			
 			['fio', 'required'],

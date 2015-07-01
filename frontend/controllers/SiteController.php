@@ -10,6 +10,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use frontend\models\RegStep1Form;
+use frontend\models\RegStep2Form;
 
 
 use yii\base\InvalidParamException;
@@ -198,6 +199,29 @@ class SiteController extends Controller
 
 		return $this->render('reg-step1', [
 			'model' => $model,
+		]);
+	}	
+
+	public function actionRegStep2()
+	{
+		$model = new RegStep2Form();
+
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+				// form inputs are valid, do something here
+				return;
+			}
+		}
+
+		return $this->render('reg-step2', [
+			'model' => $model,
+		]);
+	}
+	
+	
+	public function actionRegFinal()
+	{
+		return $this->render('reg-final', [
 		]);
 	}	
 

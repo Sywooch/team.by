@@ -1,4 +1,5 @@
 .site-reg {
+	@extend .mt-30;
 	@extend .mb-30;
 	@extend %pos_rel;
 	
@@ -106,4 +107,28 @@
 
 .site_reg__footer_img_right {
 	right: 0;
+}
+
+.site-reg-step1,
+.site-reg-final {
+	@extend .mt-30;
+	@extend .mb-30;
+	@extend %pos_rel;
+	
+	
+}
+
+.site-reg-final__cnt {
+	background: url(../images/reg-final-img.png) no-repeat left top;
+	padding-left: 270px;
+	padding-top: 40px;
+	height: 250px;
+	margin-top: 110px;
+	
+	p {
+		@extend %font_20;
+		@extend .mb-30;
+		
+	}
+	
 }
