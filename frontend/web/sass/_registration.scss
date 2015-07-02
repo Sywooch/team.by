@@ -132,3 +132,19 @@
 	}
 	
 }
+
+.selected_categories {
+	@extend %hide;
+	
+	.control-label {
+		text-align: left !important;
+	}
+}
+
+.site-reg-add-new-city-cnt {
+	@extend %hide;
+}
+
+.categories-block {
+	@extend %hide;
+}

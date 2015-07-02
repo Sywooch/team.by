@@ -206,7 +206,8 @@ class SiteController extends Controller
 	{
 		$model = new RegStep2Form();
 		
-		//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';die;
+		//if(count(Yii::$app->request->post()))
+			//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';die;
 
 		if ($model->load(Yii::$app->request->post())) {
 			if ($model->validate()) {

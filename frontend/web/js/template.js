@@ -80,4 +80,49 @@ jQuery(function($) {
 		$('#set-currency-frm').submit();
 	});
 	
+	$('#regstep2form-category1').on('change', function(e){
+		console.log($(this).val());
+		$('.categories-block').each(function(){
+			if($(this).is(':visible')) {
+				$(this).find('.reg-step2-category').each(function(){
+					$(this).prop('checked', false);
+				});
+				$(this).hide();
+			}
+		});
+		$('#selected_categories_cnt').html('');
+		$('#selected_categories').hide();
+		$('#category-block-' + $(this).val()).show();
+		
+		
+	});
+	
+	$('#site-reg-add-new-city').on('click', function(e){
+		$('#regstep2form-region_name').val('');
+		$('#site-reg-add-new-city-cnt').slideToggle();
+		return false;
+	});
+	
+	$('.reg-step2-category').on('click', function(e){
+		if($(this).prop('checked')) {
+			$('#selected_categories_cnt').append('<div id="cnt-price-' + $(this).val()+'" class="form-group clearfix"><label for="price-' + $(this).val() + '" class="col-sm-5 control-label">' + $.trim($(this).parent().text())+'</label><div class="col-sm-6"><input type="text" name="RegStep2Form[price][]" class="form-control" id="price-' + $(this).val() + '" placeholder="Укажите стоимость"></div><div class="col-sm-1"><span class="site-reg-remove-price" data-category="' + $(this).val() + '">×</span></div></div>');
+		}	else	{
+			$('#selected_categories_cnt').find('#cnt-price-' + $(this).val()).remove();
+		}
+		
+		if($('#selected_categories').is(':hidden')) {
+			$('#selected_categories').slideDown();
+		}
+			
+	});
+	
+	$('#selected_categories_cnt').on('click', '.site-reg-remove-price', function(e){
+		//console.log($(this).data('category'));
+		$('#category-' + $(this).data('category')).prop('checked', false);
+		$('#selected_categories_cnt').find('#cnt-price-' + $(this).data('category')).remove();
+	});
+	
+	
+	
+	
 });

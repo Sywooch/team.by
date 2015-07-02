@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 //echo'<pre>';print_r($categories);echo'</pre>';
 ?>
 <div class="site-reg-step2">
-
+<?/*
 <script type="text/javascript">
 $(document).ready(function() {
 var upload = new AjaxUpload('#userfile', {
@@ -68,9 +68,13 @@ var upload = new AjaxUpload('#userfile', {
   
 <noscript><input type="submit" value="submit" class="button2" /></noscript>
 </form>
-
-   
-	<?php $form = ActiveForm::begin(['options'=> ['enctype' => 'multipart/form-data' ]] ); ?>
+*/?>
+	<div class="col-lg-7">  
+	<?php $form = ActiveForm::begin([
+		'options'=> ['enctype' => 'multipart/form-data' ],
+		'enableClientValidation' => false,
+		'id'=>'site-reg-step2-frm',
+	] ); ?>
 
 		<?= $form->field($model, 'region')->dropDownList($model->regionsDropDownList, [$model->region]) ?>
 		
@@ -79,7 +83,8 @@ var upload = new AjaxUpload('#userfile', {
 		</div>
 		
 		
-		<div class="row">
+		
+		<div id="site-reg-add-new-city-cnt" class="row clearfix site-reg-add-new-city-cnt">
 			<div class="col-lg-6">
 				<?= $form->field($model, 'region_parent_id')->dropDownList($model->regionsDropDownList, [$model->region]) ?>   
 			</div>
@@ -87,6 +92,12 @@ var upload = new AjaxUpload('#userfile', {
 			<div class="col-lg-6">
 				<?= $form->field($model, 'region_name') ?>
 			</div>
+			
+			<?/*
+			<div class="col-lg-4">
+				<a href="#" id="site-reg-add-new-city-btn" class="button-red">Добавить</a>
+			</div>
+			*/?>
 		</div>
 		
 		<?= $form->field($model, 'about')->textarea() ?>
@@ -95,21 +106,29 @@ var upload = new AjaxUpload('#userfile', {
 		
 		<?= $form->field($model, 'experience')->textarea() ?>
 		
-		<div class="row">
-			<?php foreach($categories as $cat1)	{	?>
+		<?= $form->field($model, 'category1')->dropDownList($model->categoriesLevel1DropDownList, [$model->category1, 'prompt'=>'Например: строительство']) ?>
+		
+		
+		<?php foreach($categories as $cat1)	{	?>
+			<div id="category-block-<?= $cat1['id']?>" class="categories-block">
+				<p><?php echo $cat1['name']?></p>
 				<?php if(count($cat1['children']))	{	?>
-					<div class="col-lg-3">
-						<p><?php echo $cat1['name']?></p>
-						<ul>
+						<ul class="row clearix">
 						<?php 
 							foreach($cat1['children'] as $cat2)	{
-								echo Html::tag('li', Html::checkbox('RegStep2Form[category][]', false, ['label' => $cat2['name'], 'value'=>$cat2['id']]));	
+								echo Html::tag('li', Html::checkbox('RegStep2Form[category][]', false, ['label' => $cat2['name'], 'value'=>$cat2['id'], 'id'=>'category-'.$cat2['id'], 'class'=>'reg-step2-category']), ['class'=>'col-lg-4'] );	
 							}	
 						?>
 						</ul>
-					</div>
+					
 				<?php	}	?>
-			<?php	}	?>
+			</div>				
+		<?php	}	?>
+		
+		
+		<div id="selected_categories" class="selected_categories form-horizontal solid-border-block">
+			<div class="selected_categories_ttl">Выбранные рубрики</div>
+			<div id="selected_categories_cnt"></div>
 		</div>
 		
 		
@@ -120,5 +139,7 @@ var upload = new AjaxUpload('#userfile', {
 			<?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
 		</div>
 	<?php ActiveForm::end(); ?>
+	</div>
+	<div class="col-lg-5"></div>
 
 </div><!-- site-reg-step2 -->

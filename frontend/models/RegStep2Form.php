@@ -8,6 +8,7 @@ use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
 use common\models\Region;
+use common\models\Category;
 
 
 
@@ -25,6 +26,8 @@ class RegStep2Form extends Model
     public $region_parent_id = 2; // 2 - это ИД Минской области
     public $region_name;
     public $categories;
+    public $category1;
+    public $price;
     //public $awards = [];
     //public $examples = [];
 
@@ -36,7 +39,8 @@ class RegStep2Form extends Model
     public function rules()
     {
         return [
-			[['region', 'region_parent_id'], 'integer'],
+			[['region', 'region_parent_id', 'category1'], 'integer'],
+			
 			
 			['about', 'required'],
             ['about', 'string', 'min' => 3, 'max' => 2048],
@@ -52,6 +56,9 @@ class RegStep2Form extends Model
             ['avatar', 'string', 'min' => 3, 'max' => 255],
 			
             ['region_name', 'string', 'min' => 3, 'max' => 255],
+			
+			['category1', 'required', 'message'=>'Выберите вид услуг'],
+			//['price', 'validateEmptyPrices'],
         ];
     }
 	
@@ -69,10 +76,36 @@ class RegStep2Form extends Model
             'region' => 'Город',
             'region_parent_id' => 'Область',
             'region_name' => 'Город',
+            'category1' => 'Выберите услуги',
+            'price' => 'Стоимость работ',
             //'' => '',
             //'' => '',
         ];
     }
+	
+    /**
+     * @param string $attribute
+     * @param array $params
+     */
+    public function validateEmptyPrices($attribute, $params)
+    {
+        //if (!$this->hasErrors()) {
+			//print_r($this->$attribute);
+			//echo'<pre>';var_dump($this->$attribute);echo'</pre>';die;
+		
+			foreach($this->$attribute as $i) {
+				$i = trim($i);
+				var_dump($i);
+			}
+			die;
+			/*
+            if (!$this->_user->validatePassword($this->$attribute)) {
+                $this->addError($attribute, Yii::t('app', 'ERROR_WRONG_CURRENT_PASSWORD'));
+            }
+			*/
+        //}
+    }
+	
 	
     //получает список категорий для выпадающего списка
 	//с группировкой по областям
@@ -100,6 +133,14 @@ class RegStep2Form extends Model
 	protected function getRegionsLevel1DropDownList()
     {
 		$categories = Region::find()->where('id <> 1 AND depth = 1')->orderBy('lft, rgt')->all();
+		$categories = ArrayHelper::map($categories, 'id', 'name');
+		return $categories;
+    }
+	
+	//получает список категорий первого уровня для выпадающего списка
+	protected function getCategoriesLevel1DropDownList()
+    {
+		$categories = Category::find()->where('id <> 1 AND depth = 1')->orderBy('lft, rgt')->all();
 		$categories = ArrayHelper::map($categories, 'id', 'name');
 		return $categories;
     }

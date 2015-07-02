@@ -231,11 +231,21 @@ h1,.h1 {
 	padding-right: 30px;
 }
 
+
+.solid-border-block,
 .dashed-border-block {
 	@extend .bg-fff;
 	@include border-radius(5px);
 	
 	padding: 10px;
+	border: 1px dashed $gray8;
+}
+
+.solid-border-block {
+	border: 1px solid $gray8;
+}
+
+.dashed-border-block {
 	border: 1px dashed $gray8;
 }
 
