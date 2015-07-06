@@ -28,7 +28,7 @@ $this->title = 'Личные данные';
 			<?= $form->field($model, 'passwordRepeat') ?>
 
 			<div class="form-group">
-				<?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+				<?= Html::submitButton('Продолжить', ['class' => 'button-red']) ?>
 			</div>
 		<?php ActiveForm::end(); ?>
 	</div>

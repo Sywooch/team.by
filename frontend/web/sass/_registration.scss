@@ -148,3 +148,97 @@
 .categories-block {
 	@extend %hide;
 }
+
+.categories-block-error,
+.selected_categories-block-error {
+	@extend %italic;
+}
+
+.categories-block-error,
+.selected_categories-block-error,
+.site-reg-remove-price {
+	color: $red1;
+}
+
+
+.site-reg-remove-price {
+	@extend %font_30;
+	@extend %pointer;
+	
+	
+	line-height: 28px;
+	
+	&:hover {
+		color: red;
+	}
+}
+
+.site-reg-step2 {
+	.categories-block {
+		
+		li {
+			@extend %pos_rel;
+		}
+		
+		label {
+			padding-left: 20px;
+		}
+		
+		.reg-step2-category {
+			@extend %pos_abs;
+			left: 15px;
+			top: 0;
+		}
+	}
+}
+
+.reg-step2-loading-process,
+.reg-step2-loading-price-success {
+	@extend %hide;
+}
+
+
+.uploading-tmb-list {
+	ul {
+		margin: 0 -10px;
+	}
+	
+	li {
+		@extend %pos_rel;
+		
+		padding: 0 10px;
+		width: 80px;
+		height: 60px;
+		
+	}
+	
+	img {
+		width: 60px;
+		height: 60px;
+	}
+}
+
+.remove-uploaded-file {
+	@extend %bold;
+	@extend %c_fff;
+	@extend %underline_n_n;
+	@extend %font_20;
+	@extend %pos_abs;
+	@extend %text_c;
+	
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0, 0.6);	
+	right: 10px;
+	top: 0;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	font-family: arial, tahoma;
+	
+	&:hover {
+		@extend %c_fff;
+		background-color: rgba(0,0,0, 1);	
+	}
+	
+	
+}

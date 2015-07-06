@@ -249,6 +249,37 @@ h1,.h1 {
 	border: 1px dashed $gray8;
 }
 
+.ekko-lightbox {
+	.modal-header {
+		padding: 0;
+		min-height: inherit;
+		border: none;
+	}
+	.modal-title {
+		@extend %hide;
+	}
+	
+	.modal-body {
+		padding: 0;
+	}
+	
+	a:focus,
+	a:hover,
+	a:active {
+		text-decoration: none;
+	}
+}
+
+.required {
+	label {
+		&:after {
+			content: '*';
+			color: $red2;
+			padding-left: 3px;
+		}
+	}
+}
+
 /**----------------------------------*/
 .jumbotron {
     text-align: center;

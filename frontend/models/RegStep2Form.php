@@ -10,6 +10,8 @@ use yii\helpers\ArrayHelper;
 use common\models\Region;
 use common\models\Category;
 
+use yii\web\UploadedFile;
+
 
 
 /**
@@ -25,11 +27,12 @@ class RegStep2Form extends Model
     public $avatar;
     public $region_parent_id = 2; // 2 - это ИД Минской области
     public $region_name;
-    public $categories;
+    public $categories = [];
     public $category1;
-    public $price;
-    //public $awards = [];
-    //public $examples = [];
+    public $price = [];
+	
+    public $awards = [];
+    public $examples = [];
 
 
 
@@ -59,6 +62,13 @@ class RegStep2Form extends Model
 			
 			['category1', 'required', 'message'=>'Выберите вид услуг'],
 			//['price', 'validateEmptyPrices'],
+			[['categories', 'price'], 'safe'],
+			
+			['examples', 'required', 'message'=>'Загрузите примеры ваших работ'],
+			['examples', 'each', 'rule' => ['string']],
+			
+			['awards', 'each', 'rule' => ['string']],
+			
         ];
     }
 	
@@ -78,7 +88,8 @@ class RegStep2Form extends Model
             'region_name' => 'Город',
             'category1' => 'Выберите услуги',
             'price' => 'Стоимость работ',
-            //'' => '',
+            'awards' => 'Награды, димломы',
+            'examples' => 'Примеры ваших работ',
             //'' => '',
         ];
     }
@@ -144,5 +155,35 @@ class RegStep2Form extends Model
 		$categories = ArrayHelper::map($categories, 'id', 'name');
 		return $categories;
     }
+	
+	public function isChecked($id)
+    {
+		$res = '';
+		if(count($this->categories))	{
+			foreach($this->categories as $i)	{
+				if($i == $id) {
+					$res = 'checked';
+					break;
+				}
+			}
+		}
+//		/echo'<pre>';print_r($this->categories);echo'</pre>';
+		return $res;
+    }
+	
+    public function upload()
+    {
+        if ($this->validate()) { 
+            foreach ($this->imageFiles as $file) {
+                $file->saveAs( Yii::getAlias('@frontend').'/web/files/' . $file->baseName . '.' . $file->extension);
+            }
+			
+			echo Yii::getAlias('@frontend').'/web/files/';
+            return true;
+        } else {
+			echo'<pre>';print_r($this);echo'</pre>';
+            return false;
+        }
+    }	
 	
 }

@@ -126,6 +126,38 @@
 	}
 }
 
+.profi_52 {
+	padding-left: 35px;	
+	&:before {
+		@extend .ico-cat-9;
+		top: 2px;
+	}
+}
+
+.profi_53 {
+	padding-left: 35px;	
+	&:before {
+		@extend .ico-cat-10;
+		top: 2px;
+	}
+}
+
+.profi_54 {
+	padding-left: 35px;	
+	&:before {
+		@extend .ico-cat-11;
+		top: 2px;
+	}
+}
+
+.profi_55 {
+	padding-left: 35px;	
+	&:before {
+		@extend .ico-cat-12;
+		top: 2px;
+	}
+}
+
 .all_profi_list__l2 {
 	@extend .mb-5;
 }

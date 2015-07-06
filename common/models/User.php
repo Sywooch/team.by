@@ -203,5 +203,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function getUserCategories()
     {
         return $this->hasMany(UserCategories::className(), ['user_id' => 'id']);
+    }
+	
+    public function getUserMedia()
+    {
+        return $this->hasMany(UserMedia::className(), ['user_id' => 'id']);
     }	
 }

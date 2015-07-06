@@ -58,6 +58,7 @@ class CatalogController extends Controller
 		]);
 		
 	}
+	
     public function actionCategory($category)
     {
          //echo'<pre>';print_r($category);echo'</pre>';
@@ -68,6 +69,8 @@ class CatalogController extends Controller
 
         if ($category === null)
             throw new CHttpException(404, 'Not found');
+		
+		$parents = $category->parents()->all();
 		
 		//echo'<pre>';print_r($category);echo'</pre>';
  		/*
@@ -89,6 +92,7 @@ class CatalogController extends Controller
 		*/
 		return $this->render('category', [
 			'category'=>$category,
+			'parents'=>$parents,
 		]);
     }    
  

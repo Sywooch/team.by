@@ -12,6 +12,10 @@ use frontend\models\ContactForm;
 use frontend\models\RegStep1Form;
 use frontend\models\RegStep2Form;
 
+use common\models\User;
+use common\models\UserCategories;
+use common\models\UserMedia;
+
 
 use yii\base\InvalidParamException;
 
@@ -191,9 +195,17 @@ class SiteController extends Controller
 		$model = new RegStep1Form();
 
 		if ($model->load(Yii::$app->request->post())) {
+			//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
+			//echo'<pre>';print_r($model);echo'</pre>';die;
 			if ($model->validate()) {
-				// form inputs are valid, do something here
-				return;
+				//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';die;
+				
+				Yii::$app->response->cookies->add(new \yii\web\Cookie([
+					'name' => 'RegStep1Form',
+					'value' => json_encode(Yii::$app->request->post()['RegStep1Form']),
+				]));
+				
+				return $this->redirect(['reg-step2']);
 			}
 		}
 
@@ -207,12 +219,84 @@ class SiteController extends Controller
 		$model = new RegStep2Form();
 		
 		//if(count(Yii::$app->request->post()))
-			//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';die;
+			
 
 		if ($model->load(Yii::$app->request->post())) {
 			if ($model->validate()) {
-				// form inputs are valid, do something here
-				return;
+				$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
+				$RegStep2Form = $model;
+				//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
+				//echo'<pre>';print_r($model);echo'</pre>';//die;
+				//echo'<pre>';print_r($RegStep1Form);echo'</pre>';
+				//die;
+				
+				//создаем поьзователя
+				$user = new User();
+				$user->username = $RegStep1Form['email'];	//у нас вторизация по мейлу
+				$user->email = $RegStep1Form['email'];
+				
+				$user->user_type = $RegStep1Form['user_type'];
+				$user->fio = $RegStep1Form['fio'];
+				$user->phone = $RegStep1Form['phone'];
+				$user->region_id = $RegStep2Form['region'];
+				$user->about = $RegStep2Form['about'];
+				$user->education = $RegStep2Form['education'];
+				$user->experience = $RegStep2Form['experience'];
+				
+				$user->price_list = $RegStep2Form['price_list'];
+				$user->avatar = $RegStep2Form['avatar'];				
+				
+				$user->setPassword($RegStep1Form['password']);
+				$user->generateAuthKey();
+				$user->save();
+				
+				//перемщаем фото аватара
+				rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$RegStep2Form['avatar']);
+				rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$RegStep2Form['avatar']);
+				
+				if($RegStep2Form['price_list'] != '') {
+					//перемещаем прайс-лист
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['price_list'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$RegStep2Form['price_list']);
+				}
+				
+				//назначаем ему категории
+				foreach($RegStep2Form->categories as $cat) {
+					$userCategories = new UserCategories();
+					$userCategories->user_id = $user->id;
+					$userCategories->category_id = $cat;
+					$userCategories->price = $RegStep2Form->price[$cat];
+					$userCategories->save();
+				}
+				
+				//добавляем награды, дипломы
+				foreach($RegStep2Form->awards as $award) {
+					$UserMedia = new UserMedia();
+					$UserMedia->user_id = $user->id;
+					$UserMedia->media_id = 1;
+					$UserMedia->filename = $award;
+					$UserMedia->save();
+					
+					//перемещаем фото
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$award);
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$award);
+				}
+				
+				//добавляем примеры работ
+				foreach($RegStep2Form->examples as $example) {
+					$UserMedia = new UserMedia();
+					$UserMedia->user_id = $user->id;
+					$UserMedia->media_id = 2;
+					$UserMedia->filename = $example;
+					$UserMedia->save();
+					
+					//перемещаем фото
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$example);
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
+				}
+				
+				Yii::$app->response->cookies->remove('RegStep1Form');
+				
+				return $this->redirect(['reg-final']);
 			}
 		}
 		
