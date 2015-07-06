@@ -5,6 +5,9 @@ namespace common\models;
 use Yii;
 use creocoder\nestedsets\NestedSetsBehavior;
 
+use common\models\UserCategories;
+use common\models\User;
+
 /**
  * This is the model class for table "{{%category}}".
  *
@@ -170,5 +173,14 @@ class Category extends \yii\db\ActiveRecord
 		//return parent::afterSave($insert);
 	}	
 	
+    public function getUserCategories()
+    {
+        return $this->hasMany(UserCategories::className(), ['category_id' => 'id']);
+    }	
+	
+    public function getUsers()
+    {
+        return $this->hasMany(User::className(), ['id' => 'user_id'])->viaTable('{{%user_categories}}', ['category_id' => 'id']);
+    }	
 	
 }

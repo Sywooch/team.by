@@ -235,6 +235,7 @@ class SiteController extends Controller
 				$user->username = $RegStep1Form['email'];	//у нас вторизация по мейлу
 				$user->email = $RegStep1Form['email'];
 				
+				$user->group_id = 2;
 				$user->user_type = $RegStep1Form['user_type'];
 				$user->fio = $RegStep1Form['fio'];
 				$user->phone = $RegStep1Form['phone'];

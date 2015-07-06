@@ -3,7 +3,10 @@
 namespace frontend\controllers;
 
 use Yii;
+
 use common\models\Category;
+use common\models\User;
+
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -70,9 +73,21 @@ class CatalogController extends Controller
         if ($category === null)
             throw new CHttpException(404, 'Not found');
 		
+		//получаем всех родителей данной категории для хлебной крошки
 		$parents = $category->parents()->all();
 		
-		//echo'<pre>';print_r($category);echo'</pre>';
+		$DataProvider = new ActiveDataProvider([
+			'query' => User::find()
+			->join('INNER JOIN', '{{%user_categories}} AS uc', 'uc.user_id = {{%user}}.id')
+				->where(['uc.category_id'=>$category->id])
+				->orderBy('{{%user}}.id ASC'),
+			
+			'pagination' => [
+				'pageSize' => 1,
+				'pageSizeParam' => false,
+			],
+		]);		
+		//echo'<pre>';print_r($DataProvider->models);echo'</pre>';
  		/*
         $criteria = new CDbCriteria();
         $criteria->addInCondition('t.category_id', array_merge(array($category->id), $category->getChildsArray()));
@@ -93,6 +108,7 @@ class CatalogController extends Controller
 		return $this->render('category', [
 			'category'=>$category,
 			'parents'=>$parents,
+			'dataProvider'=>$DataProvider,
 		]);
     }    
  
