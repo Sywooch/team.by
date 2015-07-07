@@ -2,15 +2,20 @@
 
 namespace frontend\components;
 
-//use Yii;
-//use yii\base\Component;
-//use yii\base\InvalidConfigException;
-//use yii\caching\Cache;
+use Yii;
+use yii\base\Component;
+use yii\base\InvalidConfigException;
+use yii\caching\Cache;
 use yii\web\UrlManager;
 
 
 class AUrlManager extends UrlManager
 {
+    private $_baseUrl;
+    private $_scriptUrl;
+    private $_hostInfo;
+    private $_ruleCache;
+
     /**
      * Creates a URL using the given route and query parameters.
      *
@@ -48,6 +53,7 @@ class AUrlManager extends UrlManager
         $route = trim($params[0], '/');
         unset($params[0]);
         $baseUrl = $this->showScriptName || !$this->enablePrettyUrl ? $this->getScriptUrl() : $this->getBaseUrl();
+		
         if ($this->enablePrettyUrl) {
             $cacheKey = $route . '?' . implode('&', array_keys($params));
             /* @var $rule UrlRule */
@@ -70,6 +76,7 @@ class AUrlManager extends UrlManager
                 }
             }
             if ($url !== false) {
+				$url = urldecode($url);
                 if (strpos($url, '://') !== false) {
                     if ($baseUrl !== '' && ($pos = strpos($url, '/', 8)) !== false) {
                         return substr($url, 0, $pos) . $baseUrl . substr($url, $pos);
@@ -88,7 +95,7 @@ class AUrlManager extends UrlManager
             }
             return "$baseUrl/{$route}{$anchor}";
         } else {
-            $url = "$baseUrl?{$this->routeParam}=" . $route;
+            $url = "$baseUrl?{$this->routeParam}=" . urlencode($route);
             if (!empty($params) && ($query = http_build_query($params)) !== '') {
                 $url .= '&' . $query;
             }

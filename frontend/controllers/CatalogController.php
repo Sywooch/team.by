@@ -83,7 +83,7 @@ class CatalogController extends Controller
 				->orderBy('{{%user}}.id ASC'),
 			
 			'pagination' => [
-				'pageSize' => 1,
+				'pageSize' => 5,
 				'pageSizeParam' => false,
 			],
 		]);		

@@ -1,0 +1,21 @@
+.catalog-category-list-view {
+	
+	
+	
+}
+
+.catalog-category-list-item {
+	@extend .clearfix;
+	@extend .mb-30;
+	@extend .p-15;
+	
+	border: 1px solid $gray14;
+	
+	@include border-radius(6px);
+}
+
+.catalog-category-list-item__avatar {
+	border: 1px solid $gray14;
+	
+	@include border-radius(3px);
+}

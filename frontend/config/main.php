@@ -1,6 +1,6 @@
 <?php
 use developeruz\db_rbac\behaviors\AccessBehavior;
-use components\UrlManager;
+use frontend\components\AUrlManager;
 
 $params = array_merge(
     require(__DIR__ . '/../../common/config/params.php'),
@@ -32,14 +32,18 @@ return [
             'errorAction' => 'site/error',
         ],
 		'urlManager' => [
-			//'class'=>'UrlManager',
+			'class'=>'frontend\components\AUrlManager',
 			
 			'enablePrettyUrl' => true,
+			//'enableStrictParsing' => true,
 			'showScriptName' => false,
 			'rules' => [
+				'catalog/<category:[\w_\/-]+>/page/<page:[\d]+>'=>'catalog/category',
 				
 				'catalog/<category:[\w_\/-]+>/<id:[\d]+>'=>'catalog/show',
+				
 				'catalog/<category:[\w_\/-]+>'=>'catalog/category',
+				
 				'catalog'=>'catalog/index',
 				
 				'<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',

@@ -7,7 +7,7 @@ use yii\widgets\ListView;
 
 $this->title = $category->name .' | '. Yii::$app->params['sitename'];
 
-echo'<pre>';print_r($dataProvider);echo'</pre>';
+//echo'<pre>';print_r($dataProvider);echo'</pre>';
 
 //$this->params['breadcrumbs'][] = ['label' => 'Regions', 'url' => ['index']];
 
@@ -30,5 +30,8 @@ echo ListView::widget( [
     'dataProvider' => $dataProvider,
     'itemView' => '_item',
 	'summary' => '',
+	'id' => 'items-list',
+	'options' => ['class' => 'list-view catalog-category-list-view'],
+	'itemOptions' => ['class'=>'catalog-category-list-item']
 ] );
 ?>
