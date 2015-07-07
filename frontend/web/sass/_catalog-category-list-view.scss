@@ -1,8 +1,23 @@
+.catalog-category-children__list {
+	border-bottom: 1px solid $gray14;
+	padding-bottom: 25px;
+	margin-bottom: 25px;
+}
+
+.catalog-category-children__item {
+	list-style: disc inside;
+	
+	a {
+		@extend %underline_n_y;
+		
+		color: $gray18;
+	}
+}
+
 .catalog-category-list-view {
 	
-	
-	
 }
+
 
 .catalog-category-list-item {
 	@extend .clearfix;
@@ -10,6 +25,7 @@
 	@extend .p-15;
 	
 	border: 1px solid $gray14;
+	background-color: #f8f8f8;
 	
 	@include border-radius(6px);
 }
@@ -18,4 +34,114 @@
 	border: 1px solid $gray14;
 	
 	@include border-radius(3px);
+}
+
+.catalog-category-list-item__info_cnt,
+.catalog-category-list-item__avatar_cnt {
+	float: left;	
+}
+
+.catalog-category-list-item__avatar_cnt {
+	@extend %db;
+}
+
+.catalog-category-list-item__info_cnt {
+	@extend %pos_rel;
+	
+	padding-left: 25px;
+	width: 830px;
+	height: 282px;
+}
+
+.catalog-category-list-item__info_row {
+	@extend .clearfix;
+	
+	border-bottom: 1px solid $gray14;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+.catalog-category-list-item__ttl {
+	@extend .dinpro-b;
+	@extend %font_20;
+	@extend %db;
+	@extend %fl;
+	
+	color: $blue6;
+}
+
+
+.catalog-category-list-item__pricedownload {
+	@extend %underline_y_n;
+	
+	padding-left: 35px;
+}
+.catalog-category-list-item__pricedownload,
+.catalog-category-list-item__pricedownload:hover {
+	color: $gray6;
+}
+
+.catalog-category-list-item__profi_lbl,
+.catalog-category-list-item__rating {
+	@extend %fr;
+}
+
+.catalog-category-list-item__rating {
+	@extend .dinpro-b;
+	
+	padding: 5px 0 0 15px;
+}
+
+.catalog-category-list-item__profi_lbl {
+	margin-top: -8px;
+}
+
+
+.catalog-category-list-item__uslugi li,
+.catalog-category-list-item__edu_list li {
+	list-style: disc inside;
+}
+
+.catalog-category-list-item__uslugi {
+	@extend .clearfix;
+	li {
+		@extend %fl;
+		width: 50%;
+	}
+}
+
+.catalog-category-list-item__info_row_bottom {
+	@extend %pos_abs;
+	
+	bottom: 0;
+	width: 805px;
+}
+
+.catalog-category-list-item__contact,
+.catalog-category-list-item__detail {
+	float: right;
+}
+
+.catalog-category-list-item__contact {
+	margin-right: 10px;
+}
+
+.catalog-category-list-item__reviews,
+.catalog-category-list-item__examples {
+	@extend %underline_n_n;
+	
+	color: $blue7;
+	border-bottom: 2px dotted $blue7;
+	padding-top: 5px;
+	
+	&:hover {
+		border-bottom: none;
+		color: $blue7;
+	}
+	
+}
+
+.catalog-category-list-item__reviews {
+	@extend %dib;
+	margin-right: 30px;
 }

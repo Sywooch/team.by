@@ -76,10 +76,17 @@ class CatalogController extends Controller
 		//получаем всех родителей данной категории для хлебной крошки
 		$parents = $category->parents()->all();
 		
+		//получаем потомков категории
+		$children = $category->children()->all();
+		
+		//получаем массив ИД категорий для поиска аккаунтов в них
+		$cat_ids = [$category->id];
+		foreach($children as $c) $cat_ids[] = $c->id;
+		
 		$DataProvider = new ActiveDataProvider([
 			'query' => User::find()
 			->join('INNER JOIN', '{{%user_categories}} AS uc', 'uc.user_id = {{%user}}.id')
-				->where(['uc.category_id'=>$category->id])
+				->where(['uc.category_id'=>$cat_ids])
 				->orderBy('{{%user}}.id ASC'),
 			
 			'pagination' => [
@@ -87,27 +94,11 @@ class CatalogController extends Controller
 				'pageSizeParam' => false,
 			],
 		]);		
-		//echo'<pre>';print_r($DataProvider->models);echo'</pre>';
- 		/*
-        $criteria = new CDbCriteria();
-        $criteria->addInCondition('t.category_id', array_merge(array($category->id), $category->getChildsArray()));
- 
-        $dataProvider = new CActiveDataProvider(ShopProduct::model()->cache(3600), array(
-            'criteria'=>$criteria,
-            'pagination'=> array(
-                'pageSize'=>self::PRODUCTS_PER_PAGE,
-                'pageVar'=>'page',
-            )
-        ));
- 
-        $this->render('category', array(
-            'dataProvider'=>$dataProvider,
-            'category'=>$category,
-        ));
-		*/
+
 		return $this->render('category', [
 			'category'=>$category,
 			'parents'=>$parents,
+			'children'=>$children,
 			'dataProvider'=>$DataProvider,
 		]);
     }    

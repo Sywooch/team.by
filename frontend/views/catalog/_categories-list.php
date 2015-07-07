@@ -8,7 +8,7 @@ $AUrlManager = new AUrlManager();
 <ul class="row clearfix all_profi_list">
 	<?php foreach($categories as $cat) {	?>
 		<li class="col-lg-3 all_profi_list__l1_item">
-			<p class="all_profi_list__l1__ttl profi_<?= $cat['id']?>"><a href="<?= ($AUrlManager->createUrl(['catalog/category', 'category' => $cat['path']]))?>" class="all_profi_list__l1_item_url"><?= $cat['name']?></a></p>
+			<p class="all_profi_list__l1__ttl profi_<?= $cat['id']?>"><a href="<?= (\Yii::$app->urlManager->createUrl(['catalog/category', 'category' => $cat['path']]))?>" class="all_profi_list__l1_item_url"><?= $cat['name']?></a></p>
 			<?php if(count($cat['children']))	{	?>
 				<ul class="all_profi_list__l2">
 					<?php foreach($cat['children'] as $c) {	?>

@@ -45,7 +45,7 @@ if($current_controller == 'site' && $current_action == 'index') $show_header_row
 <body>
     <?php $this->beginBody() ?>
     <div class="wrap">
-		<div class="wrap__cnt">
+		<div class="wrap__cnt <?php if($current_controller == 'site' && $current_action == 'index') echo 'wrap__cnt_main_page' ?>">
 			<div class="header">
 				<?php if($show_header_row1) echo $this->render('_header_row1', [], false, true); ?>
 				
