@@ -38,46 +38,59 @@ $this->params['breadcrumbs'][] = $category->name;
 
 
 
-<?php $form = ActiveForm::begin(['id' => 'category-sort-sw']); ?>
-Сортировать по:
-<?php 
-
-
-echo ButtonDropdown::widget([
-    'label' => 'Имени',
-    'options' => [
-        'class' => 'btn-lg btn-link',
-        'style' => ''
-    ],
-	'containerOptions' => [
-		'class' => 'sorting-switcher',
-	],
-    'dropdown' => [
-        'items' => [
-            [
-                'label' => 'Цене',
-                'url' => '#',
-				'linkOptions' => ['data-sort' => 'price'],
-            ],
-            [
-                'label' => 'Дате добавления',
-                'url' => '#',
-				'linkOptions' => ['data-sort' => 'created'],
-            ],
-        ]
-    ]
-]);
-?>
-
+<?php $form = ActiveForm::begin(['id' => 'category-sort-sw', 'options'=>['class'=>'category-sort-sw ']]); ?>
+	<input type="hidden" id="orderby" name="orderby" value="<?= $current_ordering['field']?>" />
 <?php ActiveForm::end(); ?>
 
-<?php
-echo ListView::widget( [
-    'dataProvider' => $dataProvider,
-    'itemView' => '_item',
-	'summary' => '',
-	'id' => 'items-list',
-	'options' => ['class' => 'list-view catalog-category-list-view'],
-	'itemOptions' => ['class'=>'catalog-category-list-item']
-] );
-?>
+<div class="category-list-cnt">
+	<div class="category-sort-cnt clearfix">
+		<p class="category-sort-lbl">Сортировать по:</p>
+
+		<?php echo ButtonDropdown::widget([
+			'label' => $current_ordering['name'],
+			'options' => [
+				'class' => 'btn-lg btn-link',
+				'style' => ''
+			],
+			'containerOptions' => [
+				'class' => 'sorting-switcher',
+			],
+			'dropdown' => [
+				'items' => $ordering_items
+			]
+		]);
+		?>
+	</div>
+
+	<?php
+	echo ListView::widget( [
+		'dataProvider' => $dataProvider,
+		'itemView' => '_item',
+		'summary' => '',
+		'id' => 'items-list',
+		'options' => ['class' => 'list-view catalog-category-list-view'],
+		'itemOptions' => ['class'=>'catalog-category-list-item'],
+		'layout' => '{pager}{items}{pager}',
+	] );
+	?>
+
+	<div class="category-sort-cnt clearfix">
+
+	<p class="category-sort-lbl">Сортировать по:</p>
+
+	<?php echo ButtonDropdown::widget([
+		'label' => $current_ordering['name'],
+		'options' => [
+			'class' => 'btn-lg btn-link',
+			'style' => ''
+		],
+		'containerOptions' => [
+			'class' => 'sorting-switcher',
+		],
+		'dropdown' => [
+			'items' => $ordering_items
+		]
+	]);
+	?>
+	</div>
+</div>

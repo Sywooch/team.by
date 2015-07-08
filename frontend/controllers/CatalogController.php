@@ -64,6 +64,35 @@ class CatalogController extends Controller
 	
     public function actionCategory($category)
     {
+		//получаем поле для сортировки
+		$orderBy = Yii::$app->request->post('orderby', '');
+		if($orderBy != '') {
+			Yii::$app->response->cookies->add(new \yii\web\Cookie([
+				'name' => 'catlist-orderby',
+				'value' => $orderBy,
+			]));
+			
+			//return $this->redirect(['category', 'category'=>$category]);
+		}	else	{
+			$orderBy = Yii::$app->request->cookies->getValue('catlist-orderby', 'fio');
+		}
+		
+		//строим выпадающий блок для сортировки
+		$ordering_arr = Yii::$app->params['catlist-orderby'];
+		$ordering_items = [];
+		foreach($ordering_arr as $k=>$i) {
+			if($k == $orderBy)	{
+				$current_ordering = ['name'=>$i, 'field'=>$k];
+			}	else	{
+				$ordering_items[] = [
+					'label'=>$i,
+					'url' => '#',
+					'linkOptions' => ['data-sort' => $k],
+				];
+			}
+				
+		}
+		
          //echo'<pre>';print_r($category);echo'</pre>';
 		// Ищем категорию по переданному пути
         $category = Category::find()
@@ -83,14 +112,18 @@ class CatalogController extends Controller
 		$cat_ids = [$category->id];
 		foreach($children as $c) $cat_ids[] = $c->id;
 		
+		
+		
 		$DataProvider = new ActiveDataProvider([
 			'query' => User::find()
-			->join('INNER JOIN', '{{%user_categories}} AS uc', 'uc.user_id = {{%user}}.id')
+				->distinct(true)
+				->join('INNER JOIN', '{{%user_categories}} AS uc', 'uc.user_id = {{%user}}.id')
 				->where(['uc.category_id'=>$cat_ids])
-				->orderBy('{{%user}}.id ASC'),
+				->orderBy('{{%user}}.'.$orderBy.' ASC'),
 			
 			'pagination' => [
-				'pageSize' => 5,
+				//'pageSize' => Yii::$app->params['catlist-per-page'],
+				'pageSize' => 2,
 				'pageSizeParam' => false,
 			],
 		]);		
@@ -100,6 +133,8 @@ class CatalogController extends Controller
 			'parents'=>$parents,
 			'children'=>$children,
 			'dataProvider'=>$DataProvider,
+			'current_ordering'=>$current_ordering,
+			'ordering_items'=>$ordering_items,
 		]);
     }    
  

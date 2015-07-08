@@ -94,5 +94,68 @@ class Region extends \yii\db\ActiveRecord
         return new RegionQuery(get_called_class());
     }
 	
-	
+	public function getRegionsList($region_id = 2)
+	{
+		$regions = Region::find()->where('id <> 1')->orderBy('lft, rgt')->all();
+		
+		$regions_l1 = [];
+		
+		$region_str = 'Вся Беларусь';
+		
+		$region_active = false;
+
+		foreach($regions as $row){
+			$region_active = false;
+			
+			if($row->parent_id == 1) {
+				
+				if($row->id == $region_id) {
+					$region_str = $row->name;
+					$region_active = true;
+				}
+			
+				$regions_l1[] = [
+					'id'=>$row->id,
+					'name'=>$row->name,
+					'active'=>$region_active,
+					'children'=>[],
+				];
+			}
+		}		
+		
+		foreach($regions_l1 as &$row_l1){
+			foreach($regions as $row){
+				$region_active = false;
+				
+				if($row->parent_id == $row_l1['id']) {
+					
+					if($row->id == $region_id) {
+						$region_str = $row->name;
+						$region_active = true;
+					}
+					
+					$row_l1['children'][] = [
+						'id'=>$row->id,
+						'name'=>$row->name,
+						'active'=>$region_active,
+					];
+				}
+			}
+		}
+		
+		if($region_id == 1)	$region_active = true;
+			else $region_active = false;
+		
+		$all_regions[] = [
+			'id'=>1,
+			'name'=>'Вся Беларусь',
+			'active'=>$region_active,
+			'children'=>[],
+		];
+			
+		$regions_l1 = array_merge($all_regions, $regions_l1);
+		
+		return ['list' => $regions_l1, 'active' => $region_str];
+		
+	}
 }

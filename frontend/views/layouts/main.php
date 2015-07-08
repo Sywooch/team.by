@@ -54,12 +54,19 @@ if($current_controller == 'site' && $current_action == 'index') $show_header_row
 				<?php if($show_header_row3) echo $this->render('_header_row3', [], false, true); ?>
 			</div>
 
-			<?php if($current_controller == 'site' && $current_action == 'index') echo ProfiSearch::widget() ?>
+			<?php echo ProfiSearch::widget(['controller'=>$current_controller, 'action'=>$current_action]) ?>
+			
+			<?php if(isset($this->params['breadcrumbs']))	{	?>
+				<div class="breadcrumbs-cnt">
+					<div class="container">
+						<?= Breadcrumbs::widget([
+							'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+						]) ?>
+					</div>
+				</div>
+			<?php	}	?>
 
 			<div class="container">
-				<?= Breadcrumbs::widget([
-					'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-				]) ?>
 				<?= Alert::widget() ?>
 
 
