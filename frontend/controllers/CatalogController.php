@@ -122,11 +122,19 @@ class CatalogController extends Controller
 				->orderBy('{{%user}}.'.$orderBy.' ASC'),
 			
 			'pagination' => [
-				//'pageSize' => Yii::$app->params['catlist-per-page'],
-				'pageSize' => 2,
+				'pageSize' => Yii::$app->params['catlist-per-page'],
+				//'pageSize' => 2,
 				'pageSizeParam' => false,
 			],
-		]);		
+		]);
+		
+		$categories_history = Yii::$app->session->get('categories_history', []);
+		//echo'<pre>';print_r($categories_history);echo'</pre>';
+		foreach($DataProvider->models as $model)	{
+			$categories_history[$model->id] = $category->id;
+		}
+		
+		Yii::$app->session->set('categories_history', $categories_history);
 
 		return $this->render('category', [
 			'category'=>$category,
@@ -140,13 +148,39 @@ class CatalogController extends Controller
  
     public function actionShow($category, $id)
     {
-        echo'<pre>';print_r($category);echo'</pre>';
-        echo'<pre>';print_r($id);echo'</pre>';
+        $categories_history = Yii::$app->session->get('categories_history', []);
+		
+		//echo'<pre>';print_r($categories_history);echo'</pre>';
+        //echo'<pre>';print_r($id);echo'</pre>';
+		
+		$model = User::findOne($id);		
+		if ($model === null) throw new CHttpException(404, 'Аккаунт с данным ID отсутстсвует в базе');		
+
+        $category = Category::find()
+			->where(['id' => $categories_history[$id]])
+			->one();
+		
+		if($category === null) throw new NotFoundHttpException('Ошибка категории');
+		
+		//echo'<pre>';print_r($model);echo'</pre>';
+		//echo'<pre>';print_r($category);echo'</pre>';
+		
+		//получаем всех родителей данной категории для хлебной крошки
+		$parents = $category->parents()->all();
+		
+		//получаем потомков категории
+		$children = $category->children()->all();
+		
 		
 		//$model = $this->loadModel($id)
  
        // $this->render('show', array('model'=>$model));
-        return $this->render('show', []);
+        return $this->render('show', [
+			'model'=>$model,
+			'category'=>$category,
+			'parents'=>$parents,
+			'children'=>$children,			
+		]);
 
     }
 	
