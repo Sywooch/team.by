@@ -40,7 +40,7 @@ use yii\bootstrap\Tabs;
 			</div>
 			<div class="col-lg-3 profi_search_inner__button_col">
 				<p class="profi_search_inner__button_cnt">
-					<button class="button-red profi_search_inner__button">Заказать подбор специалиста</button>			
+					<a id="profi_search_btn" class="button-red profi_search_inner__button" href="<?= Yii::$app->urlManager->createUrl(['site/zakaz-spec1'])?>">Заказать подбор специалиста</a>
 				</p>
 			</div>
 

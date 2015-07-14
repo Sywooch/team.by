@@ -146,6 +146,17 @@ jQuery(function($) {
 		return false;
 	});
 	
+    $('#profi_search_btn').on('click', function (e) {
+        var url = $(this).attr('href')+"?modal=1",
+            modal = $('.modal');
+		
+        $.get(url, function (data) {
+            modal.html(data).modal('show');
+        });
+        return false;
+    });
+	
+	
 	
 	
 	$('#site-reg-step2-frm').on('submit', function(){

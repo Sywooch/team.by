@@ -11,6 +11,8 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use frontend\models\RegStep1Form;
 use frontend\models\RegStep2Form;
+use frontend\models\ZakazSpec1;
+use frontend\models\ZakazSpec2;
 
 use common\models\User;
 use common\models\UserCategories;
@@ -437,4 +439,48 @@ class SiteController extends Controller
 			return $this->redirect($return_url);
 		}
     }
+	
+	public function actionZakazSpec1()
+	{
+		$model = new ZakazSpec1();
+		
+		$request = Yii::$app->request;
+		$modal = $request->get('modal');		
+
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+				// form inputs are valid, do something here
+				return;
+			}
+		}
+		
+		if($modal == 1)	{
+			return $this->render('_zakaz-spec1-modal', [
+				'model' => $model,
+			]);			
+		}	else	{
+			return $this->render('zakaz-spec1', [
+				'model' => $model,
+			]);
+			
+		}
+
+	}
+	
+	public function actionZakazSpec2()
+	{
+		$model = new ZakazSpec2();
+
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+				// form inputs are valid, do something here
+				return;
+			}
+		}
+
+		return $this->render('zakaz-spec2', [
+			'model' => $model,
+		]);
+	}
+	
 }
