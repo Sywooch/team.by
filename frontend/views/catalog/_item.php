@@ -27,7 +27,7 @@ if($model->education != '')	{
 		<div class="catalog-category-list-item__info_row">
 			<span class="catalog-category-list-item__price">Стоимость работ: <?= \Yii::$app->formatter->asDecimal($model->price); ?> руб.</span>
 			<?php if($model->price_list)	{	?>
-				<a class="catalog-category-list-item__pricedownload" href="<?= Url::home(true).Yii::$app->params['prices-path'].'/'.$model->price_list?>">Скачать полный прайс</a>
+				<a class="catalog-category-list-item__pricedownload" href="<?= Url::home(true).Yii::$app->params['pricelists-path'].'/'.$model->price_list?>">Скачать полный прайс</a>
 			<?php }	else	{	?>
 				<a class="catalog-category-list-item__pricedownload" href="#">Скачать полный прайс</a>
 			<?php }	?>
