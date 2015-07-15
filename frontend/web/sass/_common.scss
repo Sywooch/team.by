@@ -50,6 +50,12 @@ b {
 	min-width: 1200px;
 }
 
+body {
+	font-family: 'dinpro-regular', Arial;
+	font-size: 16px;
+	color: $gray6;	
+}
+
 
 .button-gray,
 .button-blue,
@@ -203,6 +209,7 @@ h1,.h1 {
 	border-bottom: 1px solid $gray9;
 	
 	.close {
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 		width: 24px;
 		height: 24px;
 		background-color: $blue1;
@@ -230,6 +237,10 @@ h1,.h1 {
 
 .modal-body  {
 	padding: 15px 45px;
+}
+
+.modal-content .alert button.close {
+	display: none;
 }
 
 .modal-dialog__login {
@@ -422,6 +433,33 @@ h1,.h1 {
 	}
 	
 	
+}
+
+.form-control {
+	border-color: #c2c2c2;
+	background-color: #f9f9f9;
+}
+
+#zakaz-spec1-btn {
+	@extend %fl;
+}
+
+.catalog-zakaz-spec1-notice {
+	color: $gray20;
+	margin-left: 190px;
+	line-height: 18px;
+	
+	a {
+		@extend .dinpro-m;
+		color: $gray20;
+		
+		&:hover {
+			color: $gray20; 
+		}
+	}
+}
+.modal-dialog__zakaz-spec1 {
+	width: 714px;
 }
 
 /**----------------------------------*/

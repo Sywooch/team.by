@@ -15,8 +15,17 @@ return [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
-        ],
+            'useFileTransport' => false,
+			'transport' => [
+				'class' => 'Swift_SmtpTransport',
+				'host' => 'vh11.freedom.by',  // e.g. smtp.mandrillapp.com or smtp.gmail.com
+				'username' => 'noreply@team.gf-club.net',
+				'password' => '1qaz2wsx',
+				'port' => '465', // Port 25 is a very common port too
+				'encryption' => 'ssl', // It is often used, check your provider or mail server specs			
+				//'encryption' => 'tls', // It is often used, check your provider or mail server specs			
+			],
+		],
 		'authManager' => [
 			'class' => 'yii\rbac\DbManager',
 		],		

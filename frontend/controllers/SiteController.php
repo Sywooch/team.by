@@ -449,13 +449,22 @@ class SiteController extends Controller
 
 		if ($model->load(Yii::$app->request->post())) {
 			if ($model->validate()) {
+				Yii::$app->session['zakaz-spec1'] = Yii::$app->request->post()['ZakazSpec1'];
+				$model = new ZakazSpec2();
 				// form inputs are valid, do something here
-				return;
+				if($modal == 1)	{
+					return $this->renderPartial('zakaz-spec2-modal', [
+						'model' => $model,
+					]);			
+
+				}	else	{
+					return $this->redirect('/site/zakaz-spec2');
+				}
 			}
 		}
 		
 		if($modal == 1)	{
-			return $this->render('zakaz-spec1-modal', [
+			return $this->renderPartial('zakaz-spec1-modal', [
 				'model' => $model,
 			]);			
 		}	else	{
@@ -470,17 +479,47 @@ class SiteController extends Controller
 	public function actionZakazSpec2()
 	{
 		$model = new ZakazSpec2();
+		
+		$request = Yii::$app->request;
+		$modal = $request->get('modal');
 
 		if ($model->load(Yii::$app->request->post())) {
 			if ($model->validate()) {
-				// form inputs are valid, do something here
-				return;
+				$model->name = Yii::$app->session['zakaz-spec1']['name'];
+				$model->phone = Yii::$app->session['zakaz-spec1']['phone'];
+				$model->comment = Yii::$app->session['zakaz-spec1']['comment'];
+				if($model->sendEmail(Yii::$app->params['adminEmail'])) {
+					Yii::$app->getSession()->setFlash('success', 'Мы получили Вашу заявку.');
+				}	else	{
+					Yii::$app->getSession()->setFlash('error', 'При отправке сообщения возникла ошибка');
+				}
+				
+				unset(Yii::$app->session['zakaz-spec1']);
+				
+				if($modal == 1)	{
+					return $this->renderPartial('sending-mail-result-modal', [
+						'title' => 'Заявка на подбор профессионала',
+					]);					
+					
+				}	else	{
+					return $this->render('zakaz-spec2', [
+						'model' => $model,
+					]);					
+				}
+				
 			}
 		}
 
-		return $this->render('zakaz-spec2', [
-			'model' => $model,
-		]);
+		if($modal == 1)	{
+			return $this->renderPartial('zakaz-spec2-modal', [
+				'model' => $model,
+			]);			
+		}	else	{
+			return $this->render('zakaz-spec2', [
+				'model' => $model,
+			]);
+			
+		}
 	}
 	
 }

@@ -11,9 +11,10 @@ use yii\base\Model;
 class ZakazSpec2 extends Model
 {
     public $name;
-    public $email;
-    public $subject;
-    public $body;
+    public $email = 'aldegtyarev@yandex.ru';
+    public $email1;	// метка используется в письме
+	public $phone;
+	public $comment;
     public $verifyCode;
 
     /**
@@ -38,6 +39,10 @@ class ZakazSpec2 extends Model
     {
         return [
             'email' => 'Ваш адрес электронной почты',
+            'email1' => 'Адрес электронной почты',
+            'name' => 'Имя',
+            'phone' => 'Номер телефона',
+            'comment' => 'Какой специалист нужен',
             'verifyCode' => 'Результат капчи',
         ];
     }
@@ -50,11 +55,23 @@ class ZakazSpec2 extends Model
      */
     public function sendEmail($email)
     {
-        return Yii::$app->mailer->compose()
+        return Yii::$app->mailer->compose('mail-zakaz-spec', ['model'=>$this])
             ->setTo($email)
-            ->setFrom([$this->email => $this->name])
-            ->setSubject($this->subject)
-            ->setTextBody($this->body)
+            ->setFrom('noreply@team.gf-club.net')
+            ->setSubject('Заявка на поиск специалиста')
             ->send();
     }
+	
+	/*
+    public function sendEmail()
+    {
+        return Yii::$app->mailer->compose()
+            ->setTo(Yii::$app->params['adminEmail'])
+            ->setFrom('noreply@team.gf-club.net')
+            ->setSubject('Заявка на поиск специалиста')
+            ->setTextBody($this->comment)
+            ->send();
+    }
+	*/
+		
 }

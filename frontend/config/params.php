@@ -1,6 +1,6 @@
 <?php
 return [
-    'adminEmail' => 'admin@example.com',
+    'adminEmail' => 'aldegtyarev@yandex.ru',
 	'homeUrl' => 'http://team.gf-club.net',
 	'catlist-orderby' => [
 		'fio'	 => 'имени',

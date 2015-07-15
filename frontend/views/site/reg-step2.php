@@ -5,7 +5,7 @@ use yii\helpers\Url;
 
 use yii\widgets\ActiveForm;
 
-
+use frontend\assets\RegAsset;
 use frontend\assets\RegStep2Asset;
 use frontend\assets\BootstrapLightboxAsset;
 //use dosamigos\fileupload\FileUpload;
@@ -16,6 +16,7 @@ use frontend\assets\BootstrapLightboxAsset;
 /* @var $form ActiveForm */
 
 
+RegAsset::register($this);
 RegStep2Asset::register($this);
 BootstrapLightboxAsset::register($this);
 

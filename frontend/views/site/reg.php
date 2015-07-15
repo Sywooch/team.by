@@ -1,6 +1,11 @@
 <?php
 //use yii\helpers\Html;
 use yii\helpers\Url;
+
+use frontend\assets\RegAsset;
+
+RegAsset::register($this);
+
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\SignupForm */

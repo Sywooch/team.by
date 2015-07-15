@@ -10,9 +10,9 @@ use yii\base\Model;
  */
 class ZakazSpec1 extends Model
 {
-    public $name;
-    public $phone;
-    public $comment;
+    public $name = 'alexey';
+    public $phone = '375295379969';
+    public $comment = 'Хочу муму';
 
     /**
      * @inheritdoc
