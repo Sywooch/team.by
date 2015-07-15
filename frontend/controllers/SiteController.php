@@ -455,7 +455,7 @@ class SiteController extends Controller
 		}
 		
 		if($modal == 1)	{
-			return $this->render('_zakaz-spec1-modal', [
+			return $this->render('zakaz-spec1-modal', [
 				'model' => $model,
 			]);			
 		}	else	{
