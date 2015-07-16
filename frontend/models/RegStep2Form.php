@@ -33,6 +33,8 @@ class RegStep2Form extends Model
 	
     public $awards = [];
     public $examples = [];
+	
+	public $to_client;
 
 
 
@@ -42,7 +44,7 @@ class RegStep2Form extends Model
     public function rules()
     {
         return [
-			[['region', 'region_parent_id', 'category1'], 'integer'],
+			[['region', 'region_parent_id', 'category1', 'to_client'], 'integer'],
 			
 			
 			['about', 'required'],
@@ -90,6 +92,7 @@ class RegStep2Form extends Model
             'price' => 'Стоимость работ',
             'awards' => 'Награды, димломы',
             'examples' => 'Примеры ваших работ',
+            'to_client' => 'Осуществляем выезд к клиенту',
             //'' => '',
         ];
     }

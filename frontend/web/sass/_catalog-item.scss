@@ -47,7 +47,35 @@
 
 .catalog-item_body__ttl_cnt {
 	@extend %fl;
-	max-width: 450px;
+	max-width: 400px;
+}
+
+.catalog-item_body__ttl_profi {
+	background: url(../images/profi-lbl.png) no-repeat left top;
+	padding-left: 55px;
+}
+
+.catalog-item_body__to_client {
+	@extend %ico;
+	@extend %fl;
+	@extend %pos_rel;
+	
+	@extend .dinpro-b;
+	
+	padding-left: 30px;
+	margin-left: 40px;
+	
+	&:before {
+		@extend .ico-ptica-green;
+		left: 0;
+		top: 3px;
+	}
+	
+}
+
+.catalog-item_body__to_client,
+.catalog-item_body__rating {
+	margin-top: 13px;
 }
 
 .catalog-item_body__rating {
@@ -59,12 +87,12 @@
 	
 }
 
-catalog-item_body__rating_active,
+.catalog-item_body__rating_active,
 .catalog-item_body__rating_inactive,
 .catalog-item_body__rating_cnt {
 	@extend %pos_abs;
-	width: 64px;
-	height: 23px;
+	width: 65px;
+	height: 24px;
 }
 
 .catalog-item_body__rating_cnt {
@@ -74,14 +102,16 @@ catalog-item_body__rating_active,
 
 .catalog-item_body__rating_active,
 .catalog-item_body__rating_inactive {
-	left: 0;
+	right: 0;
 	top: 0;
 }
 
 .catalog-item_body__rating_inactive {
+	background: url(../images/rating-b.png) no-repeat right top;
 	z-index: 1;
 }
 .catalog-item_body__rating_active {
+	background: url(../images/rating-g.png) no-repeat right top;
 	z-index: 2;
 }
 
@@ -137,9 +167,13 @@ catalog-item_body__rating_active,
 	}
 }
 
+.catalog-item__examples {
+	@extend .mb-30;
+}
+
 .catalog-item__ttl {
 	@extend .dinpro-b;
-	@extend .mb-30;
+	@extend .mb-20;
 	@extend %font_20;
 }
 
@@ -158,4 +192,102 @@ catalog-item_body__rating_active,
 			@include box-shadow($gray14 0 0 14px);
 		}
 	}
+}
+
+.catalog-item__reviews_item {
+	@extend .mb-25;
+	@extend .pb-25;
+	
+	border-bottom: 1px solid $gray21;
+	
+	&:last-of-type {
+		padding-bottom: 0;
+		margin-bottom: 0;
+		border: none;
+	}
+}
+
+
+.catalog-item__review_value_cnt,
+.catalog-item__review_created_cnt {
+	@extend %fl;
+}
+
+.catalog-item__review_value_cnt {
+	width: 102px;
+	height: 80px;
+}
+
+.catalog-item__review_created_cnt {
+	@extend .ml-30;
+}
+
+.catalog-item__review_value {
+	@extend .dinpro-b;
+	@extend %text_c;
+	@include border-radius(5px);
+	border: 2px solid $blue9;
+	background-color: $blue10;
+	color: $blue9;
+	font-size: 40px;
+	
+	span {
+		@extend %db;
+		@extend %font_16;
+		@extend .dinpro-m;
+	}
+}
+
+.catalog-item__review_created {
+	@extend %italic;
+	@extend %font_14;
+}
+
+.catalog-item__review_name {
+	@extend .dinpro-m;	
+}
+
+.catalog-item__review_text_cnt {
+	@include border-radius(5px);
+	@extend %pos_rel;
+	@extend %ico;
+	
+	padding: 10px 25px;	
+	border: 1px dashed $gray14;
+	
+	&:before {
+		@extend .ico-review-text;
+		
+		top: 50%;
+		left: -9px;
+		margin-top: -8px;
+	}
+	
+} 
+
+.catalog-item__review_text {
+	@extend .mb-10;
+}
+
+.item__review_foto_list {
+	@extend .clearfix;
+}
+
+.item__review_foto_item {
+	@extend %fl;
+	margin-right: 10px;
+}
+
+.catalog-item__reviews_list {
+	@extend .mb-35;
+	@extend .pt-30; 
+	border-top: 1px solid $gray21;
+}
+
+.catalog-item__reviews_bottom {
+	@extend .clearfix;
+}
+
+.catalog-item__show_reviews {
+	@extend %fr;
 }

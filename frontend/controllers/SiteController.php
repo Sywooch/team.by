@@ -16,6 +16,7 @@ use frontend\models\ZakazSpec2;
 
 use common\models\User;
 use common\models\UserCategories;
+use common\models\UserSpecials;
 use common\models\UserMedia;
 
 
@@ -49,6 +50,7 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['?'],
                     ],
+					
                     [
                         'actions' => ['logout'],
                         'allow' => true,
@@ -222,14 +224,14 @@ class SiteController extends Controller
 		
 		//if(count(Yii::$app->request->post()))
 			
-
+		//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';die;
 		if ($model->load(Yii::$app->request->post())) {
 			if ($model->validate()) {
 				$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
 				$RegStep2Form = $model;
 				//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 				//echo'<pre>';print_r($model);echo'</pre>';//die;
-				//echo'<pre>';print_r($RegStep1Form);echo'</pre>';
+				//echo'<pre>';print_r($RegStep2Form);echo'</pre>';
 				//die;
 				
 				//создаем поьзователя
@@ -254,12 +256,16 @@ class SiteController extends Controller
 				$user->save();
 				
 				//перемщаем фото аватара
-				rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$RegStep2Form['avatar']);
-				rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$RegStep2Form['avatar']);
+				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['avatar']))
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$RegStep2Form['avatar']);
+				
+				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar']))
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$RegStep2Form['avatar']);
 				
 				if($RegStep2Form['price_list'] != '') {
 					//перемещаем прайс-лист
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['price_list'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$RegStep2Form['price_list']);
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['price_list']))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['price_list'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$RegStep2Form['price_list']);
 				}
 				
 				//назначаем ему категории
@@ -267,7 +273,16 @@ class SiteController extends Controller
 					$userCategories = new UserCategories();
 					$userCategories->user_id = $user->id;
 					$userCategories->category_id = $cat;
-					$userCategories->price = $RegStep2Form->price[$cat];
+					//$userCategories->price = $RegStep2Form->price[$cat];
+					$userCategories->save();
+				}
+				
+				//назначаем ему специализации
+				foreach($RegStep2Form->price as $k=>$p) {
+					$userCategories = new UserSpecials();
+					$userCategories->user_id = $user->id;
+					$userCategories->category_id = $k;
+					$userCategories->price = $p;
 					$userCategories->save();
 				}
 				
@@ -280,8 +295,11 @@ class SiteController extends Controller
 					$UserMedia->save();
 					
 					//перемещаем фото
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$award);
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$award);
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$award))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$award);
+					
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$award))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$award);
 				}
 				
 				//добавляем примеры работ
@@ -293,8 +311,11 @@ class SiteController extends Controller
 					$UserMedia->save();
 					
 					//перемещаем фото
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$example);
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$example))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$example);
+					
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
 				}
 				
 				Yii::$app->response->cookies->remove('RegStep1Form');
@@ -303,18 +324,25 @@ class SiteController extends Controller
 			}
 		}
 		
+		//echo'<pre>';print_r($model);echo'</pre>';die;
+		
 		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
 		
 		$cats_l1 = [];
+		$cats_l3 = [];
 
 		foreach($categories as $c){
-			if($c->parent_id == 1)	$cats_l1[] = [
-				'id'=>$c->id,
-				'name'=>$c->name,
-				'alias'=>$c->alias,
-				'path'=>$c->path,
-				'children'=>[],
-			];
+			if($c->parent_id == 1)	{
+				$cats_l1[] = [
+					'id'=>$c->id,
+					'name'=>$c->name,
+					'alias'=>$c->alias,
+					'path'=>$c->path,
+					'children'=>[],
+				];				
+			}	elseif($c->depth > 2)	{
+				$cats_l3[$c->id] = $c->name;
+			}
 		}		
 		
 		foreach($cats_l1 as &$c_l1){
@@ -334,6 +362,7 @@ class SiteController extends Controller
 		return $this->render('reg-step2', [
 			'model' => $model,
 			'categories' => $cats_l1,
+			'categories_l3' => $cats_l3,
 		]);
 	}
 	

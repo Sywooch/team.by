@@ -28,7 +28,7 @@ class CatalogController extends Controller
 
     public function actionIndex()
 	{
-		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
+		$categories = Category::find()->where('id <> 1 AND depth < 3')->orderBy('lft, rgt')->all();
 		
 		$cats_l1 = [];
 
@@ -110,7 +110,15 @@ class CatalogController extends Controller
 		
 		//получаем массив ИД категорий для поиска аккаунтов в них
 		$cat_ids = [$category->id];
-		foreach($children as $c) $cat_ids[] = $c->id;
+		foreach($children as $k=>$c)	{
+			if($c->depth < 3)	{				
+				$cat_ids[] = $c->id;
+			}	else	{
+				//на 3-м уровне у нас идут виды работ. Их нужно исключить
+				unset($children[$k]);
+			}
+		}
+			
 		
 		
 		
@@ -150,17 +158,29 @@ class CatalogController extends Controller
     {
         $categories_history = Yii::$app->session->get('categories_history', []);
 		
-		//echo'<pre>';print_r($categories_history);echo'</pre>';
+		
         //echo'<pre>';print_r($id);echo'</pre>';
 		
 		$model = User::findOne($id);		
 		if ($model === null) throw new CHttpException(404, 'Аккаунт с данным ID отсутстсвует в базе');		
-
-        $category = Category::find()
-			->where(['id' => $categories_history[$id]])
-			->one();
 		
-		if($category === null) throw new NotFoundHttpException('Ошибка категории');
+		//echo'<pre>';print_r($model->userCategories[0]);echo'</pre>'; die;
+		
+		if(count($categories_history))	{
+			$category = Category::find()
+				->where(['id' => $categories_history[$id]])
+				->one();
+
+			if($category === null) throw new NotFoundHttpException('Ошибка категории');
+		}	else	{
+			
+			$category = Category::find()
+				->where(['id' => $model->userCategories[0]->category_id])
+				->one();
+
+			if($category === null) throw new NotFoundHttpException('Ошибка категории');
+				
+		}
 		
 		//echo'<pre>';print_r($model);echo'</pre>';
 		//echo'<pre>';print_r($category);echo'</pre>';

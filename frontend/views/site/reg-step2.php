@@ -83,6 +83,7 @@ $categories_l2_arr = [];
 		
 		
 		<?= $form->field($model, 'experience')->textarea() ?>
+		<?= $form->field($model, 'to_client')->checkbox() ?>
 		
 		<?= $form->field($model, 'category1')->dropDownList($model->categoriesLevel1DropDownList, [$model->category1, 'prompt'=>'Например: строительство']) ?>
 		
@@ -94,7 +95,7 @@ $categories_l2_arr = [];
 						<ul class="row clearix">
 						<?php
 							foreach($cat1['children'] as $cat2)	{
-								$categories_l2_arr[$cat2['id']] = $cat2['name'];
+								//$categories_l2_arr[$cat2['id']] = $cat2['name'];
 								echo Html::tag('li', Html::checkbox('RegStep2Form[categories][]', $model->isChecked($cat2['id']), ['label' => $cat2['name'], 'value'=>$cat2['id'], 'id'=>'category-'.$cat2['id'], 'class'=>'reg-step2-category']), ['class'=>'col-lg-4'] );	
 							}	
 						?>
@@ -108,16 +109,16 @@ $categories_l2_arr = [];
 		<div id="selected_categories" class="selected_categories form-horizontal solid-border-block" <?php if(count($model->price)) echo 'style="display:block;"' ?> >
 			<div class="selected_categories_ttl">Выбранные рубрики</div>
 			<div id="selected_categories_cnt">
-				<?php foreach($model->categories as $cat) {	?>
+				<?php foreach($model->price as $k=>$cat) {	?>
 					<div id="cnt-price-<?= $cat?>" class="form-group clearfix">
-						<label for="price-<?= $cat?>" class="col-sm-5 control-label"><?= $categories_l2_arr[$cat]?></label>
+						<label for="price-<?= $cat?>" class="col-sm-5 control-label"><?= $categories_l3[$k]?></label>
 						
 						<div class="col-sm-6">
-							<input type="text" name="RegStep2Form[price][<?= $cat?>]" class="form-control" id="price-<?= $cat?>" placeholder="Укажите стоимость" value="<?= $model->price[$cat]?>">
+							<input type="text" name="RegStep2Form[price][<?= $k?>]" class="form-control" id="price-<?= $k?>" placeholder="Укажите стоимость" value="<?= $cat?>">
 						</div>
 						
 						<div class="col-sm-1">
-							<span class="site-reg-remove-price" data-category="<?= $cat?>">×</span>
+							<span class="site-reg-remove-price" data-category="<?= $k?>">×</span>
 						</div>
 					</div>
 				<?php }	?>

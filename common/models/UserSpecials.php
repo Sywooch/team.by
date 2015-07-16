@@ -5,23 +5,24 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%user_categories}}".
+ * This is the model class for table "{{%user_specials}}".
  *
  * @property integer $id
  * @property integer $user_id
  * @property integer $category_id
+ * @property integer $price
  *
  * @property Category $category
  * @property User $user
  */
-class UserCategories extends \yii\db\ActiveRecord
+class UserSpecials extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%user_categories}}';
+        return '{{%user_specials}}';
     }
 
     /**
@@ -30,8 +31,8 @@ class UserCategories extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'category_id'], 'required'],
-            [['user_id', 'category_id'], 'integer']
+            [['user_id', 'category_id', 'price'], 'required'],
+            [['user_id', 'category_id', 'price'], 'integer']
         ];
     }
 
@@ -44,6 +45,7 @@ class UserCategories extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'category_id' => 'Category ID',
+            'price' => 'Price',
         ];
     }
 

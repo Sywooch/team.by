@@ -21,6 +21,8 @@ use frontend\models\UploadAwardsForm;
 use frontend\models\UploadAvatarForm;
 use frontend\models\UploadExamplesForm;
 
+use common\models\Category;
+
 class AjaxController extends Controller
 {
 //    public function behaviors()
@@ -182,6 +184,18 @@ class AjaxController extends Controller
         }		
 		return;
     }
+	
+    public function actionGetChildrens($id)
+    {
+		$model = Category::findOne($id);
+		//print_r($model);die;
+		$children = $model->children()->all();
+		return $this->renderPartial('children-list', [
+			'model'=>$model,
+			'children'=>$children,
+		]);
+		
+	}
 	
 	
 	public function printErrors($model, $error_msg = '')

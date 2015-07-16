@@ -16,6 +16,8 @@ if (!YII_ENV_TEST) {
 		'93.125.76.42',
 		'93.125.44.79',
 		'93.125.72.141',
+		'93.125.72.12',
+		
 	];
 	
     // configuration adjustments for 'dev' environment

@@ -171,6 +171,7 @@ jQuery(function($) {
 	});
 	
 	
+	/*
 	$('.reg-step2-category').on('click', function(e){
 		if($(this).prop('checked')) {
 			$('#selected_categories_cnt').append('<div id="cnt-price-' + $(this).val()+'" class="form-group clearfix"><label for="price-' + $(this).val() + '" class="col-sm-5 control-label">' + $.trim($(this).parent().text())+'</label><div class="col-sm-6"><input type="text" name="RegStep2Form[price][' + $(this).val()+']" class="form-control" id="price-' + $(this).val() + '" placeholder="Укажите стоимость"></div><div class="col-sm-1"><span class="site-reg-remove-price" data-category="' + $(this).val() + '">×</span></div></div>');
@@ -183,11 +184,47 @@ jQuery(function($) {
 		}
 			
 	});
+	*/
+	$('.reg-step2-category').on('click', function(e){
+		if($(this).prop('checked')) {
+			//$('#selected_categories_cnt').append('<div id="cnt-price-' + $(this).val()+'" class="form-group clearfix"><label for="price-' + $(this).val() + '" class="col-sm-5 control-label">' + $.trim($(this).parent().text())+'</label><div class="col-sm-6"><input type="text" name="RegStep2Form[price][' + $(this).val()+']" class="form-control" id="price-' + $(this).val() + '" placeholder="Укажите стоимость"></div><div class="col-sm-1"><span class="site-reg-remove-price" data-category="' + $(this).val() + '">×</span></div></div>');
+			
+			$.ajax({
+				type: 'get',
+				url: '/ajax/get-childrens/'+$(this).val(),
+				data: {},
+				dataType: 'html',
+				beforeSend: function () {
+				},
+				success: function (msg) {
+					$('#selected_categories_cnt').append(msg);
+					
+					if($('#selected_categories').is(':hidden')) {
+						$('#selected_categories').slideDown();
+					}
+					
+				}
+			});
+			
+		}	else	{
+			$('#selected_categories_cnt').find('#cnt-price-' + $(this).val()).remove();
+		}
+		
+			
+	});
 	
+	/*
 	$('#selected_categories_cnt').on('click', '.site-reg-remove-price', function(e){
 		//console.log($(this).data('category'));
 		$('#category-' + $(this).data('category')).prop('checked', false);
 		$('#selected_categories_cnt').find('#cnt-price-' + $(this).data('category')).remove();
+	});
+	*/
+	
+	$('#selected_categories_cnt').on('click', '.site-reg-remove-price', function(e){
+		//console.log($(this).data('category'));
+		//$('#category-' + $(this).data('category')).prop('checked', false);
+		$('#selected_categories_cnt').find('#usluga-price-' + $(this).data('category')).remove();
 	});
 	
 	$('#site-reg-add-new-city').on('click', function(e){

@@ -145,6 +145,12 @@ jQuery(function($) {
         return false;
     });
 		
+    $('#logout-btn').on('click', function (e) {
+		e.preventDefault;
+		$(this).parent().submit();
+        return false;
+    });
+		
 	function ekkoLightboxInit() {
 		$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 			event.preventDefault();
