@@ -12,7 +12,7 @@ use frontend\assets\BootstrapLightboxAsset;
 //use dosamigos\fileupload\FileUploadUI;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\RegStep2Form */
+/* @var $model frontend\models\ProfileAnketaForm  */
 /* @var $form ActiveForm */
 
 
@@ -23,7 +23,7 @@ BootstrapLightboxAsset::register($this);
 //echo'<pre>';print_r($categories);echo'</pre>';
 //echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 
-//$json_str = json_encode(Yii::$app->request->post()['RegStep2Form']);
+//$json_str = json_encode(Yii::$app->request->post()['ProfileAnketaForm ']);
 //echo'<pre>';print_r(json_decode($json_str, 1));echo'</pre>';//die;
 //echo'<pre>';print_r(($json_str));echo'</pre>';//die;
 //echo'<pre>';print_r($model);echo'</pre>';//die;
@@ -32,23 +32,30 @@ $errors = $model->getErrors();
 //echo'<pre>';print_r($errors);echo'</pre>';//die;
 
 
-
 $categories_l2_arr = [];
 ?>
-<div class="site-reg-step2">
-		
-
+<div class="profile_anketa">
   
-  
-<noscript><input type="submit" value="submit" class="button2" /></noscript>
+	<noscript><input type="submit" value="submit" class="button2" /></noscript>
 
 
 	<div class="col-lg-8">  
-	<?php $form = ActiveForm::begin([
-		'options'=> ['enctype' => 'multipart/form-data' ],
-		'enableClientValidation' => false,
-		'id'=>'site-reg-step2-frm',
-	] ); ?>
+		<?php $form = ActiveForm::begin([
+			'options'=> ['enctype' => 'multipart/form-data' ],
+			'enableClientValidation' => false,
+			'id'=>'anketa-frm',
+		] ); ?>
+		
+		<?= $form->field($model, 'fio') ?>
+
+		<?= $form->field($model, 'email') ?>
+
+		<?= $form->field($model, 'phone') ?>
+
+		<?= $form->field($model, 'password') ?>
+
+		<?= $form->field($model, 'passwordRepeat') ?>
+		
 
 		<?= $form->field($model, 'region')->dropDownList($model->regionsDropDownList, [$model->region]) ?>
 		
@@ -76,13 +83,13 @@ $categories_l2_arr = [];
 		
 		
 		<p class="about-field-descr field-descr">Опишите вашу специализацию, квалификацию, любые ваши особенности и требования. Старайтесь писать живым языком, избегая анкетных шаблонов.</p>
-		<?= $form->field($model, 'about')->textarea() ?>
+		<?= $form->field($model, 'about')->textarea(['rows'=>5]) ?>
 		
 		<p class="education-field-descr field-descr">Учреждение, специальность, год окончания. Перечислите через запятую.</p>
-		<?= $form->field($model, 'education')->textarea() ?>
+		<?= $form->field($model, 'education')->textarea(['rows'=>5]) ?>
 		
 		
-		<?= $form->field($model, 'experience')->textarea() ?>
+		<?= $form->field($model, 'experience')->textarea(['rows'=>5]) ?>
 		<?= $form->field($model, 'to_client')->checkbox() ?>
 		
 		<?= $form->field($model, 'category1')->dropDownList($model->categoriesLevel1DropDownList, [$model->category1, 'prompt'=>'Например: строительство']) ?>
@@ -96,7 +103,7 @@ $categories_l2_arr = [];
 						<?php
 							foreach($cat1['children'] as $cat2)	{
 								//$categories_l2_arr[$cat2['id']] = $cat2['name'];
-								echo Html::tag('li', Html::checkbox('RegStep2Form[categories][]', $model->isChecked($cat2['id']), ['label' => $cat2['name'], 'value'=>$cat2['id'], 'id'=>'category-'.$cat2['id'], 'class'=>'reg-step2-category']), ['class'=>'col-lg-4'] );	
+								echo Html::tag('li', Html::checkbox('ProfileAnketaForm [categories][]', $model->isChecked($cat2['id']), ['label' => $cat2['name'], 'value'=>$cat2['id'], 'id'=>'category-'.$cat2['id'], 'class'=>'reg-step2-category']), ['class'=>'col-lg-4'] );	
 							}	
 						?>
 						</ul>
@@ -114,7 +121,7 @@ $categories_l2_arr = [];
 						<label for="price-<?= $cat?>" class="col-sm-5 control-label"><?= $categories_l3[$k]?></label>
 						
 						<div class="col-sm-6">
-							<input type="text" name="RegStep2Form[price][<?= $k?>]" class="form-control" id="price-<?= $k?>" placeholder="Укажите стоимость" value="<?= $cat?>">
+							<input type="text" name="ProfileAnketaForm [price][<?= $k?>]" class="form-control" id="price-<?= $k?>" placeholder="Укажите стоимость" value="<?= $cat?>">
 						</div>
 						
 						<div class="col-sm-1">
@@ -133,7 +140,6 @@ $categories_l2_arr = [];
 			<div class="col-lg-12">
 				<?= $form->field($model, 'price_list')->hiddenInput() ?>
 			</div>
-
 			<div class="col-lg-4">
 				<span id="upload-price-btn" class="button-red">Загрузить</span>
 			</div>
@@ -174,9 +180,9 @@ $categories_l2_arr = [];
 						<li class="item-<?= ($x+1) ?> pull-left" data-item="<?= ($x+1) ?>">
 							<?php 
 								if(isset($model->awards[$x]))	{
-									echo Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->awards[$x]), Url::home(true) . 'tmp/' .$model->awards[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
+									echo Html::a(Html::img(Url::home(true) . Yii::$app->params['awards-path'] . '/thumb_' .$model->awards[$x]), Url::home(true) . Yii::$app->params['awards-path'] .'/' .$model->awards[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
 									echo Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->awards[$x]]);
-									echo Html::input('hidden', 'RegStep2Form[awards][]', $model->awards[$x]);
+									echo Html::input('hidden', 'ProfileAnketaForm [awards][]', $model->awards[$x]);
 								}	else	{
 									echo ($x+1);
 								}	
@@ -207,7 +213,7 @@ $categories_l2_arr = [];
 				</div>
 				<div class="col-lg-5">
 					<span id="avatar-cnt">
-						<?php if($model->avatar) echo Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->avatar), Url::home(true) . 'tmp/' .$model->avatar, ['class' => '', 'data-toggle' => 'lightbox']) ?>
+						<?php if($model->avatar) echo Html::a(Html::img(Url::home(true) . Yii::$app->params['avatars-path'] . '/thumb_' .$model->avatar), Url::home(true) . Yii::$app->params['avatars-path'] . '/' .$model->avatar, ['class' => '', 'data-toggle' => 'lightbox']) ?>
 					</span>
 				</div>
 			</div>
@@ -245,9 +251,9 @@ $categories_l2_arr = [];
 						<li class="item-<?= ($x+1) ?> pull-left" data-item="<?= ($x+1) ?>">
 							<?php 
 								if(isset($model->examples[$x]))	{
-									echo Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->examples[$x]), Url::home(true) . 'tmp/' .$model->examples[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
+									echo Html::a(Html::img(Url::home(true) . Yii::$app->params['examples-path'] .'/thumb_' .$model->examples[$x]), Url::home(true) . Yii::$app->params['examples-path'] .'/' .$model->examples[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
 									echo Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->examples[$x]]);
-									echo Html::input('hidden', 'RegStep2Form[examples][]', $model->examples[$x]);
+									echo Html::input('hidden', 'ProfileAnketaForm [examples][]', $model->examples[$x]);
 								}	else	{
 									echo ($x+1);
 								}	
@@ -257,17 +263,16 @@ $categories_l2_arr = [];
 				</ul>
 			</div>
 		</div>		
-			
-			
+						
 				
 		
 
 		<div class="form-group">
-			<?= Html::submitButton('Продолжить', ['class' => 'button-red']) ?>
+			<?= Html::submitButton('Сохранить изменения', ['class' => 'button-red']) ?>
 		</div>
 	<?php ActiveForm::end(); ?>
 	
 	</div>
 	<div class="col-lg-4"></div>
 
-</div><!-- site-reg-step2 -->
+</div>
