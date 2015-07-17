@@ -13,9 +13,11 @@
 			<div class="col-sm-6">
 				<input type="text" name="RegStep2Form[price][<?= $child->id ?>]" class="form-control" id="price-<?= $child->id ?>" placeholder="Укажите стоимость">
 			</div>
+			<?/*
 			<div class="col-sm-1">
 				<span class="site-reg-remove-price" data-category="<?= $child->id ?>">×</span>
 			</div>
+			*/?>
 		</li>				
 	<?php	}	?>
 	</ul>	

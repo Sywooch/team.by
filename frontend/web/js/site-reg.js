@@ -67,7 +67,7 @@ jQuery(function($) {
 		
 		if(check_presents == false)	allOk = true;
 		
-		console.log(allOk);
+		//console.log(allOk);
 		
 		//return false;
 		if(allOk === false)	{
@@ -185,29 +185,39 @@ jQuery(function($) {
 			
 	});
 	*/
+	var clicked_el = null;
 	$('.reg-step2-category').on('click', function(e){
+		clicked_el = $(this);
 		if($(this).prop('checked')) {
 			//$('#selected_categories_cnt').append('<div id="cnt-price-' + $(this).val()+'" class="form-group clearfix"><label for="price-' + $(this).val() + '" class="col-sm-5 control-label">' + $.trim($(this).parent().text())+'</label><div class="col-sm-6"><input type="text" name="RegStep2Form[price][' + $(this).val()+']" class="form-control" id="price-' + $(this).val() + '" placeholder="Укажите стоимость"></div><div class="col-sm-1"><span class="site-reg-remove-price" data-category="' + $(this).val() + '">×</span></div></div>');
-			
-			$.ajax({
-				type: 'get',
-				url: '/ajax/get-childrens/'+$(this).val(),
-				data: {},
-				dataType: 'html',
-				beforeSend: function () {
-				},
-				success: function (msg) {
-					$('#selected_categories_cnt').append(msg);
-					
-					if($('#selected_categories').is(':hidden')) {
-						$('#selected_categories').slideDown();
+			if($("#category-block-2 ul").is("#cnt-price-" + $(this).val())) {
+				$("#category-block-2 ul").find("#cnt-price-" + $(this).val()).slideDown();
+			} else {
+				$.ajax({
+					type: 'get',
+					url: '/ajax/get-childrens/'+$(this).val(),
+					data: {},
+					dataType: 'html',
+					beforeSend: function () {
+					},
+					success: function (msg) {
+						clicked_el.parent().parent().append(msg);
+						//$('#selected_categories_cnt').append(msg);
+
+						/*
+						if($('#selected_categories').is(':hidden')) {
+							$('#selected_categories').slideDown();
+						}
+						*/
+
 					}
-					
-				}
-			});
+				});
+			}
+			
 			
 		}	else	{
-			$('#selected_categories_cnt').find('#cnt-price-' + $(this).val()).remove();
+			$("#category-block-2 ul").find("#cnt-price-" + $(this).val()).slideUp();
+			//$('#selected_categories_cnt').find('#cnt-price-' + $(this).val()).remove();
 		}
 		
 			

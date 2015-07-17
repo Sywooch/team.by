@@ -220,4 +220,21 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(Region::className(), ['id' => 'region_id']);
     }
 	
+    public function getMedia()
+    {
+		$awards = [];
+		$examples = [];
+		foreach($this->userMedia as $media) {
+			switch($media->media_id)	{
+				case 1:
+					$awards[] = $media->filename;
+					break;
+				case 2:
+					$examples[] = $media->filename;
+					break;
+			}
+		}
+		return['awards'=>$awards, 'examples'=>$examples];
+    }
+	
 }

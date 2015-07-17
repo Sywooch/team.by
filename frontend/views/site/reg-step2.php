@@ -84,6 +84,7 @@ $categories_l2_arr = [];
 		
 		<?= $form->field($model, 'experience')->textarea() ?>
 		<?= $form->field($model, 'to_client')->checkbox() ?>
+		<?= $form->field($model, 'specialization') ?>
 		
 		<?= $form->field($model, 'category1')->dropDownList($model->categoriesLevel1DropDownList, [$model->category1, 'prompt'=>'Например: строительство']) ?>
 		
@@ -92,13 +93,22 @@ $categories_l2_arr = [];
 			<div id="category-block-<?= $cat1['id']?>" class="categories-block" <?php if($model->category1 == $cat1['id']) echo 'style="display:block;"' ?> >
 				<p><?php echo $cat1['name']?></p>
 				<?php if(count($cat1['children']))	{	?>
-						<ul class="row clearix">
+					<?php $col1 = $col2 = '';?>
+						
 						<?php
-							foreach($cat1['children'] as $cat2)	{
-								//$categories_l2_arr[$cat2['id']] = $cat2['name'];
-								echo Html::tag('li', Html::checkbox('RegStep2Form[categories][]', $model->isChecked($cat2['id']), ['label' => $cat2['name'], 'value'=>$cat2['id'], 'id'=>'category-'.$cat2['id'], 'class'=>'reg-step2-category']), ['class'=>'col-lg-4'] );	
+							foreach($cat1['children'] as $i=>$cat2)	{
+								$elem = Html::tag('li', Html::checkbox('RegStep2Form[categories][]', $model->isChecked($cat2['id']), ['label' => $cat2['name'], 'value'=>$cat2['id'], 'id'=>'category-'.$cat2['id'], 'class'=>'reg-step2-category']), ['class'=>'col-lg-6'] );	
+								
+								if ($i % 2 == 0) {
+									$col1 .= $elem;
+								}	else	{
+									$col2 .= $elem;
+								}
+								
 							}	
 						?>
+						
+						<ul class="row clearix">
 						</ul>
 					
 				<?php	}	?>

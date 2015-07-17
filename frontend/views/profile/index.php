@@ -11,7 +11,7 @@ $this->title = $title;
 <h1><?= $title?></h1>
 
 
-<div class="profi_search__tabs">
+<div class="profile__tabs">
 	<?php 
 	echo Tabs::widget([
 		'items' => [

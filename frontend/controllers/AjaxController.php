@@ -167,7 +167,8 @@ class AjaxController extends Controller
 					return;
 				}
 				
-				Image::thumbnail( $model->path. '/' . $model->filename, 75, 90)
+				//Image::thumbnail( $model->path. '/' . $model->filename, 75, 90)
+				Image::thumbnail( $model->path. '/' . $model->filename, 190, 130)
 					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
 				
 				$json_arr['res'] = 'ok';
@@ -193,6 +194,18 @@ class AjaxController extends Controller
 		return $this->renderPartial('children-list', [
 			'model'=>$model,
 			'children'=>$children,
+		]);
+		
+	}
+	
+    public function actionGetSpecFields($id)
+    {
+		$model = Category::findOne($id);
+		//print_r($model);die;
+		//$children = $model->children()->all();
+		return $this->renderPartial('get-spec-fields', [
+			'model'=>$model,
+			//'children'=>$children,
 		]);
 		
 	}

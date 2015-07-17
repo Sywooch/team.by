@@ -10,7 +10,7 @@ if($model->education != '')	{
 	$education_arr = [];
 }
 
-	
+//echo'<pre>';print_r($model->media);echo'</pre>';//die;
 ?>
 
 <div class="clearfix">
@@ -22,10 +22,10 @@ if($model->education != '')	{
 		<div class="catalog-category-list-item__info_row">
 			<p class="catalog-category-list-item__ttl"><?= $model->fio;?></p>	
 			<span class="catalog-category-list-item__rating">Рейтинг: 5 из 5</span>
-			<img src="/images/profi-lbl.png" alt="profi-lbl" class="profi_lbl catalog-category-list-item__profi_lbl" />
+			<img src="/images/profi-gold.png" alt="profi-lbl" class="profi_lbl catalog-category-list-item__profi_lbl" />
 		</div>
 		<div class="catalog-category-list-item__info_row">
-			<span class="catalog-category-list-item__price">Стоимость работ: <?= \Yii::$app->formatter->asDecimal($model->price); ?> руб.</span>
+			<?/*<span class="catalog-category-list-item__price">Стоимость работ: <?= \Yii::$app->formatter->asDecimal($model->price); ?> руб.</span>*/?>
 			<?php if($model->price_list)	{	?>
 				<a class="catalog-category-list-item__pricedownload" href="<?= Url::home(true).Yii::$app->params['pricelists-path'].'/'.$model->price_list?>">Скачать полный прайс</a>
 			<?php }	else	{	?>
@@ -49,19 +49,22 @@ if($model->education != '')	{
 				<div class="col-lg-6">
 					<p class="bold">Виды услуг:</p>
 					<ul class="catalog-category-list-item__uslugi">
+						<?php foreach($model->userSpecials as $spec) echo Html::tag('li', $spec->name) ?>
+						<?/*
 						<li>проектирование</li>
 						<li>планировка</li>
 						<li>установка</li>
 						<li>разнорабочий</li>
 						<li>облицовка</li>
 						<li>выравнивание стен</li>
+						*/?>
 					</ul>
 				</div>
 			</div>
 		</div>
 		<div class="catalog-category-list-item__info_row_bottom">
 			<a href="#" class="catalog-category-list-item__reviews">Отзывы (45)</a>
-			<a href="#" class="catalog-category-list-item__examples">Примеры работ (14)</a>
+			<a href="#" class="catalog-category-list-item__examples">Примеры работ (<?= count($model->media['examples'])?>)</a>
 			
 			<a href="<?= \Yii::$app->urlManager->createUrl(['catalog/show', 'id' => $model->id])?>" class="button-blue btn-short catalog-category-list-item__detail">Подробнее о специалисте</a>
 			<a href="#" class="button-red btn-short catalog-category-list-item__contact">Связаться</a>

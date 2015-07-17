@@ -34,59 +34,79 @@ $errors = $model->getErrors();
 
 $categories_l2_arr = [];
 ?>
-<div class="profile_anketa">
+<div class="profile_anketa row1 clearfix1">
+ 
+ <p class="h1">Личные данные</p>
   
 	<noscript><input type="submit" value="submit" class="button2" /></noscript>
 
 
-	<div class="col-lg-8">  
 		<?php $form = ActiveForm::begin([
 			'options'=> ['enctype' => 'multipart/form-data' ],
 			'enableClientValidation' => false,
 			'id'=>'anketa-frm',
 		] ); ?>
 		
-		<?= $form->field($model, 'fio') ?>
-
-		<?= $form->field($model, 'email') ?>
-
-		<?= $form->field($model, 'phone') ?>
-
-		<?= $form->field($model, 'password') ?>
-
-		<?= $form->field($model, 'passwordRepeat') ?>
 		
-
-		<?= $form->field($model, 'region')->dropDownList($model->regionsDropDownList, [$model->region]) ?>
-		
-		<div class="form-group">
-			<a href="" id="site-reg-add-new-city" class="site-reg__add-new-city">Добавить ещё один город</a>
+		<div class="profile_anketa_row">
+			<div class="row clearfix">
+				<div class="col-lg-6"><?= $form->field($model, 'fio') ?></div>
+				<div class="col-lg-6"><?= $form->field($model, 'email') ?></div>
+				<div class="col-lg-6"><?= $form->field($model, 'phone') ?></div>
+			</div>
 		</div>
 		
-		
-		
-		<div id="site-reg-add-new-city-cnt" class="row clearfix site-reg-add-new-city-cnt">
-			<div class="col-lg-6">
-				<?= $form->field($model, 'region_parent_id')->dropDownList($model->regionsDropDownList, [$model->region]) ?>   
+		<div class="profile_anketa_row">
+			<div class="row clearfix">
+				<div class="col-lg-6"><?= $form->field($model, 'password') ?></div>
+				<div class="col-lg-6"><?= $form->field($model, 'passwordRepeat') ?></div>
 			</div>
-			
-			<div class="col-lg-6">
-				<?= $form->field($model, 'region_name') ?>
-			</div>
-			
-			<?/*
-			<div class="col-lg-4">
-				<a href="#" id="site-reg-add-new-city-btn" class="button-red">Добавить</a>
-			</div>
-			*/?>
 		</div>
 		
+		<div class="profile_anketa_row">
+			<p class="h1">Информация об услугах</p>
 		
-		<p class="about-field-descr field-descr">Опишите вашу специализацию, квалификацию, любые ваши особенности и требования. Старайтесь писать живым языком, избегая анкетных шаблонов.</p>
-		<?= $form->field($model, 'about')->textarea(['rows'=>5]) ?>
+			<div class="row clearfix">
+				<div class="col-lg-6">
+					<?= $form->field($model, 'region')->dropDownList($model->regionsDropDownList, [$model->region]) ?>
+					<div class="form-group">
+						<a href="" id="site-reg-add-new-city" class="site-reg__add-new-city">Добавить ещё один город</a>
+					</div>
+					
+					<div id="site-reg-add-new-city-cnt" class="row clearfix site-reg-add-new-city-cnt">
+						<div class="col-lg-6">
+							<?= $form->field($model, 'region_parent_id')->dropDownList($model->regionsDropDownList, [$model->region]) ?>   
+						</div>
+
+						<div class="col-lg-6">
+							<?= $form->field($model, 'region_name') ?>
+						</div>
+
+					</div>
+					
+				</div>
+				<div class="col-lg-6"></div>
+				<div class="col-lg-12">
+					<p class="about-field-descr field-descr">Опишите вашу специализацию, квалификацию, любые ваши особенности и требования. Старайтесь писать живым языком, избегая анкетных шаблонов.</p>
+					<?= $form->field($model, 'about')->textarea(['rows'=>5]) ?>
+				</div>
+				<div class="col-lg-12">
+					<p class="education-field-descr field-descr">Учреждение, специальность, год окончания. Перечислите через запятую.</p>
+					<?= $form->field($model, 'education')->textarea(['rows'=>5]) ?>
+				</div>
+				<div class="col-lg-12"></div>
+			</div>
+		</div>
 		
-		<p class="education-field-descr field-descr">Учреждение, специальность, год окончания. Перечислите через запятую.</p>
-		<?= $form->field($model, 'education')->textarea(['rows'=>5]) ?>
+
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		<?= $form->field($model, 'experience')->textarea(['rows'=>5]) ?>
@@ -272,7 +292,7 @@ $categories_l2_arr = [];
 		</div>
 	<?php ActiveForm::end(); ?>
 	
-	</div>
-	<div class="col-lg-4"></div>
+
+	
 
 </div>

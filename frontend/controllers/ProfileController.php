@@ -31,13 +31,17 @@ class ProfileController extends Controller
 		
 		$ProfileAnketaForm->attributes = $model->toArray();
 		
-		$userMedia = $this->getMedia($model);	//получам массив с картинками
+		//$userMedia = $this->getMedia($model);	//получам массив с картинками
 		
-		$ProfileAnketaForm->awards = $userMedia['awards'];
-		$ProfileAnketaForm->examples = $userMedia['examples'];
+		$ProfileAnketaForm->awards = $model->media['awards'];
+		$ProfileAnketaForm->examples = $model->media['examples'];
 		
 		//$ProfileAnketaForm->load($model->attributes);
-		echo'<pre>';print_r($ProfileAnketaForm->awards);echo'</pre>';
+		//echo'<pre>';print_r($model);echo'</pre>';
+		
+		//получаем родителя категорий, к которым относится пользователь
+		$parents_cat = $model->userCategories[0]->category->parents(1)->one();	
+		echo'<pre>';print_r($parents_cat);echo'</pre>';
 		
 		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
 		
@@ -97,22 +101,4 @@ class ProfileController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-	
-	public function getMedia($user)
-	{
-		$awards = [];
-		$examples = [];
-		foreach($user->userMedia as $media) {
-			switch($media->media_id)	{
-				case 1:
-					$awards[] = $media->filename;
-					break;
-				case 2:
-					$examples[] = $media->filename;
-					break;
-			}
-		}
-		return['awards'=>$awards, 'examples'=>$examples];
-	}
-
 }

@@ -27,6 +27,7 @@ class RegStep2Form extends Model
     public $avatar;
     public $region_parent_id = 2; // 2 - это ИД Минской области
     public $region_name;
+    public $specialization;
     public $categories = [];
     public $category1;
     public $price = [];
@@ -62,6 +63,8 @@ class RegStep2Form extends Model
 			
             ['region_name', 'string', 'min' => 3, 'max' => 255],
 			
+            ['specialization', 'string', 'min' => 3, 'max' => 200],
+			
 			['category1', 'required', 'message'=>'Выберите вид услуг'],
 			//['price', 'validateEmptyPrices'],
 			[['categories', 'price'], 'safe'],
@@ -93,6 +96,7 @@ class RegStep2Form extends Model
             'awards' => 'Награды, димломы',
             'examples' => 'Примеры ваших работ',
             'to_client' => 'Осуществляем выезд к клиенту',
+            'specialization' => 'Специализация',
             //'' => '',
         ];
     }

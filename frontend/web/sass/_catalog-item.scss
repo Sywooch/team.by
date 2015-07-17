@@ -50,8 +50,13 @@
 	max-width: 400px;
 }
 
-.catalog-item_body__ttl_profi {
-	background: url(../images/profi-lbl.png) no-repeat left top;
+.catalog-item_body__ttl_profi_gold {
+	background: url(../images/profi-gold.png) no-repeat left top;
+	padding-left: 55px;
+}
+
+.catalog-item_body__ttl_profi_silver {
+	background: url(../images/profi-silver.png) no-repeat left top;
 	padding-left: 55px;
 }
 

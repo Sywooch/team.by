@@ -242,3 +242,22 @@
 	
 	
 }
+
+.specialization_cnt {
+	li:first-of-type .site-reg-remove-price {
+		display: none;
+	}
+}
+
+.specialization_cnt_ttl {
+	margin-bottom: 10px;
+}
+
+.add_new_spec_btn {
+	@extend %font_14;
+	@extend %pointer;
+	
+	&:hover {
+		color: $blue3;
+	}
+}
