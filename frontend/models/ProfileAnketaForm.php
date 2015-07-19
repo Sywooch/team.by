@@ -26,13 +26,14 @@ class ProfileAnketaForm extends Model
 	public $phone;
 	public $email;
 	
-	public $password;
+	public $passwordNew;
 	public $passwordRepeat;
 			
 	public $region;
     public $about;
     public $education;
     public $experience;
+    public $specialization;
 	
     public $price_list;
     public $avatar;
@@ -44,6 +45,7 @@ class ProfileAnketaForm extends Model
 	
     public $awards = [];
     public $examples = [];
+	public $usluga = [];
 	
 	public $to_client;
 
@@ -69,8 +71,8 @@ class ProfileAnketaForm extends Model
             ['phone', 'string', 'min' => 7, 'max' => 255],
  									
 			//[['password', 'passwordRepeat'], 'required'],
-			[['password', 'passwordRepeat'], 'string', 'min' => 6],
-			['passwordRepeat', 'compare', 'compareAttribute' => 'password'],
+			[['passwordNew', 'passwordRepeat'], 'string', 'min' => 6],
+			['passwordRepeat', 'compare', 'compareAttribute' => 'passwordNew'],
 			
 			['about', 'required'],
             ['about', 'string', 'min' => 3, 'max' => 2048],
@@ -87,6 +89,8 @@ class ProfileAnketaForm extends Model
 			
             ['region_name', 'string', 'min' => 3, 'max' => 255],
 			
+            ['specialization', 'string', 'min' => 3, 'max' => 200],
+			
 			['category1', 'required', 'message'=>'Выберите вид услуг'],
 			//['price', 'validateEmptyPrices'],
 			[['categories', 'price'], 'safe'],
@@ -95,6 +99,7 @@ class ProfileAnketaForm extends Model
 			['examples', 'each', 'rule' => ['string']],
 			
 			['awards', 'each', 'rule' => ['string']],
+			['usluga', 'each', 'rule' => ['string']],
 			
         ];
     }
@@ -108,7 +113,7 @@ class ProfileAnketaForm extends Model
             'fio' => 'Ваша фамилия, имя и отчество',
             'email' => 'Ваша электронная почта',
             'phone' => 'Ваш номер телефона',
-            'password' => 'Ваш пароль',
+            'passwordNew' => 'Ваш новый пароль',
             'passwordRepeat' => 'Повторите пароль',
 			
             'about' => 'Коротко о себе',
@@ -124,6 +129,7 @@ class ProfileAnketaForm extends Model
             'awards' => 'Награды, димломы',
             'examples' => 'Примеры ваших работ',
             'to_client' => 'Осуществляем выезд к клиенту',
+            'specialization' => 'Специализация',
             //'' => '',
         ];
     }
@@ -143,9 +149,6 @@ class ProfileAnketaForm extends Model
 				$categories2[$categories1[$row->parent_id]][$row->id] = $row->name;
 				//$categories2[] = ['id'=>$row->id, 'text'=>$row->name, 'group'=>$categories1[$row->parent_id]];
 		}
-		
-		//echo'<pre>';print_r($categories1);echo'</pre>';
-		//echo'<pre>';print_r($categories2);echo'</pre>';
 		
 		$categories = $categories2;
 		return $categories;
@@ -169,11 +172,11 @@ class ProfileAnketaForm extends Model
 	
 	public function isChecked($id)
     {
-		$res = '';
+		$res = false;
 		if(count($this->categories))	{
 			foreach($this->categories as $i)	{
 				if($i == $id) {
-					$res = 'checked';
+					$res = true;
 					break;
 				}
 			}
@@ -181,6 +184,21 @@ class ProfileAnketaForm extends Model
 //		/echo'<pre>';print_r($this->categories);echo'</pre>';
 		return $res;
     }
+	
+	public function uslugaIsCheked($id)
+    {
+		$res = false;
+		if(count($this->usluga))	{
+			foreach($this->usluga as $i)	{
+				if($i == $id) {
+					$res = true;
+					break;
+				}
+			}
+		}
+		return $res;
+    }
+	
 	
     public function upload()
     {

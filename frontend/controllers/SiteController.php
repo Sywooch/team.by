@@ -222,9 +222,13 @@ class SiteController extends Controller
 	{
 		$model = new RegStep2Form();
 		
+		//для кооректной загрузки файлов аяксом
+		//устанавливаем с какой моделью будем работать
+		Yii::$app->session->set('profile_model', 'RegStep2Form');	
+		
 		//if(count(Yii::$app->request->post()))
 			
-		//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';die;
+		//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 		if ($model->load(Yii::$app->request->post())) {
 			if ($model->validate()) {
 				$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
@@ -255,7 +259,7 @@ class SiteController extends Controller
 				$user->generateAuthKey();
 				$user->save();
 				
-				//перемщаем фото аватара
+				//перемещаем фото аватара
 				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['avatar']))
 					rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$RegStep2Form['avatar']);
 				
@@ -278,12 +282,14 @@ class SiteController extends Controller
 				}
 				
 				//назначаем ему специализации
-				foreach($RegStep2Form->price as $k=>$p) {
-					$userCategories = new UserSpecials();
-					$userCategories->user_id = $user->id;
-					$userCategories->category_id = $k;
-					$userCategories->price = $p;
-					$userCategories->save();
+				foreach($RegStep2Form->usluga as $k=>$p) {
+					if(isset($RegStep2Form->price[$p])) {
+						$userCategories = new UserSpecials();
+						$userCategories->user_id = $user->id;
+						$userCategories->category_id = $k;
+						$userCategories->price = $RegStep2Form->price[$p];
+						$userCategories->save();
+					}
 				}
 				
 				//добавляем награды, дипломы
@@ -324,7 +330,7 @@ class SiteController extends Controller
 			}
 		}
 		
-		//echo'<pre>';print_r($model);echo'</pre>';die;
+		//echo'<pre>';print_r($model);echo'</pre>';//die;
 		
 		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
 		
@@ -341,7 +347,7 @@ class SiteController extends Controller
 					'children'=>[],
 				];				
 			}	elseif($c->depth > 2)	{
-				$cats_l3[$c->id] = $c->name;
+				$cats_l3[$c->parent_id][$c->id] = $c->name;
 			}
 		}		
 		
@@ -357,6 +363,8 @@ class SiteController extends Controller
 				}
 			}
 		}
+		
+		//echo'<pre>';print_r($cats_l3);echo'</pre>';//die;
 		
 
 		return $this->render('reg-step2', [

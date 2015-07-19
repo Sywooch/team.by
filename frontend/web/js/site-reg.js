@@ -1,6 +1,47 @@
 jQuery(function($) {
-	var upload_award_item_num = 1,
-		upload_example_item_num = 1;
+	
+	//получаем кол-во миниатюр у блока
+	function getImageNum(block) {
+		var count_items = 0,
+			pItems = $('#' + block + ' li'),
+			iLength = pItems.length,
+			i = 0;
+		
+		for(i = 0; i < iLength; i++)	{
+			if($(pItems[i]).data('item') != $(pItems[i]).html()) {
+				count_items++;
+			} else {
+				count_items++;
+				break;
+			}
+		}
+		return count_items;
+	}
+	
+	//переупорядочиваем после удаления список миниатюр у блока
+	function reorderImages(block) {
+		var pItems = $('#' + block + ' li'),
+			iLength = pItems.length,
+			i = 0;
+		
+		if(iLength > 0)	{
+			for(i = 0; i < iLength; i++)	{
+				if($(pItems[i]).data('item') == $(pItems[i]).html() && $(pItems[i+1]).data('item') != $(pItems[i+1]).html()) {
+					$(pItems[i]).html($(pItems[i+1]).html());
+					$(pItems[i+1]).html($(pItems[i+1]).data('item'));
+				}
+			}
+		}
+	}
+	
+	
+	var upload_award_item_num = getImageNum('uploading-awards-list'),
+		upload_example_item_num = getImageNum('uploading-examples-list'),
+		clicked_el = null;
+	
+	//console.log(upload_award_item_num);
+	//console.log(upload_example_item_num);
+	
 	
 	var upload_price = new AjaxUpload('#upload-price-btn', {
 		action: '/ajax/upload-price',
@@ -26,10 +67,9 @@ jQuery(function($) {
 		}
 	});
 
-	$('#site-reg-step2-frm').on('submit', function(){
+	$('#site-reg-step2-frm, #anketa-frm').on('submit', function() {
 		var allOk = false,
 			check_presents = false;
-		//console.log('12111');
 		
 		$('.categories-block').each(function(){
 			if($(this).is(':visible')) {
@@ -41,36 +81,45 @@ jQuery(function($) {
 				
 				if(allOk === false)	{
 					$(this).append('<span class="categories-block-error small">Отметьте выполняемые услуги</span>')
+				} else {
+					$(this).find('.reg-step2-category').each(function(){
+						
+						if($(this).prop('checked')) {
+							check_presents = false;
+							$(this).parent().parent().next('ul').children('li').each(function(){
+								$(this).removeClass('has-error');
+								if($(this).find('input:checkbox').prop('checked')) {
+									check_presents = true;
+									if($(this).find('input:text').val() == '') {
+										allOk = false;
+										$(this).addClass('has-error');
+									}
+								} else {
+									if($(this).find('input:text').val() != '') {
+										allOk = false;
+										check_presents = false;
+										$(this).addClass('has-error');
+									}									
+								}
+							});
+						}
+					});
+					if(check_presents == false)	{
+						$(this).append('<span class="categories-block-error small">Укажите выполняемые услуги</span>')
+						allOk = false;
+					} else if(allOk === false)	{
+						$(this).append('<span class="categories-block-error small">Укажите цены на выполняемые услуги</span>')
+					}
 				}
-				
-				check_presents = true;
 			}
 		});
-		
-		if(allOk === true && $('#selected_categories').is(':visible'))	{
-			
-			allOk = true;
-			
-			$('#selected_categories_cnt').find('.selected_categories-block-error').remove();
-			
-			$('#selected_categories_cnt .form-control').each(function() {
-				check_presents = true;
 				
-				if($(this).val() == '')	 allOk = false;
-			});
-			
-			if(allOk === false)	{
-				$('#selected_categories_cnt').append('<span class="selected_categories-block-error small">Укажите цены на выполняемые услуги</span>')
-			}
-			
-		}
-		
-		if(check_presents == false)	allOk = true;
-		
-		//console.log(allOk);
-		
 		//return false;
 		if(allOk === false)	{
+			$('html, body').animate({
+				scrollTop: $("#category-block-2").offset().top
+			}, 1000);
+			
 			return false;
 		}	else	{
 			return true;
@@ -157,39 +206,33 @@ jQuery(function($) {
 	$('#uploading-awards').on('click', '.remove-uploaded-file', function(e){
 		e.preventDefault();
 		$(this).parent().html($(this).parent().data('item'));
-		upload_award_item_num--;
+				
+		reorderImages('uploading-awards-list');
+		upload_award_item_num = getImageNum('uploading-awards-list');
+		
 		if(upload_award_item_num < 9)	$('#upload-examples-btn').css('visibility', 'visible');
 		return false;
 	});
 	
-	$('#site-reg-step2-frm').on('click', '.remove-uploaded-file', function(e){
+	$('#uploading-examples-list').on('click', '.remove-uploaded-file', function(e){
 		e.preventDefault();
 		$(this).parent().html($(this).parent().data('item'));
-		upload_example_item_num--;
+		
+		reorderImages('uploading-examples-list');
+		upload_example_item_num = getImageNum('uploading-examples-list');
+
 		if(upload_example_item_num < 9)	$('#upload-examples-btn').css('visibility', 'visible');
 		return false;
 	});
 	
 	
-	/*
-	$('.reg-step2-category').on('click', function(e){
-		if($(this).prop('checked')) {
-			$('#selected_categories_cnt').append('<div id="cnt-price-' + $(this).val()+'" class="form-group clearfix"><label for="price-' + $(this).val() + '" class="col-sm-5 control-label">' + $.trim($(this).parent().text())+'</label><div class="col-sm-6"><input type="text" name="RegStep2Form[price][' + $(this).val()+']" class="form-control" id="price-' + $(this).val() + '" placeholder="Укажите стоимость"></div><div class="col-sm-1"><span class="site-reg-remove-price" data-category="' + $(this).val() + '">×</span></div></div>');
-		}	else	{
-			$('#selected_categories_cnt').find('#cnt-price-' + $(this).val()).remove();
-		}
-		
-		if($('#selected_categories').is(':hidden')) {
-			$('#selected_categories').slideDown();
-		}
-			
-	});
-	*/
-	var clicked_el = null;
-	$('.reg-step2-category').on('click', function(e){
+
+	
+	$('input.reg-step2-category').on('change', function(e){
 		clicked_el = $(this);
+		
+		$(this).parent().parent().toggleClass('category-block-checked');
 		if($(this).prop('checked')) {
-			//$('#selected_categories_cnt').append('<div id="cnt-price-' + $(this).val()+'" class="form-group clearfix"><label for="price-' + $(this).val() + '" class="col-sm-5 control-label">' + $.trim($(this).parent().text())+'</label><div class="col-sm-6"><input type="text" name="RegStep2Form[price][' + $(this).val()+']" class="form-control" id="price-' + $(this).val() + '" placeholder="Укажите стоимость"></div><div class="col-sm-1"><span class="site-reg-remove-price" data-category="' + $(this).val() + '">×</span></div></div>');
 			if($("#category-block-2 ul").is("#cnt-price-" + $(this).val())) {
 				$("#category-block-2 ul").find("#cnt-price-" + $(this).val()).slideDown();
 			} else {
@@ -201,39 +244,17 @@ jQuery(function($) {
 					beforeSend: function () {
 					},
 					success: function (msg) {
-						clicked_el.parent().parent().append(msg);
-						//$('#selected_categories_cnt').append(msg);
-
-						/*
-						if($('#selected_categories').is(':hidden')) {
-							$('#selected_categories').slideDown();
-						}
-						*/
-
+						clicked_el.parent().parent().parent().append(msg);
+						clicked_el.parent().parent().parent().children('ul').find('input:checkbox').styler();
 					}
 				});
 			}
-			
-			
 		}	else	{
 			$("#category-block-2 ul").find("#cnt-price-" + $(this).val()).slideUp();
-			//$('#selected_categories_cnt').find('#cnt-price-' + $(this).val()).remove();
 		}
-		
-			
 	});
 	
-	/*
 	$('#selected_categories_cnt').on('click', '.site-reg-remove-price', function(e){
-		//console.log($(this).data('category'));
-		$('#category-' + $(this).data('category')).prop('checked', false);
-		$('#selected_categories_cnt').find('#cnt-price-' + $(this).data('category')).remove();
-	});
-	*/
-	
-	$('#selected_categories_cnt').on('click', '.site-reg-remove-price', function(e){
-		//console.log($(this).data('category'));
-		//$('#category-' + $(this).data('category')).prop('checked', false);
 		$('#selected_categories_cnt').find('#usluga-price-' + $(this).data('category')).remove();
 	});
 	
@@ -256,7 +277,14 @@ jQuery(function($) {
 		$('#selected_categories_cnt').html('');
 		$('#selected_categories').hide();
 		$('#category-block-' + $(this).val()).show();
-		
+	});
+	
+	$('#profile_delete_btn').on('click', function(e) {
+		if(confirm('Вы действительно хотите удалить аккаунт?'))	{
+			return true;
+		} else {
+			return false;
+		}
 		
 	});
 	

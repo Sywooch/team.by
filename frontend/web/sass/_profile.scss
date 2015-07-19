@@ -1,0 +1,98 @@
+.profile-page {
+	h1 {
+		padding-top: 25px;
+		padding-bottom: 25px;
+	}
+}
+
+.profile__tabs {
+	@extend .mb-60;
+	
+	.h1 {
+		padding-top: 0;
+	}
+	
+	.nav-tabs {
+		border-color: $blue3;
+		
+		li {
+			a {
+				@extend .mr-15;
+				@extend .dinpro-b;
+				
+				background-color: $gray22;
+				color: $gray16;
+				border-bottom: 1px solid $blue3;
+			}
+		}
+		
+		li:hover,
+		li.active {
+			&>a {
+				@extend %c_fff;
+				
+				
+				background-color: $blue3;
+				border-color: $blue3;
+			}
+		}
+	}
+	
+	.tab-content {
+		@include box-shadow(0px 2px 6px #aaa);
+		
+		padding: 35px;
+	}
+}
+
+
+.profile_anketa {
+	.jq-selectbox__select-text,
+	textarea,
+	input[type="text"] {
+		@extend %italic;
+	}
+	
+	.field-profileanketaform-about > label,
+	.field-profileanketaform-education > label {
+		margin-bottom: 35px;
+	}
+	
+	.education-field-descr,
+	.about-field-descr {
+		margin-top: 25px;
+	}
+
+}
+
+.profile_anketa_row {
+	@extend .mb-30;
+	@extend .pb-20;
+	border-bottom: 1px solid #ececec;
+	
+}
+.field-profileanketaform-avatar {
+	.help-block {
+		@extend %hide;
+	}
+}
+
+.profile_delete_profile_cnt {
+	@extend .mt-40;
+	
+	@include border-radius(5px);
+	
+	padding: 25px;
+	border: 1px solid $gray8;
+}
+
+.profile_delete_btn {
+	@extend %fr;
+}
+
+#uploading-examples,
+#uploading-awards {
+	.uploading-info {
+		width: 60%;
+	}
+}

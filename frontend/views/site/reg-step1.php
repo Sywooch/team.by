@@ -3,14 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-use frontend\assets\RegAsset;
-
-RegAsset::register($this);
-
-/* @var $this yii\web\View */
-/* @var $model frontend\models\RegStep1Form */
-/* @var $form ActiveForm */
-
 $this->title = 'Личные данные';
 ?>
 <div class="site-reg-step1">

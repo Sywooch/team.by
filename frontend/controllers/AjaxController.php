@@ -51,6 +51,8 @@ class AjaxController extends Controller
     public function actionUploadPrice()
     {
         $model = new UploadPriceForm();
+		
+		$profile_model = Yii::$app->session->get('profile_model', 'RegStep2Form');
 
         if (Yii::$app->request->isPost) {
             $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
@@ -58,7 +60,7 @@ class AjaxController extends Controller
             if ($model->upload()) {
 				
 				$json_arr['res'] = 'ok';
-				$json_arr['filename'] = Html::input('hidden', 'RegStep2Form[price_list]', $model->filename);
+				$json_arr['filename'] = Html::input('hidden', $profile_model.'[price_list]', $model->filename);
 				
 				echo Json::htmlEncode($json_arr);
                 return;
@@ -72,6 +74,8 @@ class AjaxController extends Controller
     public function actionUploadAwards()
     {
         $model = new UploadAwardsForm();
+		
+		$profile_model = Yii::$app->session->get('profile_model', 'RegStep2Form');
 
         if (Yii::$app->request->isPost) {
 			
@@ -94,7 +98,7 @@ class AjaxController extends Controller
 					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
 				
 				$json_arr['res'] = 'ok';
-				$json_arr['filename'] = Html::input('hidden', 'RegStep2Form[awards][]', $model->filename);
+				$json_arr['filename'] = Html::input('hidden', $profile_model.'[awards][]', $model->filename);
 				//$json_arr['file'] = Url::home(true) . 'tmp/' .$model->filename;
 				//$json_arr['thumb_file'] = Url::home(true) . 'tmp/thumb_' .$model->filename;
 				$json_arr['html_file'] = Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->filename), Url::home(true) . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
@@ -113,6 +117,8 @@ class AjaxController extends Controller
     public function actionUploadAvatar()
     {
         $model = new UploadAvatarForm();
+		
+		$profile_model = Yii::$app->session->get('profile_model', 'RegStep2Form');
 
         if (Yii::$app->request->isPost) {
 			
@@ -135,8 +141,8 @@ class AjaxController extends Controller
 					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
 				
 				$json_arr['res'] = 'ok';
-				$json_arr['filename'] = Html::input('hidden', 'RegStep2Form[avatar]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->filename), Url::home(true) . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
+				$json_arr['filename'] = Html::input('hidden', $profile_model.'[avatar]', $model->filename);
+				$json_arr['html_file'] = Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->filename, ['class'=>'img-responsive']), Url::home(true) . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
 				
 				echo Json::htmlEncode($json_arr);
 
@@ -151,6 +157,8 @@ class AjaxController extends Controller
     public function actionUploadExamples()
     {
         $model = new UploadExamplesForm();
+		
+		$profile_model = Yii::$app->session->get('profile_model', 'RegStep2Form');
 
         if (Yii::$app->request->isPost) {
 			
@@ -172,7 +180,7 @@ class AjaxController extends Controller
 					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
 				
 				$json_arr['res'] = 'ok';
-				$json_arr['filename'] = Html::input('hidden', 'RegStep2Form[examples][]', $model->filename);
+				$json_arr['filename'] = Html::input('hidden', $profile_model.'[examples][]', $model->filename);
 				$json_arr['html_file'] = Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->filename), Url::home(true) . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
 				$json_arr['html_file_remove'] = Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->filename]);
 				

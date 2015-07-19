@@ -9,7 +9,11 @@
 	<ul id="cnt-price-<?= $model->id ?>">
 	<?php	foreach($children as $child)	{	?>
 		<li id="usluga-price-<?= $child->id ?>" class="form-group clearfix">
-			<label for="price-<?= $child->id ?>" class="col-sm-5 control-label"><?= $child->name ?></label>
+			<div class="col-sm-5">
+				<input type="checkbox" name="RegStep2Form[usluga][]" id="usluga-<?= $child->id ?>" value="<?= $child->id ?>" />
+				<label for="usluga-<?= $child->id ?>" class="control-label"><?= $child->name ?></label>
+			</div>
+			
 			<div class="col-sm-6">
 				<input type="text" name="RegStep2Form[price][<?= $child->id ?>]" class="form-control" id="price-<?= $child->id ?>" placeholder="Укажите стоимость">
 			</div>

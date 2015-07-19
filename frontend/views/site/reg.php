@@ -2,9 +2,9 @@
 //use yii\helpers\Html;
 use yii\helpers\Url;
 
-use frontend\assets\RegAsset;
+//use frontend\assets\RegAsset;
 
-RegAsset::register($this);
+//RegAsset::register($this);
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -30,7 +30,7 @@ $this->title = 'Стать специалистом';
         		<input type="checkbox" id="rules_agree"> С <a href="#">правилами публичной оферты</a> и <a href="#">Условиями<br>использования</a> ознакомлен и согласен
         	</p>
         	<p class="site_reg__btn_cnt">
-        		<a href="<?= Url::toRoute('/site/reg-step1')?>" class="button-red">Начать регистрацию</a>
+        		<a href="<?= Url::toRoute('/site/reg-step1')?>" id="begin-reg" class="button-red">Начать регистрацию</a>
         	</p>
         	
         	

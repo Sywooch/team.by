@@ -15,7 +15,7 @@ use yii\web\UploadedFile;
 
 
 /**
- * RegStep1 form
+ * RegStep2 form
  */
 class RegStep2Form extends Model
 {
@@ -34,6 +34,7 @@ class RegStep2Form extends Model
 	
     public $awards = [];
     public $examples = [];
+    public $usluga = [];
 	
 	public $to_client;
 
@@ -73,6 +74,7 @@ class RegStep2Form extends Model
 			['examples', 'each', 'rule' => ['string']],
 			
 			['awards', 'each', 'rule' => ['string']],
+			['usluga', 'each', 'rule' => ['string']],
 			
         ];
     }
@@ -175,6 +177,20 @@ class RegStep2Form extends Model
 			}
 		}
 //		/echo'<pre>';print_r($this->categories);echo'</pre>';
+		return $res;
+    }
+	
+	public function uslugaIsCheked($id)
+    {
+		$res = false;
+		if(count($this->usluga))	{
+			foreach($this->usluga as $i)	{
+				if($i == $id) {
+					$res = true;
+					break;
+				}
+			}
+		}
 		return $res;
     }
 	

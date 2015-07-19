@@ -1,4 +1,15 @@
 jQuery(function($) {
+	function ekkoLightboxInit() {
+		$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+			event.preventDefault();
+			$(this).ekkoLightbox({loadingMessage:'<p style="padding:20px;font-weight:bold;">Загрузка...</p>'});
+		}); 				
+		
+	}
+	
+	ekkoLightboxInit();
+	
+	
 	//$("[data-toggle='tooltip']").tooltip();
 	//$("[data-toggle='popover']").popover();
 	
@@ -151,16 +162,14 @@ jQuery(function($) {
         return false;
     });
 		
-	function ekkoLightboxInit() {
-		$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
-			event.preventDefault();
-			$(this).ekkoLightbox({loadingMessage:'<p style="padding:20px;font-weight:bold;">Загрузка...</p>'});
-		}); 				
 		
-	}
+	$('#begin-reg').on('click', function(e){
+		if($('#rules_agree').prop('checked') === false) {
+			e.preventDefault();
+			return false;
+		}	
+	});
 	
-	ekkoLightboxInit();
-		
 	
 	
 });

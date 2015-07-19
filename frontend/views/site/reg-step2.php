@@ -1,24 +1,21 @@
 <?php
+/* @var $this yii\web\View */
+/* @var $model frontend\models\RegStep2Form */
+/* @var $form ActiveForm */
 
 use yii\helpers\Html;
 use yii\helpers\Url;
 
 use yii\widgets\ActiveForm;
 
-use frontend\assets\RegAsset;
-use frontend\assets\RegStep2Asset;
-use frontend\assets\BootstrapLightboxAsset;
-//use dosamigos\fileupload\FileUpload;
-//use dosamigos\fileupload\FileUploadUI;
+//use frontend\assets\RegAsset;
+//use frontend\assets\RegStep2Asset;
+///use frontend\assets\BootstrapLightboxAsset;
 
-/* @var $this yii\web\View */
-/* @var $model frontend\models\RegStep2Form */
-/* @var $form ActiveForm */
-
-
-RegAsset::register($this);
-RegStep2Asset::register($this);
-BootstrapLightboxAsset::register($this);
+\frontend\assets\RegAsset::register($this);
+\frontend\assets\RegStep2Asset::register($this);
+\frontend\assets\BootstrapLightboxAsset::register($this);
+\frontend\assets\FormStylerAsset::register($this);
 
 //echo'<pre>';print_r($categories);echo'</pre>';
 //echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
@@ -60,7 +57,7 @@ $categories_l2_arr = [];
 		
 		<div id="site-reg-add-new-city-cnt" class="row clearfix site-reg-add-new-city-cnt">
 			<div class="col-lg-6">
-				<?= $form->field($model, 'region_parent_id')->dropDownList($model->regionsDropDownList, [$model->region]) ?>   
+				<?= $form->field($model, 'region_parent_id')->dropDownList($model->regionsLevel1DropDownList, [$model->region_parent_id]) ?>   
 			</div>
 			
 			<div class="col-lg-6">
@@ -76,68 +73,21 @@ $categories_l2_arr = [];
 		
 		
 		<p class="about-field-descr field-descr">Опишите вашу специализацию, квалификацию, любые ваши особенности и требования. Старайтесь писать живым языком, избегая анкетных шаблонов.</p>
-		<?= $form->field($model, 'about')->textarea() ?>
+		<?= $form->field($model, 'about')->textarea(['rows'=>5]) ?>
 		
 		<p class="education-field-descr field-descr">Учреждение, специальность, год окончания. Перечислите через запятую.</p>
-		<?= $form->field($model, 'education')->textarea() ?>
+		<?= $form->field($model, 'education')->textarea(['rows'=>5]) ?>
 		
 		
-		<?= $form->field($model, 'experience')->textarea() ?>
+		<?= $form->field($model, 'experience')->textarea(['rows'=>5]) ?>
+		
 		<?= $form->field($model, 'to_client')->checkbox() ?>
+		
 		<?= $form->field($model, 'specialization') ?>
 		
-		<?= $form->field($model, 'category1')->dropDownList($model->categoriesLevel1DropDownList, [$model->category1, 'prompt'=>'Например: строительство']) ?>
 		
-		
-		<?php foreach($categories as $cat1)	{	?>
-			<div id="category-block-<?= $cat1['id']?>" class="categories-block" <?php if($model->category1 == $cat1['id']) echo 'style="display:block;"' ?> >
-				<p><?php echo $cat1['name']?></p>
-				<?php if(count($cat1['children']))	{	?>
-					<?php $col1 = $col2 = '';?>
-						
-						<?php
-							foreach($cat1['children'] as $i=>$cat2)	{
-								$elem = Html::tag('li', Html::checkbox('RegStep2Form[categories][]', $model->isChecked($cat2['id']), ['label' => $cat2['name'], 'value'=>$cat2['id'], 'id'=>'category-'.$cat2['id'], 'class'=>'reg-step2-category']), ['class'=>'col-lg-6'] );	
-								
-								if ($i % 2 == 0) {
-									$col1 .= $elem;
-								}	else	{
-									$col2 .= $elem;
-								}
-								
-							}	
-						?>
-						
-						<ul class="row clearix">
-						</ul>
-					
-				<?php	}	?>
-			</div>				
-		<?php	}	?>
-		
-		
-		<div id="selected_categories" class="selected_categories form-horizontal solid-border-block" <?php if(count($model->price)) echo 'style="display:block;"' ?> >
-			<div class="selected_categories_ttl">Выбранные рубрики</div>
-			<div id="selected_categories_cnt">
-				<?php foreach($model->price as $k=>$cat) {	?>
-					<div id="cnt-price-<?= $cat?>" class="form-group clearfix">
-						<label for="price-<?= $cat?>" class="col-sm-5 control-label"><?= $categories_l3[$k]?></label>
-						
-						<div class="col-sm-6">
-							<input type="text" name="RegStep2Form[price][<?= $k?>]" class="form-control" id="price-<?= $k?>" placeholder="Укажите стоимость" value="<?= $cat?>">
-						</div>
-						
-						<div class="col-sm-1">
-							<span class="site-reg-remove-price" data-category="<?= $k?>">×</span>
-						</div>
-					</div>
-				<?php }	?>
-			</div>
-		</div>
-		
-		
-		<?//= $form->field($model, 'price_list') ?>
-		
+		<?= $this->render('@app/views/profile/_categories-block', ['form'=>$form, 'model'=>$model, 'categories'=>$categories, 'categories_l3'=>$categories_l3, 'model_name'=>'RegStep2Form' ])?>
+				
 		<div id="uploading-price" class="form-group row clearfix">
 			<?/*<label class="reg-step2-uploading-ttl col-lg-12"><?php echo $model->getAttributeLabel('price_list'); ?></label>*/?>
 			<div class="col-lg-12">
