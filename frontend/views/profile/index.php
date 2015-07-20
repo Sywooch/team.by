@@ -31,7 +31,7 @@ $this->title = $title;
 				],
 				[
 					'label' => 'Моё расписание',
-					'content' => $this->render('_shedule', ['model' => $call_time], false, true),
+					'content' => $this->render('_shedule', ['model' => $call_time, 'weekends' => $weekends], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
 					'options' => ['class' => 'tab_profile__shedule']
 				],

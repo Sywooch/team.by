@@ -69,6 +69,15 @@ jQuery(function($) {
 		}
 	});
 
+	$('#set-weekend-frm').on('submit', function() {
+		//console.log ($("#setweekendform-weekedns").datepicker("getDate"));
+		$('#setweekendform-weekedns').datepicker('show');
+		//$('#setweekendform-weekedns').click();
+		//console.log $("#etweekendform-weekedns").datepicker("setDate", new Date)
+		return false;
+	});
+	
+	
 	$('#site-reg-step2-frm, #anketa-frm').on('submit', function() {
 		var allOk = false,
 			check_presents = false;
@@ -302,5 +311,36 @@ jQuery(function($) {
 		$('#activity').val($(this).data('active'));
 		$('#set-activity-frm').submit();
 	});
+	/*
+	$('.profile__tabs .nav-tabs a').on('click', function(e){
+		//if($(this).attr('href') == '#w0-tab2') $('#setweekendform-weekedns').datepicker('show');
+		if($(this).attr('href') == '#w0-tab2') $('#set-weekend-frm').submit();;
+	});
+	*/
+	/*
+	$('.profile__tabs .nav-tabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		if($(this).attr('href') == '#w0-tab2') {
+			$('#w0').datepicker('show');
+			$('#setweekendform-weekedns').click();
+			//$('#w0').datepicker('update');
+		}
+		//if($(this).attr('href') == '#w0-tab2') $('#setweekendform-weekedns').click;
+	  //e.target // newly activated tab
+	  //e.relatedTarget // previous active tab
+	});
+	*/
+	/*
+	$('input[name="Test"]').on('change', function(e) {
+		console.log($(this).val());
+		
+	});
+	*/
+	$('input[name="Test"]').parent().datepicker().on('changeDate', function(e){
+       	console.log(e.date.getDate());
+       	console.log(e.date.getFullYear());
+       	console.log((e.date.getMonth()+1));
+		//console.log($('input[name="Test"]').val());
+    });
+	
 	
 });

@@ -278,3 +278,20 @@
 .set-call-time-cnt {
 	margin: 85px 0 110px 290px;
 }
+
+.tab_profile__reviews {
+	padding-bottom: 25px;
+	
+	.reviews_list {
+		margin-bottom: 0;
+	}
+	
+	.reviews_item {
+		padding-left: 25px;
+		padding-right: 25px;
+		&:last-of-type {
+			padding-bottom: 25px;
+		}
+	}
+	
+}

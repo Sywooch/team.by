@@ -32,7 +32,7 @@ class ProfileController extends Controller
 		
 		$ProfileAnketaForm = new ProfileAnketaForm();
 
-		//для кооректной загрузки файлов аяксом
+		//для коректной загрузки файлов аяксом
 		//устанавливаем с какой моделью будем работать		
 		Yii::$app->session->set('profile_model', 'ProfileAnketaForm');
 		
@@ -148,6 +148,8 @@ class ProfileController extends Controller
 		$call_time->call_from  = $model->call_time_from;
 		$call_time->call_to = $model->call_time_to;
 		
+		$weekends = new \frontend\models\SetWeekEndForm();
+		
 		//echo'<pre>';print_r($ProfileAnketaForm);echo'</pre>';//die;
 		
 		
@@ -157,6 +159,7 @@ class ProfileController extends Controller
 			'categories' => $cats_l1,
 			'categories_l3' => $cats_l3,
 			'call_time' => $call_time,
+			'weekends' => $weekends,
 			
 		]);
 		

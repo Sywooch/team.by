@@ -131,29 +131,29 @@ foreach($model->userMedia as $media)	{
 	
 	<div class="catalog-item__reviews">
 		<p class="catalog-item__ttl">Отзывы клиентов (9)</p>
-		<ul class="catalog-item__reviews_list">
-			<li class="catalog-item__reviews_item">
+		<ul class="reviews_list">
+			<li class="reviews_item">
 				<div class="row clearfix">
 					<div class="col-lg-4 clearfix">
-						<div class="catalog-item__review_value_cnt">
-							<p class="catalog-item__review_value">4<span>оценка</span></p>
+						<div class="reviews_item__value_cnt">
+							<p class="reviews_item__value">4<span>оценка</span></p>
 						</div>
 
-						<div class="catalog-item__review_created_cnt">
-							<p class="catalog-item__review_created">24 декабря</p>
-							<p class="catalog-item__review_name">Сокольников Николай</p>
+						<div class="reviews_item__created_cnt">
+							<p class="reviews_item__created">24 декабря</p>
+							<p class="reviews_item__name">Сокольников Николай</p>
 							<p>Компания Лосины и молнии</p>
 							<p>Должность: Директор</p>
 						</div>
 					</div>
 					<div class="col-lg-8">
-						<div class="catalog-item__review_text_cnt">
-							<div class="catalog-item__review_text">В бюджет от этих граждан уже поступило 1,1 миллиарда рублей единого налога. Самым потом пулярным среди заявленных видов деятельности оказались услуги репетиторов. Их оказывает 811 человек. В бюджет от этих граждан уже поступило.</div>
-							<div class="catalog-item__review_foto">
-								<ul class="item__review_foto_list">
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'item__review_foto_item']); ?>
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'item__review_foto_item']); ?>
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'item__review_foto_item']); ?>
+						<div class="reviews_item__text_cnt">
+							<div class="reviews_item__review_text">В бюджет от этих граждан уже поступило 1,1 миллиарда рублей единого налога. Самым потом пулярным среди заявленных видов деятельности оказались услуги репетиторов. Их оказывает 811 человек. В бюджет от этих граждан уже поступило.</div>
+							<div class="reviews_item__review_foto">
+								<ul class="reviews_item__foto_list">
+									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
+									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
+									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
 								</ul>
 							</div>
 						</div>
@@ -161,28 +161,28 @@ foreach($model->userMedia as $media)	{
 				</div>
 			</li>
 			
-			<li class="catalog-item__reviews_item">
+			<li class="reviews_item">
 				<div class="row clearfix">
 					<div class="col-lg-4 clearfix">
-						<div class="catalog-item__review_value_cnt">
-							<p class="catalog-item__review_value">4<span>оценка</span></p>
+						<div class="reviews_item__value_cnt">
+							<p class="reviews_item__value">4<span>оценка</span></p>
 						</div>
 
-						<div class="catalog-item__review_created_cnt">
-							<p class="catalog-item__review_created">24 декабря</p>
-							<p class="catalog-item__review_name">Сокольников Николай</p>
+						<div class="reviews_item__created_cnt">
+							<p class="reviews_item__created">24 декабря</p>
+							<p class="reviews_item__name">Сокольников Николай</p>
 							<p>Компания Лосины и молнии</p>
 							<p>Должность: Директор</p>
 						</div>
 					</div>
 					<div class="col-lg-8">
-						<div class="catalog-item__review_text_cnt">
-							<div class="catalog-item__review_text">В бюджет от этих граждан уже поступило 1,1 миллиарда рублей единого налога. Самым потом пулярным среди заявленных видов деятельности оказались услуги репетиторов. Их оказывает 811 человек. В бюджет от этих граждан уже поступило.</div>
-							<div class="catalog-item__review_foto">
-								<ul class="item__review_foto_list">
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'item__review_foto_item']); ?>
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'item__review_foto_item']); ?>
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'item__review_foto_item']); ?>
+						<div class="reviews_item__text_cnt">
+							<div class="reviews_item__review_text">В бюджет от этих граждан уже поступило 1,1 миллиарда рублей единого налога. Самым потом пулярным среди заявленных видов деятельности оказались услуги репетиторов. Их оказывает 811 человек. В бюджет от этих граждан уже поступило.</div>
+							<div class="reviews_item__review_foto">
+								<ul class="reviews_item__foto_list">
+									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
+									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
+									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
 								</ul>
 							</div>
 						</div>
@@ -190,34 +190,35 @@ foreach($model->userMedia as $media)	{
 				</div>
 			</li>
 			
-			<li class="catalog-item__reviews_item">
+			<li class="reviews_item">
 				<div class="row clearfix">
 					<div class="col-lg-4 clearfix">
-						<div class="catalog-item__review_value_cnt">
-							<p class="catalog-item__review_value">4<span>оценка</span></p>
+						<div class="reviews_item__value_cnt">
+							<p class="reviews_item__value">4<span>оценка</span></p>
 						</div>
 
-						<div class="catalog-item__review_created_cnt">
-							<p class="catalog-item__review_created">24 декабря</p>
-							<p class="catalog-item__review_name">Сокольников Николай</p>
+						<div class="reviews_item__created_cnt">
+							<p class="reviews_item__created">24 декабря</p>
+							<p class="reviews_item__name">Сокольников Николай</p>
 							<p>Компания Лосины и молнии</p>
 							<p>Должность: Директор</p>
 						</div>
 					</div>
 					<div class="col-lg-8">
-						<div class="catalog-item__review_text_cnt">
-							<div class="catalog-item__review_text">В бюджет от этих граждан уже поступило 1,1 миллиарда рублей единого налога. Самым потом пулярным среди заявленных видов деятельности оказались услуги репетиторов. Их оказывает 811 человек. В бюджет от этих граждан уже поступило.</div>
-							<div class="catalog-item__review_foto">
-								<ul class="item__review_foto_list">
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'item__review_foto_item']); ?>
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'item__review_foto_item']); ?>
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'item__review_foto_item']); ?>
+						<div class="reviews_item__text_cnt">
+							<div class="reviews_item__review_text">В бюджет от этих граждан уже поступило 1,1 миллиарда рублей единого налога. Самым потом пулярным среди заявленных видов деятельности оказались услуги репетиторов. Их оказывает 811 человек. В бюджет от этих граждан уже поступило.</div>
+							<div class="reviews_item__review_foto">
+								<ul class="reviews_item__foto_list">
+									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
+									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
+									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
 								</ul>
 							</div>
 						</div>
 					</div>
 				</div>
 			</li>
+			
 			
 		</ul>
 		
