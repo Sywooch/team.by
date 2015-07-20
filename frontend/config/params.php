@@ -9,4 +9,7 @@ return [
 	],
 	
 	'catlist-per-page' => 5,
+	
+	'call_time_from' => 8,	//время для связи
+	'call_time_to' => 20,
 ];

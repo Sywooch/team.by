@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Menu;
+use yii\widgets\ActiveForm;
 
 use yii\bootstrap\Modal;
 use yii\bootstrap\Nav;
@@ -119,8 +120,18 @@ if($current_controller == 'site' && $current_action == 'index') $show_header_row
 			</div>
 			
 			<div class="footer__buttons">
-				<a href="#" class="button-gray footer__reg_btn">Стать специалистом</a>
-				<a href="#" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
+				<?php if (\Yii::$app->user->isGuest) {	?>
+					<a href="<?= Url::toRoute('/site/reg')?>" class="button-gray footer__reg_btn">Стать специалистом</a>
+					<a href="<?= Url::toRoute('/site/login')?>" id="login-modal-footer" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
+				<?	}	else	{	?>
+					<?php $form = ActiveForm::begin(['action'=>['/site/logout']]); ?>						
+						<a id="logout-btn-footer" class="button-gray footer__logout_btn" href="<?= Url::toRoute('/site/logout')?>">Выйти из системы</a>
+					<?php ActiveForm::end(); ?>
+				
+				
+					<?/*<a href="<?= Url::toRoute('/site/reg')?>" class="button-gray footer__reg_btn">Стать специалистом</a>*/?>
+					<a href="<?= Url::toRoute('/profile')?>" id="login-modal-footer" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
+				<?	}	?>
 			</div>
 
 

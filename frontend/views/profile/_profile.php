@@ -27,7 +27,7 @@ $errors = $model->getErrors();
 
 $categories_l2_arr = [];
 ?>
-<div class="profile_anketa row1 clearfix1">
+<div class="profile_anketa">
  
  <p class="h1">Личные данные</p>
   
@@ -182,7 +182,7 @@ $categories_l2_arr = [];
 					<div id="uploading-awards-list" class="uploading-tmb-list">
 						<ul>
 							<?php for ($x=0; $x<=9; $x++) { ?>
-								<li class="item-<?= ($x+1) ?> pull-left" data-item="<?= ($x+1) ?>">
+								<li class="item-<?= ($x+1) ?> pull-left <?php echo (!isset($model->awards[$x])) ? 'no-foto' : '' ?>" data-item="<?= ($x+1) ?>">
 									<?php 
 										if(isset($model->awards[$x]))	{
 											echo Html::a(Html::img(Url::home(true) . Yii::$app->params['awards-path'] . '/thumb_' .$model->awards[$x]), Url::home(true) . Yii::$app->params['awards-path'] .'/' .$model->awards[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
@@ -226,7 +226,7 @@ $categories_l2_arr = [];
 					<div id="uploading-examples-list" class="uploading-tmb-list">
 						<ul>
 							<?php for ($x=0; $x<=9; $x++) { ?>
-								<li class="item-<?= ($x+1) ?> pull-left" data-item="<?= ($x+1) ?>">
+								<li class="item-<?= ($x+1) ?> pull-left <?php echo (!isset($model->examples[$x])) ? 'no-foto' : '' ?>" data-item="<?= ($x+1) ?>">
 									<?php 
 										if(isset($model->examples[$x]))	{
 											echo Html::a(Html::img(Url::home(true) . Yii::$app->params['examples-path'] .'/thumb_' .$model->examples[$x]), Url::home(true) . Yii::$app->params['examples-path'] .'/' .$model->examples[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);

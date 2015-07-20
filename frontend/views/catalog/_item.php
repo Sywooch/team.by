@@ -10,7 +10,8 @@ if($model->education != '')	{
 	$education_arr = [];
 }
 
-//echo'<pre>';print_r($model->media);echo'</pre>';//die;
+//echo'<pre>';print_r($specials);echo'</pre>';//die;
+//echo'<pre>';print_r($model->userSpecials);echo'</pre>';die;
 ?>
 
 <div class="clearfix">
@@ -49,7 +50,11 @@ if($model->education != '')	{
 				<div class="col-lg-6">
 					<p class="bold">Виды услуг:</p>
 					<ul class="catalog-category-list-item__uslugi">
-						<?php foreach($model->userSpecials as $spec) echo Html::tag('li', $spec->name) ?>
+						<?php 
+							foreach($model->userSpecials as $spec) {
+								if(isset($specials[$spec->category_id])) echo Html::tag('li', $specials[$spec->category_id]);
+							}
+						?>
 						<?/*
 						<li>проектирование</li>
 						<li>планировка</li>

@@ -57,7 +57,7 @@ body {
 }
 
 
-.button-gray,
+.button-gray, 
 .button-blue,
 .button-red {
 	@extend %dib;
@@ -104,6 +104,30 @@ body {
 	line-height: 40px;
 	&:hover {
 		@extend .btn-gray-h;
+	}
+}
+
+.button-light {
+	@extend %dib;
+	@extend %underline_n_n;
+	@extend .dinpro-b;
+
+	@include transition-property(background-color);
+	@include transition-duration(200ms);
+	@include box-shadow(0 3px 5px #e7e7e7);
+	@include border-radius(5px);
+	
+	color: $gray6;
+	padding: 0 20px;
+	border: 1px solid $gray23;
+	border-bottom: 1px solid $gray24;
+	background-color: #fefefe;
+	height: 43px;
+	line-height: 40px;
+		
+	&:hover {
+		background-color: darken(#fefefe, 2%);
+		color: $gray6;
 	}
 }
 

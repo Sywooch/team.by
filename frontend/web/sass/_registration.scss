@@ -229,6 +229,11 @@
 		height: 47px;
 		border: 1px solid $gray14;
 	}
+	.no-foto {
+		@extend .hide-text;
+		background: url(../images/tmb-no-foto.png) no-repeat;
+		background-size: cover;
+	}
 	
 	img {
 		width: 60px;

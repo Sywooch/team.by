@@ -21,30 +21,31 @@ $this->title = $title;
 					'content' => $this->render('_profile', ['model'=>$ProfileAnketaForm, 'categories' => $categories, 'categories_l3'=>$categories_l3], false, true),
 					'active' => true,
 					'linkOptions' => ['class' => 'profi_search_tabs__tab1'],
+					'options' => ['class' => 'tab_profile_anketa']
 				],
 				[
 					'label' => 'Мои заказы',
 					'content' => $this->render('_orders', [], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
-					'options' => ['class' => 'profi_search_tab__zakaz']
+					'options' => ['class' => 'tab_profile_orders']
 				],
 				[
 					'label' => 'Моё расписание',
-					'content' => $this->render('_shedule', [], false, true),
+					'content' => $this->render('_shedule', ['model' => $call_time], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
-					'options' => ['class' => 'profi_search_tab__zakaz']
+					'options' => ['class' => 'tab_profile__shedule']
 				],
 				[
 					'label' => 'Мои отзывы',
 					'content' => $this->render('_reviews', [], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
-					'options' => ['class' => 'profi_search_tab__zakaz']
+					'options' => ['class' => 'tab_profile__reviews']
 				],
 				[
 					'label' => 'Способ оплаты',
 					'content' => $this->render('_payment', [], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
-					'options' => ['class' => 'profi_search_tab__zakaz']
+					'options' => ['class' => 'tab_profile__payment']
 				],
 			]
 		]);			

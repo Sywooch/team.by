@@ -9,7 +9,7 @@ use yii\bootstrap\ButtonDropdown;
 use yii\widgets\ActiveForm;
 
 
-
+//echo'<pre>';print_r($specials);echo'</pre>';die;
 $this->title = $category->name .' | '. Yii::$app->params['sitename'];
 
 //echo'<pre>';print_r($dataProvider);echo'</pre>';
@@ -71,6 +71,7 @@ $this->params['breadcrumbs'][] = $category->name;
 		'options' => ['class' => 'list-view catalog-category-list-view'],
 		'itemOptions' => ['class'=>'catalog-category-list-item'],
 		'layout' => '{pager}{items}{pager}',
+		'viewParams'=> ['specials'=>$specials],
 	] );
 	?>
 

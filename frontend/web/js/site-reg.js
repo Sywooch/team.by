@@ -29,6 +29,8 @@ jQuery(function($) {
 				if($(pItems[i]).data('item') == $(pItems[i]).html() && $(pItems[i+1]).data('item') != $(pItems[i+1]).html()) {
 					$(pItems[i]).html($(pItems[i+1]).html());
 					$(pItems[i+1]).html($(pItems[i+1]).data('item'));
+					//$(pItems[i]).toggleClass('no-foto');
+					//$(pItems[i+1]).toggleClass('no-foto');
 				}
 			}
 		}
@@ -142,6 +144,7 @@ jQuery(function($) {
 
 			if(response.res == 'ok') {
 				$('#uploading-awards-list .item-' + upload_award_item_num).html(response.html_file + response.html_file_remove + response.filename);
+				$('#uploading-awards-list .item-' + upload_award_item_num).toggleClass('no-foto');
 				upload_award_item_num++;
 				if(upload_award_item_num > 9)	$('#upload-awards-btn').css('visibility', 'hidden');
 			} else {
@@ -191,6 +194,7 @@ jQuery(function($) {
 
 			if(response.res == 'ok') {
 				$('#uploading-examples-list .item-' + upload_example_item_num).html(response.html_file + response.html_file_remove + response.filename);
+				$('#uploading-examples-list .item-' + upload_example_item_num).toggleClass('no-foto');
 				upload_example_item_num++;
 				if(upload_example_item_num > 9)	$('#upload-examples-btn').css('visibility', 'hidden');
 			} else {
@@ -210,7 +214,10 @@ jQuery(function($) {
 		reorderImages('uploading-awards-list');
 		upload_award_item_num = getImageNum('uploading-awards-list');
 		
-		if(upload_award_item_num < 9)	$('#upload-examples-btn').css('visibility', 'visible');
+		var pItems = $('#uploading-awards-list li');		
+		$(pItems[upload_award_item_num-1]).toggleClass('no-foto');
+		
+		if(upload_award_item_num < 10)	$('#upload-examples-btn').css('visibility', 'visible');
 		return false;
 	});
 	
@@ -221,7 +228,10 @@ jQuery(function($) {
 		reorderImages('uploading-examples-list');
 		upload_example_item_num = getImageNum('uploading-examples-list');
 
-		if(upload_example_item_num < 9)	$('#upload-examples-btn').css('visibility', 'visible');
+		var pItems = $('#uploading-examples-list li');		
+		$(pItems[upload_example_item_num-1]).toggleClass('no-foto');
+		
+		if(upload_example_item_num < 10)	$('#upload-examples-btn').css('visibility', 'visible');
 		return false;
 	});
 	
@@ -288,5 +298,9 @@ jQuery(function($) {
 		
 	});
 	
+	$('#activity-btn').on('click', function(e){
+		$('#activity').val($(this).data('active'));
+		$('#set-activity-frm').submit();
+	});
 	
 });

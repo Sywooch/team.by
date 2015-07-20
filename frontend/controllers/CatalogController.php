@@ -12,6 +12,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use yii\helpers\ArrayHelper;
+
 class CatalogController extends Controller
 {
     public function behaviors()
@@ -136,6 +138,9 @@ class CatalogController extends Controller
 			],
 		]);
 		
+		$specials = Category::find()->where('depth > 2')->orderBy('lft, rgt')->all();
+		$specials = ArrayHelper::map($specials, 'id', 'name');
+		
 		$categories_history = Yii::$app->session->get('categories_history', []);
 		//echo'<pre>';print_r($categories_history);echo'</pre>';
 		foreach($DataProvider->models as $model)	{
@@ -151,6 +156,7 @@ class CatalogController extends Controller
 			'dataProvider'=>$DataProvider,
 			'current_ordering'=>$current_ordering,
 			'ordering_items'=>$ordering_items,
+			'specials'=>$specials,
 		]);
     }    
  

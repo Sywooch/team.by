@@ -23,7 +23,7 @@ jQuery(function($) {
 		function(){$('#currency_select__popup').stop(true,true).fadeOut();}
 	);
 	
-    $('#login-modal').on('click', function (e) {
+    $('#login-modal, #login-modal-footer').on('click', function (e) {
         var url = $(this).attr('href')+"?modal=1",
             modal = $('.modal');
 		
@@ -156,7 +156,7 @@ jQuery(function($) {
         return false;
     });
 		
-    $('#logout-btn').on('click', function (e) {
+    $('#logout-btn, #logout-btn-footer').on('click', function (e) {
 		e.preventDefault;
 		$(this).parent().submit();
         return false;

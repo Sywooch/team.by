@@ -107,7 +107,7 @@ $categories_l2_arr = [];
 				<span id="loading-price-success" class="reg-step2-loading-price-success">Загружено</span>
 			</div>
 			
-			<p id="loading-price-errormes" class="reg-step2-loading-errors col-lg-12 "></p>
+			<p id="loading-price-errormes" class="reg-step2-loading-errors col-lg-12"></p>
 		</div>		
 		
 		<div id="uploading-awards" class="form-group clearfix">
@@ -130,8 +130,8 @@ $categories_l2_arr = [];
 
 			<div id="uploading-awards-list" class="uploading-tmb-list">
 				<ul>
-					<?php for ($x=0; $x<=8; $x++) { ?>
-						<li class="item-<?= ($x+1) ?> pull-left" data-item="<?= ($x+1) ?>">
+					<?php for ($x=0; $x<=9; $x++) { ?>
+						<li class="item-<?= ($x+1) ?> pull-left <?php echo (!isset($model->awards[$x])) ? 'no-foto' : '' ?>" data-item="<?= ($x+1) ?>">
 							<?php 
 								if(isset($model->awards[$x]))	{
 									echo Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->awards[$x]), Url::home(true) . 'tmp/' .$model->awards[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
@@ -201,8 +201,8 @@ $categories_l2_arr = [];
 
 			<div id="uploading-examples-list" class="uploading-tmb-list">
 				<ul>
-					<?php for ($x=0; $x<=8; $x++) { ?>
-						<li class="item-<?= ($x+1) ?> pull-left" data-item="<?= ($x+1) ?>">
+					<?php for ($x=0; $x<=9; $x++) { ?>
+						<li class="item-<?= ($x+1) ?> pull-left <?php echo (!isset($model->examples[$x])) ? 'no-foto' : '' ?>" data-item="<?= ($x+1) ?>">
 							<?php 
 								if(isset($model->examples[$x]))	{
 									echo Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->examples[$x]), Url::home(true) . 'tmp/' .$model->examples[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);

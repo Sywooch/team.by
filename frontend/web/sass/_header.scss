@@ -254,6 +254,29 @@ a.currency_select__usd_active {
 		left: 18px;
 		top: 14px;
 	}
+}
+
+.autorization_h__logout {
+	@extend %db;
+	@extend %ico;
+	@extend %pos_rel;
+
+	height: 27px;
+	line-height: 27px;
+	padding-left: 35px;
+	
+	&:before {
+		@extend .ico-logout;
+		left: 0;
+		top: 0;
+	}
+
+	&:focus,
+	&:active,	
+	&:hover {
+		@extend %c_fff;
+	}
+	
 	
 
 	

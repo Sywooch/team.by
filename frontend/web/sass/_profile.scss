@@ -40,9 +40,12 @@
 	
 	.tab-content {
 		@include box-shadow(0px 2px 6px #aaa);
-		
-		padding: 35px;
 	}
+}
+
+.tab_profile__shedule,
+.tab_profile_anketa {
+	padding: 35px;
 }
 
 
@@ -95,4 +98,183 @@
 	.uploading-info {
 		width: 60%;
 	}
+}
+
+
+.profile_top_block {
+	@include box-shadow(0 3px 5px #d3d3d3);
+	
+	padding: 20px 0;
+	border-bottom: 2px solid #e6e6e6;
+	background-color: #f8f8f8;
+}
+
+.profile_top_block__list {
+	@extend .clearfix;
+	
+	.button-light {
+		@extend .mr-10;
+	}
+}
+
+.profile_top_block__notice {
+	@extend %ico;
+	
+	padding-left: 50px;
+	
+	&:before {
+		@extend .ico-email;
+		
+		left: 20px;
+		top: 50%;
+		margin-top: -7px;
+	}
+}
+
+.profile_top_block__contact {
+	@extend %ico;
+	
+	padding-left: 50px;
+	
+	&:before {
+		@extend .ico-contact;
+		
+		left: 20px;
+		top: 50%;
+		margin-top: -13px;
+	}
+}
+
+.profile_top_block__documents {
+	@extend %ico;
+	
+	padding-left: 50px;
+	
+	&:before {
+		@extend .ico-document;
+		
+		left: 20px;
+		top: 50%;
+		margin-top: -11px;
+	}
+}
+
+.profile_top_block__activity {
+	@extend .dinpro-b;
+	line-height: 46px;
+	
+	span:first-of-type {
+		@extend .pl-10;
+	}
+}
+
+.profile_top_block__item_active {
+	color: $blue7;
+}
+
+.profile_top_block__status__no_active {
+	@extend %ico;
+	@extend %pointer;
+	
+	color: $gray5;
+	padding-left: 65px;
+	
+	&:before {
+		@extend .ico-profile-active;
+		left: 0;
+		top: -7px;
+	}
+}
+
+.profile_top_block__status__active {
+	@extend %ico;
+	@extend %pointer;
+	
+	color: $gray5;
+	padding-right: 65px;
+	
+	&:before {
+		@extend .ico-profile-noactive;
+		right: 0;
+		top: -7px;
+	}
+}
+
+.profile_orders_row {
+	padding: 30px;
+	border-bottom: 1px solid $gray9;
+}
+
+.profile_order_num {
+	@extend .dinpro-b;
+	@extend .mb-5;
+	
+}
+
+.order_status_ok,
+.order_status_wait,
+.order_status_warning {
+	@extend %ico;
+	@extend %font_15;
+	@extend .dinpro-m;
+	@extend .mb-5;
+	
+	padding-left: 25px;
+	height: 18px;
+	line-height: 18px;	
+}
+
+.order_status_wait{
+	color: $yellow1;
+	
+	&:before {
+		@extend .ico-order-wait;
+		left: 0;
+		top: 0;
+	}
+}
+
+.order_status_ok {
+	color: $green1;
+	
+	&:before {
+		@extend .ico-order-ok;
+		left: 0;
+		top: 0;
+	}
+}
+
+.order_status_warning{
+	color: $red3;
+	
+	&:before {
+		@extend .ico-order-warning;
+		left: 0;
+		top: 0;
+	}
+}
+
+.order_item_fee {
+	@extend %font_15;
+	@extend .dinpro-b;
+	@extend .mb-10;
+}
+
+.order_item_fee_warning {
+	color: $red3;
+}
+
+.profile_shedule_ttl {
+	@extend .dinpro-b;
+	@extend %font_18;
+	@extend .mb-15;
+}
+
+.profile_shedule_call_time {
+	background: url(../images/clock.png) no-repeat left 40px;
+	height: 450px;
+}
+
+.set-call-time-cnt {
+	margin: 85px 0 110px 290px;
 }

@@ -144,6 +144,10 @@ class ProfileController extends Controller
 			}
 		}
 		
+		$call_time = new \frontend\models\CallTimeForm();
+		$call_time->call_from  = $model->call_time_from;
+		$call_time->call_to = $model->call_time_to;
+		
 		//echo'<pre>';print_r($ProfileAnketaForm);echo'</pre>';//die;
 		
 		
@@ -152,6 +156,7 @@ class ProfileController extends Controller
 			'ProfileAnketaForm' => $ProfileAnketaForm,
 			'categories' => $cats_l1,
 			'categories_l3' => $cats_l3,
+			'call_time' => $call_time,
 			
 		]);
 		
@@ -165,6 +170,45 @@ class ProfileController extends Controller
 		
 		return $this->render('profile-delete');
 	}
+	
+    public function actionSetActivity()
+	{
+        if (\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+		
+		$activity = (int) Yii::$app->request->post('activity', 1);
+		$return_url = (string) Yii::$app->request->post('return_url', '');
+		
+		if($activity == 1 || $activity == 0) {
+			$model = User::findOne(\Yii::$app->user->id);
+			$model->is_active = $activity;
+			$model->save(false);
+			return $this->redirect($return_url);
+		}	else	{
+			return $this->goHome();
+		}
+	}
+	
+    public function actionSetCalltime()
+	{
+        if (\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+		
+		$model = new \frontend\models\CallTimeForm();
+
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+				$user = User::findOne(\Yii::$app->user->id);
+				$user->call_time_from = $model->call_from;
+				$user->call_time_to = $model->call_to;
+				$user->save(false);
+			}
+		}
+		return $this->redirect('/profile');
+	}
+	
 		
     /**
      * Finds the Category model based on its primary key value.
