@@ -55,14 +55,6 @@ if($model->education != '')	{
 								if(isset($specials[$spec->category_id])) echo Html::tag('li', $specials[$spec->category_id]);
 							}
 						?>
-						<?/*
-						<li>проектирование</li>
-						<li>планировка</li>
-						<li>установка</li>
-						<li>разнорабочий</li>
-						<li>облицовка</li>
-						<li>выравнивание стен</li>
-						*/?>
 					</ul>
 				</div>
 			</div>

@@ -11,7 +11,7 @@ use yii\helpers\Url;
 				<a href="#" class="button-light profile_top_block__notice">Уведомления</a>
 			</li>
 			<li class="pull-left profile_top_block__item">
-				<a href="#" class="button-light profile_top_block__contact">Связь с администрацией</a>
+				<a href="<?= Url::to(['profile/to-administration'])?>" class="button-light profile_top_block__contact">Связь с администрацией</a>
 			</li>
 			<li class="pull-left profile_top_block__item">
 				<a href="#" class="button-light profile_top_block__documents">Документы</a>
@@ -30,7 +30,10 @@ use yii\helpers\Url;
 						<span id="activity-btn" class="profile_top_block__status__active" data-active="1">Активен</span>
 						<span class="profile_top_block__item_active">Неактивен</span>					
 					<?php	}	?>
-				<?php ActiveForm::end(); ?>				
+				<?php ActiveForm::end(); ?>	
+				
+				<div id="profile_header__popup" class="profile_header__popup popup_block">В <b>неактивном статусе</b> вы не<br>сможете принимать заявки.</div>
+										
 			</li>
 		</ul>
 	</div>

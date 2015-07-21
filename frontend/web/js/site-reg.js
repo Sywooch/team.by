@@ -70,11 +70,25 @@ jQuery(function($) {
 	});
 
 	$('#set-weekend-frm').on('submit', function() {
-		//console.log ($("#setweekendform-weekedns").datepicker("getDate"));
-		$('#setweekendform-weekedns').datepicker('show');
-		//$('#setweekendform-weekedns').click();
-		//console.log $("#etweekendform-weekedns").datepicker("setDate", new Date)
-		return false;
+		var dates = ['13-07-2015', '15.07.2015'],
+			dates_d = [],
+			dates_n = [],
+			i = 0;
+		
+		//$('#weekend-input').parent().datepicker('setDates', ['13-07-2015', '15.07.2015']);
+		//return false;
+		
+		dates_d = $('#weekend-input').parent().datepicker('getDates');
+		//console.log(dates_d);
+		
+
+		for(i = 0; i < dates_d.length; i++)	{
+			dates_n.push(dates_d[i].format("yyyy-mm-dd"));
+		}
+		//console.log(dates_n.join(';'));
+		$('#setweekendform-weekends').val(dates_n.join(';'));
+		//console.log($('#setweekendform-weekends').val());
+		//return false;
 	});
 	
 	
@@ -311,36 +325,11 @@ jQuery(function($) {
 		$('#activity').val($(this).data('active'));
 		$('#set-activity-frm').submit();
 	});
-	/*
-	$('.profile__tabs .nav-tabs a').on('click', function(e){
-		//if($(this).attr('href') == '#w0-tab2') $('#setweekendform-weekedns').datepicker('show');
-		if($(this).attr('href') == '#w0-tab2') $('#set-weekend-frm').submit();;
-	});
-	*/
-	/*
-	$('.profile__tabs .nav-tabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-		if($(this).attr('href') == '#w0-tab2') {
-			$('#w0').datepicker('show');
-			$('#setweekendform-weekedns').click();
-			//$('#w0').datepicker('update');
-		}
-		//if($(this).attr('href') == '#w0-tab2') $('#setweekendform-weekedns').click;
-	  //e.target // newly activated tab
-	  //e.relatedTarget // previous active tab
-	});
-	*/
-	/*
-	$('input[name="Test"]').on('change', function(e) {
-		console.log($(this).val());
-		
-	});
-	*/
-	$('input[name="Test"]').parent().datepicker().on('changeDate', function(e){
-       	console.log(e.date.getDate());
-       	console.log(e.date.getFullYear());
-       	console.log((e.date.getMonth()+1));
-		//console.log($('input[name="Test"]').val());
-    });
+	
+	$('#activity-btn').hover(
+		function(){$('#profile_header__popup').stop(true,true).fadeIn();},
+		function(){$('#profile_header__popup').stop(true,true).fadeOut();}
+	);
 	
 	
 });

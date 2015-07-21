@@ -215,6 +215,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(UserMedia::className(), ['user_id' => 'id']);
     }
 	
+    public function getUserWeekend()
+    {
+        return $this->hasMany(UserWeekend::className(), ['user_id' => 'id']);
+	}
+	
     public function getUserRegion()
     {
         return $this->hasOne(Region::className(), ['id' => 'region_id']);

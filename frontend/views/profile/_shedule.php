@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\View;
 
 use yii\widgets\ActiveForm;
 
@@ -10,6 +11,15 @@ use dosamigos\datepicker\DatePicker;
 //use dosamigos\datepicker\DateRangePicker;
 
 //echo'<pre>';var_dump($model->callHours);echo'</pre>';die;
+$js = "
+if($('#setweekendform-weekends').val() != '') {
+	var weekend_arr = $('#setweekendform-weekends').val().split(';');
+	$('#weekend-input').parent().datepicker('setDates', weekend_arr);
+}
+
+";
+
+$this->registerJs($js, View::POS_LOAD, 'shedule');
 ?>
 
 <div class="profile_shedule">
@@ -17,45 +27,38 @@ use dosamigos\datepicker\DatePicker;
 		<div class="col-lg-6 profile_shedule_weekends">
 			<p class="profile_shedule_ttl">Мои выходные</p>
 
-			<p>Работать с нами легко и удобно. Здесь вы можете настроить свое рабочее расписание. Если вы хотите избежать лишних звонков в отпуске или по праздникам - просто отметьте эти дни в календаре.</p>
-				<div>
-				<?= DatePicker::widget([
-					'name' => 'Test',
-					'value' => '02-16-2012',
-					'template' => '{addon}{input}',
-					'inline'=> true,
-						'clientOptions' => [
-							'language'=> 'ru',
-							'autoclose' => false,
-							'format' => 'dd-mm-yyyy',
-							'multidate'=> true,
-						]
-				]);?>
-					</div>
-						
-			<?php $form = ActiveForm::begin(['action'=>Url::to(['profile/set-weekend']), 'id'=>'set-weekend-frm']); ?>
 			
-				
-				
-				<?/*= $form->field($weekends, 'weekedns')->widget(
-					DatePicker::className(), [
-						// inline too, not bad
-						//'inline' => true, 
-						 // modify template for custom rendering
-						//'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
+				<div>
+					<?= DatePicker::widget([
+						'name' => 'Test',
+						'id' => 'weekend-input',
+						//'value' => '02-16-2012',
 						'template' => '{addon}{input}',
-						'clientOptions' => [
-							'language'=> 'ru',
-							'autoclose' => false,
-							'format' => 'dd-mm-yyyy',
-							'multidate'=> true,
-							
-						]
-				]);*/?>				
+						'inline'=> true,
+							'clientOptions' => [
+								'language'=> 'ru',
+								'autoclose' => false,
+								'format' => 'dd-mm-yyyy',
+								'multidate'=> true,
+								'enableOnReadonly' => true,
+							]
+					]);?>
+				</div>
+						
+				<?php $form = ActiveForm::begin([
+					'action'=>Url::to(['profile/set-weekend']), 
+					'id'=>'set-weekend-frm',
+					'enableClientValidation' => false,
+				]); ?>
+			
+				<?= $form->field($weekends, 'weekends')->hiddenInput();?>
+				
 				<div class="form-group">
 					<?= Html::submitButton('Сохранить', ['class' => 'button-red btn-short']) ?>
 				</div>
 			<?php ActiveForm::end(); ?>
+			
+			<p class="mb-20">Работать с нами легко и удобно. Здесь вы можете настроить свое рабочее расписание. Если вы хотите избежать лишних звонков в отпуске или по праздникам - просто отметьте эти дни в календаре.</p>			
 			
 			<p class="dinpro-b">Наши операторы всегда будут видеть, когда вы готовы работать</p>
 		</div>

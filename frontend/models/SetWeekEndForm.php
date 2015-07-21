@@ -7,7 +7,7 @@ use Yii;
 
 class SetWeekEndForm extends Model
 {
-    public $weekedns;
+    public $weekends;
 
     /**
      * @inheritdoc
@@ -15,8 +15,8 @@ class SetWeekEndForm extends Model
     public function rules()
     {
         return [
-			[['weekedns'], 'required'],
-            ['weekedns', 'string', 'max' => 1024],
+			[['weekends'], 'required'],
+            ['weekends', 'string', 'max' => 1024],
         ];
     }
 	

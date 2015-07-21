@@ -148,10 +148,14 @@ class ProfileController extends Controller
 		$call_time->call_from  = $model->call_time_from;
 		$call_time->call_to = $model->call_time_to;
 		
+		$weekends_arr = [];
+		//foreach($model->userWeekend as $item) $weekends_arr[] = $item->weekend;
+		//foreach($model->userWeekend as $item) $weekends_arr[] = Yii::$app->formatter->asDate(($item->weekend), 'php:m-d-yy');
+		foreach($model->userWeekend as $item) $weekends_arr[] = Yii::$app->formatter->asDate(($item->weekend), 'php:d-m-yy');
+		
+		
 		$weekends = new \frontend\models\SetWeekEndForm();
-		
-		//echo'<pre>';print_r($ProfileAnketaForm);echo'</pre>';//die;
-		
+		$weekends->weekends = implode(';',$weekends_arr);
 		
 		return $this->render('index', [
 			'model' => $model,
@@ -212,7 +216,75 @@ class ProfileController extends Controller
 		return $this->redirect('/profile');
 	}
 	
+    //установить выходные
+	public function actionSetWeekend()
+	{
+        if (\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
 		
+		$model = new \frontend\models\SetWeekEndForm();
+		//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';die;
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+				
+				//получаем ранее сохраненные выходные
+				$weekends_prev = [];
+				$user = User::findOne(\Yii::$app->user->id);
+				foreach($user->userWeekend as $item) $weekends_prev[] = $item->weekend;
+				$weekends_prev_str = implode(';', $weekends_prev);
+				
+				//если не совпадают с текущими то обновляем
+				if($weekends_prev != $model->weekends) {
+					foreach($user->userWeekend as $item) $item->delete();
+					
+					$weekedns_arr = explode(';', $model->weekends);				
+					foreach($weekedns_arr as $item) {
+						if($item != '') {
+							$item_arr = explode('-', $item);
+							//echo'<pre>';print_r($item_arr);echo'</pre>';die;
+							$userWeekEnd = new \common\models\UserWeekend();
+							$userWeekEnd->user_id = \Yii::$app->user->id;
+							$userWeekEnd->weekend = mktime(00, 00, 00, $item_arr[1], $item_arr[2], $item_arr[0]);
+							$userWeekEnd->save();
+							//echo'<pre>';print_r($userWeekEnd);echo'</pre>';die;
+						}
+					}
+					Yii::$app->session->setFlash('success', 'Выходные успешно обновлены.');
+				}
+			}	else	{
+				Yii::$app->session->setFlash('error', 'При сохранении возникла ошибка');
+			}
+		}
+		return $this->redirect('/profile');
+	}
+	
+
+	public function actionToAdministration()
+	{
+        if (\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
+		$model = new \frontend\models\ToAdministrationForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+			$user = User::findOne(\Yii::$app->user->id);
+			$model->fio = $user->fio;
+            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+                Yii::$app->session->setFlash('success', 'Ваше сообщение успешно отправлено');
+            } else {
+                Yii::$app->session->setFlash('error', 'При отправке сообщения возникла ошибка');
+            }
+
+            return $this->refresh();
+        } else {
+            return $this->render('to-administration', [
+                'model' => $model,
+            ]);
+        }
+		
+	}
+	
     /**
      * Finds the Category model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

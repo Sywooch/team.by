@@ -20,6 +20,7 @@ class DatePickerRuAsset extends AssetBundle
     public $css = [];
     public $js = [
 		'js/bootstrap-datepicker.ru.js',
+		'js/date.format.js',
     ];
     public $depends = [
 		//'dosamigos\datepicker\DatePicker\DatePickerAsset',

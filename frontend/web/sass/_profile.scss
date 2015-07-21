@@ -43,9 +43,12 @@
 	}
 }
 
-.tab_profile__shedule,
 .tab_profile_anketa {
 	padding: 35px;
+}
+
+.tab_profile__shedule {
+	padding: 35px 20px;
 }
 
 
@@ -160,6 +163,7 @@
 }
 
 .profile_top_block__activity {
+	@extend %pos_rel;
 	@extend .dinpro-b;
 	line-height: 46px;
 	
@@ -270,13 +274,25 @@
 	@extend .mb-15;
 }
 
+.profile_shedule_weekends {
+	border-right: 1px solid $gray25;
+	
+	.datepicker-inline {
+		@extend .mb-20;
+	}
+}
+
 .profile_shedule_call_time {
-	background: url(../images/clock.png) no-repeat left 40px;
+	background: url(../images/clock.png) no-repeat 20px 40px;
 	height: 450px;
+	
+	& > p {
+		@extend .ml-20;
+	}
 }
 
 .set-call-time-cnt {
-	margin: 85px 0 110px 290px;
+	margin: 85px 0 110px 310px;
 }
 
 .tab_profile__reviews {
@@ -294,4 +310,140 @@
 		}
 	}
 	
+}
+
+.field-setweekendform-weekends,
+#weekend-input {
+	@extend .hidden;
+}
+
+.datepicker-inline {
+	@include border-radius(0);
+	
+	@extend .dinpro-b;
+	
+	background-color: #f0f9ff;
+	border: 1px solid $blue6;
+	padding: 0;
+	width: 340px;
+	
+	.datepicker-days {
+		.table-condensed {
+			@extend %w_100;
+			
+			thead {
+				tr {
+					th {
+						@include border-radius(0);
+					}
+					
+					&:first-of-type{
+						background-color: $blue6;
+						@extend %c_fff;
+						
+						th {
+							&:hover {
+								background-color: $blue11;
+								@extend %c_fff;
+							}
+						}
+					}
+				}
+			}
+			
+			tbody {
+				td {
+					background-color: #fff;
+					border: 1px solid $gray8;
+					color: $gray5;
+					
+					&:hover,
+					&.active,
+					&.active:hover {
+						@include border-radius(0);
+						
+						background-color: $red4;
+						color: $gray5;
+						border: 1px solid $gray8;
+					}
+				}
+				
+				tr {
+					td:first-of-type {
+						border-left: none;
+					}
+					td:last-of-type {
+						border-right: none;
+					}
+					&:last-of-type {
+						td {
+							border-bottom: 1px solid $blue6;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	.datepicker-years,
+	.datepicker-months {
+		.table-condensed {
+			@extend %w_100;
+			
+			thead {
+				tr {
+					th {
+						@include border-radius(0);
+					}
+					
+					&:first-of-type{
+						background-color: $blue6;
+						@extend %c_fff;
+					}
+				}
+			}
+			
+			tbody {
+				span {
+					background-color: #fff;
+					border: 1px solid $gray8;
+					color: $gray5;
+					
+					&:hover,
+					&.active,
+					&.active:hover{
+						@include border-radius(0);
+						
+						background-color: $red4;
+						color: $gray5;
+						border: 1px solid $gray8;
+					}
+				}
+				
+				tr {
+					td:first-of-type {
+						border-left: none;
+					}
+					td:last-of-type {
+						border-right: none;
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+.profile_header__popup {	
+	@extend .dinpro-r;
+	@extend %font_14;
+	@extend %pos_abs;
+	
+	right: 15px;
+	line-height: 1;
+	display: none;
+}
+
+.to_administration_txt {
+	padding-top: 22px;
 }

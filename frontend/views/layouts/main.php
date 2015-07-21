@@ -69,7 +69,7 @@ if($current_controller == 'site' && $current_action == 'index') $show_header_row
 				</div>
 			<?php	}	?>
 
-			<div class="container">
+			<div class="container <?php if($current_controller != 'site' && $current_action != 'index') echo 'container-inner' ?> ">
 				<?= Alert::widget() ?>
 
 
