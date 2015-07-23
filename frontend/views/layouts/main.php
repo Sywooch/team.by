@@ -57,7 +57,8 @@ if($current_controller == 'site' && $current_action == 'index') $show_header_row
 			</div>
 
 			<?php echo ProfiSearch::widget(['controller'=>$current_controller, 'action'=>$current_action]) ?>
-			<?php if($current_controller == 'profile' && $current_action == 'index') echo ProfileHeader::widget() ?>
+			
+			<?php if(!\Yii::$app->user->isGuest && $current_controller == 'profile') echo ProfileHeader::widget() ?>
 			
 			<?php if(isset($this->params['breadcrumbs']))	{	?>
 				<div class="breadcrumbs-cnt">

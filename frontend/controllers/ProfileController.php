@@ -270,11 +270,26 @@ class ProfileController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 			$user = User::findOne(\Yii::$app->user->id);
 			$model->fio = $user->fio;
+			
+			$UserToAdministration = new \common\models\UserToAdministration();
+			$UserToAdministration->user_id = \Yii::$app->user->id;
+			$UserToAdministration->subject = $model->subject;
+			$UserToAdministration->comment = $model->body;
+			if($UserToAdministration->validate()) {
+				$UserToAdministration->save();
+				Yii::$app->session->setFlash('success', 'Ваше сообщение успешно отправлено');
+			}	else	{
+				Yii::$app->session->setFlash('error', 'При отправке сообщения возникла ошибка');
+			}
+			
+			
+			/*
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
                 Yii::$app->session->setFlash('success', 'Ваше сообщение успешно отправлено');
             } else {
                 Yii::$app->session->setFlash('error', 'При отправке сообщения возникла ошибка');
             }
+			*/
 
             return $this->refresh();
         } else {

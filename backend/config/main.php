@@ -46,6 +46,11 @@ return [
 			],
 		],
 		
+		'urlManagerFrontEnd' => [
+			'class' => 'yii\web\urlManager',
+			'baseUrl' => 'http://team.gf-club.net',
+		],
+		
     ],
     'params' => $params,
 	
@@ -127,9 +132,33 @@ return [
 				],
 			],
 			
+			'order' =>	[	//controller
+				[
+					'actions' => ['index', 'create', 'update', 'delete'],
+					'allow' => true,
+					'roles' => ['admin'],					
+				],
+			],
+			
+			'client' =>	[	//controller
+				[
+					'actions' => ['index', 'create', 'update', 'delete'],
+					'allow' => true,
+					'roles' => ['admin'],					
+				],
+			],
+			
 			'post' => [	//controller
 				[
 					'actions' => ['index'],
+					'allow' => true,
+					'roles' => ['admin'],
+				],
+			],
+			 
+			'ajax' => [	//controller
+				[
+					'actions' => ['upload-review-foto'],
 					'allow' => true,
 					'roles' => ['admin'],
 				],

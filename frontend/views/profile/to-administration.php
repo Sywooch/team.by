@@ -13,6 +13,15 @@ use yii\widgets\ActiveForm;
 \frontend\assets\BootstrapLightboxAsset::register($this);
 \frontend\assets\FormStylerAsset::register($this);
 
+$title = 'Связаться с администрацией';
+$this->title = $title;
+
+$this->params['breadcrumbs'] = [
+	['label' => 'Личный кабинет', 'url' => '/profile'],
+	['label' => $title]
+];
+	
+
 //echo'<pre>';print_r($categories);echo'</pre>';
 //echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 
@@ -25,10 +34,11 @@ $errors = $model->getErrors();
 //echo'<pre>';print_r($errors);echo'</pre>';//die;
 
 
+
 $categories_l2_arr = [];
 ?>
 <div class="to_administration">
-	<h1>Связаться с администрацией</h1>
+	<h1><?= $title?></h1>
 
 		<?php $form = ActiveForm::begin([
 			'options'=> ['enctype' => 'multipart/form-data' ],			

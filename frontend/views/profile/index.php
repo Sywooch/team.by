@@ -5,6 +5,8 @@ use yii\bootstrap\Tabs;
 $title = 'Личный кабинет специалиста — '.$model->fio;
 $this->title = $title;
 
+$this->params['breadcrumbs'][] = ['label' => 'Личный кабинет'];
+
 ?>
 
 <div class="profile-page">
