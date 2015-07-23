@@ -71,7 +71,8 @@ class Order extends \yii\db\ActiveRecord
             'clientName' => 'Клиент',
             'category_id' => 'Category ID',
             'user_id' => 'Исполнитель',
-            'created_at' => 'Created At',
+            'created_at' => 'Создано',
+            'updated_at' => 'Изменено',
             'date_control' => 'Дата контроля',
             'descr' => 'ИНформация о заказе',
             'price1' => 'Цена предварительная',
@@ -80,6 +81,7 @@ class Order extends \yii\db\ActiveRecord
             'status' => 'Статус',
             'review_text' => 'Review Text',
             'review_status' => 'Статус отзыва',
+			'client' => 'Клиент',
         ];
     }
 
@@ -105,6 +107,14 @@ class Order extends \yii\db\ActiveRecord
     public function getCategory()
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
+    }
+	
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReview()
+    {
+        return $this->hasOne(Review::className(), ['order_id' => 'id']);
     }
 	
     public function getClientName()

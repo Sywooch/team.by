@@ -13,4 +13,5 @@ return [
 	'awards-path' => 'files/users/awards',
 	'examples-path' => 'files/users/examples',
 	'pricelists-path' => 'files/users/pricelists',
+	'reviews-path' => 'files/users/reviews',
 ];

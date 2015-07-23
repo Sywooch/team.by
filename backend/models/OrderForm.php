@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
  */
 class OrderForm extends Model
 {
+    public $order_id = 0;
     public $client_id;
     public $category_id;
     public $user_id;
@@ -32,6 +33,7 @@ class OrderForm extends Model
     public $info;
 		
     public $review_text;
+    public $review_rating;
     public $review_foto = [];
 
     /**
@@ -41,7 +43,7 @@ class OrderForm extends Model
     {
         return [
             [['client_id', 'descr', 'price1'], 'required'],
-            [['client_id', 'category_id', 'user_id', 'created_at', 'price1', 'price', 'fee', 'status', 'review_status'], 'integer'],
+            [['order_id', 'client_id', 'category_id', 'user_id', 'created_at', 'price1', 'price', 'fee', 'status', 'review_status'], 'integer'],
             [['descr', 'review_text', 'date_control'], 'string'],
 			
             [['fio', 'phone'], 'required', 'on' => 'create'],
@@ -51,6 +53,7 @@ class OrderForm extends Model
 			
 			['review_foto', 'each', 'rule' => ['string']],
 			['review_text', 'string', 'min' => 3, 'max' => 2048],
+			['review_rating', 'integer'],
 			
         ];
     }
@@ -81,6 +84,7 @@ class OrderForm extends Model
 			
             'review_text' => 'Текст отзыва',
             'review_foto' => 'Фото отзыва',
+            'review_rating' => 'Оценка клиента',
 			
         ];
     }
@@ -109,6 +113,17 @@ class OrderForm extends Model
             1 => 'Ожидание',
             2 => 'Получен',
             3 => 'Отказано',
+        ];
+    }	
+	
+    public static function getReviewRating()
+    {
+        return [
+            1 => '1',
+            2 => '2',
+            3 => '3',
+            4 => '4',
+            5 => '5',
         ];
     }	
 	

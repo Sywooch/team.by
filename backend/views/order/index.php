@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Orders';
+$this->title = 'Заказы';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-index">
@@ -16,26 +16,33 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Order', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Новый заказ', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-		'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'client_id',
-            'clientName',
+			[
+				'attribute' => 'client',
+				'value' => 'client.fio'
+			],
+			
             'category_id',
             'user_id',
-            ['attribute' => 'created_at', 'format' => ['date', 'php:d-m-Y H:i:s']],
+			//['attribute' => 'created_at', 'format' => ['date', 'php:d-m-Y H:i:s']],
+			['attribute' => 'updated_at', 'format' => ['date', 'php:d-m-Y H:i']],
+            // 'updated_at',
             // 'date_control',
-            // 'info:ntext',
+            // 'descr:ntext',
             // 'price1',
             // 'price',
+            // 'fee',
             // 'status',
+            // 'payment_status',
             // 'review_text:ntext',
             // 'review_status',
 

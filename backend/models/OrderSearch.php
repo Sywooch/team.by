@@ -12,7 +12,7 @@ use common\models\Order;
  */
 class OrderSearch extends Order
 {
-	public $clientName;
+	public $client;
 	
     /**
      * @inheritdoc
@@ -21,7 +21,7 @@ class OrderSearch extends Order
     {
         return [
             [['id', 'client_id', 'category_id', 'user_id', 'created_at', 'updated_at', 'date_control', 'price1', 'price', 'fee', 'status', 'payment_status', 'review_status'], 'integer'],
-            [['descr', 'review_text', 'clientName'], 'safe'],
+            [['client'], 'safe'],
         ];
     }
 
@@ -33,6 +33,14 @@ class OrderSearch extends Order
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
+	
+    public function attributeLabels()
+    {
+        return [
+            
+        ];
+    }
+	
 
     /**
      * Creates data provider instance with search query applied
@@ -44,40 +52,21 @@ class OrderSearch extends Order
     public function search($params)
     {
         $query = Order::find();
-
+		$query->joinWith(['client']);
+		
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 		
-		$dataProvider->setSort([
-			'attributes' => [
-				//'id',
-				/* http://nix-tips.ru/yii2-sortirovka-i-filtr-gridview-po-svyazannym-i-vychislyaemym-polyam.html
-				'fullName' => [
-				'asc' => ['first_name' => SORT_ASC, 'last_name' => SORT_ASC],
-				'desc' => ['first_name' => SORT_DESC, 'last_name' => SORT_DESC],
-				'label' => 'Full Name',
-				'default' => SORT_ASC
-				],
-				*/
-				'clientName' => [
-					'asc' => ['{{client}}.fio' => SORT_ASC],
-					'desc' => ['{{client}}.fio' => SORT_DESC],
-					'label' => 'Country Name'
-				]
-			]
-		]);		
-
-        $this->load($params);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-			
-			
-            return $dataProvider;
-        }
-
+		$dataProvider->sort->attributes['client'] = [
+			'asc' => ['{{%client}}.fio' => SORT_ASC],
+			'desc' => ['{{%client}}.fio' => SORT_DESC],
+		];		
+		
+		if (!($this->load($params) && $this->validate())) {			
+			return $dataProvider;
+		}
+		
         $query->andFilterWhere([
             'id' => $this->id,
             'client_id' => $this->client_id,
@@ -95,7 +84,8 @@ class OrderSearch extends Order
         ]);
 
         $query->andFilterWhere(['like', 'descr', $this->descr])
-            ->andFilterWhere(['like', 'review_text', $this->review_text]);
+            ->andFilterWhere(['like', 'review_text', $this->review_text])
+			->andFilterWhere(['like', '{{%client}}.fio', $this->client]);
 
         return $dataProvider;
     }
