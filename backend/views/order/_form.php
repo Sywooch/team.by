@@ -99,7 +99,6 @@ use dosamigos\datepicker\DatePicker;
 							<?php 
 								if(isset($model->review_foto[$x]))	{
 									echo Html::a(Html::img(Yii::$app->urlManagerFrontEnd->baseUrl . '/'. Yii::$app->params['reviews-path'] . '/thumb_' .$model->review_foto[$x]), Yii::$app->urlManagerFrontEnd->baseUrl . '/'. Yii::$app->params['reviews-path'] . '/' .$model->review_foto[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
-									//echo Html::a(Html::img(Url::home(true) . Yii::$app->params['awards-path'] . '/thumb_' .$model->awards[$x]), Url::home(true) . Yii::$app->params['awards-path'] .'/' .$model->awards[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
 									echo Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->review_foto[$x]]);
 									echo Html::input('hidden', 'OrderForm[review_foto][]', $model->review_foto[$x]);
 								}	else	{
