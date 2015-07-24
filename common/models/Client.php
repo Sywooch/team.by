@@ -72,4 +72,12 @@ class Client extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Order::className(), ['client_id' => 'id']);
     }
+	
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReviews()
+    {
+        return $this->hasMany(Review::className(), ['client_id' => 'id']);
+    }
 }

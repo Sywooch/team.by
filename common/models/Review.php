@@ -56,4 +56,21 @@ class Review extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ReviewMedia::className(), ['review_id' => 'id']);
     }
+	
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getClient()
+    {
+        return $this->hasOne(Client::className(), ['id' => 'client_id']);
+    }
+	
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'client_id']);
+    }
+	
 }

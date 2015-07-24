@@ -2,10 +2,13 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-use frontend\assets\BootstrapLightboxAsset;
+\frontend\assets\BootstrapLightboxAsset::register($this);
 
-BootstrapLightboxAsset::register($this);
+\frontend\assets\JcarouselAsset::register($this);
 
+
+
+$this->title = $model->fio;
 $this->params['breadcrumbs'][] = ['label' => 'Каталог специалистов', 'url' => ['index']];
 
 foreach($parents as $parent) {
@@ -36,6 +39,7 @@ foreach($model->userMedia as $media)	{
 	}
 }
 
+$rating_active = 20 * $model->total_rating; // максимальная оценка 5 это 100%.  Значит каждая единица = 20%
 //echo'<pre>';print_r($model->userCategories[0]->category);echo'</pre>';
 ?>
 
@@ -57,7 +61,7 @@ foreach($model->userMedia as $media)	{
 			<div class="catalog-item_body_right">
 				<div class="catalog-item_body__info_row clearfix">
 					<div class="catalog-item_body__ttl_cnt catalog-item_body__ttl_profi">
-						<p class="catalog-item_body__ttl"><?= $model->fio;?></p>
+						<h1 class="catalog-item_body__ttl"><?= $model->fio;?></h1>
 						<p class="catalog-item_body__town">Город: <?= $model->userRegion->name;?></p>
 					</div>
 					
@@ -66,10 +70,10 @@ foreach($model->userMedia as $media)	{
 					<?php	}	?>
 					
 					<div class="catalog-item_body__rating">
-						<span class="catalog-item_body__rating_txt">Рейтинг 3.6</span>
+						<span class="catalog-item_body__rating_txt">Рейтинг <?=$model->total_rating?></span>
 						<div class="catalog-item_body__rating_cnt">
 							<div class="catalog-item_body__rating_inactive"></div>
-							<div class="catalog-item_body__rating_active" style="width:64%;"></div>
+							<div class="catalog-item_body__rating_active" style="width:<?=$rating_active?>%;"></div>
 						</div>
 					</div>
 				</div>
@@ -117,116 +121,41 @@ foreach($model->userMedia as $media)	{
 	</div>
 	
 	<?php if(count($model_examples))	{	?>
-		<div class="catalog-item__examples">
+		<div id="examples" class="catalog-item__examples">
 			<p class="catalog-item__ttl">Примеры работ (<?= count($model_examples)?>)</p>
 			
-			<ul class="catalog-item__examples_list">
-			<?php 
-				foreach($model_examples as $item)
-					echo Html::tag('li', Html::a(Html::img(Url::home(true).Yii::$app->params['examples-path'].'/thumb_'.$item), Url::home(true).Yii::$app->params['examples-path'].'/'.$item, ['data-toggle'=>'lightbox', 'data-gallery'=>'examples-images']), ['class'=>'catalog-item__examples_item']);
-			?>
-			</ul>
+			<?php if(count($model_examples) > 5)	{	?>
+				<div class="catalog-item__examples_list catalog-item__examples_jcarousel jcarousel-wrapper">
+					<div class="jcarousel">
+						<ul>
+							<?php 
+								foreach($model_examples as $item)
+									echo Html::tag('li', Html::a(Html::img(Url::home(true).Yii::$app->params['examples-path'].'/thumb_'.$item), Url::home(true).Yii::$app->params['examples-path'].'/'.$item, ['data-toggle'=>'lightbox', 'data-gallery'=>'examples-images']), ['class'=>'catalog-item__examples_item']);
+							?>
+						</ul>
+					</div>
+
+					<a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+					<a href="#" class="jcarousel-control-next">&rsaquo;</a>
+
+					<?/*<p class="jcarousel-pagination"></p>*/?>
+				</div>
+				
+			
+			<?php	}	else	{	?>
+			
+				<ul class="catalog-item__examples_list catalog-item__examples_list_1">
+				<?php 
+					foreach($model_examples as $item)
+						echo Html::tag('li', Html::a(Html::img(Url::home(true).Yii::$app->params['examples-path'].'/thumb_'.$item), Url::home(true).Yii::$app->params['examples-path'].'/'.$item, ['data-toggle'=>'lightbox', 'data-gallery'=>'examples-images']), ['class'=>'catalog-item__examples_item']);
+				?>
+				</ul>
+			<?php	}	?>
 		</div>
 	<?	}	?>
 	
-	<div class="catalog-item__reviews">
-		<p class="catalog-item__ttl">Отзывы клиентов (9)</p>
-		<ul class="reviews_list">
-			<li class="reviews_item">
-				<div class="row clearfix">
-					<div class="col-lg-4 clearfix">
-						<div class="reviews_item__value_cnt">
-							<p class="reviews_item__value">4<span>оценка</span></p>
-						</div>
-
-						<div class="reviews_item__created_cnt">
-							<p class="reviews_item__created">24 декабря</p>
-							<p class="reviews_item__name">Сокольников Николай</p>
-							<p>Компания Лосины и молнии</p>
-							<p>Должность: Директор</p>
-						</div>
-					</div>
-					<div class="col-lg-8">
-						<div class="reviews_item__text_cnt">
-							<div class="reviews_item__review_text">В бюджет от этих граждан уже поступило 1,1 миллиарда рублей единого налога. Самым потом пулярным среди заявленных видов деятельности оказались услуги репетиторов. Их оказывает 811 человек. В бюджет от этих граждан уже поступило.</div>
-							<div class="reviews_item__review_foto">
-								<ul class="reviews_item__foto_list">
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</li>
-			
-			<li class="reviews_item">
-				<div class="row clearfix">
-					<div class="col-lg-4 clearfix">
-						<div class="reviews_item__value_cnt">
-							<p class="reviews_item__value">4<span>оценка</span></p>
-						</div>
-
-						<div class="reviews_item__created_cnt">
-							<p class="reviews_item__created">24 декабря</p>
-							<p class="reviews_item__name">Сокольников Николай</p>
-							<p>Компания Лосины и молнии</p>
-							<p>Должность: Директор</p>
-						</div>
-					</div>
-					<div class="col-lg-8">
-						<div class="reviews_item__text_cnt">
-							<div class="reviews_item__review_text">В бюджет от этих граждан уже поступило 1,1 миллиарда рублей единого налога. Самым потом пулярным среди заявленных видов деятельности оказались услуги репетиторов. Их оказывает 811 человек. В бюджет от этих граждан уже поступило.</div>
-							<div class="reviews_item__review_foto">
-								<ul class="reviews_item__foto_list">
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</li>
-			
-			<li class="reviews_item">
-				<div class="row clearfix">
-					<div class="col-lg-4 clearfix">
-						<div class="reviews_item__value_cnt">
-							<p class="reviews_item__value">4<span>оценка</span></p>
-						</div>
-
-						<div class="reviews_item__created_cnt">
-							<p class="reviews_item__created">24 декабря</p>
-							<p class="reviews_item__name">Сокольников Николай</p>
-							<p>Компания Лосины и молнии</p>
-							<p>Должность: Директор</p>
-						</div>
-					</div>
-					<div class="col-lg-8">
-						<div class="reviews_item__text_cnt">
-							<div class="reviews_item__review_text">В бюджет от этих граждан уже поступило 1,1 миллиарда рублей единого налога. Самым потом пулярным среди заявленных видов деятельности оказались услуги репетиторов. Их оказывает 811 человек. В бюджет от этих граждан уже поступило.</div>
-							<div class="reviews_item__review_foto">
-								<ul class="reviews_item__foto_list">
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
-									<?php echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</li>
-			
-			
-		</ul>
-		
-		<div class="catalog-item__reviews_bottom">
-			<a href="#" id="catalog-item__add_review" class="button-red catalog-item__add_review">Добавить свой отзыв</a>
-			<a href="#" id="catalog-item__show_reviews" class="button-blue catalog-item__show_reviews">Остальные отзывы</a>
-		</div>
-	</div>
+	<?php echo $this->render('_reviews', ['model'=>$model] ) ?>
+	
 </div>
 
 

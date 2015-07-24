@@ -319,6 +319,7 @@ class ProfileController extends Controller
 	//проверяем изменения в услугах
 	public function checkUslugi($model, $ProfileAnketaForm)
 	{
+		$array_identical = false;
 		if(count($model->userSpecials) != count($ProfileAnketaForm->usluga)) {
 			$array_identical = false;
 		}	else	{
@@ -351,6 +352,7 @@ class ProfileController extends Controller
 	//проверяем изменения в категориях
 	public function checkCategories($model, $ProfileAnketaForm)
 	{
+		$array_identical = false;
 		if(count($model->userCategories) != count($ProfileAnketaForm->categories)) {
 			$array_identical = false;
 		}	else	{
@@ -381,6 +383,7 @@ class ProfileController extends Controller
 	//проверяем изменения в наградах дипломах
 	public function checkAwards($model, $ProfileAnketaForm)
 	{
+		$array_identical = false;
 		if(count($model->media['awards']) != count($ProfileAnketaForm->awards)) {
 			$array_identical = false;
 		}	else	{
@@ -428,6 +431,7 @@ class ProfileController extends Controller
 	//проверяем изменения в примерах работ
 	public function checkExamples($model, $ProfileAnketaForm)
 	{
+		$array_identical = false;
 		if(count($model->media['examples']) != count($ProfileAnketaForm->examples)) {
 			$array_identical = false;
 		}	else	{

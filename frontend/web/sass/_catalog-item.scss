@@ -37,6 +37,7 @@
 	@extend .dinpro-b;
 	@extend %font_20;
 	
+	padding: 0;
 	color: $blue6;	
 }
 
@@ -165,6 +166,7 @@
 	
 	img {
 		border: 1px solid $gray14;
+		width: 60px;
 		
 		&:hover {
 			@include box-shadow($gray14 0 0 14px);
@@ -174,6 +176,9 @@
 
 .catalog-item__examples {
 	@extend .mb-30;
+	@extend .clearfix;
+	
+	overflow: hidden;
 }
 
 .catalog-item__ttl {
@@ -199,6 +204,21 @@
 	}
 }
 
+.reviews_item__review_text {
+	@extend .mb-10;
+	
+}
+
+.reviews_item__foto_item {
+	img {
+		border: 1px solid $gray14;
+		
+		&:hover {
+			@include box-shadow($gray14 0 0 14px);
+		}
+	}	
+}
+
 
 .catalog-item__reviews_bottom {
 	@extend .clearfix;
@@ -206,4 +226,15 @@
 
 .catalog-item__show_reviews {
 	@extend %fr;
+}
+
+.catalog-item__examples_list_1 {
+	@extend %fl;
+	@extend %pos_rel;
+	left: 50%;
+	
+	.catalog-item__examples_item {
+		@extend %pos_rel;
+		right: 50%;		
+	}
 }

@@ -53,7 +53,7 @@ class AjaxController extends Controller
 					return;
 				}
 				
-				Image::thumbnail( $model->path. '/' . $model->filename, 75, 90)
+				Image::thumbnail( $model->path. '/' . $model->filename, 70, 45)
 					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
 				
 				$json_arr['res'] = 'ok';

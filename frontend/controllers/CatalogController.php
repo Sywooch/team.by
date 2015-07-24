@@ -127,13 +127,15 @@ class CatalogController extends Controller
 		$DataProvider = new ActiveDataProvider([
 			'query' => User::find()
 				->distinct(true)
-				->join('INNER JOIN', '{{%user_categories}} AS uc', 'uc.user_id = {{%user}}.id')
-				->where(['uc.category_id'=>$cat_ids])
+				//->join('INNER JOIN', '{{%user_categories}} AS uc', 'uc.user_id = {{%user}}.id')
+				->joinWith(['userCategories'])
+				->joinWith(['reviews'])
+				->where(['{{%user_categories}}.category_id'=>$cat_ids])
 				->orderBy('{{%user}}.'.$orderBy.' ASC'),
 			
 			'pagination' => [
-				'pageSize' => Yii::$app->params['catlist-per-page'],
-				//'pageSize' => 2,
+				//'pageSize' => Yii::$app->params['catlist-per-page'],
+				'pageSize' => 2,
 				'pageSizeParam' => false,
 			],
 		]);

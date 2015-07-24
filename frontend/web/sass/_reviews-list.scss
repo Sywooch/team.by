@@ -2,6 +2,7 @@
 	@extend .mb-25;
 	@extend .pb-25;
 	
+	clear: both;
 	border-bottom: 1px solid $gray21;
 	
 	&:last-of-type {
@@ -86,4 +87,8 @@
 	@extend .mb-35;
 	@extend .pt-30; 
 	border-top: 1px solid $gray21;
+	
+	.pagination {
+		@extend %fr; 
+	}
 }

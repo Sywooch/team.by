@@ -220,6 +220,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(UserWeekend::className(), ['user_id' => 'id']);
 	}
 	
+    public function getReviews()
+    {
+        return $this->hasMany(Review::className(), ['user_id' => 'id']);
+	}
+	
     public function getUserRegion()
     {
         return $this->hasOne(Region::className(), ['id' => 'region_id']);

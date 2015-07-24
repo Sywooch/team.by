@@ -177,24 +177,17 @@ class OrderController extends Controller
 						if(isset($model_attribs[$attr_key]))
 							$review->$attr_key = $model_attribs[$attr_key];
 					}
-					
 					$review->save();
 					
 					$this->checkReviewFoto($model, $reviewMedia_old, $review->id);
 					
-					
+					$this->setRatingTotalForUser($review->user_id);
 				}
 				
 				//echo'<pre>';print_r(Yii::getAlias('@frontend'));echo'</pre>';die;
 				//echo'<pre>';print_r($model);echo'</pre>';die;
-				
-				
-				
-				
 				return $this->redirect(['index']);
 			}
-			
-			
 		}
 		
 		return $this->render('update', [
@@ -235,6 +228,8 @@ class OrderController extends Controller
 	//проверяем изменения в фото для отзывов
 	public function checkReviewFoto($model, $reviewMedia_old, $review_id)
 	{
+		$array_identical = false;
+		
 		if(count($model->review_foto) != count($reviewMedia_old)) {
 			$array_identical = false;
 		}	else	{
@@ -275,4 +270,15 @@ class OrderController extends Controller
 		}
 	}
 	
+	//пересчитыват рейтинг пользователя
+	public function setRatingTotalForUser($user_id)
+	{
+		$user = \common\models\User::findOne($user_id);
+		if($user !== null) {
+			$rating_total = 0;
+			foreach($user->reviews as $review) $rating_total += $review->review_rating;
+			$user->total_rating = $rating_total / count($user->reviews);
+			$user->save();
+		}
+	}
 }

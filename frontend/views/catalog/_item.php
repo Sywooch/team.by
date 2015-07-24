@@ -22,8 +22,12 @@ if($model->education != '')	{
 	<div class="catalog-category-list-item__info_cnt">
 		<div class="catalog-category-list-item__info_row">
 			<p class="catalog-category-list-item__ttl"><?= $model->fio;?></p>	
-			<span class="catalog-category-list-item__rating">Рейтинг: 5 из 5</span>
-			<img src="/images/profi-gold.png" alt="profi-lbl" class="profi_lbl catalog-category-list-item__profi_lbl" />
+			<span class="catalog-category-list-item__rating">Рейтинг: <?=$model->total_rating ?> из 5</span>
+			<?php 
+				if($model->total_rating == 5) echo Html::img('/images/profi-gold.png', ['alt'=>'Супер профи', 'title'=>'Супер профи', 'class'=>'profi_lbl catalog-category-list-item__profi_lbl']);
+				if($model->total_rating >= 4) echo Html::img('/images/profi-silver.png', ['alt'=>'Профи', 'title'=>'Профи', 'class'=>'profi_lbl catalog-category-list-item__profi_lbl']);
+			?>
+			<? /*<img src="/images/profi-gold.png" alt="profi-lbl" class="profi_lbl catalog-category-list-item__profi_lbl" /> */?>
 		</div>
 		<div class="catalog-category-list-item__info_row">
 			<?/*<span class="catalog-category-list-item__price">Стоимость работ: <?= \Yii::$app->formatter->asDecimal($model->price); ?> руб.</span>*/?>
@@ -60,8 +64,8 @@ if($model->education != '')	{
 			</div>
 		</div>
 		<div class="catalog-category-list-item__info_row_bottom">
-			<a href="#" class="catalog-category-list-item__reviews">Отзывы (45)</a>
-			<a href="#" class="catalog-category-list-item__examples">Примеры работ (<?= count($model->media['examples'])?>)</a>
+			<a href="<?= \Yii::$app->urlManager->createUrl(['reviews/user', 'id' => $model->id]) ?>" class="catalog-category-list-item__reviews">Отзывы (<?= count($model->reviews)?>)</a>
+			<a href="<?= \Yii::$app->urlManager->createUrl(['catalog/show', 'id' => $model->id])?>#examples" class="catalog-category-list-item__examples">Примеры работ (<?= count($model->media['examples'])?>)</a>
 			
 			<a href="<?= \Yii::$app->urlManager->createUrl(['catalog/show', 'id' => $model->id])?>" class="button-blue btn-short catalog-category-list-item__detail">Подробнее о специалисте</a>
 			<a href="#" class="button-red btn-short catalog-category-list-item__contact">Связаться</a>
