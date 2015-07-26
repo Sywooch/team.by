@@ -118,6 +118,12 @@
 	
 }
 
+.site-reg-step1 {
+	.form-group {
+		@extend .mb-30;
+	}
+}
+
 .site-reg-final__cnt {
 	background: url(../images/reg-final-img.png) no-repeat left top;
 	padding-left: 270px;
@@ -210,12 +216,24 @@
 	@extend %hide;
 }
 
+.reg-step2-loading-process {
+	@extend .mt-10;
+}
+
+.reg-step2-loading-errors {
+	@extend %italic;
+	@extend %font_14;
+	
+	line-height: 36px;
+	color: #a94442;
+}
+
 
 .uploading-tmb-list {
 	@extend .clearfix;
 	@extend .mt-20;
 	
-	width: 75%;
+	width: 65%;
 	
 	ul {
 		margin: 0 -10px;
@@ -291,4 +309,47 @@
 
 .categories-block-lbl-cnt {
 	@extend .mt-5;
+}
+
+#regstep1form-user_type {
+	& > label {
+		@extend .pr-20;
+	}
+}
+
+.reg_info {
+	@include border-radius(5px);
+	
+	border: 2px solid $blue14;
+	background-color: #fff;
+}
+
+.reg_info_ttl {
+	@extend .dinpro-b;
+	@extend .p-15;
+	
+	color: $blue14;
+	border-bottom: 1px solid $gray22;
+	
+}
+
+.reg_info_cnt {
+	@extend .p-15;
+	
+	p {
+		@extend .mb-30; 
+		
+		span {
+			@extend .dinpro-m;
+		}
+	}
+}
+
+#uploading-price,
+#uploading-awards,
+#uploading-avatar {
+	@extend .mb-40;
+}
+#uploading-avatar {
+	height: 260px;
 }

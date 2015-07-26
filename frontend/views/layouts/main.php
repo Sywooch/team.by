@@ -25,11 +25,15 @@ AppAsset::register($this);
 $current_controller = Yii::$app->controller->id;
 $current_action = Yii::$app->controller->action->id;
 
-$show_header_row1 = false;
+$show_header_row1 = true;
 $show_header_row3 = false;
 
-if($current_controller == 'site' && $current_action == 'index') $show_header_row1 = true;
+//if($current_controller == 'site' && $current_action == 'index') $show_header_row1 = true;
 if($current_controller == 'site' && $current_action == 'index') $show_header_row3 = true;
+
+$wrap_cnt_class = '';
+if($current_controller == 'site' && ($current_action == 'index' || $current_action == 'reg' || $current_action == 'reg-step1' || $current_action == 'reg-step2' ))
+	$wrap_cnt_class = 'wrap__cnt_main_page'
 
 ?>
 
@@ -47,7 +51,7 @@ if($current_controller == 'site' && $current_action == 'index') $show_header_row
 <body>
     <?php $this->beginBody() ?>
     <div class="wrap">
-		<div class="wrap__cnt <?php if($current_controller == 'site' && $current_action == 'index') echo 'wrap__cnt_main_page' ?>">
+		<div class="wrap__cnt <?= $wrap_cnt_class ?>">
 			<div class="header">
 				<?php if($show_header_row1) echo $this->render('_header_row1', [], false, true); ?>
 				

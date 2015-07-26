@@ -64,6 +64,7 @@ body {
 	@extend %c_fff;
 	@extend %font_18;
 	@extend %underline_n_n;
+	@extend %pointer;
 	@extend .dinpro-b;
 	
 	background-repeat: repeat-x;
@@ -335,7 +336,7 @@ h1,.h1 {
 }
 
 .required {
-	label {
+	& > label {
 		&:after {
 			content: '*';
 			color: $red2;

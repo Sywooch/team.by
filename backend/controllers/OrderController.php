@@ -134,24 +134,30 @@ class OrderController extends Controller
 		$model->order_id = $order->id;
 		
 		$reviewMedia_old = [];
-		
 		//echo'<pre>';print_r($order->review->reviewMedia);echo'</pre>';die;
+		
 		//загружаем информацию по отзыву
 		if($order->review !== NULL)	{
 			$model->review_text = $order->review->review_text;
 			$model->review_rating = $order->review->review_rating;
+			$model->review_state = $order->review->status;
+			$model->answer_text = $order->review->answer_text;
+			$model->answer_status = $order->review->answer_status;
 			
 			if($order->review->reviewMedia !== NULL)	{
 				//получаем загруженные фото к отзыву
 				$reviewMedia_old = $order->review->reviewMedia;
-				foreach($order->review->reviewMedia as $item)	$model->review_foto[] = $item->filename;				
+				
 			}
 		}
 		
+		
 		if(isset($_POST['OrderForm']))	{
 			$model->load(Yii::$app->request->post());
+			//$model->review_foto = Yii::$app->request->post('review_foto', []);
 			if ($model->validate()) {
 				
+				//echo'<pre>';print_r($model);echo'</pre>';die;
 				$model_attribs = $model->toArray();
 				$order_attr = $order->attributes;
 
@@ -177,8 +183,11 @@ class OrderController extends Controller
 						if(isset($model_attribs[$attr_key]))
 							$review->$attr_key = $model_attribs[$attr_key];
 					}
+					
+					$review->status = $model->review_state;
 					$review->save();
 					
+					//echo'<pre>';print_r($model);echo'</pre>';//die;
 					$this->checkReviewFoto($model, $reviewMedia_old, $review->id);
 					
 					$this->setRatingTotalForUser($review->user_id);
@@ -187,6 +196,14 @@ class OrderController extends Controller
 				//echo'<pre>';print_r(Yii::getAlias('@frontend'));echo'</pre>';die;
 				//echo'<pre>';print_r($model);echo'</pre>';die;
 				return $this->redirect(['index']);
+			}
+		}
+
+		//загружаем информацию по отзыву
+		if($order->review !== NULL)	{
+			if($order->review->reviewMedia !== NULL)	{
+				//получаем загруженные фото к отзыву
+				foreach($order->review->reviewMedia as $item)	$model->review_foto[] = $item->filename;
 			}
 		}
 		
@@ -241,6 +258,10 @@ class OrderController extends Controller
 				}
 			}
 		}
+		
+		//echo'<pre>';var_dump($array_identical);echo'</pre>';//die;
+		//echo'<pre>';print_r($model->review_foto);echo'</pre>';//die;
+		//echo'<pre>';print_r($reviewMedia_old);echo'</pre>';die;
 		
 		if($array_identical == false) {
 			foreach($reviewMedia_old as $item)	{

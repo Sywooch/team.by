@@ -11,7 +11,8 @@ use yii\base\Model;
 class ZakazSpec2 extends Model
 {
     public $name;
-    public $email = 'aldegtyarev@yandex.ru';
+    //public $email = 'aldegtyarev@yandex.ru';
+    public $email;
     public $email1;	// метка используется в письме
 	public $phone;
 	public $comment;

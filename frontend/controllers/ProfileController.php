@@ -149,13 +149,58 @@ class ProfileController extends Controller
 		$call_time->call_to = $model->call_time_to;
 		
 		$weekends_arr = [];
-		//foreach($model->userWeekend as $item) $weekends_arr[] = $item->weekend;
-		//foreach($model->userWeekend as $item) $weekends_arr[] = Yii::$app->formatter->asDate(($item->weekend), 'php:m-d-yy');
-		foreach($model->userWeekend as $item) $weekends_arr[] = Yii::$app->formatter->asDate(($item->weekend), 'php:d-m-yy');
+		foreach($model->userWeekend as $item) 
+			$weekends_arr[] = Yii::$app->formatter->asDate(($item->weekend), 'php:d-m-yy');
 		
 		
 		$weekends = new \frontend\models\SetWeekEndForm();
 		$weekends->weekends = implode(';',$weekends_arr);
+		
+		//получаем поле для сортировки
+		/*
+		$orderBy = Yii::$app->request->post('orderby', '');
+		if($orderBy != '') {
+			Yii::$app->response->cookies->add(new \yii\web\Cookie([
+				'name' => 'catlist-orderby',
+				'value' => $orderBy,
+			]));
+			
+			//return $this->redirect(['category', 'category'=>$category]);
+		}	else	{
+			$orderBy = Yii::$app->request->cookies->getValue('catlist-orderby', 'fio');
+		}
+		*/
+		$orderBy = 'id';
+		
+		$ordersDataProvider = new ActiveDataProvider([
+			'query' => \common\models\Order::find()
+				->distinct(true)
+				->joinWith(['client'])
+				->where(['{{%order}}.user_id'=>$model->id])
+				->orderBy('{{%order}}.'.$orderBy.' ASC'),
+			
+			'pagination' => [
+				//'pageSize' => Yii::$app->params['catlist-per-page'],
+				'pageSize' => 200,
+				'pageSizeParam' => false,
+			],
+		]);
+		
+		$reviewsDataProvider = new ActiveDataProvider([
+			'query' => \common\models\Review::find()
+				->distinct(true)
+				->joinWith(['client'])
+				->joinWith(['reviewMedia'])
+				->where(['{{%review}}.user_id'=>$model->id])
+				->orderBy('{{%review}}.id DESC'),
+			
+			'pagination' => [
+				//'pageSize' => Yii::$app->params['catlist-per-page'],
+				'pageSize' => 200,
+				'pageSizeParam' => false,
+			],
+		]);
+		
 		
 		return $this->render('index', [
 			'model' => $model,
@@ -164,6 +209,8 @@ class ProfileController extends Controller
 			'categories_l3' => $cats_l3,
 			'call_time' => $call_time,
 			'weekends' => $weekends,
+			'ordersDataProvider' => $ordersDataProvider,
+			'reviewsDataProvider' => $reviewsDataProvider,
 			
 		]);
 		

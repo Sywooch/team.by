@@ -13,6 +13,7 @@ use yii\web\UploadedFile;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 use yii\imagine\Image;
 
@@ -209,14 +210,75 @@ class AjaxController extends Controller
     public function actionGetSpecFields($id)
     {
 		$model = Category::findOne($id);
-		//print_r($model);die;
-		//$children = $model->children()->all();
 		return $this->renderPartial('get-spec-fields', [
 			'model'=>$model,
-			//'children'=>$children,
 		]);
 		
 	}
+	
+    public function actionGetspeclist()
+    {
+		$phone = Yii::$app->request->post('phone', '');
+		
+		$client = \common\models\Client::find()->where(['phone' => $phone])->one();
+		//echo'<pre>';print_r($client);echo'</pre>';die;
+		if($client !== NULL)	{
+			$orders = $client->orders;
+
+			$users = \common\models\User::find()
+					->distinct(true)
+					->joinWith(['orders'])
+					->where(['{{%order}}.client_id'=>$client->id])
+					->all();
+
+			$users_arr = [null => '--- Выберите ----'] + ArrayHelper::map($users, 'id', 'fio');			
+		}	else	{
+			$users_arr = [null => '--- Заказы не найдены ----'];
+		}
+		
+		echo Html::dropDownList('AddReviewForm[user_id]', 0, $users_arr, ['class'=>'form-control', 'id'=>'addreviewform-user_id']);
+		
+		return;
+	}
+	
+    public function actionUploadReviewfoto()
+    {
+        $model = new \frontend\models\UploadReviewFotoForm();
+
+        if (Yii::$app->request->isPost) {
+			
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+			
+            if ($model->upload()) {
+				
+				$img = Image::getImagine()->open($model->path. '/' . $model->filename); //загружаем изображение
+				
+				$image_size = $img->getSize();	//получаем размеры изображения
+				
+				if($image_size->getWidth() < 320 || $image_size->getHeight() < 240) {
+					$this->printErrors($model, 'Слишком маленькое изображение');
+					return;
+				}
+				
+				//Image::thumbnail( $model->path. '/' . $model->filename, 75, 90)
+				Image::thumbnail( $model->path. '/' . $model->filename, 70, 45)
+					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
+				
+				$json_arr['res'] = 'ok';
+				$json_arr['filename'] = Html::input('hidden', 'AddReviewForm[foto][]', $model->filename);
+				$json_arr['html_file'] = Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->filename), Url::home(true) . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
+				//$json_arr['html_file_remove'] = Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->filename]);
+				
+				echo Json::htmlEncode($json_arr);
+
+                return;
+            }	else	{
+				$this->printErrors($model);
+			}
+        }		
+		return;
+    }
+	
 	
 	
 	public function printErrors($model, $error_msg = '')

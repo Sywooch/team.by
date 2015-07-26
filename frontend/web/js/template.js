@@ -1,4 +1,43 @@
 jQuery(function($) {
+	//получаем кол-во миниатюр у блока
+	function getImageNum(block) {
+		var count_items = 0,
+			pItems = $('#' + block + ' li'),
+			iLength = pItems.length,
+			i = 0;
+		
+		for(i = 0; i < iLength; i++)	{
+			if($(pItems[i]).data('item') != $(pItems[i]).html()) {
+				count_items++;
+			} else {
+				count_items++;
+				break;
+			}
+		}
+		return count_items;
+	}
+	
+	//переупорядочиваем после удаления список миниатюр у блока
+	function reorderImages(block) {
+		var pItems = $('#' + block + ' li'),
+			iLength = pItems.length,
+			i = 0;
+		
+		if(iLength > 0)	{
+			for(i = 0; i < iLength; i++)	{
+				if($(pItems[i]).data('item') == $(pItems[i]).html() && $(pItems[i+1]).data('item') != $(pItems[i+1]).html()) {
+					$(pItems[i]).html($(pItems[i+1]).html());
+					$(pItems[i+1]).html($(pItems[i+1]).data('item'));
+				}
+			}
+		}
+	}
+	
+	
+	var upload_reviewfoto_item_num = getImageNum('uploading-reviewfoto-list'),
+		clicked_el = null;
+	
+	
 	function ekkoLightboxInit() {
 		$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 			event.preventDefault();
@@ -7,11 +46,67 @@ jQuery(function($) {
 		
 	}
 	
+	function getSpecList()
+	{
+		$.ajax({
+			type: 'post',				
+			url: '/ajax/getspeclist',
+			data: {phone : $(".modal").find('#addreviewform-phone').val()},
+			//dataType: 'json',
+			beforeSend: function(){},
+			success: function(msg){
+				$(".modal").find('#addreviewform-user_id').remove();
+				$(".modal").find('#addreviewform-user_id-styler').remove();
+				$(".modal").find('.field-addreviewform-user_id').children('label').after(msg);
+				$(".modal").find('select').styler();
+				
+			}
+		});
+	}
+	
+	
+	function init_upload_reviewfoto()
+	{
+		var upload_reviewfoto = new AjaxUpload('#upload-reviewfoto-btn', {
+			action: '/ajax/upload-reviewfoto',
+			name: 'UploadReviewFotoForm[imageFiles]',
+			onSubmit : function(file, extension){
+				$("#loading-reviewfoto").show();
+				$('#loading-reviewfoto-errormes').html('');
+				upload_reviewfoto.setData({'file': file});
+			},
+			onComplete : function(file, response){
+				$("#loading-reviewfoto").hide();
+
+				response = $.parseJSON(response);
+
+				if(response.res == 'ok') {
+					//$('.modal').find('#uploading-reviewfoto-list .item-' + upload_reviewfoto_item_num).html(response.html_file + response.html_file_remove + response.filename);
+					$('.modal').find('#uploading-reviewfoto-list .item-' + upload_reviewfoto_item_num).html(response.html_file + response.filename);
+					$('.modal').find('#uploading-reviewfoto-list .item-' + upload_reviewfoto_item_num).toggleClass('no-foto');
+					upload_reviewfoto_item_num++;
+					if(upload_reviewfoto_item_num > 4)	$('#upload-reviewfoto-btn').css('visibility', 'hidden');
+				} else {
+					for (var i = 0; i < response.msg.length; i++) {
+					   $('#loading-reviewfoto-errormes').append(response.msg[i]);
+					}
+				}
+			}
+		});
+		
+	}
+	
+	
 	ekkoLightboxInit();
 	
 	
 	//$("[data-toggle='tooltip']").tooltip();
 	//$("[data-toggle='popover']").popover();
+	
+	$('#profi_search_inner_catalog').hover(
+		function(){$('#catalog_popup').stop(true,true).fadeIn();},
+		function(){$('#catalog_popup').stop(true,true).fadeOut();}
+	);
 	
 	$('#header_phone').hover(
 		function(){$('#header_phone__popup').stop(true,true).fadeIn();},
@@ -117,8 +212,8 @@ jQuery(function($) {
 	
 	
 	//заказ подбора спеиалиста
-    $('#profi_search_btn').on('click', function (e) {
-        var url = $(this).attr('href')+"?modal=1",
+    $('.contact-to-spec').on('click', function (e) {
+        var url = $(this).data('contact')+"?modal=1",
             modal = $('.modal');
 		
         $.get(url, function (data) {
@@ -127,6 +222,19 @@ jQuery(function($) {
         return false;
     });
 	
+	
+    $('.profi_search_tab__zakaz').on('click', '#send-zayavka', function () {
+        var form = $(this).closest('form'),
+            modal = $('.modal');
+        $.post(
+            form.attr('action'),
+            form.serialize(),
+            function (data) {
+				modal.html(data).modal('show');
+            }
+        );
+        return false;
+    });
 	
     $('.modal').on('click', '#zakaz-spec1-btn', function () {
         var form = $(this).closest('form'),
@@ -170,8 +278,86 @@ jQuery(function($) {
 		}	
 	});
 	
+	//добавление отзыва
+    $('#add_review').on('click', function (e) {
+		e.preventDefault();
+        var url = $(this).data('review')+"?modal=1",
+            modal = $('.modal');
+		
+        $.get(url, function (data) {
+            modal.html(data).modal('show');
+			
+			$(".modal").find('select').styler();
+			init_upload_reviewfoto();
+			upload_reviewfoto_item_num = getImageNum('uploading-reviewfoto-list');
+			$(".modal #addreviewform-phone").bind('paste', function(e) {
+				getSpecList();
+			});	
+			
+        });
+		
+		
+        return false;
+    });
 	
 	
+    $('.modal').on('keyup', '#addreviewform-phone', function () {
+		getSpecList();
+    });
+	
+	
+    $('.modal').on('click', '#send-new-review', function () {
+        var form = $(this).closest('form'),
+            modal = $('.modal');
+        $.post(
+            form.attr('action'),
+            form.serialize(),
+            function (data) {
+				modal.children('.modal-dialog').remove();
+				modal.append(data);
+				
+				init_upload_reviewfoto();
+				upload_reviewfoto_item_num = getImageNum('uploading-reviewfoto-list');
+				
+            }
+        );
+        return false;
+    });			
 	
 	
 });
+
+
+$(window).load(function(){
+	
+	
+	function setHeight(blocks)
+	{
+		var height_block = 0;
+		
+		$(blocks).each(function(){
+			if($(this).height() > height_block) height_block = $(this).height();
+		});
+
+		$(blocks).css('height', (height_block + 'px'));
+		
+	}
+	
+	setHeight('.catalog-item__related_item_cnt .related_item__name');
+	setHeight('.catalog-item__related_item_cnt');
+	
+	
+//	$('.catalog-item__related_item_cnt .related_item__r1').each(function(){
+//		if($(this).height() > height_block) height_block = $(this).height();
+//	});
+//	
+//	$('.catalog-item__related_item_cnt .related_item__r1').css('height', (height_block + 'px'));
+//	
+//	height_block = 0;
+//	
+//	$('.catalog-item__related_item_cnt').each(function(){
+//		if($(this).height() > height_block) height_block = $(this).height();
+//	});
+//	
+//	$('.catalog-item__related_item_cnt').css('height', (height_block + 'px'));
+})

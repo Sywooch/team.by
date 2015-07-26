@@ -6,7 +6,27 @@ use yii\bootstrap\Tabs;
 	<div class="container">
 		<div class="row clearfix">
 			<div class="col-lg-3">
-				<a href="#" class="profi_search_inner_catalog">Каталог специалистов<span class=""> </span></a>
+				<div id="profi_search_inner_catalog">
+					<span class="profi_search_inner_catalog">Каталог специалистов<span class=""> </span></span>
+					
+					<div id="catalog_popup" class="catalog_popup">
+						<ul class="row clearfix all_profi_list">
+							<?php foreach($categories as $cat) {	?>
+								<li class="col-lg-3 all_profi_list__l1_item">
+									<p class="all_profi_list__l1__ttl profi_<?= $cat['id']?>"><a href="<?= (\Yii::$app->urlManager->createUrl(['catalog/category', 'category' => $cat['path']]))?>" class="all_profi_list__l1_item_url"><?= $cat['name']?></a></p>
+									<?php if(count($cat['children']))	{	?>
+										<ul class="all_profi_list__l2">
+											<?php foreach($cat['children'] as $c) {	?>
+												<li class="all_profi_list__l2_item"><a href="<?= (\Yii::$app->urlManager->createUrl(['catalog/category', 'category' => $c['path']]))?>" class="all_profi_list__l2_item_url"><?= $c['name']?></a></li>
+											<?php }	?>
+										</ul>
+									<?php }	?>
+								</li>
+							<?php }	?>
+						</ul>
+					</div>
+					
+				</div>
 			</div>
 			<div class="col-lg-6">
 				<div class="profi_search_inner__inputbox_cnt clearfix">
@@ -40,12 +60,11 @@ use yii\bootstrap\Tabs;
 			</div>
 			<div class="col-lg-3 profi_search_inner__button_col">
 				<p class="profi_search_inner__button_cnt">
-					<a id="profi_search_btn" class="button-red profi_search_inner__button" href="<?= Yii::$app->urlManager->createUrl(['site/zakaz-spec1'])?>">Заказать подбор специалиста</a>
+					<span class="button-red profi_search_inner__button contact-to-spec" data-contact="<?= Yii::$app->urlManager->createUrl(['site/zakaz-spec1'])?>">Заказать подбор специалиста</span>
 				</p>
 			</div>
-
-
-
 		</div>
+		
+		
 	</div>
 </div>

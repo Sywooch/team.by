@@ -222,6 +222,10 @@ class SiteController extends Controller
 	{
 		$model = new RegStep2Form();
 		
+		$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
+		if(count($RegStep1Form) == 0)
+			return $this->redirect(['reg-step1']);
+		
 		//для кооректной загрузки файлов аяксом
 		//устанавливаем с какой моделью будем работать
 		Yii::$app->session->set('profile_model', 'RegStep2Form');	
@@ -559,4 +563,93 @@ class SiteController extends Controller
 		}
 	}
 	
+	
+	public function actionNewReview()
+	{
+		$model = new \frontend\models\AddReviewForm();
+		
+		$request = Yii::$app->request;
+		$modal = $request->get('modal');
+		
+
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+				//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';die;
+				$client = \common\models\Client::find()->where(['phone' => $model->phone])->one();
+				if($client === null) {
+					Yii::$app->getSession()->setFlash('error', 'Клиент с заданым телефоном не найден');
+				}	else	{
+					$order = \common\models\Order::find()
+								->where(['client_id' => $client->id])
+								->andWhere(['user_id' => $model->user_id])
+								->one();
+					if($order === null) {
+						Yii::$app->getSession()->setFlash('error', 'Заказ не найден');
+					}	else	{
+						
+						$review = \common\models\Review::find()
+									->where(['client_id' => $client->id])
+									->andWhere(['order_id' => $order->id])
+									->one();
+						//echo'<pre>';print_r($review);echo'</pre>';//die;
+						if($review === null) {
+							$review = new \common\models\Review();
+
+							$model_attribs = $model->toArray();
+							$review_attr = $review->attributes;
+							//echo'<pre>';print_r($model_attribs);echo'</pre>';//die;
+							//echo'<pre>';print_r($review_attr);echo'</pre>';//die;
+
+							
+							$review->order_id = $order->id;
+							$review->client_id = $client->id;
+							$review->user_id = $model->user_id;
+							$review->review_text = $model->comment;
+							$review->review_rating = $model->rating;
+							$review->youtube = $model->video;
+							$review->status = 0;
+							
+							if($review->validate()) {
+								$review->save();
+
+								foreach($model->foto as $foto) {
+									$ReviewMedia = new \common\models\ReviewMedia();
+									$ReviewMedia->review_id = $review->id;
+									$ReviewMedia->filename = $foto;
+									if($ReviewMedia->save())	{
+										//перемещаем фото
+										if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$foto))
+											rename(Yii::getAlias('@frontend').'/web/tmp/'.$foto, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['reviews-path'].'/'.$foto);
+
+										if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$foto))
+											rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$foto, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['reviews-path'].'/'.'thumb_'.$foto);
+									}
+								}
+								
+								Yii::$app->getSession()->setFlash('success', 'Благодарим вас за отзыв! Ваш отзыв появится на сайте сразу же после проверки модератором.');
+							}	else	{
+								//echo'<pre>';print_r($review);echo'</pre>';//die;
+								Yii::$app->getSession()->setFlash('error', 'Ошибка при сохранении отзыва');
+							}
+						}	else	{
+							Yii::$app->getSession()->setFlash('error', 'Для данного заказа отзыв уже оставлен');
+						}
+					}
+					
+				}
+				//echo'<pre>';print_r($order);echo'</pre>';die;				
+				//return;
+			}
+		}
+		
+		if($modal == 1) {
+			return $this->renderPartial('new-review-modal', [
+				'model' => $model,
+			]);
+		}	else	{
+			return $this->render('new-review', [
+				'model' => $model,
+			]);
+		}
+	}	
 }

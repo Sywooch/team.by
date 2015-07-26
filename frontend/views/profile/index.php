@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет'];
 				],
 				[
 					'label' => 'Мои заказы',
-					'content' => $this->render('_orders', [], false, true),
+					'content' => $this->render('_orders', ['dataProvider' => $ordersDataProvider], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
 					'options' => ['class' => 'tab_profile_orders']
 				],
@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет'];
 				],
 				[
 					'label' => 'Мои отзывы',
-					'content' => $this->render('_reviews', [], false, true),
+					'content' => $this->render('_reviews', ['dataProvider' => $reviewsDataProvider], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
 					'options' => ['class' => 'tab_profile__reviews']
 				],

@@ -10,9 +10,13 @@ use yii\base\Model;
  */
 class ZakazSpec1 extends Model
 {
-    public $name = 'alexey';
-    public $phone = '375295379969';
-    public $comment = 'Хочу муму';
+//    public $name = 'alexey';
+//    public $phone = '375295379969';
+//    public $comment = 'Хочу муму';
+
+    public $name;
+    public $phone;
+    public $comment;
 
     /**
      * @inheritdoc
@@ -21,7 +25,7 @@ class ZakazSpec1 extends Model
     {
         return [
             [['phone'], 'required'],
-			[['phone'], 'string', 'min' => 12, 'max' => 12],
+			['phone', 'string', 'min' => 12, 'tooShort'=>'Неверный номер телефона'],
 			[['name'], 'string', 'min' => 3, 'max' => 255],
 			[['comment'], 'string', 'min' => 3, 'max' => 255],
         ];

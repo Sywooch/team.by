@@ -4,7 +4,7 @@ return [
 	'homeUrl' => 'http://team.gf-club.net',
 	'catlist-orderby' => [
 		'fio'	 => 'имени',
-		'price'	 => 'цене',
+		//'price'	 => 'цене',
 		'created_at' => 'дате добавления',
 	],
 	

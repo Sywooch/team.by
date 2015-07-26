@@ -7,6 +7,8 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
+use yii\helpers\Url;
+
 /**
  * User model
  *
@@ -225,6 +227,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(Review::className(), ['user_id' => 'id']);
 	}
 	
+    public function getOrders()
+    {
+        return $this->hasMany(Order::className(), ['user_id' => 'id']);
+	}
+	
     public function getUserRegion()
     {
         return $this->hasOne(Region::className(), ['id' => 'region_id']);
@@ -246,5 +253,22 @@ class User extends ActiveRecord implements IdentityInterface
 		}
 		return['awards'=>$awards, 'examples'=>$examples];
     }
+	
+    public function getFrontendUrl()
+    {
+        return \Yii::$app->urlManager->createUrl(['catalog/show', 'id' => $this->id]);
+    }
+	
+    public function getAvatarUrl()
+    {
+        return Url::home(true).Yii::$app->params['avatars-path'].'/'.$this->avatar;
+    }
+	
+    public function getAvatarThumbUrl()
+    {
+        return Url::home(true).Yii::$app->params['avatars-path'].'/thumb_'.$this->avatar;
+    }
+	
+	
 	
 }

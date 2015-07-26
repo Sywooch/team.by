@@ -6,6 +6,8 @@ use Yii;
 
 use common\models\Category;
 use common\models\User;
+use common\models\Review;
+use common\models\Region;
 
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -66,6 +68,10 @@ class CatalogController extends Controller
 	
     public function actionCategory($category)
     {
+		//получаем из куки ИД региона
+		$region_id = \Yii::$app->getRequest()->getCookies()->getValue('region', 1);
+		//echo'<pre>';print_r($region_id);echo'</pre>';
+		
 		//получаем поле для сортировки
 		$orderBy = Yii::$app->request->post('orderby', '');
 		if($orderBy != '') {
@@ -120,18 +126,27 @@ class CatalogController extends Controller
 				unset($children[$k]);
 			}
 		}
-			
 		
+		$query = User::find()
+			->distinct(true)
+			->joinWith(['userCategories'])
+			->joinWith(['reviews'])
+			->where(['{{%user_categories}}.category_id'=>$cat_ids])
+			->orderBy('{{%user}}.'.$orderBy.' ASC');
+		
+		//если указан какой-то регион - то фильтруем по нему и его потомкам
+		if($region_id != 1) {
+			$region = Region::findOne($region_id);
+			$region_children = $region->children()->all();
+			$region_ids = implode(',', [$region_id => $region_id] + ArrayHelper::map($region_children, 'id', 'id'));
+			$query->andWhere("region_id IN ($region_ids)");
+		}	else	{
+			
+		}
 		
 		
 		$DataProvider = new ActiveDataProvider([
-			'query' => User::find()
-				->distinct(true)
-				//->join('INNER JOIN', '{{%user_categories}} AS uc', 'uc.user_id = {{%user}}.id')
-				->joinWith(['userCategories'])
-				->joinWith(['reviews'])
-				->where(['{{%user_categories}}.category_id'=>$cat_ids])
-				->orderBy('{{%user}}.'.$orderBy.' ASC'),
+			'query' => $query,
 			
 			'pagination' => [
 				//'pageSize' => Yii::$app->params['catlist-per-page'],
@@ -139,10 +154,7 @@ class CatalogController extends Controller
 				'pageSizeParam' => false,
 			],
 		]);
-		
-		$specials = Category::find()->where('depth > 2')->orderBy('lft, rgt')->all();
-		$specials = ArrayHelper::map($specials, 'id', 'name');
-		
+				
 		$categories_history = Yii::$app->session->get('categories_history', []);
 		//echo'<pre>';print_r($categories_history);echo'</pre>';
 		foreach($DataProvider->models as $model)	{
@@ -158,16 +170,13 @@ class CatalogController extends Controller
 			'dataProvider'=>$DataProvider,
 			'current_ordering'=>$current_ordering,
 			'ordering_items'=>$ordering_items,
-			'specials'=>$specials,
+			'specials'=>$this->getSpecials(),
 		]);
     }    
  
     public function actionShow($category, $id)
     {
         $categories_history = Yii::$app->session->get('categories_history', []);
-		
-		
-        //echo'<pre>';print_r($id);echo'</pre>';
 		
 		$model = User::findOne($id);		
 		if ($model === null) throw new CHttpException(404, 'Аккаунт с данным ID отсутстсвует в базе');		
@@ -181,17 +190,12 @@ class CatalogController extends Controller
 
 			if($category === null) throw new NotFoundHttpException('Ошибка категории');
 		}	else	{
-			
 			$category = Category::find()
 				->where(['id' => $model->userCategories[0]->category_id])
 				->one();
 
 			if($category === null) throw new NotFoundHttpException('Ошибка категории');
-				
 		}
-		
-		//echo'<pre>';print_r($model);echo'</pre>';
-		//echo'<pre>';print_r($category);echo'</pre>';
 		
 		//получаем всех родителей данной категории для хлебной крошки
 		$parents = $category->parents()->all();
@@ -199,6 +203,42 @@ class CatalogController extends Controller
 		//получаем потомков категории
 		$children = $category->children()->all();
 		
+		//получаем массив ИД категорий для поиска аккаунтов в них
+		$cat_ids = [$category->id];
+		foreach($children as $k=>$c)	{
+			if($c->depth < 3)	{				
+				$cat_ids[] = $c->id;
+			}	else	{
+				//на 3-м уровне у нас идут виды работ. Их нужно исключить
+				unset($children[$k]);
+			}
+		}
+		
+		$relatedDataProvider = new ActiveDataProvider([
+			'query' => User::find()
+				->distinct(true)
+				->joinWith(['userCategories'])
+				->joinWith(['userSpecials'])
+				->where(['{{%user_categories}}.category_id'=>$cat_ids])
+				->andWhere('{{%user}}.id <> '.$id)
+				->orderBy('RAND()'),
+			
+			'pagination' => [
+				'pageSize' => 5,
+				'pageSizeParam' => false,
+			],
+		]);		
+		
+		$reviews_count = Review::find()
+			->where(['user_id'=>$model->id])
+			->count();
+		
+		$reviews_list = Review::find()
+			->where(['user_id'=>$model->id])
+			->joinWith(['client'])
+			->limit(3)
+			->orderBy('id DESC')
+			->all();
 		
 		//$model = $this->loadModel($id)
  
@@ -208,6 +248,10 @@ class CatalogController extends Controller
 			'category'=>$category,
 			'parents'=>$parents,
 			'children'=>$children,			
+			'relatedDataProvider'=>$relatedDataProvider,
+			'specials'=>$this->getSpecials(),
+			'reviews_list'=>$reviews_list,
+			'reviews_count'=>$reviews_count,
 		]);
 
     }
@@ -231,4 +275,11 @@ class CatalogController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+	
+	public function getSpecials()
+	{
+		$specials = Category::find()->where('depth > 2')->orderBy('lft, rgt')->all();
+		$specials = ArrayHelper::map($specials, 'id', 'name');
+		return $specials;
+	}
 }

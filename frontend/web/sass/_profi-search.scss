@@ -202,8 +202,21 @@
 }
 
 .profi_search_tab__zakaz {
-	.inputbox {
-		margin-bottom: 15px;
+//	.inputbox {
+//		margin-bottom: 15px;
+//	}
+	
+	.form-group {
+		label {
+			@extend %hide;
+			
+		}
+	}
+	
+	.has-error {
+		.inputbox {
+			border-color: #a94442;
+		}
 	}
 }
 
@@ -220,6 +233,7 @@
 	@extend %font_18;
 	@extend .dinpro-b;
 	@extend %pos_rel;
+	@extend %pointer;
 	
 	background-repeat: repeat-x;
 	height: 77px;

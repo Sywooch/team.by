@@ -21,7 +21,7 @@ use yii\bootstrap\Tabs;
 							],
 							[
 								'label' => 'Заказать подбор специалиста',
-								'content' => $this->render('_profi_search_tab2', [], false, true),
+								'content' => $this->render('_profi_search_tab2', ['model'=>$model], false, true),
 								'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
 								'options' => ['class' => 'profi_search_tab__zakaz']
 							],

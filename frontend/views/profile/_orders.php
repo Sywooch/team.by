@@ -1,6 +1,10 @@
 <?php
+use yii\widgets\ListView;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\bootstrap\ButtonDropdown;
+
+use yii\widgets\ActiveForm;
 
 ?>
 
@@ -8,9 +12,27 @@ use yii\helpers\Url;
 
 
 <div class="profile_orders">
+
+<?
+	//echo'<pre>';print_r($dataProvider->models);echo'</pre>';
+	?>
 	<div class="profile_orders_row">
 		Сортировать по
 	</div>
+	
+	<?php
+	echo ListView::widget( [
+		'dataProvider' => $dataProvider,
+		'itemView' => '_item-order',
+		'summary' => '',
+		'id' => 'items-list',
+		'options' => ['class' => 'list-view profile-orders-list-view'],
+		'itemOptions' => ['class'=>'profile_orders_row profile_order_item'],
+		'layout' => '{items}{pager}',
+		//'viewParams'=> ['specials'=>$specials],
+	] );
+	?>
+	<?/*
 	<div class="profile_orders_row profile_order_item">
 		<div class="row clearfix">
 			<div class="col-lg-2">
@@ -78,5 +100,6 @@ use yii\helpers\Url;
 			</div>
 		</div>
 	</div>
+	*/?>
 	
 </div>

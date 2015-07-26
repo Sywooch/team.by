@@ -94,7 +94,7 @@ use dosamigos\datepicker\DatePicker;
 
 			<div id="uploading-review-foto-list" class="uploading-tmb-list">
 				<ul class="clearfix">
-					<?php for ($x=0; $x<=9; $x++) { ?>
+					<?php for ($x=0; $x<=4; $x++) { ?>
 						<li class="item-<?= ($x+1) ?> pull-left <?php echo (!isset($model->review_foto[$x])) ? 'no-foto' : '' ?>" data-item="<?= ($x+1) ?>">
 							<?php 
 								if(isset($model->review_foto[$x]))	{
@@ -110,6 +110,11 @@ use dosamigos\datepicker\DatePicker;
 				</ul>
 			</div>
 		</div>
+		
+		<?= $form->field($model, 'review_state')->dropDownList($model->reviewStates, [$model->review_state]) ?>
+		
+		<?= $form->field($model, 'answer_text')->textarea(['rows' => 6]) ?>
+		<?= $form->field($model, 'answer_status')->dropDownList($model->answerStatuses, [$model->answer_status]) ?>
    <?php	}	?>
     
     

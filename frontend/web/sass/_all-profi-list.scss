@@ -177,4 +177,118 @@
 	}
 }
 
+.catalog_popup {
+	@extend %pos_abs;
+	@extend %hide;
+	
+	@include border-radius(0 0 7px 7px);
+	@include box-shadow(0 5px 5px 0 #006690 inset);
+	
+	background-color: $blue12;
+	width: 1140px;
+	padding: 15px;
+	z-index: 10;
+	
+	.all_profi_list__l1__ttl {
+		border-color: $blue13;
+	}
+	
+	
+	.all_profi_list__l2_item,
+	.all_profi_list__l2_item_url,
+	.all_profi_list__l1_item_url {
+		@extend %c_fff;
+		
+		&:hover {
+			color: darken(#fff, 10%);
+		}
+	}
+	
+	.all_profi_list__l2_item,
+	.all_profi_list__l2_item_url {
+		color: $gray26;
+		
+		&:hover {
+			color: darken($gray26, 10%);
+		}
+	}
+	
+	.profi_2 {
+		&:before {
+			@extend .ico-cat-1-l;
+		}
+	}
 
+	.profi_6 {
+		&:before {
+			@extend .ico-cat-2-l;
+		}
+	}
+
+	.profi_4 {
+		&:before {
+			@extend .ico-cat-3-l;
+		}
+	}
+
+	.profi_5 {
+		&:before {
+			@extend .ico-cat-4-l;
+		}
+	}
+
+	.profi_28 {
+		&:before {
+			@extend .ico-cat-5-l;
+			top: -3px;
+		}
+	}
+
+	.profi_34 {
+		&:before {
+			@extend .ico-cat-6-l;
+		}
+	}
+
+	.profi_40 {
+		&:before {
+			@extend .ico-cat-7-l;
+		}
+	}
+
+	.profi_46 {
+		&:before {
+			@extend .ico-cat-8-l;
+			top: -2px;
+		}
+	}
+
+	.profi_52 {
+		&:before {
+			@extend .ico-cat-9;
+			top: 2px;
+		}
+	}
+
+	.profi_53 {
+		&:before {
+			@extend .ico-cat-10;
+			top: 2px;
+		}
+	}
+
+	.profi_54 {
+		&:before {
+			@extend .ico-cat-11;
+			top: 2px;
+		}
+	}
+
+	.profi_55 {
+		&:before {
+			@extend .ico-cat-12;
+			top: 2px;
+		}
+	}
+	
+}

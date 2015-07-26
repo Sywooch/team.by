@@ -17,6 +17,8 @@ use yii\widgets\ActiveForm;
 \frontend\assets\BootstrapLightboxAsset::register($this);
 \frontend\assets\FormStylerAsset::register($this);
 
+$this->title = 'Информация об услугах';
+
 //echo'<pre>';print_r($categories);echo'</pre>';
 //echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 
@@ -32,7 +34,9 @@ $errors = $model->getErrors();
 
 $categories_l2_arr = [];
 ?>
-<div class="site-reg-step2">
+
+<h1>Информация об услугах</h1>
+<div class="site-reg-step2 row clearfix">
 		
 
   
@@ -40,7 +44,7 @@ $categories_l2_arr = [];
 <noscript><input type="submit" value="submit" class="button2" /></noscript>
 
 
-	<div class="col-lg-8">  
+	<div class="col-lg-7">  
 	<?php $form = ActiveForm::begin([
 		'options'=> ['enctype' => 'multipart/form-data' ],
 		'enableClientValidation' => false,
@@ -98,13 +102,13 @@ $categories_l2_arr = [];
 				<span id="upload-price-btn" class="button-red">Загрузить</span>
 			</div>
 			
-			<div class="col-lg-5">
-				<p class="uploading-info">Файл .XLS, .CSV, XLSX объёмом не более 10МБ</p>
-			</div>
-			
 			<div class="col-lg-2">
 				<img id="loading-price" class="reg-step2-loading-process" src="/images/loading.gif" alt="Loading" />
 				<span id="loading-price-success" class="reg-step2-loading-price-success">Загружено</span>
+			</div>			
+			
+			<div class="col-lg-5">
+				<p class="uploading-info">Файл .XLS, .CSV, XLSX объёмом не более 10МБ</p>
 			</div>
 			
 			<p id="loading-price-errormes" class="reg-step2-loading-errors col-lg-12"></p>
@@ -119,11 +123,11 @@ $categories_l2_arr = [];
 					<span id="upload-awards-btn" class="button-red">Загрузить</span>
 				</div>
 				
-				<div class="col-lg-2">
+				<div class="col-lg-1">
 					<img id="loading-awards" class="reg-step2-loading-process" src="/images/loading.gif" alt="Loading" />
 				</div>
 				
-				<div class="col-lg-5">
+				<div class="col-lg-6">
 					<p id="loading-awards-errormes" class="reg-step2-loading-errors col-lg-12 "></p>
 				</div>
 			</div>
@@ -148,7 +152,6 @@ $categories_l2_arr = [];
 		</div>		
 				
 		<div id="uploading-avatar" class="form-group clearfix">
-			
 			<div class="row clearfix">
 				<div class="col-lg-7">
 					<?/*<label class="reg-step2-uploading-ttl"><?php echo $model->getAttributeLabel('avatar'); ?></label> */?>
@@ -156,11 +159,13 @@ $categories_l2_arr = [];
 					<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
 					
 					<div class="row clearfix">
-						<div class="col-lg-5">
+						<div class="col-lg-6">
 							<span id="upload-avatar-btn" class="button-red">Загрузить</span>
 						</div>
-						<div class="col-lg-7">
+						<div class="col-lg-6">
 							<img id="loading-avatar" class="reg-step2-loading-process" src="/images/loading.gif" alt="Loading" />
+						</div>
+						<div class="col-lg-12">
 							<p id="loading-avatar-errormes" class="reg-step2-loading-errors"></p>
 						</div>
 					</div>
@@ -181,8 +186,6 @@ $categories_l2_arr = [];
 				
 			</div>
 			
-			
-			
 			<p class="reg-step2-uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
 			
 			<div class="row clearfix">
@@ -190,12 +193,12 @@ $categories_l2_arr = [];
 					<span id="upload-examples-btn" class="button-red">Загрузить</span>
 				</div>
 				
-				<div class="col-lg-2">
+				<div class="col-lg-1">
 					<img id="loading-examples" class="reg-step2-loading-process" src="/images/loading.gif" alt="Loading" />
 				</div>
 				
-				<div class="col-lg-5">
-					<p id="loading-examples-errormes" class="reg-step2-loading-errors col-lg-12 "></p>
+				<div class="col-lg-6">
+					<p id="loading-examples-errormes" class="reg-step2-loading-errors"></p>
 				</div>
 			</div>
 
@@ -228,6 +231,21 @@ $categories_l2_arr = [];
 	<?php ActiveForm::end(); ?>
 	
 	</div>
-	<div class="col-lg-4"></div>
+	
+	<div class="col-lg-4 col-lg-offset-1">
+		<div class="reg_info">
+			<div class="reg_info_ttl">
+				Преимущества для специалистов team.by
+			</div>
+			<div class="reg_info_cnt">
+				<p>
+					<span>Работать с нами удобно!</span>
+					<br><br>
+					Оплатить наши услуги можно в любом интернет банке, мобильном банке, банкомате, инфокиоске, в кассе любого банка Республики Беларусь через систему ЕРИ.П
+				</p>
+			</div>
+		</div>
+	</div>
+
 
 </div><!-- site-reg-step2 -->

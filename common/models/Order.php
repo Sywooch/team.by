@@ -122,4 +122,43 @@ class Order extends \yii\db\ActiveRecord
         return $this->client->fio;
     }
 	
+    public function getOrderPaymentStatusClass()
+    {
+        switch($this->payment_status) {
+			case 1:
+				$res = 'order_status_ok';
+				break;
+			case 2:
+				$res = 'order_status_wait';
+				break;			
+			case 3:
+				$res = 'order_status_warning';
+				break;
+			default:
+				$res = 'order_status_wait';
+				break;
+		}
+		return $res;
+    }
+	
+    public function getOrderPaymentStatusTxt()
+    {
+        switch($this->payment_status) {
+			case 1:
+				$res = 'Статус оплачена';
+				break;
+			case 2:
+				$res = 'Статус ожидает';
+				break;			
+			case 3:
+				$res = 'Статус просрочена';
+				break;
+			default:
+				$res = 'Статус ожидает';
+				break;
+		}
+		return $res;
+    }
+	
+	
 }

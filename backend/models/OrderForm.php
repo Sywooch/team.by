@@ -26,6 +26,7 @@ class OrderForm extends Model
     public $status;
     public $payment_status;
     public $review_status;
+    public $review_state;
 	
     public $fio;
     public $phone;
@@ -35,6 +36,8 @@ class OrderForm extends Model
     public $review_text;
     public $review_rating;
     public $review_foto = [];
+	public $answer_text;
+	public $answer_status;
 
     /**
      * @inheritdoc
@@ -52,8 +55,9 @@ class OrderForm extends Model
 			['email', 'email'],
 			
 			['review_foto', 'each', 'rule' => ['string']],
-			['review_text', 'string', 'min' => 3, 'max' => 2048],
-			['review_rating', 'integer'],
+			
+			[['review_text', 'answer_text'], 'string', 'min' => 3, 'max' => 2048],
+			[['review_rating', 'review_state', 'answer_status', 'payment_status'], 'integer'],
 			
         ];
     }
@@ -73,9 +77,10 @@ class OrderForm extends Model
             'price1' => 'Цена предварительная',
             'price' => 'Цена Окончательная',
             'fee' => 'Комисия',
-            'status' => 'Статус',
+            'status' => 'Статус заказа',
             'payment_status' => 'Статус оплаты',
             'review_status' => 'Статус отзыва',
+            'review_state' => 'Состояние отзыва',
 			
             'fio' => 'ФИО',
             'phone' => 'Телефон',
@@ -85,6 +90,8 @@ class OrderForm extends Model
             'review_text' => 'Текст отзыва',
             'review_foto' => 'Фото отзыва',
             'review_rating' => 'Оценка клиента',
+            'answer_text' => 'Ответ специалиста',
+            'answer_status' => 'Статус ответа',
 			
         ];
     }
@@ -101,8 +108,8 @@ class OrderForm extends Model
     public static function getPaymentStatuses()
     {
         return [
-            1 => 'ожидает оплаты',
-            2 => 'оплачен',
+            1 => 'оплачен',
+			2 => 'ожидает оплаты',
             3 => 'просрочен',
         ];
     }	
@@ -115,6 +122,23 @@ class OrderForm extends Model
             3 => 'Отказано',
         ];
     }	
+	
+    public static function getReviewStates()
+    {
+        return [
+            0 => 'Требует модерации',
+            1 => 'Опубликован',
+        ];
+    }	
+	
+    public static function getAnswerStatuses()
+    {
+        return [
+            0 => 'Новый',
+            1 => 'Одобрен',
+            2 => 'Удалён',
+        ];
+    }
 	
     public static function getReviewRating()
     {

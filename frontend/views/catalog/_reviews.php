@@ -11,9 +11,10 @@ $review_item = 1;
 	<?// echo'<pre>';print_r($model->reviews->limit(1));echo'</pre>'; ?>
 	
 	<?php if(count($model->reviews))	{	?>
-		<p class="catalog-item__ttl">Отзывы клиентов (<?= count($model->reviews) ?>)</p>
+		<p class="catalog-item__ttl">Отзывы клиентов (<?= $reviews_count ?>)</p>
 		<ul class="reviews_list">
-			<?php	foreach($model->reviews as $review)	{	?>
+			<?php	//foreach($model->reviews as $review)	{	?>
+			<?php	foreach($reviews_list as $review)	{	?>
 				<li class="reviews_item">
 					<? echo $this->render('_review-item', ['model'=>$review])?>
 				</li>
@@ -32,7 +33,7 @@ $review_item = 1;
 	<?php	}	?>
 
 	<div class="catalog-item__reviews_bottom">
-		<a href="#" id="catalog-item__add_review" class="button-red catalog-item__add_review">Добавить свой отзыв</a>
+		<span id="add_review" class="button-red catalog-item__add_review" data-review="<?= \Yii::$app->urlManager->createUrl(['site/new-review']) ?>">Добавить свой отзыв</span>
 		
 		<?php if(count($model->reviews))	{	?>
 			<a href="<?= \Yii::$app->urlManager->createUrl(['reviews/user', 'id' => $model->id]) ?>" id="catalog-item__show_reviews" class="button-blue catalog-item__show_reviews">Остальные отзывы</a>

@@ -1,8 +1,22 @@
 <?php
-use yii\helpers\Html;
-use yii\helpers\Url;
-
+//use yii\helpers\Html;
+//use yii\helpers\Url;
+use yii\widgets\ListView;
 ?>
+	
+<?php
+echo ListView::widget( [
+	'dataProvider' => $dataProvider,
+	'itemView' => '_item-review',
+	'summary' => '',
+	'id' => 'items-list',
+	'options' => ['class' => 'list-view reviews_list profile-reviews-list-view'],
+	'itemOptions' => ['class'=>'reviews_item'],
+	'layout' => '{items}{pager}',
+	//'viewParams'=> ['specials'=>$specials],
+] );
+?>
+	<?/*
 		<ul class="reviews_list">
 			<li class="reviews_item">
 				<div class="row clearfix">
@@ -93,3 +107,4 @@ use yii\helpers\Url;
 			
 			
 		</ul>
+*/?>

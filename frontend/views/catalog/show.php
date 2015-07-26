@@ -2,9 +2,13 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
+use frontend\helpers\DPriceHelper;
+
 \frontend\assets\BootstrapLightboxAsset::register($this);
 
 \frontend\assets\JcarouselAsset::register($this);
+\frontend\assets\FormStylerAsset::register($this);
+\frontend\assets\AjaxUploadAsset::register($this);
 
 
 
@@ -40,7 +44,7 @@ foreach($model->userMedia as $media)	{
 }
 
 $rating_active = 20 * $model->total_rating; // максимальная оценка 5 это 100%.  Значит каждая единица = 20%
-//echo'<pre>';print_r($model->userCategories[0]->category);echo'</pre>';
+//echo'<pre>';print_r($model->userSpecials[0]->category);echo'</pre>';die;
 ?>
 
 <div class="catalog-item">
@@ -88,7 +92,8 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 							<li class="catalog-item_body__uslugi_item col-lg-6">
 								<div class="row">
 									<p class="col-lg-6">• <?= $user_spec->category->name ?></p>
-									<p class="col-lg-6"><?= \Yii::$app->formatter->asDecimal($user_spec->price); ?></p>
+									<p class="col-lg-6"><?= DPriceHelper::formatPrice($user_spec->price); ?></p>
+									<?/*<p class="col-lg-6"><?= \Yii::$app->formatter->asDecimal($user_spec->price); ?></p> */?>
 								</div>
 							</li>
 						<?php	}	?>
@@ -114,14 +119,14 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 					</div>
 				</div>
 				
-				<a href="#" class="button-red catalog-item_body__contact_spec">Связаться со специалистом</a>
+				<span class="button-red catalog-item_body__contact_spec contact-to-spec" data-contact="<?= Yii::$app->urlManager->createUrl(['site/zakaz-spec1'])?>">Связаться со специалистом</span>
 				
 			</div>
 			
 	</div>
 	
 	<?php if(count($model_examples))	{	?>
-		<div id="examples" class="catalog-item__examples">
+			<div id="examples" class="catalog-item__examples">
 			<p class="catalog-item__ttl">Примеры работ (<?= count($model_examples)?>)</p>
 			
 			<?php if(count($model_examples) > 5)	{	?>
@@ -144,7 +149,7 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 			
 			<?php	}	else	{	?>
 			
-				<ul class="catalog-item__examples_list catalog-item__examples_list_1">
+				<ul class="catalog-item__examples_list">
 				<?php 
 					foreach($model_examples as $item)
 						echo Html::tag('li', Html::a(Html::img(Url::home(true).Yii::$app->params['examples-path'].'/thumb_'.$item), Url::home(true).Yii::$app->params['examples-path'].'/'.$item, ['data-toggle'=>'lightbox', 'data-gallery'=>'examples-images']), ['class'=>'catalog-item__examples_item']);
@@ -154,7 +159,9 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 		</div>
 	<?	}	?>
 	
-	<?php echo $this->render('_reviews', ['model'=>$model] ) ?>
+	<?php echo $this->render('_reviews', ['model'=>$model,'reviews_list'=>$reviews_list,'reviews_count'=>$reviews_count] ) ?>
+	
+	<?php echo $this->render('_related', ['children'=>$children, 'dataProvider'=>$relatedDataProvider, 'specials'=>$specials] ) ?>
 	
 </div>
 
