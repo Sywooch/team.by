@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет'];
 				],
 				[
 					'label' => 'Мои заказы',
-					'content' => $this->render('_orders', ['dataProvider' => $ordersDataProvider], false, true),
+					'content' => $this->render('_orders', ['dataProvider' => $ordersDataProvider,'ordering_items'=>$ordering_items,'current_ordering'=>$current_ordering], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
 					'options' => ['class' => 'tab_profile_orders']
 				],

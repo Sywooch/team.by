@@ -22,13 +22,20 @@ use yii\helpers\Url;
 			<div class="reviews_item__review_text"><?= $model->review_text ?></div>
 			<div class="reviews_item__review_foto">
 				<ul class="reviews_item__foto_list">
-					
 					<?php foreach($model->reviewMedia as $media) echo Html::tag('li', Html::a(Html::img(Url::home(true) . Yii::$app->params['reviews-path'] . '/thumb_' .$media->filename), Url::home(true) . Yii::$app->params['reviews-path'] . '/' .$media->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'review-images-'.$model->id]), ['class'=>'reviews_item__foto_item']); ?>
-					<?php //echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
-					<?php //echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
-					<?php //echo Html::tag('li', Html::a(Html::img('http://placehold.it/70x42'), 'http://placehold.it/800x600', ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']); ?>
 				</ul>
 			</div>
+			<?php if ($model->youtube != '') {	?>
+				<p class="mt-10"><a href="<?= $model->youtube ?>" target="_blank">Смотреть видео</a></p>
+			<?php	}	?>
 		</div>
+			<div class="review_answer_cnt mt-20">
+				<?php if ($model->answer_text == '') {	?>
+					<span class="button-red add-answer" data-answer="<?= \Yii::$app->urlManager->createUrl(['profile/add-answer', 'id' => $model->id])?>">Ответить</span>
+				<?php	}	elseif($model->answer_status == 1)	{	?>
+					<div class="dashed-border-block mt-20 ml-20"><?= $model->answer_text ?></div>
+				<?php	}	?>
+			</div>
+		
 	</div>
 </div>

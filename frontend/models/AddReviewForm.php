@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
  */
 class AddReviewForm extends Model
 {
-	/*
+
     public $name;
     public $phone;
     public $user_id;
@@ -20,7 +20,9 @@ class AddReviewForm extends Model
     public $video;
     public $comment;
     public $rating;
-	*/
+
+	
+	/*
     public $name = 'aad';
     public $phone = '375 44 897 12 64';
     public $user_id;
@@ -29,7 +31,7 @@ class AddReviewForm extends Model
     public $video = 'http://ya.com';
     public $comment = 'С другой стороны рамки и место обучения кадров в значительной степени обуславливает создание форм развития. ';
     public $rating = 4;
-
+	*/
     /**
      * @inheritdoc
      */

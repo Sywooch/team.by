@@ -4,6 +4,9 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\UserToAdministration;
+
+use backend\models\UserToAdministrationSearch;
+
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -32,11 +35,16 @@ class ToadministrationController extends Controller
      */
     public function actionIndex()
     {
+		
+        $searchModel = new UserToAdministrationSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		/*	
         $dataProvider = new ActiveDataProvider([
             'query' => UserToAdministration::find(),
         ]);
-
+		*/
         return $this->render('index', [
+			'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -63,7 +71,7 @@ class ToadministrationController extends Controller
         $model = new UserToAdministration();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -81,8 +89,25 @@ class ToadministrationController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+			
+			$model->save();
+			
+			//if($model->sendEmail('aldegtyarev@yandex.ru')) {
+			if($model->sendEmail($model->user->email)) {
+				Yii::$app->getSession()->setFlash('success', 'Ответ успешно отправлен');
+				$model->status = 2;
+				$model->save();
+			}	else	{
+				Yii::$app->getSession()->setFlash('error', 'При отправке сообщения возникла ошибка');
+			}
+
+			
+			
+			
+			
+			
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,

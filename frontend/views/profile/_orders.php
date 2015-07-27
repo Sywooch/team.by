@@ -12,12 +12,27 @@ use yii\widgets\ActiveForm;
 
 
 <div class="profile_orders">
+<?php $form = ActiveForm::begin(['id' => 'orders-sort-sw', 'options'=>['class'=>'orders-sort-sw ']]); ?>
+	<input type="hidden" id="orderby" name="orderby" value="<?= $current_ordering['field']?>" />
+<?php ActiveForm::end(); ?>
 
-<?
-	//echo'<pre>';print_r($dataProvider->models);echo'</pre>';
-	?>
-	<div class="profile_orders_row">
-		Сортировать по
+	<div class="profile_orders_row orders-sort-cnt">
+		<p class="category-sort-lbl">Сортировать по:</p>
+		<?php echo ButtonDropdown::widget([
+			'label' => $current_ordering['name'],
+			'options' => [
+				'class' => 'btn-lg btn-link',
+				'style' => ''
+			],
+			'containerOptions' => [
+				'class' => 'sorting-switcher',
+			],
+			'dropdown' => [
+				'items' => $ordering_items
+			]
+		]);
+		?>
+		
 	</div>
 	
 	<?php

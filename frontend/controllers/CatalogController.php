@@ -132,6 +132,7 @@ class CatalogController extends Controller
 			->joinWith(['userCategories'])
 			->joinWith(['reviews'])
 			->where(['{{%user_categories}}.category_id'=>$cat_ids])
+			->andWhere('black_list <> 1')
 			->orderBy('{{%user}}.'.$orderBy.' ASC');
 		
 		//если указан какой-то регион - то фильтруем по нему и его потомкам
@@ -167,6 +168,59 @@ class CatalogController extends Controller
 			'category'=>$category,
 			'parents'=>$parents,
 			'children'=>$children,
+			'dataProvider'=>$DataProvider,
+			'current_ordering'=>$current_ordering,
+			'ordering_items'=>$ordering_items,
+			'specials'=>$this->getSpecials(),
+		]);
+    }    
+ 
+    public function actionBlackList()
+    {
+		//получаем поле для сортировки
+		$orderBy = Yii::$app->request->post('orderby', '');
+		if($orderBy != '') {
+			Yii::$app->response->cookies->add(new \yii\web\Cookie([
+				'name' => 'catlist-orderby',
+				'value' => $orderBy,
+			]));
+		}	else	{
+			$orderBy = Yii::$app->request->cookies->getValue('catlist-orderby', 'fio');
+		}
+		
+		//строим выпадающий блок для сортировки
+		$ordering_arr = Yii::$app->params['catlist-orderby'];
+		$ordering_items = [];
+		foreach($ordering_arr as $k=>$i) {
+			if($k == $orderBy)	{
+				$current_ordering = ['name'=>$i, 'field'=>$k];
+			}	else	{
+				$ordering_items[] = [
+					'label'=>$i,
+					'url' => '#',
+					'linkOptions' => ['data-sort' => $k],
+				];
+			}
+				
+		}
+		
+		$query = User::find()
+			->distinct(true)
+			->joinWith(['reviews'])
+			->where(['black_list'=>1])
+			->orderBy('{{%user}}.'.$orderBy.' ASC');
+		
+		$DataProvider = new ActiveDataProvider([
+			'query' => $query,
+			
+			'pagination' => [
+				'pageSize' => Yii::$app->params['catlist-per-page'],
+				//'pageSize' => 1,
+				'pageSizeParam' => false,
+			],
+		]);
+				
+		return $this->render('black-list', [
 			'dataProvider'=>$DataProvider,
 			'current_ordering'=>$current_ordering,
 			'ordering_items'=>$ordering_items,

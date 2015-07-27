@@ -92,25 +92,18 @@ class ProfileController extends Controller
 			$ProfileAnketaForm->price[$item->category_id] = $item->price;
 		}
 		
-		//$userMedia = $this->getMedia($model);	//получам массив с картинками
-		
 		$ProfileAnketaForm->awards = $model->media['awards'];
 		$ProfileAnketaForm->examples = $model->media['examples'];
 		
-		//$ProfileAnketaForm->load($model->attributes);
-		//echo'<pre>';print_r($model);echo'</pre>';
-		
 		$userCategories = $model->userCategories;
+		
 		//получаем родителя категорий, к которым относится пользователь
 		$parents_cat = $userCategories[0]->category->parents(1)->one();
 		$ProfileAnketaForm->category1 = $parents_cat->id;
-		//echo'<pre>';print_r($parents_cat);echo'</pre>';
 		
 		foreach($userCategories as $item)	{
 			$ProfileAnketaForm->categories[] = $item->category_id;
 		}
-		
-		
 		
 		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
 		
@@ -154,23 +147,40 @@ class ProfileController extends Controller
 		
 		
 		$weekends = new \frontend\models\SetWeekEndForm();
-		$weekends->weekends = implode(';',$weekends_arr);
+		$weekends->weekends = implode(';', $weekends_arr);
 		
-		//получаем поле для сортировки
-		/*
+		//получаем поле для сортировки		
 		$orderBy = Yii::$app->request->post('orderby', '');
 		if($orderBy != '') {
 			Yii::$app->response->cookies->add(new \yii\web\Cookie([
-				'name' => 'catlist-orderby',
+				'name' => 'orderlist-orderby',
 				'value' => $orderBy,
 			]));
 			
-			//return $this->redirect(['category', 'category'=>$category]);
+			return $this->redirect(['/profile']);
 		}	else	{
-			$orderBy = Yii::$app->request->cookies->getValue('catlist-orderby', 'fio');
+			$orderBy = Yii::$app->request->cookies->getValue('orderlist-orderby', 'created_at');
 		}
-		*/
-		$orderBy = 'id';
+		
+		//$orderBy = 'id';
+		
+		//строим выпадающий блок для сортировки
+		$ordering_arr = Yii::$app->params['orderlist-orderby'];
+		$ordering_items = [];
+		$current_ordering = ['name'=>'created_at', 'field'=>'дате добавления'];
+		foreach($ordering_arr as $k=>$i) {
+			if($k == $orderBy)	{
+				$current_ordering = ['name'=>$i, 'field'=>$k];
+			}	else	{
+				$ordering_items[] = [
+					'label'=>$i,
+					'url' => '#',
+					'linkOptions' => ['data-sort' => $k],
+				];
+			}
+				
+		}
+		
 		
 		$ordersDataProvider = new ActiveDataProvider([
 			'query' => \common\models\Order::find()
@@ -211,6 +221,8 @@ class ProfileController extends Controller
 			'weekends' => $weekends,
 			'ordersDataProvider' => $ordersDataProvider,
 			'reviewsDataProvider' => $reviewsDataProvider,
+			'ordering_items'=>$ordering_items,
+			'current_ordering'=>$current_ordering,
 			
 		]);
 		
@@ -346,7 +358,40 @@ class ProfileController extends Controller
         }
 		
 	}
-	
+
+	public function actionAddAnswer($id)
+	{
+        if (\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+		
+		//$review = \common\models\Review::findOne($id);
+		
+		$model = \frontend\models\AddAnswerReviewForm::findOne($id);
+		
+		if($model === null) {
+			Yii::$app->session->setFlash('error', 'Запрашиваемый отзыв отсутствует');
+			return $this->renderPartial('add-answer-modal-err', []);
+		}	elseif($model->answer_text != '')	{
+			Yii::$app->session->setFlash('error', 'Ответ уже добавлен');
+			return $this->renderPartial('add-answer-modal-err', []);
+		}
+		
+		
+
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+				$model->save();
+				
+				Yii::$app->session->setFlash('success', 'Ответ успешно размещен. После проверки от будет опубликован');
+				return $this->renderPartial('add-answer-modal-err', []);
+			}
+		}
+
+		return $this->renderPartial('add-answer-modal', [
+			'model' => $model,
+		]);
+	}	
     /**
      * Finds the Category model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

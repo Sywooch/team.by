@@ -47,12 +47,30 @@ class UserToAdministration extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'subject' => 'Subject',
-            'comment' => 'Comment',
+            'spec' => 'Специалист',
+            'subject' => 'Тема',
+            'comment' => 'Текст обращения',
             'status' => 'Status',
-            'answer' => 'Answer',
+            'answer' => 'Текст ответа',
+            'statusName' => 'Статус сообщения',
         ];
     }
+	
+    /**
+     * Sends an email to the specified email address using the information collected by this model.
+     *
+     * @param  string  $email the target email address
+     * @return boolean whether the email was sent
+     */
+    public function sendEmail($email)
+    {
+        return Yii::$app->mailer->compose('mail-answer-to-spec', ['model'=>$this])
+            ->setTo($email)
+            ->setFrom('noreply@team.gf-club.net')
+            ->setSubject($this->subject)
+            ->send();
+    }
+	
 
     /**
      * @return \yii\db\ActiveQuery
@@ -61,4 +79,18 @@ class UserToAdministration extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+	
+    public function getStatuses()
+    {
+        return [
+            1 => 'Новое',
+            2 => 'Отвечено',
+        ];
+    }	
+	
+    public function getStatusName()
+    {
+		return $this->statuses[$this->status];
+    }
+	
 }

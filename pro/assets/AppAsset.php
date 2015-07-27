@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace backend\assets;
+namespace app\assets;
 
 use yii\web\AssetBundle;
 
@@ -18,13 +18,10 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
-        'css/bootstrap-switch.min.css',
-		
+        'css/screen.css',
     ];
     public $js = [
-		'js/bootstrap-switch.min.js',
-		'js/backend.js',
+		'http://team.gf-club.net/js/template.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

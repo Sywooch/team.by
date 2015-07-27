@@ -210,6 +210,13 @@ jQuery(function($) {
 		return false;
 	});
 	
+	$('.orders-sort-cnt').on('click', 'a', function(e){
+		//console.log($(this).data('category'));
+		$('#orders-sort-sw #orderby').val($(this).data('sort'));
+		$('#orders-sort-sw').submit();
+		return false;
+	});
+	
 	
 	//заказ подбора спеиалиста
     $('.contact-to-spec').on('click', function (e) {
@@ -322,7 +329,18 @@ jQuery(function($) {
             }
         );
         return false;
-    });			
+    });
+	
+    $('.add-answer').on('click', function (e) {
+        var url = $(this).data('answer')+"?modal=1",
+            modal = $('.modal');
+		
+        $.get(url, function (data) {
+            modal.html(data).modal('show');
+        });
+        return false;
+    });
+	
 	
 	
 });

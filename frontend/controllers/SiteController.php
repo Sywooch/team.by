@@ -18,6 +18,7 @@ use common\models\User;
 use common\models\UserCategories;
 use common\models\UserSpecials;
 use common\models\UserMedia;
+use common\models\Region;
 
 
 use yii\base\InvalidParamException;
@@ -234,13 +235,31 @@ class SiteController extends Controller
 			
 		//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 		if ($model->load(Yii::$app->request->post())) {
-			if ($model->validate()) {
+			
+			$region_ok = 1;
+			//если нужно - добавляем новый город
+			if($model->region_name != '') {
+				$parent_region = Region::findOne($model->region_parent_id);
+				if($parent_region === null) {
+					Yii::$app->getSession()->setFlash('error', 'Ошибка при добавлении нового региона');
+					$region_ok = 0;
+				}	else	{
+					$new_region = new Region();
+					$new_region->name = $model->region_name;
+					$new_region->parent_id = $model->region_parent_id;
+					$new_region->appendTo($parent_region);
+				}
+			}
+			
+			
+			if ($model->validate() && $region_ok == 1) {
 				$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
 				$RegStep2Form = $model;
 				//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 				//echo'<pre>';print_r($model);echo'</pre>';//die;
 				//echo'<pre>';print_r($RegStep2Form);echo'</pre>';
 				//die;
+				
 				
 				//создаем поьзователя
 				$user = new User();

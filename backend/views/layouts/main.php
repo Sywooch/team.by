@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
+use frontend\widgets\Alert;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -32,17 +33,36 @@ AppAsset::register($this);
                 ],
             ]);
             $menuItems = [
-                ['label' => 'Home', 'url' => ['/site/index']],
+                //['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'Категории', 'url' => ['/category/index']],
                 ['label' => 'Регионы', 'url' => ['/region/index']],
                 ['label' => 'Заказы', 'url' => ['/order/index']],
-                ['label' => 'Клиенты', 'url' => ['/client/index']],
+				
+				[
+					'label' => 'Пользователи',
+					'items' => [
+						['label' => 'Пользователи', 'url' => ['/user/index']],
+						['label' => 'Специалисты', 'url' => ['/user/specs']],
+						['label' => 'Клиенты', 'url' => ['/client/index']],
+					],
+				],            
+                
                 ['label' => 'Сообщения', 'url' => ['/toadministration/index']],
+				
                 ['label' => 'Страницы', 'url' => ['/page/index']],
-                ['label' => 'Пользователи', 'url' => ['/user/index']],
-                ['label' => 'Роли', 'url' => ['/permit/access/role']],
-                ['label' => 'Права доступа', 'url' => ['/permit/access/permission']],
+				
+				[
+					'label' => 'Доступ',
+					'items' => [
+						 ['label' => 'Роли', 'url' => ['/permit/access/role']],
+						 ['label' => 'Права доступа', 'url' => ['/permit/access/permission']],
+					],
+				],            
+                
                 ['label' => 'Валюта', 'url' => ['/currency/index']],
+
+				
+				
 				/*
 				[
 					'label' => 'Dropdown',
@@ -52,7 +72,8 @@ AppAsset::register($this);
 						 '<li class="dropdown-header">Dropdown Header</li>',
 						 ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
 					],
-				],            */
+				],            
+				*/
 			];
 
             if (Yii::$app->user->can('manager') || Yii::$app->user->can('admin')) {
@@ -79,6 +100,7 @@ AppAsset::register($this);
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
+        <?= Alert::widget() ?>
         <?= $content ?>
         </div>
     </div>
