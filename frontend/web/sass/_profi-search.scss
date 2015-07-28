@@ -45,7 +45,7 @@
 .profi_search_tab_1__regions {
 	@extend %pos_rel;
 	
-	width: 265px;
+	/* width: 325px; */
 }
 .profi_search_tab_1_region__ttl {
 	@extend %db;
@@ -91,7 +91,7 @@
 	
 	
 	padding-left: 40px;
-	width: 485px;
+	width: 410px;
 	
 	border: none;
 	
@@ -382,6 +382,22 @@
 	padding-left: 10px;
 }
 
+.profi_search_inner__regions .profi_search_regions__item_active,
 .profi_search_tab_1_regions__list_cnt .profi_search_regions__item_active {
 	@extend .dinpro-b;
+}
+
+.search-result-cnt {
+	@extend %pos_abs;
+	@extend %hide;
+
+	
+	background-color: #fff;
+	width: 300px;
+	max-height: 350px;
+	/* overflow-x: none; */
+	/* overflow-y: scroll; */
+	border: 2px solid $blue2;
+	margin-top: 35px;
+	padding: 15px;
 }

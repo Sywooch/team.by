@@ -1,5 +1,7 @@
 <?php
-use yii\bootstrap\Tabs;
+use yii\widgets\ActiveForm;
+use yii\helpers\Html;
+
 ?>
 
 <div class="profi_search_inner">
@@ -30,10 +32,14 @@ use yii\bootstrap\Tabs;
 			</div>
 			<div class="col-lg-6">
 				<div class="profi_search_inner__inputbox_cnt clearfix">
-					<input type="text" class="inputbox profi_search_inner__inputbox" value="" placeholder="Введите специальность или услугу">
+					<?php $form = ActiveForm::begin(['action'=>\Yii::$app->urlManager->createUrl(['catalog/search']), 'method'=>'get']); ?>
+						<input type="hidden" id="profi_search_region_id" name="region_id" value="<?= $region_id?>" />
+						<input type="text" id="profi_search_input" class="inputbox profi_search_inner__inputbox" name="profi_search" value="<?= Html::encode($search_qry)?>" placeholder="Введите специальность или услугу">
+				
+						<?/*<input type="text" class="inputbox profi_search_inner__inputbox" value="" placeholder="Введите специальность или услугу">*/?>
 						<div class="profi_search_inner__regions">
-							<span id="profi_search_inner_regions__active" class="profi_search_inner_regions__active">Минск</span>
-							<div id="profi_search_inner_regions__list_cnt" class="profi_search_regions__list_cnt popup_block">
+							<span id="profi_search_regions__active" class="profi_search_inner_regions__active"><?= $region_str?></span>
+							<div id="profi_search_regions__list_cnt" class="profi_search_regions__list_cnt popup_block">
 								<ul class="profi_search_regions__list">
 									<?php foreach($regions as $row)	{	?>
 										<li class="profi_search_regions__item">
@@ -51,9 +57,8 @@ use yii\bootstrap\Tabs;
 									<?	}	?>
 								</ul>
 							</div>
-
-
 					</div>
+					<?php ActiveForm::end(); ?>					
 				</div>
 				
 

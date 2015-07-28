@@ -20,19 +20,26 @@ class ProfiSearch extends Widget
     public function run()
     {
 		
+		//получаем из куки ИД региона
+		$region_id = \Yii::$app->getRequest()->getCookies()->getValue('region', 1);
+		
+		$region_id_get = \Yii::$app->request->get('region_id', 0);
+		
+		if($region_id_get > 0)
+			$region_id = $region_id_get;
+			
+		$Region = new Region();
+		$regions = $Region->getRegionsList($region_id);
+		
 		if(($this->controller == 'site' && $this->action == 'index') || ($this->controller == 'catalog'))	{			
 			
-			//получаем из куки ИД региона
-			$region_id = \Yii::$app->getRequest()->getCookies()->getValue('region', 1);
-			
-			$Region = new Region();		
-			$regions = $Region->getRegionsList($region_id);
 			
 			if($this->controller == 'site' && $this->action == 'index')	{
 				$view = 'profi_search';
 				$categories = [];
 
 				$data = [
+					'search_qry'=>\Yii::$app->request->get('profi_search', ''),
 					'regions'=>$regions['list'],
 					'region_str'=>$regions['active'],
 					'region_id'=>$region_id,
@@ -71,6 +78,7 @@ class ProfiSearch extends Widget
 
 				$categories = $cats_l1;
 				$data = [
+					'search_qry'=>\Yii::$app->request->get('profi_search', ''),
 					'regions'=>$regions['list'],
 					'region_id'=>$region_id,
 					'region_str'=>$regions['active'],

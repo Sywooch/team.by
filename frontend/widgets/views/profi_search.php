@@ -15,7 +15,17 @@ use yii\bootstrap\Tabs;
 						'items' => [
 							[
 								'label' => 'Найти специалиста',
-								'content' => $this->render('_profi_search_tab1', ['regions'=>$regions, 'region_str'=>$region_str, 'region_id'=>$region_id], false, true),
+								'content' => $this->render(
+									'_profi_search_tab1', 
+									[
+										'regions'=>$regions,
+										'region_str'=>$region_str, 
+										'region_id'=>$region_id,
+										'search_qry'=>$search_qry,
+									], 
+									false, 
+									true
+								),
 								'active' => true,
 								'linkOptions' => ['class' => 'profi_search_tabs__tab1'],
 							],

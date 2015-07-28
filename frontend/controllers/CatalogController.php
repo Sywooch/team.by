@@ -9,9 +9,15 @@ use common\models\User;
 use common\models\Review;
 use common\models\Region;
 
+use frontend\models\UserSearch;
+
+
+
 use yii\data\ActiveDataProvider;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+
 use yii\filters\VerbFilter;
 
 use yii\helpers\ArrayHelper;
@@ -108,7 +114,7 @@ class CatalogController extends Controller
 			->one();			
 
         if ($category === null)
-            throw new CHttpException(404, 'Not found');
+            throw new NotFoundHttpException('Категория не найдена');
 		
 		//получаем всех родителей данной категории для хлебной крошки
 		$parents = $category->parents()->all();
@@ -295,6 +301,8 @@ class CatalogController extends Controller
 			->all();
 		
 		//$model = $this->loadModel($id)
+		
+		//echo'<pre>';print_r($this->getSpecials());echo'</pre>'; die;
  
        // $this->render('show', array('model'=>$model));
         return $this->render('show', [
@@ -310,7 +318,94 @@ class CatalogController extends Controller
 
     }
 	
-	
+    public function actionSearch()
+    {
+		$search = Yii::$app->request->get('profi_search', '');
+		$region_id = Yii::$app->request->get('region_id', 1);
+		$modal = Yii::$app->request->get('modal', 0);
+		
+		if($search != '') {
+			
+			$UserSearch = new UserSearch();
+			
+			$user_ids = $UserSearch->searchUsers($search, $region_id);
+			
+			//получаем поле для сортировки
+			$orderBy = Yii::$app->request->post('orderby', '');
+			if($orderBy != '') {
+				Yii::$app->response->cookies->add(new \yii\web\Cookie([
+					'name' => 'catlist-orderby',
+					'value' => $orderBy,
+				]));
+			}	else	{
+				$orderBy = Yii::$app->request->cookies->getValue('catlist-orderby', 'fio');
+			}
+			
+			if($modal == 0) {
+
+				//строим выпадающий блок для сортировки
+				$ordering_arr = Yii::$app->params['catlist-orderby'];
+				$ordering_items = [];
+				foreach($ordering_arr as $k=>$i) {
+					if($k == $orderBy)	{
+						$current_ordering = ['name'=>$i, 'field'=>$k];
+					}	else	{
+						$ordering_items[] = [
+							'label'=>$i,
+							'url' => '#',
+							'linkOptions' => ['data-sort' => $k],
+						];
+					}
+
+				}
+
+
+				$query = User::find()
+					->distinct(true)
+					->joinWith(['reviews'])
+					->where(['{{%user}}.id'=>$user_ids])
+					->andWhere('black_list <> 1')
+					->orderBy('{{%user}}.'.$orderBy.' ASC');
+
+				$DataProvider = new ActiveDataProvider([
+					'query' => $query,
+					'pagination' => [
+						'pageSize' => Yii::$app->params['catlist-per-page'],
+						'pageSizeParam' => false,
+					],
+				]);
+				
+				return $this->render('search', [
+					'dataProvider'=>$DataProvider,
+					'current_ordering'=>$current_ordering,
+					'ordering_items'=>$ordering_items,
+					'specials'=>$this->getSpecials(),
+				]);
+				
+			}	else	{
+				$query = User::find()
+					->distinct(true)
+					->where(['{{%user}}.id'=>$user_ids])
+					->andWhere('black_list <> 1')
+					->orderBy('{{%user}}.'.$orderBy.' ASC');
+
+				$DataProvider = new ActiveDataProvider([
+					'query' => $query,
+					'pagination' => false,
+				]);
+								
+				return $this->renderPartial('search-modal', ['dataProvider'=>$DataProvider]);
+			}
+			
+		}	else	{
+			if($modal == 0) {
+				return $this->render('search-no-qry');
+			}	else	{
+				return $this->render('search-modal-no-qry');
+			}
+			
+		}
+	}
 	
 	
 	

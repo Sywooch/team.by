@@ -288,31 +288,39 @@ class AjaxController extends Controller
 		$search = Yii::$app->request->post('profi_search', '');
 		$region_id = Yii::$app->request->post('region_id', 1);
 		if($search != '') {
-			
+			$search = Html::encode($search);
 			$region_ids = '';
 			
 			if($region_id != 1) {
 				$region = Region::findOne($region_id);
 				$region_children = $region->children()->all();
-				$region_ids = implode(',', [$region_id => $region_id] + ArrayHelper::map($region_children, 'id', 'id'));
+				$region_ids = [$region_id => $region_id] + ArrayHelper::map($region_children, 'id', 'id');
 			}
 						
 			//ищем по ФИО и специализации
 			$query = User::find()
 				->asArray()
-				->where("fio LIKE '%$search%' OR specialization LIKE '%$search%'");
+				//->where("fio LIKE '%$search%' OR specialization LIKE '%$search%'")
+				->where(['like', 'fio', $search])
+				->orWhere(['like', 'specialization', $search]);
+			
+			
 			
 			
 			if($region_ids != '')
-				$query->andWhere("region_id IN ($region_ids)");
+				//$query->andWhere("region_id IN ($region_ids)");
+				$query->andWhere(['region_id' => $region_ids]);
 			
 			$search1 = $query->all();
+			
+			echo'<pre>';print_r($search1);echo'</pre>';die;
 			
 			
 			//ищем по категориям
 			$categories = Category::find()
 				->asArray()
-				->where("name LIKE '%$search%'")
+				//->where("name LIKE '%$search%'")
+				->where(['like', 'name', $search])
 				->all();
 			
 			$ids = [];			
@@ -340,7 +348,7 @@ class AjaxController extends Controller
 			$ids = [];			
 			foreach($categories as $i) $ids[] = $i['id'];
 			
-			$UserSpecials =  = UserSpecials::find()
+			$UserSpecials = UserSpecials::find()
 				->asArray()
 				->where("category_id IN (". implode(',', $ids) .")")
 				->all();
@@ -350,7 +358,7 @@ class AjaxController extends Controller
 			
 			
 			//echo'<pre>';print_r($query);echo'</pre>';//die;			
-			echo'<pre>';print_r($search2);echo'</pre>';//die;			
+			echo'<pre>';print_r($search2);echo'</pre>';//die;
 			
 		}	else	{
 			echo 'err';
