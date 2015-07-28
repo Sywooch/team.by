@@ -198,6 +198,12 @@ jQuery(function($) {
 		$('#set-region-frm').submit();
 	});
 	
+	$('.profi_search_tab_1_regions__list a').on('click', function(e){
+		$('#profi_search_tab_region_id').val($(this).data('region'));
+		$('#profi_search_tab_1_regions__active').text($(this).text());
+		$('#profi_search_tab_1_regions__list_cnt').fadeToggle();
+	});
+	
 	$('.currency_select__item').on('click', function(e){
 		$('#currency_id').val($(this).data('currency'));
 		$('#set-currency-frm').submit();
@@ -340,6 +346,25 @@ jQuery(function($) {
         });
         return false;
     });
+	
+    $('#profi_search_input').on('keyup', function () {		
+        var form = $(this).closest('form');
+		
+		if($(this).val().length > 2)
+        $.post(
+            form.attr('action'),
+            form.serialize(),
+            function (data) {
+				/*
+                if (data == 'ok') {
+                    
+                } else {
+                }
+				*/
+            }
+        );
+    });
+	
 	
 	
 	

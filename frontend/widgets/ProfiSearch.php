@@ -34,6 +34,7 @@ class ProfiSearch extends Widget
 
 				$data = [
 					'regions'=>$regions['list'],
+					'region_str'=>$regions['active'],
 					'region_id'=>$region_id,
 					'region_str'=>$regions['active'],
 					'model'=> new \frontend\models\ZakazSpec1(),

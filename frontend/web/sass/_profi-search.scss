@@ -45,7 +45,7 @@
 .profi_search_tab_1__regions {
 	@extend %pos_rel;
 	
-	width: 235px;
+	width: 265px;
 }
 .profi_search_tab_1_region__ttl {
 	@extend %db;
@@ -91,7 +91,7 @@
 	
 	
 	padding-left: 40px;
-	width: 510px;
+	width: 485px;
 	
 	border: none;
 	
@@ -380,4 +380,8 @@
 
 .profi_search_regions_list__l2 {
 	padding-left: 10px;
+}
+
+.profi_search_tab_1_regions__list_cnt .profi_search_regions__item_active {
+	@extend .dinpro-b;
 }

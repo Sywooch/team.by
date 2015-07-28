@@ -37,8 +37,9 @@ use yii\widgets\ActiveForm;
 	
     <?= $form->field($model, 's_descr')->textInput(['maxlength' => true]) ?>	
 	 
-	<?//= $form->field($model, 'popular')->radioList([0=>'да', 1=>'нет'], ['class'=>'bs-switch']) ?> 
-	<?= $form->field($model, 'popular')->checkbox(['class'=>'bs-switch']) ?> 
+	<?php if($model->depth == 2)	{	?>
+		<?= $form->field($model, 'popular')->checkbox(['class'=>'bs-switch']) ?> 
+	<?php	}	?>
 	
 	<?php 
 	echo $form->field($model, 'description')->widget(CKEditor::className(), [

@@ -23,6 +23,10 @@ use frontend\models\UploadAvatarForm;
 use frontend\models\UploadExamplesForm;
 
 use common\models\Category;
+use common\models\User;
+use common\models\Region;
+use common\models\UserCategories;
+use common\models\UserSpecials;
 
 class AjaxController extends Controller
 {
@@ -278,6 +282,89 @@ class AjaxController extends Controller
         }		
 		return;
     }
+	
+    public function actionProfiSearch()
+    {
+		$search = Yii::$app->request->post('profi_search', '');
+		$region_id = Yii::$app->request->post('region_id', 1);
+		if($search != '') {
+			
+			$region_ids = '';
+			
+			if($region_id != 1) {
+				$region = Region::findOne($region_id);
+				$region_children = $region->children()->all();
+				$region_ids = implode(',', [$region_id => $region_id] + ArrayHelper::map($region_children, 'id', 'id'));
+			}
+						
+			//ищем по ФИО и специализации
+			$query = User::find()
+				->asArray()
+				->where("fio LIKE '%$search%' OR specialization LIKE '%$search%'");
+			
+			
+			if($region_ids != '')
+				$query->andWhere("region_id IN ($region_ids)");
+			
+			$search1 = $query->all();
+			
+			
+			//ищем по категориям
+			$categories = Category::find()
+				->asArray()
+				->where("name LIKE '%$search%'")
+				->all();
+			
+			$ids = [];			
+			foreach($categories as $i) $ids[] = $i['id'];
+				
+			$UserCategories = UserCategories::find()
+				->asArray()
+				->where("category_id IN (". implode(',', $ids) .")")
+				->all();
+			
+			$ids = [];			
+			foreach($UserCategories as $i) $ids[] = $i['user_id'];
+			
+			$query = User::find()
+				->asArray()
+				->where("id IN (". implode(',', $ids) .")");
+			
+			if($region_ids != '')
+				$query->andWhere("region_id IN ($region_ids)");
+			
+			$search2 = $query->all();
+			
+			//ищем по услугам используем опять массив категорий
+			// так как услуги это тоже категории только 3-го уровня
+			$ids = [];			
+			foreach($categories as $i) $ids[] = $i['id'];
+			
+			$UserSpecials =  = UserSpecials::find()
+				->asArray()
+				->where("category_id IN (". implode(',', $ids) .")")
+				->all();
+			
+			$ids = [];			
+			foreach($UserSpecials as $i) $ids[] = $i['user_id'];
+			
+			
+			//echo'<pre>';print_r($query);echo'</pre>';//die;			
+			echo'<pre>';print_r($search2);echo'</pre>';//die;			
+			
+		}	else	{
+			echo 'err';
+		}
+		
+		return;
+		
+		$model = Category::findOne($id);
+		return $this->renderPartial('get-spec-fields', [
+			'model'=>$model,
+		]);
+		
+	}
+	
 	
 	
 	

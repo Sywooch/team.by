@@ -21,6 +21,20 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+		'urlManager' => [
+			//'class'=>'frontend\components\AUrlManager',
+			
+			'enablePrettyUrl' => true,
+			//'enableStrictParsing' => true,
+			//'showScriptName' => true,
+			'suffix' => '.php',
+			'rules' => [
+				'<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',
+				'<_c:[\w\-]+>' => '<_c>/index',
+				'<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>' => '<_c>/<_a>',
+			],
+		],		
+		
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             // send all mails to a file by default. You have to set
