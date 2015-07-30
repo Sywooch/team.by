@@ -202,6 +202,30 @@ jQuery(function($) {
 		}
 	});
 	
+	var upload_license = new AjaxUpload('#upload-license-btn', {
+		action: '/ajax/upload-license',
+		name: 'UploadLicenseForm[imageFiles]',
+		onSubmit : function(file, extension){
+			$("#loading-license").show();
+			$('#loading-license-errormes').html('');
+			upload_license.setData({'file': file});
+		},
+		onComplete : function(file, response){
+			$("#loading-license").hide();
+			
+			response = $.parseJSON(response);
+
+			if(response.res == 'ok') {
+				$('#license-cnt').html(response.html_file + response.filename);
+				
+			} else {
+				for (var i = 0; i < response.msg.length; i++) {
+				   $('#loading-license-errormes').append(response.msg[i]);
+				}
+			}
+		}
+	});
+	
 	var upload_examples = new AjaxUpload('#upload-examples-btn', {
 		action: '/ajax/upload-examples',
 		name: 'UploadExamplesForm[imageFiles]',

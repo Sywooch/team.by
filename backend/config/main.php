@@ -142,6 +142,14 @@ return [
 				],
 			],
 			
+			'spec' =>	[	//controller
+				[
+					'actions' => ['index', 'create', 'update', 'delete'],
+					'allow' => true,
+					'roles' => ['admin'],					
+				],
+			],
+			
 			'client' =>	[	//controller
 				[
 					'actions' => ['index', 'create', 'update', 'delete'],

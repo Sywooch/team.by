@@ -109,13 +109,12 @@ class OrderController extends Controller
 						$order->$attr_key = $model_attribs[$attr_key];
 				}
 				
-				//обрабатываем дату в корректный вид
-				if($order->date_control != '00-00-0000') {
-					$order->date_control = DDateHelper::DateToUnix($order->date_control, 2);
-				}	else	{
-					$order->date_control = null;
-				}
 				
+				//обрабатываем дату в корректный вид
+				if($order->date_control == '') {
+					$order->date_control = time();
+				}
+				//echo'<pre>';var_dump($order);echo'</pre>';die;
 
 				$order->save();
 				//echo time();

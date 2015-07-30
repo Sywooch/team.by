@@ -48,7 +48,7 @@ class ProfileController extends Controller
 			}
 			
 			if($ProfileAnketaForm->avatar != $model->avatar) {
-				//удаляем старый прайс-лист
+				//удаляем старый аватар
 				if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar))
 					unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar);
 								
@@ -58,6 +58,20 @@ class ProfileController extends Controller
 				
 				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->avatar))
 					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->avatar, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$ProfileAnketaForm->avatar);
+				
+			}
+			
+			if($ProfileAnketaForm->license != $model->license) {
+				//удаляем старую лицензию
+				if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$model->license))
+					unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$model->license);
+								
+				//перемещаем лицензию
+				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->license))
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->license, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$ProfileAnketaForm->license);
+				
+				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->license))
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->license, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.'thumb_'.$ProfileAnketaForm->license);
 				
 			}
 			
@@ -72,6 +86,7 @@ class ProfileController extends Controller
 			if($ProfileAnketaForm->passwordNew != '')
 				$model->setPassword($ProfileAnketaForm->passwordNew);
 			
+			$model->user_status = 2; //после редактирования меняем статус.
 			$model->save();
 			
 			$this->checkUslugi($model, $ProfileAnketaForm); //проверяем изменения в услугах

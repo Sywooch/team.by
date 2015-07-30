@@ -1,6 +1,9 @@
 <?php
 /* @var $this yii\web\View */
 $this->title = 'SERVICE INFO';
+
+use yii\bootstrap\ActiveForm;
+
 ?>
 <div class="site-index">
 

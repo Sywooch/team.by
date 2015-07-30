@@ -19,6 +19,7 @@ class OrderForm extends Model
     public $user_id;
     public $created_at;
     public $date_control;
+    public $control_note;
     public $descr;
     public $price1;
     public $price;
@@ -51,7 +52,7 @@ class OrderForm extends Model
 			
             [['fio', 'phone'], 'required', 'on' => 'create'],
 			['phone', 'unique', 'targetClass' => \common\models\Client::className(), 'message' => 'Данный номер уже используется.'],
-            [['fio', 'phone', 'email', 'info'], 'string', 'max' => 255],
+            [['fio', 'phone', 'email', 'info', 'control_note'], 'string', 'max' => 255],
 			['email', 'email'],
 			
 			['review_foto', 'each', 'rule' => ['string']],
@@ -73,6 +74,7 @@ class OrderForm extends Model
             'user_id' => 'Исполнитель',
             'created_at' => 'Created At',
             'date_control' => 'Дата контроля',
+            'control_note' => 'Заметка',
             'descr' => 'ИНформация о заказе',
             'price1' => 'Цена предварительная',
             'price' => 'Цена Окончательная',
@@ -111,9 +113,9 @@ class OrderForm extends Model
     public static function getPaymentStatuses()
     {
         return [
-            1 => 'оплачен',
-			2 => 'ожидает оплаты',
-            3 => 'просрочен',
+            1 => 'ожидает оплаты',
+			2 => 'просрочен',
+            10 => 'оплачен',
         ];
     }	
 	

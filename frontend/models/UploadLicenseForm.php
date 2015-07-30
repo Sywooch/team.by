@@ -1,5 +1,4 @@
 <?php
-namespace common\models;
 namespace frontend\models;
 
 use Yii;
@@ -14,7 +13,7 @@ use frontend\helpers\DFileHelper;
 /**
  * RegStep1 form
  */
-class UploadAvatarForm extends Model
+class UploadLicenseForm extends Model
 {
 	public $imageFiles;
 	public $filename;

@@ -5,7 +5,10 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+
 use common\models\Order;
+
+use frontend\helpers\DDateHelper;
 
 /**
  * OrderSearch represents the model behind the search form about `common\models\Order`.
@@ -13,6 +16,7 @@ use common\models\Order;
 class OrderSearch extends Order
 {
 	public $client;
+	public $user;
 	
     /**
      * @inheritdoc
@@ -21,7 +25,7 @@ class OrderSearch extends Order
     {
         return [
             [['id', 'client_id', 'category_id', 'user_id', 'created_at', 'updated_at', 'date_control', 'price1', 'price', 'fee', 'status', 'payment_status', 'review_status'], 'integer'],
-            [['client'], 'safe'],
+            [['client', 'user'], 'safe'],
         ];
     }
 
@@ -38,6 +42,7 @@ class OrderSearch extends Order
     {
         return [
             'client' => 'Клиент',
+            'user' => 'Исполнитель',
         ];
     }
 	
@@ -53,6 +58,15 @@ class OrderSearch extends Order
     {
         $query = Order::find();
 		$query->joinWith(['client']);
+		$query->joinWith(['user']);
+		
+		if(isset($params['date'])) {
+			$date = DDateHelper::DateToUnix($params['date'], 2);
+			$query->andWhere(['date_control'=>$date]);
+		}
+		
+		//echo'<pre>';print_r($params);echo'</pre>';//die;
+		//echo'<pre>';print_r($date);echo'</pre>';die;
 		
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -61,6 +75,11 @@ class OrderSearch extends Order
 		$dataProvider->sort->attributes['client'] = [
 			'asc' => ['{{%client}}.fio' => SORT_ASC],
 			'desc' => ['{{%client}}.fio' => SORT_DESC],
+		];		
+		
+		$dataProvider->sort->attributes['user'] = [
+			'asc' => ['{{%user}}.fio' => SORT_ASC],
+			'desc' => ['{{%user}}.fio' => SORT_DESC],
 		];		
 		
 		if (!($this->load($params) && $this->validate())) {			
@@ -85,7 +104,8 @@ class OrderSearch extends Order
 
         $query->andFilterWhere(['like', 'descr', $this->descr])
             ->andFilterWhere(['like', 'review_text', $this->review_text])
-			->andFilterWhere(['like', '{{%client}}.fio', $this->client]);
+			->andFilterWhere(['like', '{{%client}}.fio', $this->client])
+			->andFilterWhere(['like', '{{%user}}.fio', $this->user]);
 
         return $dataProvider;
     }

@@ -37,6 +37,7 @@ class ProfileAnketaForm extends Model
 	
     public $price_list;
     public $avatar;
+    
     public $region_parent_id = 2; // 2 - это ИД Минской области
     public $region_name;
     public $categories = [];
@@ -48,6 +49,7 @@ class ProfileAnketaForm extends Model
 	public $usluga = [];
 	
 	public $to_client;
+	public $license;
 
 
 
@@ -101,6 +103,8 @@ class ProfileAnketaForm extends Model
 			['awards', 'each', 'rule' => ['string']],
 			['usluga', 'each', 'rule' => ['string']],
 			
+			['license', 'string', 'min' => 3, 'max' => 255],
+			
         ];
     }
 	
@@ -130,6 +134,7 @@ class ProfileAnketaForm extends Model
             'examples' => 'Примеры ваших работ',
             'to_client' => 'Осуществляем выезд к клиенту',
             'specialization' => 'Специализация',
+            'license' => 'Лицензия',
             //'' => '',
         ];
     }

@@ -21,6 +21,7 @@ use frontend\models\UploadPriceForm;
 use frontend\models\UploadAwardsForm;
 use frontend\models\UploadAvatarForm;
 use frontend\models\UploadExamplesForm;
+use frontend\models\UploadLicenseForm;
 
 use common\models\Category;
 use common\models\User;
@@ -147,6 +148,46 @@ class AjaxController extends Controller
 				
 				$json_arr['res'] = 'ok';
 				$json_arr['filename'] = Html::input('hidden', $profile_model.'[avatar]', $model->filename);
+				$json_arr['html_file'] = Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->filename, ['class'=>'img-responsive']), Url::home(true) . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
+				
+				echo Json::htmlEncode($json_arr);
+
+                return;
+            }	else	{
+				$this->printErrors($model);
+			}
+        }		
+		return;
+    }
+	
+    public function actionUploadLicense()
+    {
+        $model = new UploadLicenseForm();
+		
+		$profile_model = Yii::$app->session->get('profile_model', 'RegStep2Form');
+
+        if (Yii::$app->request->isPost) {
+			
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+			
+			//echo'imageFiles<pre>';print_r($model->imageFiles);echo'</pre>';//die;
+			
+            if ($model->upload()) {
+				
+				$img = Image::getImagine()->open($model->path. '/' . $model->filename); //загружаем изображение
+				
+				$image_size = $img->getSize();	//получаем размеры изображения
+				
+				if($image_size->getWidth() < 600 || $image_size->getHeight() < 800) {
+					$this->printErrors($model, 'Слишком маленькое изображение');
+					return;
+				}
+				
+				Image::thumbnail( $model->path. '/' . $model->filename, 190, 130)
+					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
+				
+				$json_arr['res'] = 'ok';
+				$json_arr['filename'] = Html::input('hidden', $profile_model.'[license]', $model->filename);
 				$json_arr['html_file'] = Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->filename, ['class'=>'img-responsive']), Url::home(true) . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
 				
 				echo Json::htmlEncode($json_arr);

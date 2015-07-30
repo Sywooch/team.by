@@ -42,22 +42,6 @@ use dosamigos\datepicker\DatePicker;
     
 	<div class="row clearfix">
 		<div class="col-lg-6"><?= $form->field($model, 'user_id')->dropDownList($model->users, [$model->user_id]) ?></div>
-		<div class="col-lg-6">
-			<?= $form->field($model, 'date_control')->widget(
-				DatePicker::className(), [
-					// inline too, not bad
-					 //'inline' => true, 
-					 // modify template for custom rendering
-					//'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
-					'clientOptions' => [
-						'language'=> 'ru',
-						'autoclose' => true,
-						//'format' => 'dd-M-yyyy'
-						'format' => 'dd-mm-yyyy'
-					]
-			]);?>    
-		
-		</div>
 	</div>
 	
 		
@@ -145,6 +129,27 @@ use dosamigos\datepicker\DatePicker;
 		<?= $form->field($model, 'answer_text')->textarea(['rows' => 6]) ?>
 		<?= $form->field($model, 'answer_status')->dropDownList($model->answerStatuses, [$model->answer_status]) ?>
    <?php	}	?>
+   
+   <div class="row clearfix">
+		<div class="col-lg-6">
+			<?= $form->field($model, 'date_control')->widget(
+				DatePicker::className(), [
+					// inline too, not bad
+					 //'inline' => true, 
+					 // modify template for custom rendering
+					//'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
+					'clientOptions' => [
+						'language'=> 'ru',
+						'autoclose' => true,
+						//'format' => 'dd-M-yyyy'
+						'format' => 'dd-mm-yyyy'
+					]
+			]);?>    
+		
+		</div>
+  		<div class="col-lg-6"><?= $form->field($model, 'control_note')->textInput() ?></div>
+   	
+   </div>
     
     
     

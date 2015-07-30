@@ -25,75 +25,81 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
     <div class="wrap">
         <?php
-            NavBar::begin([
-                'brandLabel' => Yii::$app->name,
-                'brandUrl' => Yii::$app->homeUrl,
-                'options' => [
-                    'class' => 'navbar-inverse navbar-fixed-top',
-                ],
-            ]);
-            $menuItems = [
-                //['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'Категории', 'url' => ['/category/index']],
-                ['label' => 'Регионы', 'url' => ['/region/index']],
-                ['label' => 'Заказы', 'url' => ['/order/index']],
-				
-				[
-					'label' => 'Пользователи',
-					'items' => [
-						['label' => 'Пользователи', 'url' => ['/user/index']],
-						['label' => 'Специалисты', 'url' => ['/user/specs']],
-						['label' => 'Клиенты', 'url' => ['/client/index']],
+			
+				NavBar::begin([
+					'brandLabel' => Yii::$app->name,
+					'brandUrl' => Yii::$app->homeUrl,
+					'options' => [
+						'class' => 'navbar-inverse navbar-fixed-top',
 					],
-				],            
-                
-                ['label' => 'Сообщения', 'url' => ['/toadministration/index']],
-				
-                ['label' => 'Страницы', 'url' => ['/page/index']],
-				
-				[
-					'label' => 'Доступ',
-					'items' => [
-						 ['label' => 'Роли', 'url' => ['/permit/access/role']],
-						 ['label' => 'Права доступа', 'url' => ['/permit/access/permission']],
-					],
-				],            
-                
-                ['label' => 'Валюта', 'url' => ['/currency/index']],
+				]);
+				if (!\Yii::$app->user->isGuest) {
+				$menuItems = [
+					//['label' => 'Home', 'url' => ['/site/index']],
+					['label' => 'Категории', 'url' => ['/category/index']],
+					['label' => 'Регионы', 'url' => ['/region/index']],
+					['label' => 'Заказы', 'url' => ['/order/index']],
 
-				
-				
-				/*
-				[
-					'label' => 'Dropdown',
-					'items' => [
-						 ['label' => 'Level 1 - Dropdown A', 'url' => '#'],
-						 '<li class="divider"></li>',
-						 '<li class="dropdown-header">Dropdown Header</li>',
-						 ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
-					],
-				],            
-				*/
-			];
+					[
+						'label' => 'Пользователи',
+						'items' => [
+							['label' => 'Пользователи', 'url' => ['/user/index']],
+							['label' => 'Специалисты', 'url' => ['/spec/index']],
+							['label' => 'Клиенты', 'url' => ['/client/index']],
+						],
+					],            
 
-            if (Yii::$app->user->can('manager') || Yii::$app->user->can('admin')) {
-				//$menuItems[] = ['label' => 'Пользователи', 'url' => ['/user/index']];
-			}
+					['label' => 'Сообщения', 'url' => ['/toadministration/index']],
 
-            if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-            } else {
-                $menuItems[] = [
-                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
-                ];
-            }
-            echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => $menuItems,
-            ]);
-            NavBar::end();
+					['label' => 'Страницы', 'url' => ['/page/index']],
+
+					[
+						'label' => 'Доступ',
+						'items' => [
+							 ['label' => 'Роли', 'url' => ['/permit/access/role']],
+							 ['label' => 'Права доступа', 'url' => ['/permit/access/permission']],
+						],
+					],            
+
+					['label' => 'Валюта', 'url' => ['/currency/index']],
+
+
+
+					/*
+					[
+						'label' => 'Dropdown',
+						'items' => [
+							 ['label' => 'Level 1 - Dropdown A', 'url' => '#'],
+							 '<li class="divider"></li>',
+							 '<li class="dropdown-header">Dropdown Header</li>',
+							 ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
+						],
+					],            
+					*/
+				];
+
+				if (Yii::$app->user->can('manager') || Yii::$app->user->can('admin')) {
+					//$menuItems[] = ['label' => 'Пользователи', 'url' => ['/user/index']];
+				}
+
+				if (Yii::$app->user->isGuest) {
+					$menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+				} else {
+					$menuItems[] = [
+						'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+						'url' => ['/site/logout'],
+						'linkOptions' => ['data-method' => 'post']
+					];
+				}
+				}	else	{
+					$menuItems = [];
+				}
+				echo Nav::widget([
+					'options' => ['class' => 'navbar-nav navbar-right'],
+					'items' => $menuItems,
+				]);
+				NavBar::end();
+			
         ?>
 
         <div class="container">

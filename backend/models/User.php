@@ -53,7 +53,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['username', 'required'],
-            ['username', 'match', 'pattern' => '#^[\w_-]+$#i'],
+            //['username', 'match', 'pattern' => '#^[\w_-]+$#i'],
             ['username', 'unique', 'targetClass' => self::className(), 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
  
@@ -83,6 +83,7 @@ class User extends ActiveRecord implements IdentityInterface
             'email' => 'Email',
             'status' => 'Статус',
             'password' => 'Пароль',
+            'userStatus' => 'Статус',
         ];
     }
 	
@@ -99,6 +100,11 @@ class User extends ActiveRecord implements IdentityInterface
             self::STATUS_ACTIVE => 'Активен',
             self::STATUS_WAIT => 'Ожидает подтверждения',
         ];
+    }	
+
+    public function getUserStatus()
+    {
+        return $this->statusesArray[$this->user_status];
     }	
 
     /**

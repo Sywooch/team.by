@@ -21,8 +21,8 @@ return [
 				'host' => 'mail.team.by',  // e.g. smtp.mandrillapp.com or smtp.gmail.com
 				'username' => 'noreply@team.by',
 				'password' => 'sSY27#x1',
-				'port' => '465', // Port 25 is a very common port too
-				'encryption' => 'ssl', // It is often used, check your provider or mail server specs			
+				'port' => '25', // Port 25 is a very common port too
+				//'encryption' => 'ssl', // It is often used, check your provider or mail server specs			
 				//'encryption' => 'tls', // It is often used, check your provider or mail server specs			
 			],
 		],
