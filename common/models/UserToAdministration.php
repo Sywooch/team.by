@@ -66,7 +66,7 @@ class UserToAdministration extends \yii\db\ActiveRecord
     {
         return Yii::$app->mailer->compose('mail-answer-to-spec', ['model'=>$this])
             ->setTo($email)
-            ->setFrom('noreply@team.gf-club.net')
+            ->setFrom(Yii::$app->params['noreplyEmail'])
             ->setSubject($this->subject)
             ->send();
     }

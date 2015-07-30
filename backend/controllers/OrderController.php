@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Order;
+use common\models\OrderStatusHistory;
 
 use backend\models\OrderForm;
 use backend\models\OrderSearch;
@@ -12,6 +13,8 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use frontend\helpers\DDateHelper;
 
 /**
  * OrderController implements the CRUD actions for Order model.
@@ -105,8 +108,22 @@ class OrderController extends Controller
 					if(isset($model_attribs[$attr_key]))
 						$order->$attr_key = $model_attribs[$attr_key];
 				}
+				
+				//обрабатываем дату в корректный вид
+				if($order->date_control != '00-00-0000') {
+					$order->date_control = DDateHelper::DateToUnix($order->date_control, 2);
+				}	else	{
+					$order->date_control = null;
+				}
+				
 
 				$order->save();
+				//echo time();
+				//echo'<pre>';print_r($order);echo'</pre>';die;				
+				
+				//сохраняем статус и истории статусов
+				$this->addStatusToHistory($order);
+				
 				return $this->redirect(['index']);				
 			}
         }
@@ -134,7 +151,7 @@ class OrderController extends Controller
 		$model->order_id = $order->id;
 		
 		$reviewMedia_old = [];
-		//echo'<pre>';print_r($order->review->reviewMedia);echo'</pre>';die;
+		//echo'<pre>';print_r($order->orderStatusHistories);echo'</pre>';die;
 		
 		//загружаем информацию по отзыву
 		if($order->review !== NULL)	{
@@ -152,10 +169,18 @@ class OrderController extends Controller
 		}
 		
 		
+		
 		if(isset($_POST['OrderForm']))	{
 			$model->load(Yii::$app->request->post());
-			//$model->review_foto = Yii::$app->request->post('review_foto', []);
+
 			if ($model->validate()) {
+								
+				//обрабатываем дату в корректный вид
+				if($model->date_control != '00-00-0000') {
+					$model->date_control = DDateHelper::DateToUnix($model->date_control, 2);
+				}	else	{
+					$model->date_control = null;
+				}
 				
 				//echo'<pre>';print_r($model);echo'</pre>';die;
 				$model_attribs = $model->toArray();
@@ -166,7 +191,15 @@ class OrderController extends Controller
 						$order->$attr_key = $model_attribs[$attr_key];
 				}
 				
+				if($order->oldAttributes['status'] != $order->status) {
+					//сохраняем статус и истории статусов
+					$this->addStatusToHistory($order);
+				}
+				//echo'<pre>';print_r($order->oldAttributes['status']);echo'</pre>';die;
+				
 				$order->save();
+				
+				
 				
 				if($model->review_text != '')	{
 					
@@ -198,6 +231,13 @@ class OrderController extends Controller
 				return $this->redirect(['index']);
 			}
 		}
+		
+		if($model->date_control) {
+			$model->date_control = Yii::$app->formatter->asDate($model->date_control, 'php:d-m-yy');
+		}	else	{
+			$model->date_control = '00-00-0000';
+		}
+		
 
 		//загружаем информацию по отзыву
 		if($order->review !== NULL)	{
@@ -209,6 +249,7 @@ class OrderController extends Controller
 		
 		return $this->render('update', [
 			'model' => $model,
+			'orderStatusHistories' => $order->orderStatusHistories,
 		]);
         
     }
@@ -301,5 +342,15 @@ class OrderController extends Controller
 			$user->total_rating = $rating_total / count($user->reviews);
 			$user->save();
 		}
+	}
+	
+	public function addStatusToHistory($order)
+	{
+		$OrderStatusHistory = new OrderStatusHistory();
+		$OrderStatusHistory->order_id = $order->id;
+		$OrderStatusHistory->status_id = $order->status;
+		$OrderStatusHistory->save();
+		//echo'<pre>';print_r($OrderStatusHistory);echo'</pre>';die;
+		
 	}
 }

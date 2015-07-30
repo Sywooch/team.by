@@ -45,7 +45,7 @@ class OrderForm extends Model
     public function rules()
     {
         return [
-            [['client_id', 'descr', 'price1'], 'required'],
+            [['client_id', 'descr', 'price1', 'category_id'], 'required'],
             [['order_id', 'client_id', 'category_id', 'user_id', 'created_at', 'price1', 'price', 'fee', 'status', 'review_status'], 'integer'],
             [['descr', 'review_text', 'date_control'], 'string'],
 			
@@ -99,9 +99,12 @@ class OrderForm extends Model
     public static function getStatuses()
     {
         return [
-            1 => 'в работе',
-            2 => 'выполнен и оплачен',
-            3 => 'завершен',
+            1 => 'новый',
+            2 => 'в работе',
+            3 => 'выполнен',
+            4 => 'оплачен',
+            5 => 'отзыв получен',
+            6 => 'заказ закрыт',
         ];
     }	
 	

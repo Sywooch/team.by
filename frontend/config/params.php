@@ -1,7 +1,7 @@
 <?php
 return [
     'adminEmail' => 'aldegtyarev@yandex.ru',
-	'homeUrl' => 'http://team.gf-club.net',
+	'homeUrl' => 'http://team.by',
 	'catlist-orderby' => [
 		'fio'	 => 'имени',
 		//'price'	 => 'цене',

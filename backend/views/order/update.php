@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = 'Изменение заказа';
 
     <?= $this->render('_form', [
         'model' => $model,
+		'orderStatusHistories' => $orderStatusHistories,
     ]) ?>
 
 </div>

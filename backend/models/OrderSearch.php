@@ -37,7 +37,7 @@ class OrderSearch extends Order
     public function attributeLabels()
     {
         return [
-            
+            'client' => 'Клиент',
         ];
     }
 	

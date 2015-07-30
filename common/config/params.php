@@ -2,6 +2,7 @@
 return [
     'adminEmail' => 'admin@example.com',
     'supportEmail' => 'support@example.com',
+    'noreplyEmail' => 'noreply@team.by',
     'user.passwordResetTokenExpire' => 3600,
     'sitename' => 'Профессионалы',
 	'UserTypesArray' => [

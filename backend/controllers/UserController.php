@@ -35,10 +35,21 @@ class UserController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => User::find(),
+            'query' => User::find()->where(['group_id' => 1]),
         ]);
 
         return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionSpecs()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => User::find()->where(['group_id' => 2])->andWhere('id > 0'),
+        ]);
+
+        return $this->render('specs', [
             'dataProvider' => $dataProvider,
         ]);
     }

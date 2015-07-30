@@ -116,6 +116,14 @@ class Order extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Review::className(), ['order_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrderStatusHistories()
+    {
+        return $this->hasMany(OrderStatusHistory::className(), ['order_id' => 'id']);
+    }	
 	
     public function getClientName()
     {

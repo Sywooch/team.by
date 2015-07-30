@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+use yii\bootstrap\Collapse;
+
 use dosamigos\datepicker\DatePicker;
 
 \frontend\assets\DatePickerRuAsset::register($this);	//русский язык подключаем
@@ -50,7 +52,8 @@ use dosamigos\datepicker\DatePicker;
 					'clientOptions' => [
 						'language'=> 'ru',
 						'autoclose' => true,
-						'format' => 'dd-M-yyyy'
+						//'format' => 'dd-M-yyyy'
+						'format' => 'dd-mm-yyyy'
 					]
 			]);?>    
 		
@@ -65,7 +68,33 @@ use dosamigos\datepicker\DatePicker;
 	</div>
     
     <div class="row clearfix">
-    	<div class="col-lg-4"><?= $form->field($model, 'status')->dropDownList($model->statuses, [$model->status]) ?></div>
+    	<div class="col-lg-4">
+    		<?= $form->field($model, 'status')->dropDownList($model->statuses, [$model->status]) ?>
+    		<?php
+				if(count($orderStatusHistories)) {
+					$content = '';
+	
+					foreach($orderStatusHistories as $i) {
+						$content .= Html::tag('li', $model->statuses[$i->status_id] . ' | ' . Yii::$app->formatter->asDate($i->created_at, 'php:d-m-yy H:i'));
+					}
+					$content = Html::tag('ul', $content);
+	
+
+					echo Collapse::widget([
+						'items' => [
+							[
+								'label' => 'История изменения',
+								'content' => $content,
+								'contentOptions' => [],
+								'options' => []
+							]
+						]
+					]);	
+				}
+	
+			?>
+    		
+    	</div>
     	<div class="col-lg-4"><?= $form->field($model, 'payment_status')->dropDownList($model->paymentStatuses, [$model->payment_status]) ?></div>
     	<div class="col-lg-4"><?= $form->field($model, 'review_status')->dropDownList($model->reviewStatuses, [$model->review_status]) ?></div>
     </div>

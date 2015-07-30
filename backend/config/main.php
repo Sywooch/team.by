@@ -43,12 +43,14 @@ return [
 				'<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',
 				'<_c:[\w\-]+>' => '<_c>/index',
 				'<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>' => '<_c>/<_a>',
+				'<_c:[\w\-]+>/<_a:[\w\-]+>/<date:[\w\-]+>' => '<_c>/<_a>',
+				
 			],
 		],
 		
 		'urlManagerFrontEnd' => [
 			'class' => 'yii\web\urlManager',
-			'baseUrl' => 'http://team.gf-club.net',
+			'baseUrl' => 'http://team.by',
 		],
 		
     ],
@@ -188,6 +190,19 @@ return [
 				],
 				[
 					'actions' => ['index', 'view', 'create', 'update'],
+					'allow' => true,
+					'roles' => ['admin'],
+				],
+			],
+			 
+			'sheduler' => [	//controller
+				[
+					'actions' => ['index'],
+					'allow' => true,
+					'roles' => ['manager'],
+				],
+				[
+					'actions' => ['index', 'orders', 'specs'],
 					'allow' => true,
 					'roles' => ['admin'],
 				],

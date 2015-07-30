@@ -27,7 +27,7 @@ $errors = $model->getErrors();
 
 $categories_l2_arr = [];
 ?>
-<div class="profile_anketa">
+<div class="profile_anketa row1 clearfix1">
  
  <p class="h1">Личные данные</p>
   

@@ -3,9 +3,9 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=gfclubne_orisad',
-            'username' => 'gfclubne_orisad',
-            'password' => 'wkd?S#}nDVFk',
+            'dsn' => 'mysql:host=localhost;dbname=team_db',
+            'username' => 'team_db',
+            'password' => 'iJC18!o1',
             'charset' => 'utf8',
 			'tablePrefix' => 'abc_',
         ],
@@ -18,9 +18,9 @@ return [
             'useFileTransport' => false,
 			'transport' => [
 				'class' => 'Swift_SmtpTransport',
-				'host' => 'vh11.freedom.by',  // e.g. smtp.mandrillapp.com or smtp.gmail.com
-				'username' => 'noreply@team.gf-club.net',
-				'password' => '1qaz2wsx',
+				'host' => 'mail.team.by',  // e.g. smtp.mandrillapp.com or smtp.gmail.com
+				'username' => 'noreply@team.by',
+				'password' => 'sSY27#x1',
 				'port' => '465', // Port 25 is a very common port too
 				'encryption' => 'ssl', // It is often used, check your provider or mail server specs			
 				//'encryption' => 'tls', // It is often used, check your provider or mail server specs			

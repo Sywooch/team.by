@@ -137,3 +137,7 @@ a.desc:after {
 	text-decoration: none;
 	font-size: 20px;
 }
+
+.calendar-list-item {
+	margin-bottom: 20px;
+}
