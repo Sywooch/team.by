@@ -136,13 +136,13 @@ class Order extends \yii\db\ActiveRecord
     {
         switch($this->payment_status) {
 			case 1:
-				$res = 'order_status_ok';
+				$res = 'order_status_wait';
 				break;
 			case 2:
-				$res = 'order_status_wait';
-				break;			
-			case 3:
 				$res = 'order_status_warning';
+				break;			
+			case 10:
+				$res = 'order_status_ok';
 				break;
 			default:
 				$res = 'order_status_wait';
@@ -155,13 +155,13 @@ class Order extends \yii\db\ActiveRecord
     {
         switch($this->payment_status) {
 			case 1:
-				$res = 'Статус оплачена';
+				$res = 'Статус ожидает';
 				break;
 			case 2:
-				$res = 'Статус ожидает';
-				break;			
-			case 3:
 				$res = 'Статус просрочена';
+				break;			
+			case 10:
+				$res = 'Статус оплачена';
 				break;
 			default:
 				$res = 'Статус ожидает';

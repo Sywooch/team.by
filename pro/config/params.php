@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
+    'adminEmail' => 'aldegtyarev@yandex.ru',
 	'homeUrl' => 'http://pro.team.by',
 	'payment_systems' => [
 		'webpay' => [

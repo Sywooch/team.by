@@ -50,6 +50,8 @@ class ProfileAnketaForm extends Model
 	
 	public $to_client;
 	public $license;
+	public $payment_type;
+	
 
 
 
@@ -59,7 +61,7 @@ class ProfileAnketaForm extends Model
     public function rules()
     {
         return [
-			[['region', 'region_parent_id', 'category1', 'to_client'], 'integer'],
+			[['region', 'region_parent_id', 'category1', 'to_client', 'payment_type'], 'integer'],
 			
 			['fio', 'required'],
             ['fio', 'string', 'min' => 7, 'max' => 255],
@@ -135,6 +137,7 @@ class ProfileAnketaForm extends Model
             'to_client' => 'Осуществляем выезд к клиенту',
             'specialization' => 'Специализация',
             'license' => 'Лицензия',
+            //'payment_type' => 'Метод оплаты',
             //'' => '',
         ];
     }

@@ -671,4 +671,13 @@ class SiteController extends Controller
 			]);
 		}
 	}	
+	
+	public function actionIpayTest()
+	{
+		return $this->renderPartial('ipay-test', [
+			'model' => $model,
+		]);		
+	}
+	
 }
+

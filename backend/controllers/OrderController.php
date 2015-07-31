@@ -108,22 +108,22 @@ class OrderController extends Controller
 					if(isset($model_attribs[$attr_key]))
 						$order->$attr_key = $model_attribs[$attr_key];
 				}
-				
-				
+								
 				//обрабатываем дату в корректный вид
 				if($order->date_control == '') {
 					$order->date_control = time();
+				}	else	{
+					$order->date_control = DDateHelper::DateToUnix($order->date_control, 2);
 				}
 				//echo'<pre>';var_dump($order);echo'</pre>';die;
 
 				$order->save();
-				//echo time();
 				//echo'<pre>';print_r($order);echo'</pre>';die;				
 				
 				//сохраняем статус и истории статусов
 				$this->addStatusToHistory($order);
 				
-				return $this->redirect(['index']);				
+				return $this->redirect(['index']);
 			}
         }
 		
@@ -201,7 +201,6 @@ class OrderController extends Controller
 				
 				
 				if($model->review_text != '')	{
-					
 					//если отзыв уже имеется то загружаем его
 					if($order->review === NULL)	{
 						$review = new \common\models\Review();

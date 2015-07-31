@@ -21,8 +21,13 @@
 	</div>
 	<div class="col-lg-2">
 		<?php if($model->fee)	{	?>
-			<p class="order_item_fee order_item_fee_warning">Комиссия <?= DPriceHelper::formatPrice($model->fee, 1); ?></p>
-			<a href="#" class="button-red btn-short">Оплатить</a>
+			<?php if($model->payment_status == 10)	{	?>
+				<p class="order_item_fee order_item_fee_payed">Комиссия <?= DPriceHelper::formatPrice($model->fee, 1); ?></p>
+				<?php	}	else	{	?>
+
+				<p class="order_item_fee order_item_fee_warning">Комиссия <?= DPriceHelper::formatPrice($model->fee, 1); ?></p>
+				<a href="#" class="button-red btn-short">Оплатить</a>
+			<?php	}	?>
 		<?php	}	?>
 	</div>
 </div>

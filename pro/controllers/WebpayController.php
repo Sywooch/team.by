@@ -67,7 +67,6 @@ class WebpayController extends Controller
 
     public function actionComplete()
     {
-		//wsb_order_num=3&wsb_tid=219501653
 		$wsb_order_num = Html::encode(Yii::$app->request->get('wsb_order_num', ''));
 		$wsb_tid = Html::encode(Yii::$app->request->get('wsb_tid', ''));
 		
@@ -103,7 +102,7 @@ class WebpayController extends Controller
 		curl_setopt ($curl, CURLOPT_SSL_VERIFYHOST, 0);
 		$response = curl_exec ($curl);
 		curl_close ($curl);
-		echo $response;
+		//echo $response;
 		
 		$xml = new \SimpleXMLElement($response);
 		
@@ -113,12 +112,6 @@ class WebpayController extends Controller
 			\Yii::$app->session->setFlash('error', 'Ошибка обработки платежа');
 			return $this->render('pay-error');			
 		}
-		//<status>failed</status>
-			//<status>success</status>
-		
-		//echo'<pre>';print_r($status);echo'</pre>';
-		//echo'<pre>';print_r($xml);echo'</pre>';
-
 		
 		foreach($xml->fields as $field) {
 			$transaction_id = (string) $field->transaction_id;
@@ -138,12 +131,7 @@ class WebpayController extends Controller
 			\Yii::$app->session->setFlash('error', 'Ошибка обработки платежа');
 			return $this->render('pay-error');
 		}
-		
-		//echo'<pre>';print_r($wsb_signature_get);echo'</pre>';
-		//echo'<pre>';print_r($wsb_signature);echo'</pre>';
-		
-		
-		
+				
 		$order = \app\models\Order::findOne($wsb_order_num);
 		if ($order === null) {
 			\Yii::$app->session->setFlash('error', 'Заказ не существует');
@@ -154,11 +142,8 @@ class WebpayController extends Controller
 			$order->pay_system = 1;
 			$order->tid = $wsb_tid;
 			$order->payed_at = time();
-			$order->save();			
+			$order->save();
 		}
-		
-		//echo'<pre>';print_r($wsb_order_num);echo'</pre>';
-		//echo'<pre>';print_r($wsb_tid);echo'</pre>';
 		
 		\Yii::$app->session->setFlash('success', 'Заказ успешно оплачен');
 		
@@ -167,14 +152,51 @@ class WebpayController extends Controller
 
     public function actionCancel()
     {
-		
-        return $this->render('cancel');
+		\Yii::$app->session->setFlash('error', 'Оплата отменена');
+		return $this->render('pay-error');
     }
 
     public function actionNotify()
     {
+		$params = \Yii::$app->params['payment_systems']['webpay'];
 		
-        return $this->render('notify');
+		$batch_timestamp = Html::encode(Yii::$app->request->post('batch_timestamp', ''));
+		$currency_id = Html::encode(Yii::$app->request->post('currency_id', ''));
+		$amount = Html::encode(Yii::$app->request->post('amount', ''));
+		$payment_method = Html::encode(Yii::$app->request->post('payment_method', ''));
+		$order_id = Html::encode(Yii::$app->request->post('order_id', ''));
+		$site_order_id = Html::encode(Yii::$app->request->post('site_order_id', ''));
+		$transaction_id = Html::encode(Yii::$app->request->post('transaction_id', ''));
+		$payment_type = Html::encode(Yii::$app->request->post('payment_type', ''));
+		$rrn = Html::encode(Yii::$app->request->post('rrn', ''));
+		$wsb_signature_get = Html::encode(Yii::$app->request->post('wsb_signature', ''));
+		
+		if($batch_timestamp != '' && $currency_id != '' && $amount != '' && $payment_method != '' && $order_id != '' && $site_order_id != '' && $transaction_id != '' && $payment_type != '' && $rrn != '') {
+			$wsb_signature = md5($batch_timestamp . $currency_id . $amount . $payment_method . $order_id . $site_order_id . $transaction_id . $payment_type . $rrn . $params['SecretKey']);
+			if($wsb_signature == $wsb_signature_get) {
+				
+				$order = \app\models\Order::findOne($wsb_order_num);
+				if ($order != null && ($payment_type == 1 || $payment_type == 4)) {
+					$order->payment_status = 10;
+					$order->pay_system = 1;
+					$order->tid = $transaction_id;
+					$order->payed_at = $batch_timestamp;
+					$order->save();
+					
+					Yii::$app->mailer->compose('mail-zakaz-spec', ['order'=>$order])
+						->setTo(\Yii::$app->params['adminEmail'])
+						->setFrom('noreply@team.gf-club.net')
+						->setSubject('Оплата заказа')
+						->send();
+					
+					echo 'OK';
+				}
+				
+			}
+		}
+		
+        return;
+        //return $this->render('notify');
     }
 
 }

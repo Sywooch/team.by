@@ -264,6 +264,10 @@
 	color: $red3;
 }
 
+.order_item_fee_payed {
+	color: $gray20;
+}
+
 .profile_shedule_ttl {
 	@extend .dinpro-b;
 	@extend %font_18;

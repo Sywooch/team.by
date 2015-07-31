@@ -12,6 +12,7 @@ use common\models\UserMedia;
 
 
 use frontend\models\ProfileAnketaForm;
+use frontend\models\ProfilePaymentTypeForm;
 
 
 use yii\data\ActiveDataProvider;
@@ -31,6 +32,7 @@ class ProfileController extends Controller
 		$model = User::findOne(\Yii::$app->user->id);
 		
 		$ProfileAnketaForm = new ProfileAnketaForm();
+		$ProfilePaymentTypeForm = new ProfilePaymentTypeForm();
 
 		//для коректной загрузки файлов аяксом
 		//устанавливаем с какой моделью будем работать		
@@ -99,6 +101,8 @@ class ProfileController extends Controller
 			
 			$this->redirect('/profile');
 		}
+		
+		
 		
 		$ProfileAnketaForm->attributes = $model->toArray();
 		
@@ -238,6 +242,7 @@ class ProfileController extends Controller
 			'reviewsDataProvider' => $reviewsDataProvider,
 			'ordering_items'=>$ordering_items,
 			'current_ordering'=>$current_ordering,
+			'ProfilePaymentTypeForm'=>$ProfilePaymentTypeForm,
 			
 		]);
 		

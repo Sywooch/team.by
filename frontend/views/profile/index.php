@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет'];
 				],
 				[
 					'label' => 'Способ оплаты',
-					'content' => $this->render('_payment', [], false, true),
+					'content' => $this->render('_payment', ['model'=>$ProfilePaymentTypeForm], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
 					'options' => ['class' => 'tab_profile__payment']
 				],
