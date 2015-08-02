@@ -79,7 +79,34 @@ use dosamigos\datepicker\DatePicker;
 			?>
     		
     	</div>
-    	<div class="col-lg-4"><?= $form->field($model, 'payment_status')->dropDownList($model->paymentStatuses, [$model->payment_status]) ?></div>
+    	<div class="col-lg-4">
+    		<?= $form->field($model, 'payment_status')->dropDownList($model->paymentStatuses, [$model->payment_status]) ?>
+    		
+    		<?php 
+				if($model->blocked == 1) {
+					echo $form->field($model, 'blocked')->dropDownList($model->blockedList, [$model->blocked]);
+				}
+				if($model->payment_status == 10) {
+				$content = '';
+				$content .= Html::tag('p', 'Оплачено через: '.$model->paySystemTxt);
+				$content .= Html::tag('p', 'Дата: '.Yii::$app->formatter->asDate($model->payed_at, 'php:d-m-yy H:i'));
+				$content .= Html::tag('p', '№ транзакции: '. $model->tid);
+				
+				echo Collapse::widget([
+					'items' => [
+						[
+							'label' => 'Информация по оплате',
+							'content' => $content,
+							'contentOptions' => [],
+							'options' => []
+						]
+					]
+				]);	
+				
+				
+			}
+			?>
+    	</div>
     	<div class="col-lg-4"><?= $form->field($model, 'review_status')->dropDownList($model->reviewStatuses, [$model->review_status]) ?></div>
     </div>
     

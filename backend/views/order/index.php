@@ -1,7 +1,10 @@
 <?php
 
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
+
+use backend\models\OrderForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\OrderSearch */
@@ -24,29 +27,49 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+				
+			[
+				'attribute'=>'id',
+				'headerOptions' => ['width' => '100'],
+				/*
+				//'label' => 'Ссылка',
+				'format' => 'raw',
+				'value' => function($data){
+					return Html::a(
+						$data->id,
+						Url::to('order/update', ['id'=>$data->id]),
+						[
+							'title' => 'Смелей вперед!',
+							//'target' => '_blank'
+						]
+					);
+				},
+				*/
+			],
+			           
 			[
 				'attribute' => 'client',
 				'value' => 'client.fio'
 			],
 			
-            'category_id',
-            'user_id',
-			//['attribute' => 'created_at', 'format' => ['date', 'php:d-m-Y H:i:s']],
-			['attribute' => 'updated_at', 'format' => ['date', 'php:d-m-Y H:i']],
-            // 'updated_at',
-            // 'date_control',
-            // 'descr:ntext',
-            // 'price1',
-            // 'price',
-            // 'fee',
-            // 'status',
-            // 'payment_status',
-            // 'review_text:ntext',
-            // 'review_status',
+			[
+				'attribute' => 'user',
+				'value' => 'user.fio'
+			],
+			
+			[
+				'attribute'=>'status',
+				//'label'=>'Родительская категория',
+				'format'=>'text', // Возможные варианты: raw, html
+				'content'=>function($data){
+					return $data->orderStatusTxt;
+				},
+				'filter' => OrderForm::getStatuses(),
+			],			
 
-            ['class' => 'yii\grid\ActionColumn'],
+			['attribute' => 'updated_at', 'format' => ['date', 'php:d-m-Y H:i']],
+
+            ['class' => 'yii\grid\ActionColumn', 'template' => '{update} {delete}',],
         ],
     ]); ?>
 

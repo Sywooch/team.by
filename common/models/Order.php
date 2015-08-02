@@ -28,6 +28,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class Order extends \yii\db\ActiveRecord
 {
+	
+	//public $orderStatusTxt;
 		
     /**
      * @inheritdoc
@@ -84,6 +86,7 @@ class Order extends \yii\db\ActiveRecord
 			'client' => 'Клиент',
 			'user' => 'Исполнитель',
 			'control_note' => 'Заметка',
+			'orderStatusTxt' => 'Статус заказа',
         ];
     }
 
@@ -170,5 +173,31 @@ class Order extends \yii\db\ActiveRecord
 		return $res;
     }
 	
-	
+    public function getOrderStatusTxt()
+    {
+        switch($this->status) {
+			case 1:
+				$res = 'новый';
+				break;
+			case 2:
+				$res = 'в работе';
+				break;			
+			case 3:
+				$res = 'выполнен';
+				break;
+			case 4:
+				$res = 'оплачен';
+				break;
+			case 5:
+				$res = 'отзыв получен';
+				break;
+			case 6:
+				$res = 'заказ закрыт';
+				break;
+			default:
+				$res = 'новый';
+				break;
+		}
+		return $res;
+    }
 }

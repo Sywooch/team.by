@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-        <?= $form->field($model, 'payment_type') ?>
+        <?= $form->field($model, 'payment_type')->radioList($model->paymentsList, [$model->payment_type, 'encode'=>false]) ?>
     
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'button-red']) ?>

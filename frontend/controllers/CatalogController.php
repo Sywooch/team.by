@@ -139,6 +139,7 @@ class CatalogController extends Controller
 			->joinWith(['reviews'])
 			->where(['{{%user_categories}}.category_id'=>$cat_ids])
 			->andWhere('black_list <> 1')
+			->andWhere('user_status IN (2,10)')
 			->orderBy('{{%user}}.'.$orderBy.' ASC');
 		
 		//если указан какой-то регион - то фильтруем по нему и его потомкам
@@ -365,6 +366,7 @@ class CatalogController extends Controller
 					->joinWith(['reviews'])
 					->where(['{{%user}}.id'=>$user_ids])
 					->andWhere('black_list <> 1')
+					->andWhere('user_status IN (2,10)')
 					->orderBy('{{%user}}.'.$orderBy.' ASC');
 
 				$DataProvider = new ActiveDataProvider([

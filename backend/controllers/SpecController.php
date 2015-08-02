@@ -3,8 +3,11 @@
 namespace backend\controllers;
 
 use Yii;
-use app\models\User;
+
+use backend\models\User;
+use backend\models\UserSearch;
 use app\models\ChangePasswordForm;
+
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -34,13 +37,22 @@ class SpecController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => User::find()->where(['group_id' => 2])->andWhere('id > 0'),
-        ]);
-
+//        $dataProvider = new ActiveDataProvider([
+//            'query' => User::find()->where(['group_id' => 2])->andWhere('id > 0'),
+//        ]);
+//
+//        return $this->render('index', [
+//            'dataProvider' => $dataProvider,
+//        ]);
+		
+        $searchModel = new UserSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		
         return $this->render('index', [
+			'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+		
     }
 
     /**
@@ -106,7 +118,7 @@ class SpecController extends Controller
 				}
 			}
 			
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,

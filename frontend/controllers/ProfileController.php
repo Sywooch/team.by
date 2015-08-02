@@ -32,11 +32,19 @@ class ProfileController extends Controller
 		$model = User::findOne(\Yii::$app->user->id);
 		
 		$ProfileAnketaForm = new ProfileAnketaForm();
-		$ProfilePaymentTypeForm = new ProfilePaymentTypeForm();
+		
+		$ProfilePaymentTypeForm = ProfilePaymentTypeForm::findOne(\Yii::$app->user->id);
 
 		//для коректной загрузки файлов аяксом
 		//устанавливаем с какой моделью будем работать		
 		Yii::$app->session->set('profile_model', 'ProfileAnketaForm');
+		
+		if ($ProfilePaymentTypeForm->load(Yii::$app->request->post())) {
+			$ProfilePaymentTypeForm->save();
+			//echo'<pre>';print_r($ProfilePaymentTypeForm);echo'</pre>';die;
+			$this->redirect('/profile');
+		}
+		//echo'<pre>1212121';print_r($ProfilePaymentTypeForm);echo'</pre>';die;
 		
 		if ($ProfileAnketaForm->load(Yii::$app->request->post())) {
 			if($ProfileAnketaForm->price_list != $model->price_list) {
@@ -88,7 +96,7 @@ class ProfileController extends Controller
 			if($ProfileAnketaForm->passwordNew != '')
 				$model->setPassword($ProfileAnketaForm->passwordNew);
 			
-			$model->user_status = 2; //после редактирования меняем статус.
+			$model->user_status = 2; //после редактирования меняем статус на "Требует проверки".
 			$model->save();
 			
 			$this->checkUslugi($model, $ProfileAnketaForm); //проверяем изменения в услугах

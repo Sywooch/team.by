@@ -87,7 +87,7 @@ class OrderSearch extends Order
 		}
 		
         $query->andFilterWhere([
-            'id' => $this->id,
+            '{{%order}}.id' => $this->id,
             'client_id' => $this->client_id,
             'category_id' => $this->category_id,
             'user_id' => $this->user_id,
@@ -97,7 +97,7 @@ class OrderSearch extends Order
             'price1' => $this->price1,
             'price' => $this->price,
             'fee' => $this->fee,
-            'status' => $this->status,
+            '{{%order}}.status' => $this->status,
             'payment_status' => $this->payment_status,
             'review_status' => $this->review_status,
         ]);

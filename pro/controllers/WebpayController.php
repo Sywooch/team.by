@@ -57,10 +57,15 @@ class WebpayController extends Controller
     public function actionPay($id)
     {
 		$order = \app\models\Order::findOne($id);
-		if ($order === null) {
-			\Yii::$app->session->setFlash('error', 'При сохранении возникла ошибка');
-			return $this->render('pay-error');
-		}
+		
+		if ($order === null) 
+			return $this->renderPayError('Заказ не найден');
+		
+		if ($order->payment_status == 10 || $order->tid != '') 
+			return $this->renderPayError('Данный заказ уже оплачен');
+		
+		if ($order->fee == 0) 
+			return $this->renderPayError('Отсутствует сумма для оплаты');
 		
         return $this->render('pay', ['order'=>$order]);
     }
@@ -145,6 +150,19 @@ class WebpayController extends Controller
 			$order->save();
 		}
 		
+		Yii::$app->mailer->compose('mail-payment-notice-manager', ['order'=>$order])
+			->setTo(\Yii::$app->params['adminEmail'])
+			->setFrom('noreply@team.gf-club.net')
+			->setSubject('Оплата заказа')
+			->send();
+
+		Yii::$app->mailer->compose('mail-payment-notice-user', ['order'=>$order])
+			->setTo($order->user->email)
+			->setFrom('noreply@team.gf-club.net')
+			->setSubject('Оплата заказа')
+			->send();
+		
+		
 		\Yii::$app->session->setFlash('success', 'Заказ успешно оплачен');
 		
         return $this->render('complete', ['order'=>$order]);
@@ -158,6 +176,14 @@ class WebpayController extends Controller
 
     public function actionNotify()
     {
+		
+		$filename = $_SERVER['DOCUMENT_ROOT'] . '/webpay.log';
+		$mytext = Yii::$app->formatter->asDate(time(), 'php:d-m-yy G:i:s'). " - webpay notify \n";
+
+		$fp = fopen($filename, "a+"); // Открываем файл в режиме записи 
+		fwrite($fp, $mytext); // Запись в файл
+		fclose($fp); //Закрытие файла
+		
 		$params = \Yii::$app->params['payment_systems']['webpay'];
 		
 		$batch_timestamp = Html::encode(Yii::$app->request->post('batch_timestamp', ''));
@@ -175,7 +201,7 @@ class WebpayController extends Controller
 			$wsb_signature = md5($batch_timestamp . $currency_id . $amount . $payment_method . $order_id . $site_order_id . $transaction_id . $payment_type . $rrn . $params['SecretKey']);
 			if($wsb_signature == $wsb_signature_get) {
 				
-				$order = \app\models\Order::findOne($wsb_order_num);
+				$order = \app\models\Order::findOne($site_order_id);
 				if ($order != null && ($payment_type == 1 || $payment_type == 4)) {
 					$order->payment_status = 10;
 					$order->pay_system = 1;
@@ -183,11 +209,18 @@ class WebpayController extends Controller
 					$order->payed_at = $batch_timestamp;
 					$order->save();
 					
-					Yii::$app->mailer->compose('mail-zakaz-spec', ['order'=>$order])
+					Yii::$app->mailer->compose('mail-payment-notice-manager', ['order'=>$order])
 						->setTo(\Yii::$app->params['adminEmail'])
 						->setFrom('noreply@team.gf-club.net')
 						->setSubject('Оплата заказа')
 						->send();
+						
+					Yii::$app->mailer->compose('mail-payment-notice-user', ['order'=>$order])
+						->setTo($order->user->email)
+						->setFrom('noreply@team.gf-club.net')
+						->setSubject('Оплата заказа')
+						->send();
+						
 					
 					echo 'OK';
 				}
@@ -195,8 +228,33 @@ class WebpayController extends Controller
 			}
 		}
 		
+		/*
+		$wsb_order_num = 100002;
+		$order = \app\models\Order::findOne($wsb_order_num);
+		Yii::$app->mailer->compose('mail-payment-notice-manager', ['order'=>$order])
+			->setTo(\Yii::$app->params['adminEmail'])
+			->setFrom('noreply@team.gf-club.net')
+			->setSubject('Оплата заказа')
+			->send();
+		
+		Yii::$app->mailer->compose('mail-payment-notice-user', ['order'=>$order])
+			//->setTo('aldegtyarev@yandex.ru')
+			->setTo($order->user->email)
+			->setFrom('noreply@team.gf-club.net')
+			->setSubject('Оплата заказа')
+			->send();
+		*/
+
+		echo 'OK';
+		
+		
         return;
         //return $this->render('notify');
     }
-
+	
+	public function renderPayError($msg = 'Ошибка')
+	{
+		\Yii::$app->session->setFlash('error', $msg);
+		return $this->render('pay-error');		
+	}
 }

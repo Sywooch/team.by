@@ -39,6 +39,11 @@ class OrderForm extends Model
     public $review_foto = [];
 	public $answer_text;
 	public $answer_status;
+	
+	public $pay_system;
+	public $payed_at;
+	public $tid;
+	public $blocked;
 
     /**
      * @inheritdoc
@@ -52,13 +57,13 @@ class OrderForm extends Model
 			
             [['fio', 'phone'], 'required', 'on' => 'create'],
 			['phone', 'unique', 'targetClass' => \common\models\Client::className(), 'message' => 'Данный номер уже используется.'],
-            [['fio', 'phone', 'email', 'info', 'control_note'], 'string', 'max' => 255],
+            [['fio', 'phone', 'email', 'info', 'control_note', 'tid'], 'string', 'max' => 255],
 			['email', 'email'],
 			
 			['review_foto', 'each', 'rule' => ['string']],
 			
 			[['review_text', 'answer_text'], 'string', 'min' => 3, 'max' => 2048],
-			[['review_rating', 'review_state', 'answer_status', 'payment_status'], 'integer'],
+			[['review_rating', 'review_state', 'answer_status', 'payment_status', 'pay_system', 'payed_at', 'blocked'], 'integer'],
 			
         ];
     }
@@ -94,6 +99,7 @@ class OrderForm extends Model
             'review_rating' => 'Оценка клиента',
             'answer_text' => 'Ответ специалиста',
             'answer_status' => 'Статус ответа',
+            'blocked' => 'Заблокирован для оплаты',
 			
         ];
     }
@@ -157,6 +163,15 @@ class OrderForm extends Model
     }	
 	
 	
+    public static function getBlockedList()
+    {
+        return [
+            0 => 'Нет',
+            1 => 'Да',
+        ];
+    }	
+	
+	
     public static function getClients()
     {
 		$clients = \common\models\Client::find()->orderBy('fio')->all();		
@@ -184,6 +199,21 @@ class OrderForm extends Model
 		return $categories2;
     }	
 	
+    public function getPaySystemTxt()
+    {
+        switch($this->pay_system) {
+			case 1:
+				$res = 'Webpay';
+				break;
+			case 2:
+				$res = 'ЕРИП IPay';
+				break;			
+			default:
+				$res = 'Не уазано';
+				break;
+		}
+		return $res;
+    }	
 	
 	
 }

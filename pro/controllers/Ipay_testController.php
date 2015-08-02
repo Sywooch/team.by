@@ -131,7 +131,7 @@ class Ipay_testController extends Controller
 					$ErrorLine = $Error->appendChild($dom->createElement('ErrorLine'));
 
 					// добавление элемента текстового узла <title> в <title> 
-					$ErrorLine->appendChild($dom->createTextNode('Заказ не найден')); 
+					$ErrorLine->appendChild($dom->createTextNode('Заказ номер '.$order->id.' не существует. Начните оплату заново на сайте adm.team.by')); 
 				}	elseif($order->fee == 0)	{
 					//добавление корня - <ServiceProvider_Response> 
 					$ServiceProvider_Response = $dom->appendChild($dom->createElement('ServiceProvider_Response')); 
@@ -142,6 +142,12 @@ class Ipay_testController extends Controller
 
 					// добавление элемента текстового узла <title> в <title> 
 					$ErrorLine->appendChild($dom->createTextNode('Сумма не задана')); 					
+				}	elseif($order->payment_status == 10)	{
+					$ServiceProvider_Response = $dom->appendChild($dom->createElement('ServiceProvider_Response')); 
+					$Error = $ServiceProvider_Response->appendChild($dom->createElement('Error'));
+					$ErrorLine = $Error->appendChild($dom->createElement('ErrorLine'));
+					$ErrorLine->appendChild($dom->createTextNode('Заказ номер '.$order->id.' уже оплачен'));
+					
 				}	else	{
 					$ServiceProvider_Response = $dom->appendChild($dom->createElement('ServiceProvider_Response')); 
 					$ServiceInfo = $ServiceProvider_Response->appendChild($dom->createElement('ServiceInfo'));
@@ -154,22 +160,6 @@ class Ipay_testController extends Controller
 						$Info = $ServiceInfo->appendChild($dom->createElement('Info'));
 						$InfoLine = $Info->appendChild($dom->createElement('InfoLine'));
 							$InfoLine->appendChild($dom->createTextNode('Оплата комисси за заказ N'.$order->id));
-/*
-<?xml version="1.0" encoding="windows-1251" ?>
-<ServiceProvider_Response>
-	<ServiceInfo>
-		<Amount Editable="N" MinAmount="1000" MaxAmount="100000" AmountPrecision="50">
-			<Debt>9200000</Debt>
-			<Penalty/>
-		</Amount>
-		<Info xml:space="preserve">
-			<InfoLine>Заказ "123", оформленный на сайте tv.by.</InfoLine>
-			<InfoLine>Телевизор Sumsung 48EU6500. </InfoLine>
-			<InfoLine>Сумма: 9 200 000 бел. руб.</InfoLine>
-		</Info>
-	</ServiceInfo>
-</ServiceProvider_Response>
-*/
 				}
 				
 				//генерация xml 
@@ -180,14 +170,7 @@ class Ipay_testController extends Controller
 				echo $response;
 			}
 		}
-		//echo '1111';
-		//exit();
 		return;
-
-
-		
-		
-        //return $this->render('service-info');
     }
 
     public function actionTransaction_start()
@@ -231,16 +214,17 @@ class Ipay_testController extends Controller
 							$ErrorLine = $Error->appendChild($dom->createElement('ErrorLine'));
 								$ErrorLine->appendChild($dom->createTextNode('Неверная сумма платежа'));					
 					
-				}	else	{
-					/*
-<ServiceProvider_Response>
-	<TransactionStart>
-		<ServiceProvider_TrxId>8571502</ServiceProvider_TrxId>
-	</TransactionStart>
-</ServiceProvider_Response>					
-*/					$TrxId = time();
-					//echo'<pre>';var_dump($ServiceProvider_TrxId);echo'</pre>';die;
+				}	elseif($order->blocked == 1)	{
+					$ServiceProvider_Response = $dom->appendChild($dom->createElement('ServiceProvider_Response')); 
+						$Error = $ServiceProvider_Response->appendChild($dom->createElement('Error'));
+							$ErrorLine = $Error->appendChild($dom->createElement('ErrorLine'));
+								$ErrorLine->appendChild($dom->createTextNode('Заказ номер '.$order->id.' находится в процессе оплаты'));					
 					
+				}	else	{
+					$TrxId = time();
+					
+					
+					$order->blocked = 1;
 					$order->tid = $TrxId;
 					$order->save();
 					
@@ -261,7 +245,6 @@ class Ipay_testController extends Controller
 			
 		}
         return;
-        //return $this->render('transaction-start');
     }
 
     public function actionTransaction_result()
@@ -277,12 +260,9 @@ class Ipay_testController extends Controller
 				$ErrorText = (string) $xml->TransactionResult->ErrorText[0];
 				$ServiceProvider_TrxId = (string) $xml->TransactionResult->ServiceProvider_TrxId[0];
 				
-				
 				$order = \app\models\Order::findOne($order_id);
 				
 				$dom = new \DomDocument('1.0');
-				
-				
 				
 				if ($order === null) {
 					$ServiceProvider_Response = $dom->appendChild($dom->createElement('ServiceProvider_Response')); 
@@ -292,29 +272,27 @@ class Ipay_testController extends Controller
 
 					$ErrorLine->appendChild($dom->createTextNode('Заказ не найден')); 
 				}	elseif($ErrorText != '')	{
-/*
-<ServiceProvider_Response>
-	<TransactionResult>
-		<Info xml:space="preserve">
-			<InfoLine>Операция отменена</InfoLine>
-		</Info>
-	</TransactionResult>
-</ServiceProvider_Response>
-
-*/
 					$ServiceProvider_Response = $dom->appendChild($dom->createElement('ServiceProvider_Response')); 
 						$TransactionResult = $ServiceProvider_Response->appendChild($dom->createElement('TransactionResult')); 
 							$Info = $TransactionResult->appendChild($dom->createElement('Info'));
 								$InfoLine = $Info->appendChild($dom->createElement('InfoLine'));
-									$InfoLine->appendChild($dom->createTextNode($ErrorText));					
+									$InfoLine->appendChild($dom->createTextNode($ErrorText));
+					
+					$order->blocked = 0;
+					$order->tid = '';
+					$order->save();
 					
 				}	elseif($order->tid != $ServiceProvider_TrxId)	{
-					
 					$ServiceProvider_Response = $dom->appendChild($dom->createElement('ServiceProvider_Response')); 
 						$TransactionResult = $ServiceProvider_Response->appendChild($dom->createElement('TransactionResult')); 
 							$Info = $TransactionResult->appendChild($dom->createElement('Info'));
 								$InfoLine = $Info->appendChild($dom->createElement('InfoLine'));
 									$InfoLine->appendChild($dom->createTextNode('Неверный ID транзакции'));
+					
+					$order->blocked = 0;
+					$order->tid = '';
+					$order->save();
+					
 				}	else	{
 					
 					$TransactionId = (string) $xml->TransactionResult->TransactionId[0];
@@ -330,6 +308,7 @@ class Ipay_testController extends Controller
 					$order->payment_status = 10;
 					$order->pay_system = 2;
 					$order->payed_at = mktime($hour, $min, $sec, $month, $day, $year);
+					$order->blocked = 0;
 					$order->save();
 					
 					$ServiceProvider_Response = $dom->appendChild($dom->createElement('ServiceProvider_Response')); 
@@ -347,10 +326,7 @@ class Ipay_testController extends Controller
 				$response = $dom->saveXML(); // передача строки в test1 
 				echo $response;				
 			}
-			
 		}
         return;
-		
-        //return $this->render('transaction-result');
     }
 }

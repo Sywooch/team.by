@@ -39,8 +39,8 @@ class ProfilePaymentTypeForm extends User
 	protected function getPaymentsList()
     {
 		return [
-			1 => 'Webpay',
-			2 => 'IPay'
+			1 => '<img src="/images/webpay/webpay.jpg" />',
+			2 => '<img src="/images/erip-ipay/logo-raschet.jpg" /><img src="/images/erip-ipay/logo_IPAY.png" />'
 		];
     }
 }

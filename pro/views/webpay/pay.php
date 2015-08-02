@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 
-$this->title = 'Оплата заказа N'.$orderNum;
+$this->title = 'Оплата заказа N'.$order->id;
 
 $params = \Yii::$app->params['payment_systems']['webpay'];
 
@@ -15,7 +15,7 @@ $wsb_store = $params['wsb_store'];
 $wsb_order_num = $order->id;
 $wsb_test = $params['wsb_test'];
 $wsb_currency_id = $params['wsb_currency_id'];
-$wsb_total = $order->price;
+$wsb_total = $order->fee;
 $SecretKey = $params['SecretKey'];
 $wsb_seed = rand().rand().rand().rand();
 //$wsb_seed = '12372636817779752241725472594467028658';
@@ -53,9 +53,9 @@ $wsb_email = $order->user->email;
 		<input NAME="wsb_seed"  type="hidden" value="<?=$wsb_seed?>">	
 		<input NAME="wsb_signature"  type="hidden" value="<?=$wsb_signature?>">
 
-		<input NAME="wsb_return_url"  type="hidden" value="<?= Url::to(['webpay/complete'], true)?>">
-		<input NAME="wsb_cancel_return_url"  type="hidden" value="<?= Url::to(['webpay/cancel'], true)?>">
-		<input name="wsb_notify_url" type="hidden" value="<?= Url::to(['webpay/notify'], true)?>">
+		<input NAME="wsb_return_url"  type="hidden" value="http://pro.team.by/webpay/complete.php">
+		<input NAME="wsb_cancel_return_url"  type="hidden" value="http://pro.team.by/webpay/cancel.php">
+		<input name="wsb_notify_url" type="hidden" value="http://pro.team.by/webpay/notify.php">
 
 		<?php if($wsb_email != '')	{	?>
 			<input NAME="wsb_email"  type="hidden" value="<?=$wsb_email?>">
@@ -63,7 +63,7 @@ $wsb_email = $order->user->email;
 
 		<input type="hidden" name="wsb_invoice_item_name[]" value="<?= $order->descr?>">
 		<input type="hidden" name="wsb_invoice_item_quantity[]" value="1">
-		<input type="hidden" name="wsb_invoice_item_price[]" value="<?= $order->price?>">
+		<input type="hidden" name="wsb_invoice_item_price[]" value="<?= $order->fee?>">
 
 		<br>
 		<?/*<input type="Submit" value=" Оплатить ">*/?>

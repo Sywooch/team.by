@@ -447,3 +447,19 @@
 .to_administration_txt {
 	padding-top: 22px;
 }
+
+.tab_profile__payment {
+	@extend .tab_profile__shedule
+}
+
+#profilepaymenttypeform-payment_type {
+	label {
+		@extend %db;
+		@extend .mb-30;
+		
+	}
+	
+	img {
+		height: 50px;
+	}
+}

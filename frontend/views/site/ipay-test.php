@@ -18,9 +18,18 @@ $xml = '<ServiceProvider_Request>
 
 ?>
 
-
+<?/*
 <form action="http://pro.team.by/ipay_test/transaction_start.php" method="post">
 	<input type="hidden" name="XML" value="<?= Html::encode($xml)?>" />
+	<input type="submit" value="go">
+	
+</form>
+
+*/?>
+
+
+<form action="http://pro.team.by/webpay/notify.php" method="post">
+	<input type="hidden" name="" value="" />
 	<input type="submit" value="go">
 	
 </form>

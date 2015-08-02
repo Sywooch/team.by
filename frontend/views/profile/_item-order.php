@@ -26,7 +26,17 @@
 				<?php	}	else	{	?>
 
 				<p class="order_item_fee order_item_fee_warning">Комиссия <?= DPriceHelper::formatPrice($model->fee, 1); ?></p>
-				<a href="#" class="button-red btn-short">Оплатить</a>
+				<?php 
+					switch($model->user->payment_type)	{
+						case 1:
+							$payment_url = 'http://pro.team.by/webpay/pay/'.$model->id.'.php';
+							break;
+						case 2:
+							$payment_url = 'http://pro.team.by/ipay_test/pay/'.$model->id.'.php';
+							break;
+					}	
+				?>
+					<a href="<?= $payment_url?>" class="button-red btn-short">Оплатить</a>
 			<?php	}	?>
 		<?php	}	?>
 	</div>
