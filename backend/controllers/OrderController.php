@@ -76,6 +76,17 @@ class OrderController extends Controller
 				$model->scenario = 'create';
 		
 			if ($model->validate()) {
+				
+				$order = new \common\models\Order();
+
+				$model_attribs = $model->toArray();
+				$order_attr = $order->attributes;
+
+				foreach($order_attr as $attr_key=>&$attr)	{
+					if(isset($model_attribs[$attr_key]))
+						$order->$attr_key = $model_attribs[$attr_key];
+				}
+				
 				if($model->client_id == 0) {
 					$client = new \common\models\Client();
 					$client->fio = $model->fio;
@@ -91,23 +102,13 @@ class OrderController extends Controller
 						]);
 						
 					}	else	{
-						$order->client_id = $client->id;
 						//echo'<pre>';print_r($client);echo'</pre>';die;
+						
+						$order->client_id = $client->id;
+						
 						//$model->addError()
 					}
-				}
-				
-				
-				
-				$order = new \common\models\Order();
-
-				$model_attribs = $model->toArray();
-				$order_attr = $order->attributes;
-
-				foreach($order_attr as $attr_key=>&$attr)	{
-					if(isset($model_attribs[$attr_key]))
-						$order->$attr_key = $model_attribs[$attr_key];
-				}
+				}				
 								
 				//обрабатываем дату в корректный вид
 				if($order->date_control == '') {

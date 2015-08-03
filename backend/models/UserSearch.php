@@ -5,21 +5,28 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\User;
+use common\models\User;
+use common\models\Category;
+
+use yii\helpers\ArrayHelper;
 
 /**
  * UserSearch represents the model behind the search form about `backend\models\User`.
  */
 class UserSearch extends User
 {
+	
+	public $userCategories;
+	public $userCategoriesList;
+	public $category_id;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'group_id', 'status', 'user_status', 'is_active', 'created_at', 'updated_at', 'user_type', 'region_id', 'to_client', 'call_time_from', 'call_time_to', 'black_list', 'license_checked', 'payment_type'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'fio', 'phone', 'about', 'education', 'experience', 'price_list', 'avatar', 'price_t', 'specialization', 'license'], 'safe'],
+            [['id', 'group_id', 'status', 'user_status', 'is_active', 'created_at', 'updated_at', 'user_type', 'region_id', 'to_client', 'call_time_from', 'call_time_to', 'black_list', 'license_checked', 'payment_type', 'category_id'], 'integer'],
+            [['username', 'email', 'fio', 'phone', 'about', 'education', 'experience', 'price_list', 'avatar', 'price_t', 'specialization', 'license'], 'safe'],
             [['total_rating'], 'number'],
         ];
     }
@@ -32,6 +39,15 @@ class UserSearch extends User
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
+	
+    public function attributeLabels()
+    {
+        return [
+            'user_status' => 'Статус',
+            'fio' => 'ФИО',
+        ];
+    }
+	
 
     /**
      * Creates data provider instance with search query applied
@@ -42,7 +58,11 @@ class UserSearch extends User
      */
     public function search($params)
     {
-        $query = User::find();
+        $query = User::find()
+			//->joinWith(['userCategories'])
+			->joinWith(['userCategoriesArray'])
+			->where(['group_id' => 2])
+			->andWhere('{{%user}}.id > 0');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,7 +77,7 @@ class UserSearch extends User
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+			'{{%user}}.id' => $this->id,
             'group_id' => $this->group_id,
             'status' => $this->status,
             'user_status' => $this->user_status,
@@ -73,24 +93,56 @@ class UserSearch extends User
             'black_list' => $this->black_list,
             'license_checked' => $this->license_checked,
             'payment_type' => $this->payment_type,
+            'category_id' => $this->categoryIds,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'auth_key', $this->auth_key])
-            ->andFilterWhere(['like', 'password_hash', $this->password_hash])
-            ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'fio', $this->fio])
             ->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', 'about', $this->about])
-            ->andFilterWhere(['like', 'education', $this->education])
-            ->andFilterWhere(['like', 'experience', $this->experience])
-            ->andFilterWhere(['like', 'price_list', $this->price_list])
-            ->andFilterWhere(['like', 'avatar', $this->avatar])
             ->andFilterWhere(['like', 'price_t', $this->price_t])
             ->andFilterWhere(['like', 'specialization', $this->specialization])
             ->andFilterWhere(['like', 'license', $this->license]);
 
         return $dataProvider;
     }
+	
+    public function getDropdownCatList()
+    {
+ 		$categories = Category::find()
+			->where('id <> 1')
+			->andWhere('depth < 3')
+			->orderBy('lft, rgt')->all();
+
+		foreach($categories as $c){
+			$separator = '';
+			for ($x=0; $x++ < $c->depth;) $separator .= '-';
+			$c->name = $separator.$c->name;
+		}
+		
+		$categories = ArrayHelper::map($categories, 'id', 'name');
+
+		return $categories;
+
+    }
+	
+	public function getCategoryIds()
+	{
+		$userSearch = Yii::$app->request->get('UserSearch', []);
+		if(isset($userSearch['category_id']) && $userSearch['category_id'] != 0) {
+			
+			$category = Category::findOne($userSearch['category_id']);
+			$children = $category->children()->all();
+			
+			$res = [$userSearch['category_id'] => $userSearch['category_id']] + ArrayHelper::map($children, 'id', 'id');
+		}	else	{
+			$res = 	[];
+		}
+		
+		//echo'<pre>';print_r($res);echo'</pre>';die;
+		
+		return $res;
+	}
+	
+	
 }

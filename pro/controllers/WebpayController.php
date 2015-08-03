@@ -42,12 +42,20 @@ class WebpayController extends Controller
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
+			/*
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
+			*/
         ];
     }
+	
+    public function beforeAction($action) {
+        //$this->enableCsrfValidation = ($action->id !== "reg-step2-upload-price"); 
+        $this->enableCsrfValidation = false; 
+        return parent::beforeAction($action);
+    }		
 
     public function actionIndex()
     {

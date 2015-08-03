@@ -3,7 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\User;
+//use backend\models\User;
+use common\models\User;
 use app\models\ChangePasswordForm;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;

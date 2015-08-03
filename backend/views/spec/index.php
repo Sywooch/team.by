@@ -3,6 +3,10 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
+use common\models\User;
+use common\models\Category;
+
+//use backend\models\Category;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -19,13 +23,38 @@ $this->params['breadcrumbs'][] = $this->title;
 */?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+			[
+				'attribute'=>'id',
+				'headerOptions' => ['width' => '70'],				
+			],
+			
             'fio',
             'email:email',
-            'userStatus',
+			[
+				'attribute'=>'category_id',
+				'format' => 'raw',
+				'content'=>function($data){
+					return $data->userCategoriesList;
+				},
+				'filter' => $searchModel->getDropdownCatList(),
+				
+			],
+            
+			[
+				'attribute'=>'user_status',
+				//'label'=>'Родительская категория',
+				'format'=>'text', // Возможные варианты: raw, html
+				'content'=>function($data){
+					return $data->userStatusTxt;
+				},
+				'filter' => User::getUserStatuses(),
+			],			
+			
             // 'created_at',
             // 'updated_at',
 

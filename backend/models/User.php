@@ -84,6 +84,8 @@ class User extends ActiveRecord implements IdentityInterface
             'status' => 'Статус',
             'password' => 'Пароль',
             'userStatus' => 'Статус',
+            'user_status' => 'Статус',
+            'fio' => 'ФИО',
         ];
     }
 	
@@ -105,7 +107,22 @@ class User extends ActiveRecord implements IdentityInterface
     public function getUserStatus()
     {
         return $this->statusesArray[$this->user_status];
-    }	
+    }
+	
+    public function getUserStatuses()
+    {
+        return [
+            0 => 'новый',
+            1 => 'приостановлен',
+            2 => 'требует проверки',
+            10 => 'активен',
+        ];
+    }
+    public function getUserStatusTxt()
+    {
+        return $this->userStatuses[$this->user_status];
+    }
+	
 
     /**
      * @inheritdoc

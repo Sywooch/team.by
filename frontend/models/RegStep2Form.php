@@ -37,6 +37,7 @@ class RegStep2Form extends Model
     public $usluga = [];
 	
 	public $to_client;
+	public $license;
 
 
 
@@ -61,6 +62,7 @@ class RegStep2Form extends Model
 			
 			['avatar', 'required'],
             ['avatar', 'string', 'min' => 3, 'max' => 255],
+            
 			
             ['region_name', 'string', 'min' => 3, 'max' => 255],
 			
@@ -75,6 +77,8 @@ class RegStep2Form extends Model
 			
 			['awards', 'each', 'rule' => ['string']],
 			['usluga', 'each', 'rule' => ['string']],
+			
+			['license', 'string', 'min' => 3, 'max' => 255],
 			
         ];
     }
@@ -99,6 +103,7 @@ class RegStep2Form extends Model
             'examples' => 'Примеры ваших работ',
             'to_client' => 'Осуществляем выезд к клиенту',
             'specialization' => 'Специализация',
+            'license' => 'Лицензия',
             //'' => '',
         ];
     }
@@ -129,7 +134,7 @@ class RegStep2Form extends Model
 	
     //получает список категорий для выпадающего списка
 	//с группировкой по областям
-	protected function getRegionsDropDownList()
+	public function getRegionsDropDownList()
     {
 		$categories = Region::find()->where('id <> 1')->orderBy('lft, rgt')->all();
 		$categories1 = ArrayHelper::map($categories, 'id', 'name');

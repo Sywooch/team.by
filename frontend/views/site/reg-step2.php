@@ -221,6 +221,31 @@ $categories_l2_arr = [];
 			</div>
 		</div>		
 			
+		<div id="uploading-license" class="form-group clearfix">
+			<div class="row clearfix">
+				<div class="col-lg-7">
+					<?= $form->field($model, 'license')->hiddenInput() ?>
+					<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
+					
+					<div class="row clearfix">
+						<div class="col-lg-6">
+							<span id="upload-license-btn" class="button-red">Загрузить</span>
+						</div>
+						<div class="col-lg-6">
+							<img id="loading-license" class="reg-step2-loading-process" src="/images/loading.gif" alt="Loading" />
+						</div>
+						<div class="col-lg-12">
+							<p id="loading-license-errormes" class="reg-step2-loading-errors"></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-5">
+					<span id="license-cnt">
+						<?php if($model->license) echo Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->license), Url::home(true) . 'tmp/' .$model->license, ['class' => '', 'data-toggle' => 'lightbox']) ?>
+					</span>
+				</div>
+			</div>
+		</div>
 			
 				
 		

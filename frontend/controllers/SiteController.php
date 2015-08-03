@@ -277,6 +277,7 @@ class SiteController extends Controller
 				
 				$user->price_list = $RegStep2Form['price_list'];
 				$user->avatar = $RegStep2Form['avatar'];				
+				$user->license = $RegStep2Form['license'];				
 				
 				$user->setPassword($RegStep1Form['password']);
 				$user->generateAuthKey();
@@ -288,6 +289,13 @@ class SiteController extends Controller
 				
 				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar']))
 					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$RegStep2Form['avatar']);
+				
+				//перемещаем файл лицензии
+				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['license']))
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$RegStep2Form['license']);
+				
+				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['license']))
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.'thumb_'.$RegStep2Form['license']);
 				
 				if($RegStep2Form['price_list'] != '') {
 					//перемещаем прайс-лист
@@ -346,6 +354,11 @@ class SiteController extends Controller
 					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example))
 						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
 				}
+				
+				//назначаем нужный уровень доступа
+				$name_of_role = 'specialist';
+				$userRole = Yii::$app->authManager->getRole($name_of_role);
+				Yii::$app->authManager->assign($userRole, $user->id);
 				
 				Yii::$app->response->cookies->remove('RegStep1Form');
 				

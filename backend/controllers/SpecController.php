@@ -4,7 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 
-use backend\models\User;
+//use backend\models\User;
+use common\models\User;
 use backend\models\UserSearch;
 use app\models\ChangePasswordForm;
 
@@ -101,25 +102,26 @@ class SpecController extends Controller
     {
         $model = $this->findModel($id);
 		
-		$allRoles = ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description');
-		$modelHasRoles = array_keys(Yii::$app->authManager->getRolesByUser($model->getId()));
-		$request = Yii::$app->request;
-		$name_of_role = $request->post('role_name'); 
+//		$allRoles = ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description');
+//		$modelHasRoles = array_keys(Yii::$app->authManager->getRolesByUser($model->getId()));
+//		$request = Yii::$app->request;
+//		$name_of_role = $request->post('role_name'); 
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			if($name_of_role != null) {
-				if(count($modelHasRoles) == 1 && $modelHasRoles[0] != $name_of_role) {
-					Yii::$app->authManager->revokeAll($model->getId());	//Удалить все ранее привязанные роли пользователя
-					//echo'<pre>';print_r($name_of_role);echo'</pre>';//die;
-					//echo'<pre>';print_r($modelHasRoles);echo'</pre>';die;
-
-					$userRole = Yii::$app->authManager->getRole($name_of_role);
-					Yii::$app->authManager->assign($userRole, $model->getId());
-				}
-			}
+        if ($model->load(Yii::$app->request->post())) {
+			
+			$model->license_checked = DDateHelper::DateToUnix($model->license_checked, 2);
+			
+			$model->save();
 			
             return $this->redirect(['index']);
         } else {
+			
+			if($model->license_checked) {
+				$model->license_checked = Yii::$app->formatter->asDate($model->license_checked, 'php:d-m-yy');
+			}	else	{
+				$model->license_checked = Yii::$app->formatter->asDate(time(), 'php:d-m-yy');
+			}
+			
             return $this->render('update', [
                 'model' => $model,
                 'allRoles' => $allRoles,

@@ -8,7 +8,9 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 use yii\helpers\Url;
+use yii\helpers\Html;
 
+use common\models\Category;
 /**
  * User model
  *
@@ -25,8 +27,12 @@ use yii\helpers\Url;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
+    const STATUS_BLOCKED = 0;
     const STATUS_ACTIVE = 10;
+    const STATUS_WAIT = 2;
+	
+	public $password;
+	public $categoryUser;
 
     /**
      * @inheritdoc
@@ -52,10 +58,102 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            //['status', 'default', 'value' => self::STATUS_ACTIVE],
+            //['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+			
+            ['username', 'required'],
+            //['username', 'match', 'pattern' => '#^[\w_-]+$#i'],
+            ['username', 'unique', 'targetClass' => self::className(), 'message' => 'This username has already been taken.'],
+            ['username', 'string', 'min' => 2, 'max' => 255],
+ 
+            ['email', 'required'],
+            ['email', 'email'],
+            ['email', 'unique', 'targetClass' => self::className(), 'message' => 'This email address has already been taken.'],
+            ['email', 'string', 'max' => 255],
+			
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
+			
+			['password', 'required', 'on' => 'create'],
+			['password', 'string', 'min' => 6],
+			
         ];
     }
+	
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'created_at' => 'Создан',
+            'updated_at' => 'Обновлён',
+            'username' => 'Имя пользователя',
+            'email' => 'Email',
+            'status' => 'Статус',
+            'password' => 'Пароль',
+            'userStatus' => 'Статус',
+            'user_status' => 'Статус',
+            'fio' => 'ФИО',
+			
+            'about' => 'Коротко о себе',
+            'education' => 'Ваше образование',
+            'experience' => 'Опыт работы',
+            'price_list' => 'Вы можете загрузить прайс',
+            'avatar' => 'Загрузите фото для анкеты',
+            'region' => 'Город',
+            'region_id' => 'Город',
+            'region_parent_id' => 'Область',
+            'region_name' => 'Город',
+            'category1' => 'Выберите услуги',
+            'price' => 'Стоимость работ',
+            'awards' => 'Награды, димломы',
+            'examples' => 'Примеры ваших работ',
+            'to_client' => 'Осуществляем выезд к клиенту',
+            'specialization' => 'Специализация',
+            'license' => 'Лицензия',
+			'user_type' => 'Тип деятельности',
+			'license_checked' => 'Лицензия действительна до',
+			
+        ];
+    }
+	
+    public function getStatusName()
+    {
+        $statuses = self::getStatusesArray();
+        return isset($statuses[$this->status]) ? $statuses[$this->status] : '';
+    }
+ 
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_BLOCKED => 'Заблокирован',
+            self::STATUS_ACTIVE => 'Активен',
+            self::STATUS_WAIT => 'Ожидает подтверждения',
+        ];
+    }	
+
+    public function getUserStatus()
+    {
+        return $this->statusesArray[$this->user_status];
+    }
+	
+    public function getUserStatuses()
+    {
+        return [
+            0 => 'новый',
+            1 => 'приостановлен',
+            2 => 'требует проверки',
+            10 => 'активен',
+        ];
+    }
+    public function getUserStatusTxt()
+    {
+        return $this->userStatuses[$this->user_status];
+    }
+	
+	
 
     /**
      * @inheritdoc
@@ -199,6 +297,15 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 	
+	public function beforeSave($insert)
+	{
+		if ($this->isNewRecord)	{
+			if($this->password)	$this->setPassword($this->password);
+		}
+
+		return parent::beforeSave($insert);
+	}
+		
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -206,6 +313,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasMany(UserCategories::className(), ['user_id' => 'id']);
     }
+	
+    public function getUserCategoriesArray()
+    {
+        return $this->hasMany(Category::className(), ['id' => 'category_id'])
+            ->via('userCategories');
+    }	
 	
     public function getUserSpecials()
     {
@@ -267,6 +380,23 @@ class User extends ActiveRecord implements IdentityInterface
     public function getAvatarThumbUrl()
     {
         return Url::home(true).Yii::$app->params['avatars-path'].'/thumb_'.$this->avatar;
+    }
+	
+    public function getUserCategoriesList()
+    {
+		$html = '';
+		foreach($this->userCategoriesArray as $row) {
+			$html .= Html::tag('p', $row->name);
+		}
+        return $html;
+    }
+	
+    public function getCategoryUser()
+    {
+		$user_categories = $this->userCategories;
+		$category = Category::findOne($user_categories[0]->id);
+		$parent = $category->parents(1)->one();
+        return $parent->id;
     }
 	
 	
