@@ -16,17 +16,28 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+   
+<?=Html::beginForm(['notify/to-spec'], 'post');?>
 <?/*
     <p>
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 */?>
+   
+   <?=Html::submitButton('Отправить уведомления', ['class' => 'btn btn-info',]);?>
+   
+   
+   
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
 
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+			[
+				'class' => 'yii\grid\CheckboxColumn',
+				'name' => 'user-ids',
+			],
 
 			[
 				'attribute'=>'id',
@@ -65,5 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         ],
     ]); ?>
+    
+<?= Html::endForm();?>     
 
 </div>

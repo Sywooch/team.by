@@ -160,13 +160,13 @@ class WebpayController extends Controller
 		
 		Yii::$app->mailer->compose('mail-payment-notice-manager', ['order'=>$order])
 			->setTo(\Yii::$app->params['adminEmail'])
-			->setFrom('noreply@team.gf-club.net')
+			->setFrom(\Yii::$app->params['noreplyEmail'])
 			->setSubject('Оплата заказа')
 			->send();
 
 		Yii::$app->mailer->compose('mail-payment-notice-user', ['order'=>$order])
 			->setTo($order->user->email)
-			->setFrom('noreply@team.gf-club.net')
+			->setFrom(\Yii::$app->params['noreplyEmail'])
 			->setSubject('Оплата заказа')
 			->send();
 		
@@ -219,13 +219,13 @@ class WebpayController extends Controller
 					
 					Yii::$app->mailer->compose('mail-payment-notice-manager', ['order'=>$order])
 						->setTo(\Yii::$app->params['adminEmail'])
-						->setFrom('noreply@team.gf-club.net')
+						->setFrom(\Yii::$app->params['noreplyEmail'])
 						->setSubject('Оплата заказа')
 						->send();
 						
 					Yii::$app->mailer->compose('mail-payment-notice-user', ['order'=>$order])
 						->setTo($order->user->email)
-						->setFrom('noreply@team.gf-club.net')
+						->setFrom(\Yii::$app->params['noreplyEmail'])
 						->setSubject('Оплата заказа')
 						->send();
 						

@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 use yii\helpers\Html;
+use yii\helpers\Url;
 //use dosamigos\datepicker\DatePicker;
 
 
@@ -45,9 +46,6 @@ $end_day = $day + 6;
     </div>
 
     <div class="body-content">
-        
-                
-
         <div class="row">
             <div class="col-lg-6">
                 <h2>Заказы</h2>
@@ -71,13 +69,11 @@ $end_day = $day + 6;
             </div>
             <div class="col-lg-6">
                 <h2>Специалисты</h2>
+                
+                <p><a class="btn btn-default" href="<?= Url::to(['spec/index', 'UserSearch[user_status]'=>0])?>">Новые специалисты</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['spec/index', 'UserSearch[user_status]'=>2])?>">Требуют проверки</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['spec/index', 'UserSearch[check_license]'=>1])?>">Истекает лицензия</a></p>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
             </div>
         </div>
 

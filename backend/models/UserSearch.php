@@ -19,13 +19,14 @@ class UserSearch extends User
 	public $userCategories;
 	public $userCategoriesList;
 	public $category_id;
+	public $check_license;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'group_id', 'status', 'user_status', 'is_active', 'created_at', 'updated_at', 'user_type', 'region_id', 'to_client', 'call_time_from', 'call_time_to', 'black_list', 'license_checked', 'payment_type', 'category_id'], 'integer'],
+            [['id', 'group_id', 'status', 'user_status', 'is_active', 'created_at', 'updated_at', 'user_type', 'region_id', 'to_client', 'call_time_from', 'call_time_to', 'black_list', 'license_checked', 'payment_type', 'category_id', 'check_license'], 'integer'],
             [['username', 'email', 'fio', 'phone', 'about', 'education', 'experience', 'price_list', 'avatar', 'price_t', 'specialization', 'license'], 'safe'],
             [['total_rating'], 'number'],
         ];
@@ -103,6 +104,40 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'price_t', $this->price_t])
             ->andFilterWhere(['like', 'specialization', $this->specialization])
             ->andFilterWhere(['like', 'license', $this->license]);
+		
+		if($this->check_license == 1)	{
+			$timestamp = time();
+			//echo'<pre>';print_r($timestamp);echo'</pre>';die;
+
+			$date_time_array = getdate($timestamp);
+			//echo'<pre>';print_r($date_time_array);echo'</pre>';//die;
+			//echo'<pre>';print_r(Yii::$app->formatter->asDate($timestamp, 'php:d-m-yy'));echo'</pre>';//die;
+
+
+			$hours = $date_time_array['hours'];
+			$minutes = $date_time_array['minutes'];
+			$seconds = $date_time_array['seconds'];
+			$month = $date_time_array['mon'];
+			$day = $date_time_array['mday'];
+			$year = $date_time_array['year'];
+
+			// используйте mktime для обновления UNIX времени
+			/*
+			$timestamp = mktime($hours,$minutes,$seconds,$month,($day - 55),$year);
+			$date_time_array = getdate($timestamp);
+			echo'<pre>';print_r($timestamp);echo'</pre>';//die;
+
+			echo'<pre>';print_r($date_time_array);echo'</pre>';//die;
+			echo'<pre>';print_r(Yii::$app->formatter->asDate($timestamp, 'php:d F'));echo'</pre>';//die;
+			*/
+			$start_day = $day + 6;
+			
+			$timestamp = mktime(0, 0, 0, $month, $start_day, $year);
+			
+			//$query->andFilterWhere(['license_checked<=:timestamp', [':timestamp' => $timestamp]]);
+			$query->andFilterWhere(['<=', 'license_checked', $timestamp]);
+			
+		}
 
         return $dataProvider;
     }

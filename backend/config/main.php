@@ -174,6 +174,14 @@ return [
 				],
 			],
 			
+			'notify' =>	[	//controller 
+				[
+					'actions' => ['index', 'create', 'update', 'delete', 'to-spec', 'to-spec-add'],
+					'allow' => true,
+					'roles' => ['admin'],					
+				],
+			],
+			
 			'post' => [	//controller
 				[
 					'actions' => ['index'],

@@ -9,6 +9,7 @@ use common\models\User;
 use common\models\UserCategories;
 use common\models\UserSpecials;
 use common\models\UserMedia;
+use common\models\Notify;
 
 
 use frontend\models\ProfileAnketaForm;
@@ -420,7 +421,70 @@ class ProfileController extends Controller
 			'model' => $model,
 		]);
 	}	
-    /**
+    
+	
+	public function actionNotify()
+	{
+        if (\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+		
+		$model = User::findOne(\Yii::$app->user->id);
+		
+		$DataProvider = new ActiveDataProvider([
+			'query' => Notify::find()
+				->where(['user_id'=>\Yii::$app->user->id])
+				->orderBy('{{%notify}}.created_at DESC'),
+			
+			'pagination' => [
+				//'pageSize' => Yii::$app->params['catlist-per-page'],
+				'pageSize' => 200,
+				'pageSizeParam' => false,
+			],
+		]);
+		
+		
+		return $this->render('notify', [
+			'model' => $model,
+			'dataProvider' => $DataProvider,
+		]);
+		
+	}
+	
+	public function actionSetReadedNotify($id)
+	{
+        if (\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+		
+		$model = Notify::findOne($id);
+		
+		if($model === null)
+			throw new NotFoundHttpException('Ошибка формирования уведомления');
+		
+		$model->readed = 1;
+		$model->save();
+		
+		return $this->redirect(['/profile/notify']);
+	}
+		
+	public function actionDeleteNotify($id)
+	{
+        if (\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+		
+		$model = Notify::findOne($id);
+		
+		if($model === null)
+			throw new NotFoundHttpException('Ошибка формирования уведомления');
+		
+		$model->delete();
+		
+		return $this->redirect(['/profile/notify']);
+	}
+		
+	/**
      * Finds the Category model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id

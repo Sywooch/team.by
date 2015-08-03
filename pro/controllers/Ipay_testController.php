@@ -317,6 +317,17 @@ class Ipay_testController extends Controller
 								$InfoLine = $Info->appendChild($dom->createElement('InfoLine'));
 									$InfoLine->appendChild($dom->createTextNode('Заказ N' . $order->id . ' успешно оплачен.'));
 					
+					Yii::$app->mailer->compose('mail-payment-notice-manager', ['order'=>$order])
+						->setTo(\Yii::$app->params['adminEmail'])
+						->setFrom(\Yii::$app->params['noreplyEmail'])
+						->setSubject('Оплата заказа')
+						->send();
+
+					Yii::$app->mailer->compose('mail-payment-notice-user', ['order'=>$order])
+						->setTo($order->user->email)
+						->setFrom(\Yii::$app->params['noreplyEmail'])
+						->setSubject('Оплата заказа')
+						->send();
 				}
 				
 				//генерация xml 

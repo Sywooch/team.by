@@ -3,6 +3,7 @@
 return [
     'adminEmail' => 'aldegtyarev@yandex.ru',
 	'homeUrl' => 'http://pro.team.by',
+	'noreplyEmail' => 'noreply@team.by',
 	'payment_systems' => [
 		'webpay' => [
 			'wsb_test' => 1,				//включен ли тестовый режим

@@ -19,6 +19,8 @@ class ProfileHeader extends Widget
 		if (\Yii::$app->user->isGuest) 
 			return;
 		
-		return $this->render('profile-header', ['model' => User::findOne(\Yii::$app->user->id)]);
+		return $this->render('profile-header', [
+			'model' => User::findOne(\Yii::$app->user->id)
+		]);
     }
 }

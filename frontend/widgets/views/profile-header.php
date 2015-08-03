@@ -8,7 +8,7 @@ use yii\helpers\Url;
 	<div class="container">
 		<ul class="profile_top_block__list">
 			<li class="pull-left profile_top_block__item">
-				<a href="#" class="button-light profile_top_block__notice">Уведомления</a>
+				<a href="<?= Url::to(['profile/notify'])?>" class="button-light profile_top_block__notice">Уведомления<sup><?= count($model->unreadNotifies)?></sup></a>
 			</li>
 			<li class="pull-left profile_top_block__item">
 				<a href="<?= Url::to(['profile/to-administration'])?>" class="button-light profile_top_block__contact">Связь с администрацией</a>

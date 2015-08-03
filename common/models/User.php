@@ -350,6 +350,16 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(Region::className(), ['id' => 'region_id']);
     }
 	
+    public function getNotifies()
+    {
+        return $this->hasMany(Notify::className(), ['user_id' => 'id']);
+	}	
+	
+    public function getUnreadNotifies()
+    {
+        return $this->hasMany(Notify::className(), ['user_id' => 'id'])->where('readed = 0');
+	}	
+	
     public function getMedia()
     {
 		$awards = [];
