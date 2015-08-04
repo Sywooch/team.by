@@ -14,14 +14,29 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
+//        'permit' => [
+//            'class' => 'developeruz\db_rbac\Yii2DbRbac',
+//        ],		
         'permit' => [
-            'class' => 'developeruz\db_rbac\Yii2DbRbac',
+            'class' => 'app\modules\db_rbac\Yii2DbRbac',
+            'params' => [
+                'userClass' => 'app\models\User'
+            ]
         ],		
 	],
     'components' => [
+        'session' => [
+            'cookieParams' => ['domain' => '.team.by'],
+        ],		
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+			'identityCookie' => [
+				'name' => '_identity',
+				'httpOnly' => true,
+				'path' => '/',
+				'domain' => '.team.by',
+			],			
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -44,6 +59,9 @@ return [
 				'<_c:[\w\-]+>' => '<_c>/index',
 				'<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>' => '<_c>/<_a>',
 				'<_c:[\w\-]+>/<_a:[\w\-]+>/<date:[\w\-]+>' => '<_c>/<_a>',
+				
+//				'<module:\w+>/<controller:\w+>/<action:(\w|-)+>' => '<module>/<controller>/<action>',
+//				'<module:\w+>/<controller:\w+>/<action:(\w|-)+>/<id:\d+>' => '<module>/<controller>/<action>',				
 				
 			],
 		],

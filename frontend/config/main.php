@@ -15,9 +15,18 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'session' => [
+            'cookieParams' => ['domain' => '.team.by'],
+        ],		
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+			'identityCookie' => [
+				'name' => '_identity',
+				'httpOnly' => true,
+				'path' => '/',
+				'domain' => '.team.by',
+			],			
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -63,6 +72,7 @@ return [
 	'as AccessBehavior' => [
 		'class' => AccessBehavior::className(),
         'rules' => [
+			
 			'site' =>	[	//controller
 				[
 					'actions' => ['login', 'index', 'signup'],
@@ -93,6 +103,6 @@ return [
 			 
 		],	
 		
-	],	*/
+	],*/
 	
 ];

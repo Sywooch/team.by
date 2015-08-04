@@ -14,9 +14,21 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'session' => [
+            'cookieParams' => ['domain' => '.team.by'],
+        ],		
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+			
+			'identityCookie' => [
+				'name' => '_identity',
+				'httpOnly' => true,
+				'path' => '/',
+				'domain' => '.team.by',
+			],			
+			
+			
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

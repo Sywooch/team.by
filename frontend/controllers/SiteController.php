@@ -144,6 +144,20 @@ class SiteController extends Controller
         }
     }
 
+	
+    public function actionLoginPro()
+    {
+        $model = new LoginForm();
+		
+		if ($model->load(Yii::$app->request->get()) && $model->login()) {
+		//if ($model->load(Yii::$app->request->get())) {
+            //return 'ok';
+			return $this->redirect('http://pro.team.by');
+        }	else {
+			return $this->redirect('http://pro.team.by');
+		}
+    }
+
     public function actionLogout()
     {
         Yii::$app->user->logout();
