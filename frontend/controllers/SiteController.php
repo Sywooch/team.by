@@ -685,6 +685,16 @@ class SiteController extends Controller
 		}
 	}	
 	
+	public function actionIsLogged()
+	{
+		if (\Yii::$app->user->isGuest) {
+			echo '0';
+		}	else	{
+			echo '1';
+		}
+		return; 
+
+	}
 	public function actionIpayTest()
 	{
 		return $this->renderPartial('ipay-test', [

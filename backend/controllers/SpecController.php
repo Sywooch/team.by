@@ -7,6 +7,9 @@ use Yii;
 //use backend\models\User;
 use common\models\User;
 use backend\models\UserSearch;
+
+use backend\models\SpecForm;
+
 use app\models\ChangePasswordForm;
 
 use yii\data\ActiveDataProvider;
@@ -14,6 +17,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+
+use frontend\helpers\DDateHelper;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -107,11 +112,11 @@ class SpecController extends Controller
 //		$name_of_role = $request->post('role_name'); 
 
         if ($model->load(Yii::$app->request->post())) {
-			
-			$model->license_checked = DDateHelper::DateToUnix($model->license_checked, 2);
+			//echo'<pre>';print_r($model->license_checked);echo'</pre>';//die;
+			$model->license_checked = (string) DDateHelper::DateToUnix($model->license_checked, 2);
 			
 			$model->save();
-			
+			//echo'<pre>';print_r($model);echo'</pre>';die;
             return $this->redirect(['index']);
         } else {
 			
@@ -123,8 +128,8 @@ class SpecController extends Controller
 			
             return $this->render('update', [
                 'model' => $model,
-                'allRoles' => $allRoles,
-                'modelHasRoles' => $modelHasRoles,
+                //'allRoles' => $allRoles,
+                //'modelHasRoles' => $modelHasRoles,
             ]);
         }
     }
@@ -165,7 +170,7 @@ class SpecController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne($id)) !== null) {
+        if (($model = SpecForm::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

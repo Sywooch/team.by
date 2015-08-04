@@ -118,8 +118,15 @@ class OrderController extends Controller
 				}
 				//echo'<pre>';var_dump($order);echo'</pre>';die;
 
+				if($order->payment_date == '') {
+					$order->payment_date = (string) time();
+				}	else	{
+					$order->payment_date = (string) DDateHelper::DateToUnix($order->payment_date, 2);
+				}
+				//echo'<pre>';var_dump($order);echo'</pre>';die;
+
 				$order->save();
-				//echo'<pre>';print_r($order);echo'</pre>';die;				
+				echo'<pre>';print_r($order);echo'</pre>';die;				
 				
 				//сохраняем статус и истории статусов
 				$this->addStatusToHistory($order);
@@ -144,6 +151,7 @@ class OrderController extends Controller
     public function actionUpdate($id)
     {
         $order = $this->findModel($id);
+		echo $_SERVER['DOCUMENT_ROOT'];
 		
 		$model = new OrderForm();
 		
@@ -181,6 +189,12 @@ class OrderController extends Controller
 				}	else	{
 					$model->date_control = null;
 				}
+				//echo'<pre>';var_dump($model->payment_date);echo'</pre>';die;
+				if($model->payment_date != '00-00-0000' && $model->payment_date != '') {
+					$model->payment_date = (string) DDateHelper::DateToUnix($model->payment_date, 2);
+				}	else	{
+					$model->payment_date = '';
+				}
 				
 				//echo'<pre>';print_r($model);echo'</pre>';die;
 				$model_attribs = $model->toArray();
@@ -198,6 +212,7 @@ class OrderController extends Controller
 				//echo'<pre>';print_r($order->oldAttributes['status']);echo'</pre>';die;
 				
 				$order->save();
+				//echo'<pre>';print_r($order);echo'</pre>';die;
 				
 				
 				
@@ -230,11 +245,18 @@ class OrderController extends Controller
 				return $this->redirect(['index']);
 			}
 		}
-		
+		//echo'<pre>';print_r($model->date_control);echo'</pre>';//die;
 		if($model->date_control) {
 			$model->date_control = Yii::$app->formatter->asDate($model->date_control, 'php:d-m-yy');
 		}	else	{
 			$model->date_control = '00-00-0000';
+		}
+		//echo'<pre>';print_r($model->date_control);echo'</pre>';die;
+		
+		if($model->payment_date) {
+			$model->payment_date = Yii::$app->formatter->asDate($model->payment_date, 'php:d-m-yy');
+		}	else	{
+			$model->payment_date = '00-00-0000';
 		}
 		
 
@@ -245,7 +267,7 @@ class OrderController extends Controller
 				foreach($order->review->reviewMedia as $item)	$model->review_foto[] = $item->filename;
 			}
 		}
-		
+		//echo'<pre>';print_r($model->date_control);echo'</pre>';die;
 		return $this->render('update', [
 			'model' => $model,
 			'orderStatusHistories' => $order->orderStatusHistories,

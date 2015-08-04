@@ -80,7 +80,21 @@ use dosamigos\datepicker\DatePicker;
     		
     	</div>
     	<div class="col-lg-4">
-    		<?= $form->field($model, 'payment_status')->dropDownList($model->paymentStatuses, [$model->payment_status]) ?>
+    		<div class="row clearfix">
+    			<div class="col-lg-6"><?= $form->field($model, 'payment_status')->dropDownList($model->paymentStatuses, [$model->payment_status]) ?></div>
+    			<div class="col-lg-6">
+					<?= $form->field($model, 'payment_date')->widget(
+						DatePicker::className(), [
+							'clientOptions' => [
+								'language'=> 'ru',
+								'autoclose' => true,
+								'format' => 'dd-mm-yyyy'
+							]
+					]);?>    
+    				
+    			</div>
+    		</div>
+    		
     		
     		<?php 
 				if($model->blocked == 1) {

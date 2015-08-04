@@ -136,6 +136,8 @@ class UserSearch extends User
 			
 			//$query->andFilterWhere(['license_checked<=:timestamp', [':timestamp' => $timestamp]]);
 			$query->andFilterWhere(['<=', 'license_checked', $timestamp]);
+			$timestamp = mktime(0, 0, 0, $month, $day, $year);
+			$query->andFilterWhere(['>=', 'license_checked', $timestamp]);
 			
 		}
 

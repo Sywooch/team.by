@@ -58,7 +58,7 @@ class Order extends \yii\db\ActiveRecord
         return [
             [['client_id', 'descr', 'price1'], 'required'],
             [['client_id', 'category_id', 'user_id', 'created_at', 'date_control', 'price1', 'price', 'fee', 'status', 'review_status'], 'integer'],
-            [['descr', 'review_text'], 'string']
+            [['descr', 'review_text', 'payment_date'], 'string']
         ];
     }
 

@@ -26,8 +26,8 @@ $config = [
 			
 			'enablePrettyUrl' => true,
 			//'enableStrictParsing' => true,
-			//'showScriptName' => true,
-			'suffix' => '.php',
+			'showScriptName' => false,
+			//'suffix' => '.php',
 			'rules' => [
 				'<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',
 				'<_c:[\w\-]+>' => '<_c>/index',

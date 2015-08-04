@@ -88,7 +88,7 @@ use dosamigos\datepicker\DatePicker;
 	</div>
 	*/?>
    
-	<?php	if($model->license != '' && $model->license != 0) { ?>
+	<?php	if($model->license != '' || $model->license != 0) { ?>
 		<div class="row clearfix">
 			<div class="col-lg-6 form-group"><?= Html::a(Html::img(Yii::$app->urlManagerFrontEnd->baseUrl . '/'. Yii::$app->params['licenses-path'] . '/thumb_' .$model->license), Yii::$app->urlManagerFrontEnd->baseUrl . '/'. Yii::$app->params['licenses-path'] . '/' .$model->license, ['data-toggle' => 'lightbox', 'data-gallery'=>'license-images']);?></div>
 			<div class="col-lg-6">

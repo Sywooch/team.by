@@ -29,10 +29,10 @@
 				<?php 
 					switch($model->user->payment_type)	{
 						case 1:
-							$payment_url = 'http://pro.team.by/webpay/pay/'.$model->id.'.php';
+							$payment_url = 'http://pro.team.by/webpay/pay/'.$model->id;
 							break;
 						case 2:
-							$payment_url = 'http://pro.team.by/ipay_test/pay/'.$model->id.'.php';
+							$payment_url = 'http://pro.team.by/ipay_test/pay/'.$model->id;
 							break;
 					}	
 				?>

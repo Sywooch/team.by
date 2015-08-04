@@ -11,7 +11,8 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
-    public function behaviors()
+    /*
+	public function behaviors()
     {
         return [
             'access' => [
@@ -33,7 +34,7 @@ class SiteController extends Controller
             ],
         ];
     }
-
+	*/
     public function actions()
     {
         return [
@@ -49,14 +50,21 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+		$isLogged = file_get_contents ('http://team.by/site/is-logged');
+		
+		if($isLogged == 0)
+			return $this->redirect('site/login'); 
+		
         return $this->render('index');
     }
 
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+        
+//		if (!\Yii::$app->user->isGuest) {
+//            return $this->goHome();
+//        }
+		
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {

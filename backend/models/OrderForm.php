@@ -44,6 +44,8 @@ class OrderForm extends Model
 	public $payed_at;
 	public $tid;
 	public $blocked;
+	
+	public $payment_date;
 
     /**
      * @inheritdoc
@@ -53,7 +55,7 @@ class OrderForm extends Model
         return [
             [['client_id', 'descr', 'price1', 'category_id'], 'required'],
             [['order_id', 'client_id', 'category_id', 'user_id', 'created_at', 'price1', 'price', 'fee', 'status', 'review_status'], 'integer'],
-            [['descr', 'review_text', 'date_control'], 'string'],
+            [['descr', 'review_text', 'date_control', 'payment_date'], 'string'],
 			
             [['fio', 'phone'], 'required', 'on' => 'create'],
 			['phone', 'unique', 'targetClass' => \common\models\Client::className(), 'message' => 'Данный номер уже используется.'],
@@ -100,6 +102,7 @@ class OrderForm extends Model
             'answer_text' => 'Ответ специалиста',
             'answer_status' => 'Статус ответа',
             'blocked' => 'Заблокирован для оплаты',
+            'payment_date' => 'Контроль оплаты',
 			
         ];
     }
