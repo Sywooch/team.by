@@ -113,7 +113,8 @@ class SpecController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 			//echo'<pre>';print_r($model->license_checked);echo'</pre>';//die;
-			$model->license_checked = (string) DDateHelper::DateToUnix($model->license_checked, 2);
+			if($model->license_checked)
+				$model->license_checked = (string) DDateHelper::DateToUnix($model->license_checked, 2);
 			
 			$model->save();
 			//echo'<pre>';print_r($model);echo'</pre>';die;

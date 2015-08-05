@@ -24,7 +24,7 @@ class OrderSearch extends Order
     public function rules()
     {
         return [
-            [['id', 'client_id', 'category_id', 'user_id', 'created_at', 'updated_at', 'date_control', 'price1', 'price', 'fee', 'status', 'payment_status', 'review_status'], 'integer'],
+            [['id', 'client_id', 'category_id', 'user_id', 'created_at', 'date_control', 'price1', 'price', 'fee', 'status', 'payment_status', 'review_status'], 'integer'],
             [['client', 'user'], 'safe'],
         ];
     }

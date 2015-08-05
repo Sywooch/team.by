@@ -138,16 +138,17 @@ class CatalogController extends Controller
 			->joinWith(['userCategories'])
 			->joinWith(['reviews'])
 			->where(['{{%user_categories}}.category_id'=>$cat_ids])
-			->andWhere('black_list <> 1')
-			->andWhere('user_status IN (2,10)')
+			->andWhere(['<>', 'black_list', 1])
+			->andWhere(['=', 'is_active', 1])
+			->andWhere(['user_status'=> [2,10]])
 			->orderBy('{{%user}}.'.$orderBy.' ASC');
 		
 		//если указан какой-то регион - то фильтруем по нему и его потомкам
 		if($region_id != 1) {
 			$region = Region::findOne($region_id);
 			$region_children = $region->children()->all();
-			$region_ids = implode(',', [$region_id => $region_id] + ArrayHelper::map($region_children, 'id', 'id'));
-			$query->andWhere("region_id IN ($region_ids)");
+			$region_ids = [$region_id => $region_id] + ArrayHelper::map($region_children, 'id', 'id');
+			$query->andWhere(['region_id' => $region_ids]);
 		}	else	{
 			
 		}
@@ -240,7 +241,7 @@ class CatalogController extends Controller
         $categories_history = Yii::$app->session->get('categories_history', []);
 		
 		$model = User::findOne($id);		
-		if ($model === null) throw new CHttpException(404, 'Аккаунт с данным ID отсутстсвует в базе');		
+		if ($model === null) throw new CHttpException(404, 'Аккаунт с данным ID отсутствует в базе');		
 		
 		//echo'<pre>';print_r($model->userCategories[0]);echo'</pre>'; die;
 		
@@ -281,7 +282,8 @@ class CatalogController extends Controller
 				->joinWith(['userCategories'])
 				->joinWith(['userSpecials'])
 				->where(['{{%user_categories}}.category_id'=>$cat_ids])
-				->andWhere('{{%user}}.id <> '.$id)
+				->andWhere(['=', 'is_active', 1])
+				->andWhere(['<>', '{{%user}}.id', $id])
 				->orderBy('RAND()'),
 			
 			'pagination' => [
@@ -365,8 +367,8 @@ class CatalogController extends Controller
 					->distinct(true)
 					->joinWith(['reviews'])
 					->where(['{{%user}}.id'=>$user_ids])
-					->andWhere('black_list <> 1')
-					->andWhere('user_status IN (2,10)')
+					//->andWhere('black_list <> 1')
+					//->andWhere('user_status IN (2,10)')
 					->orderBy('{{%user}}.'.$orderBy.' ASC');
 
 				$DataProvider = new ActiveDataProvider([
@@ -388,7 +390,7 @@ class CatalogController extends Controller
 				$query = User::find()
 					->distinct(true)
 					->where(['{{%user}}.id'=>$user_ids])
-					->andWhere('black_list <> 1')
+					//->andWhere('black_list <> 1')
 					->orderBy('{{%user}}.'.$orderBy.' ASC');
 
 				$DataProvider = new ActiveDataProvider([

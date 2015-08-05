@@ -215,12 +215,13 @@ class ProfileController extends Controller
 				->distinct(true)
 				->joinWith(['client'])
 				->where(['{{%order}}.user_id'=>$model->id])
-				->orderBy('{{%order}}.'.$orderBy.' ASC'),
+				->orderBy('{{%order}}.'.$orderBy.' DESC'),
 			
 			'pagination' => [
 				//'pageSize' => Yii::$app->params['catlist-per-page'],
-				'pageSize' => 200,
+				'pageSize' => 3,
 				'pageSizeParam' => false,
+				'pageParam' => 'o-page',
 			],
 		]);
 		
@@ -234,8 +235,9 @@ class ProfileController extends Controller
 			
 			'pagination' => [
 				//'pageSize' => Yii::$app->params['catlist-per-page'],
-				'pageSize' => 200,
+				'pageSize' => 2,
 				'pageSizeParam' => false,
+				'pageParam' => 'r-page',
 			],
 		]);
 		
@@ -411,6 +413,12 @@ class ProfileController extends Controller
 		if ($model->load(Yii::$app->request->post())) {
 			if ($model->validate()) {
 				$model->save();
+				
+				Yii::$app->mailer->compose('mail-spec-add-answer', ['model'=>$model])
+					->setTo(\Yii::$app->params['adminEmail'])
+					->setFrom(\Yii::$app->params['noreplyEmail'])
+					->setSubject('Специалист прокомметировал отзыв')
+					->send();
 				
 				Yii::$app->session->setFlash('success', 'Ответ успешно размещен. После проверки от будет опубликован');
 				return $this->renderPartial('add-answer-modal-err', []);

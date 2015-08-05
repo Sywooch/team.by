@@ -27,7 +27,7 @@ $this->title = 'Стать специалистом';
         	</ul>
         	
         	<p class="site_reg__rules">
-        		<input type="checkbox" id="rules_agree"> С <a href="#">правилами публичной оферты</a> и <a href="#">Условиями<br>использования</a> ознакомлен и согласен
+        		<input type="checkbox" id="rules_agree"> С <a href="<?= Url::toRoute(['/page/view', 'alias'=>'pravila-publichnoj-oferty'])?>" target="_blank">правилами публичной оферты</a> и <a href="<?= Url::toRoute(['/page/view', 'alias'=>'usloviya-ispolzovaniya'])?>" target="_blank">Условиями<br>использования</a> ознакомлен и согласен
         	</p>
         	<p class="site_reg__btn_cnt">
         		<a href="<?= Url::toRoute('/site/reg-step1')?>" id="begin-reg" class="button-red">Начать регистрацию</a>

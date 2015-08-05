@@ -68,7 +68,30 @@
 		margin-top: -8px;
 	}
 	
-} 
+}
+
+.review_answer_cnt {
+	@extend .mt-20;
+}
+
+.review_answer__text {
+	@include border-radius(5px);
+	@extend %pos_rel;
+	@extend %ico;
+
+	padding: 10px 25px;	
+	border: 1px dashed $blue9;
+
+	&:before {
+		@extend .ico-review-answer;
+
+		top: -1px;
+		left: 33px;
+		margin-top: -8px;
+	}
+
+}
+
 
 .reviews_item__text {
 	@extend .mb-10;

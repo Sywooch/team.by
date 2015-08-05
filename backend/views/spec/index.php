@@ -64,6 +64,16 @@ $this->params['breadcrumbs'][] = $this->title;
 					return $data->userStatusTxt;
 				},
 				'filter' => User::getUserStatuses(),
+				//'headerOptions' => ['width' => '100'],
+			],			
+			
+			[
+				'attribute'=>'is_active',
+				'format'=>'text',
+				'content'=>function($data){
+					return $data->userActivity;
+				},
+				'filter' => User::getUserActivityList(),
 			],			
 			
             // 'created_at',

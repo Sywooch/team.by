@@ -353,7 +353,7 @@ jQuery(function($) {
         return false;
     });
 	
-    $('.add-answer').on('click', function (e) {
+    $('.profile-page').on('click', '.add-answer', function (e) {
         var url = $(this).data('answer')+"?modal=1",
             modal = $('.modal');
 		

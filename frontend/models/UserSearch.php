@@ -110,8 +110,12 @@ class UserSearch extends User
 		$query = User::find()
 			->select(['id'])
 			->asArray()
-			->where(['like', 'fio', $search])
-			->orWhere(['like', 'specialization', $search]);
+			->where(['like', 'fio', $search])			
+			->orWhere(['like', 'specialization', $search])
+			->andWhere(['<>', 'black_list', 1])
+			->andWhere(['=', 'is_active', 1]);
+			->andWhere(['user_status'=>[2,10]])
+
 
 		if(count($region_ids))
 			$query->andWhere(['region_id' => $region_ids]);

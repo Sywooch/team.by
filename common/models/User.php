@@ -115,6 +115,8 @@ class User extends ActiveRecord implements IdentityInterface
             'license' => 'Лицензия',
 			'user_type' => 'Тип деятельности',
 			'license_checked' => 'Лицензия действительна до',
+			'is_active' => 'Активность',
+			'category_id' => 'Категория',
 			
         ];
     }
@@ -152,6 +154,20 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->userStatuses[$this->user_status];
     }
+	
+    public function getUserActivityList()
+    {
+        return [
+            1 => 'Активен',
+            0 => 'Неактивен',
+        ];
+    }
+	
+    public function getUserActivity()
+    {
+        return $this->userActivityList[$this->is_active];
+    }
+	
 	
 	
 

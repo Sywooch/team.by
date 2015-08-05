@@ -59,6 +59,8 @@ return [
 				
 				'catalog/<category:[\w_\/-]+>'=>'catalog/category',
 				
+				'page/<alias:[\w_\/-]+>'=>'page/view',
+				
 				'catalog'=>'catalog/index',
 				
 				'<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',

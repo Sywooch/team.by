@@ -151,7 +151,7 @@ class OrderController extends Controller
     public function actionUpdate($id)
     {
         $order = $this->findModel($id);
-		echo $_SERVER['DOCUMENT_ROOT'];
+		//echo $_SERVER['DOCUMENT_ROOT'];
 		
 		$model = new OrderForm();
 		
@@ -159,7 +159,7 @@ class OrderController extends Controller
 		$model->order_id = $order->id;
 		
 		$reviewMedia_old = [];
-		//echo'<pre>';print_r($order->orderStatusHistories);echo'</pre>';die;
+		//echo'<pre>';var_dump($order->review);echo'</pre>';die;
 		
 		//загружаем информацию по отзыву
 		if($order->review !== NULL)	{
@@ -180,6 +180,9 @@ class OrderController extends Controller
 		
 		if(isset($_POST['OrderForm']))	{
 			$model->load(Yii::$app->request->post());
+			
+			if($model->review_text != '')
+				$model->scenario = 'add_rating';
 
 			if ($model->validate()) {
 								
@@ -234,7 +237,7 @@ class OrderController extends Controller
 					$review->status = $model->review_state;
 					$review->save();
 					
-					//echo'<pre>';print_r($model);echo'</pre>';//die;
+					//echo'<pre>';print_r($review);echo'</pre>';die;
 					$this->checkReviewFoto($model, $reviewMedia_old, $review->id);
 					
 					$this->setRatingTotalForUser($review->user_id);

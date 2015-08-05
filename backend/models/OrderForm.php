@@ -28,6 +28,7 @@ class OrderForm extends Model
     public $payment_status;
     public $review_status;
     public $review_state;
+    
 	
     public $fio;
     public $phone;
@@ -54,7 +55,8 @@ class OrderForm extends Model
     {
         return [
             [['client_id', 'descr', 'price1', 'category_id'], 'required'],
-            [['order_id', 'client_id', 'category_id', 'user_id', 'created_at', 'price1', 'price', 'fee', 'status', 'review_status'], 'integer'],
+            [['review_rating'], 'required', 'on'=>'add_rating'],
+            [['order_id', 'client_id', 'category_id', 'user_id', 'created_at', 'price1', 'price', 'fee', 'status', 'review_status', 'review_rating'], 'integer'],
             [['descr', 'review_text', 'date_control', 'payment_date'], 'string'],
 			
             [['fio', 'phone'], 'required', 'on' => 'create'],

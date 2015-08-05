@@ -6,6 +6,8 @@ use yii\bootstrap\ButtonDropdown;
 
 use yii\widgets\ActiveForm;
 
+use yii\widgets\Pjax;
+
 ?>
 
 
@@ -35,18 +37,18 @@ use yii\widgets\ActiveForm;
 		
 	</div>
 	
-	<?php
-	echo ListView::widget( [
-		'dataProvider' => $dataProvider,
-		'itemView' => '_item-order',
-		'summary' => '',
-		'id' => 'items-list',
-		'options' => ['class' => 'list-view profile-orders-list-view'],
-		'itemOptions' => ['class'=>'profile_orders_row profile_order_item'],
-		'layout' => '{items}{pager}',
-		//'viewParams'=> ['specials'=>$specials],
-	] );
-	?>
+	<?php Pjax::begin(); ?>
+		<?php echo ListView::widget( [
+			'dataProvider' => $dataProvider,
+			'itemView' => '_item-order',
+			'summary' => '',
+			'id' => 'orders-list',
+			'options' => ['class' => 'list-view profile-orders-list-view clearfix'],
+			'itemOptions' => ['class'=>'profile_orders_row profile_order_item'],
+			'layout' => '{items}{pager}',
+			//'viewParams'=> ['specials'=>$specials],
+		]);?>
+	<?php Pjax::end(); ?>
 	<?/*
 	<div class="profile_orders_row profile_order_item">
 		<div class="row clearfix">

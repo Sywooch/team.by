@@ -29,13 +29,14 @@ use yii\helpers\Url;
 				<p class="mt-10"><a href="<?= $model->youtube ?>" target="_blank">Смотреть видео</a></p>
 			<?php	}	?>
 		</div>
-			<div class="review_answer_cnt mt-20">
-				<?php if ($model->answer_text == '') {	?>
-					<span class="button-red add-answer" data-answer="<?= \Yii::$app->urlManager->createUrl(['profile/add-answer', 'id' => $model->id])?>">Ответить</span>
-				<?php	}	elseif($model->answer_status == 1)	{	?>
-					<div class="dashed-border-block mt-20 ml-20"><?= $model->answer_text ?></div>
-				<?php	}	?>
-			</div>
+		
+		<div class="review_answer_cnt">
+			<?php if ($model->answer_text == '') {	?>
+				<span class="button-red add-answer" data-answer="<?= \Yii::$app->urlManager->createUrl(['profile/add-answer', 'id' => $model->id])?>">Ответить</span>
+			<?php	}	elseif($model->answer_status == 1)	{	?>
+				<div class="review_answer__text"><?= $model->answer_text ?></div>
+			<?php	}	?>
+		</div>
 		
 	</div>
 </div>

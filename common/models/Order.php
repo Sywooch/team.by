@@ -58,7 +58,7 @@ class Order extends \yii\db\ActiveRecord
         return [
             [['client_id', 'descr', 'price1'], 'required'],
             [['client_id', 'category_id', 'user_id', 'created_at', 'date_control', 'price1', 'price', 'fee', 'status', 'review_status'], 'integer'],
-            [['descr', 'review_text', 'payment_date'], 'string']
+            [['descr', 'payment_date'], 'string']
         ];
     }
 
@@ -81,7 +81,7 @@ class Order extends \yii\db\ActiveRecord
             'price' => 'Цена Окончательная',
 			'fee' => 'Комисия',
             'status' => 'Статус',
-            'review_text' => 'Review Text',
+            //'review_text' => 'Review Text',
             'review_status' => 'Статус отзыва',
 			'client' => 'Клиент',
 			'user' => 'Исполнитель',

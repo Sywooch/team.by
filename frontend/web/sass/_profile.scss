@@ -295,8 +295,12 @@
 	margin: 85px 0 110px 310px;
 }
 
+.tab_profile_orders,
 .tab_profile__reviews {
 	padding-bottom: 25px;
+}
+.tab_profile__reviews {
+
 	
 	.reviews_list {
 		margin-bottom: 0;
@@ -461,5 +465,23 @@
 	
 	img {
 		height: 50px;
+	}
+}
+
+.profile-orders-list-view {
+	.pagination {
+		@extend %fr;
+	}
+}
+.profile-orders-list-view,
+.profile-reviews-list-view {
+	.reviews_item {
+		&:last-of-type {
+			border-bottom: 1px solid #f2f2f2;
+		}		
+	}
+	.pagination {
+		margin-right: 25px;
+		margin-bottom: 0;
 	}
 }

@@ -54,7 +54,8 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        if (\Yii::$app->user->isGuest) {
+        /*
+		if (\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 		
@@ -282,7 +283,9 @@ class SiteController extends Controller
 			'ProfilePaymentTypeForm'=>$ProfilePaymentTypeForm,
 			
 		]);
-		
+		*/
+		var_dump(\Yii::$app->user->id);
+		return $this->render('index', []);
     }
 
     public function actionLogin()

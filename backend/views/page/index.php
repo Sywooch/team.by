@@ -6,7 +6,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Pages';
+$this->title = 'Страницы';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="page-index">
@@ -28,9 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
             //'created_at',
 			['attribute' => 'created_at', 'format' => ['date', 'php:d-m-Y H:i:s']],
             //'updated_at',
-			['attribute' => 'updated_at', 'format' => ['date', 'php:d-m-Y H:i:s']],
+			//['attribute' => 'updated_at', 'format' => ['date', 'php:d-m-Y H:i:s']],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn', 'template' => '{update} {delete}'],
         ],
     ]); ?>
 
