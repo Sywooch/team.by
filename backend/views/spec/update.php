@@ -25,6 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
 					'options' => ['class' => '']
 				],
 				[
+					'label' => 'Перечень услуг',
+					'content' => $this->render('_uslugi', ['model' => $model]),
+					'linkOptions' => ['class' => ''],
+					'options' => ['class' => '']
+				],
+				[
 					'label' => 'Заказы',
 					'content' => $this->render('_orders', ['model' => $model]),
 					'linkOptions' => ['class' => ''],

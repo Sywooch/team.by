@@ -15,7 +15,7 @@ use dosamigos\datepicker\DatePicker;
 ///echo'<pre>';var_dump($allRoles);echo'</pre>';die;
 ?>
 
-<div class="user-form">
+<div class="user-form tab_pane_cnt">
 
     <?php $form = ActiveForm::begin(); ?>
     

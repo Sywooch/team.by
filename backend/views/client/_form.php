@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="client-form">
+<div class="client-form tab_pane_cnt">
 
     <?php $form = ActiveForm::begin(); ?>
 

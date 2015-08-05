@@ -141,3 +141,8 @@ a.desc:after {
 .calendar-list-item {
 	margin-bottom: 20px;
 }
+
+
+.tab_pane_cnt {
+	padding-top: 30px;
+}
