@@ -145,19 +145,6 @@ class SiteController extends Controller
     }
 
 	
-    public function actionLoginPro()
-    {
-        $model = new LoginForm();
-		
-		if ($model->load(Yii::$app->request->get()) && $model->login()) {
-		//if ($model->load(Yii::$app->request->get())) {
-            //return 'ok';
-			return $this->redirect('http://pro.team.by');
-        }	else {
-			return $this->redirect('http://pro.team.by');
-		}
-    }
-
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -304,9 +291,11 @@ class SiteController extends Controller
 				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar']))
 					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$RegStep2Form['avatar']);
 				
-				//перемещаем файл лицензии
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['license']))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$RegStep2Form['license']);
+				if($RegStep2Form['license'] != '') {
+					//перемещаем файл лицензии
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['license']))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$RegStep2Form['license']);
+				}
 				
 				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['license']))
 					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.'thumb_'.$RegStep2Form['license']);
@@ -369,12 +358,22 @@ class SiteController extends Controller
 						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
 				}
 				
+				//echo'<pre>';print_r($user->getId());echo'</pre>';//die;
+				//echo'<pre>';print_r($user->id);echo'</pre>';//die;
+				
 				//назначаем нужный уровень доступа
 				$name_of_role = 'specialist';
 				$userRole = Yii::$app->authManager->getRole($name_of_role);
 				Yii::$app->authManager->assign($userRole, $user->id);
 				
 				Yii::$app->response->cookies->remove('RegStep1Form');
+				
+				Yii::$app->mailer->compose('mail-new-spec', ['user'=>$user])
+					->setTo(\Yii::$app->params['adminEmail'])
+					->setFrom(\Yii::$app->params['noreplyEmail'])
+					->setSubject('Регистрация нового специалиста')
+					->send();
+				
 				
 				return $this->redirect(['reg-final']);
 			}
@@ -446,11 +445,11 @@ class SiteController extends Controller
 						'model' => $model,
 					]);
 				}	else	{
-					return $this->goHome();
+					//return $this->goHome();
 				}
 
             } else {
-                Yii::$app->getSession()->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                Yii::$app->getSession()->setFlash('error', 'Ошибка отправки почты');
             }
         }
 		
@@ -476,8 +475,8 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
             Yii::$app->getSession()->setFlash('success', 'Новый пароль сохранён.');
-
-            return $this->goHome();
+			$model->password = '';
+            //return $this->goHome();
         }
 
         return $this->render('resetPassword', [

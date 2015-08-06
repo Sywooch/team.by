@@ -23,7 +23,7 @@ class PasswordResetRequestForm extends Model
             ['email', 'exist',
                 'targetClass' => '\common\models\User',
                 'filter' => ['status' => User::STATUS_ACTIVE],
-                'message' => 'There is no user with such email.'
+                'message' => 'Пользователь с таким email-ом отсутствует в базе.'
             ],
         ];
     }
@@ -50,7 +50,7 @@ class PasswordResetRequestForm extends Model
                 return \Yii::$app->mailer->compose(['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'], ['user' => $user])
                     ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' robot'])
                     ->setTo($this->email)
-                    ->setSubject('Password reset for ' . \Yii::$app->name)
+                    ->setSubject('Сброс пароля для ' . \Yii::$app->name)
                     ->send();
             }
         }

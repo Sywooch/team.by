@@ -17,11 +17,12 @@ class AppAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
+    //public $baseUrl = 'http://team.by';
     public $css = [
         'css/screen.css',
     ];
     public $js = [
-		'http://team.gf-club.net/js/template.js',
+		'http://team.by/js/template.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

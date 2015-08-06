@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Order;
 use common\models\OrderStatusHistory;
+use common\models\Notify;
 
 use backend\models\OrderForm;
 use backend\models\OrderSearch;
@@ -13,6 +14,8 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use yii\helpers\Html;
 
 use frontend\helpers\DDateHelper;
 
@@ -126,7 +129,11 @@ class OrderController extends Controller
 				//echo'<pre>';var_dump($order);echo'</pre>';die;
 
 				$order->save();
-				echo'<pre>';print_r($order);echo'</pre>';die;				
+				//echo'<pre>';print_r($order);echo'</pre>';die;
+				
+				if($order->user_id > 0) {
+					$this->sendUserNotify($order);
+				}
 				
 				//сохраняем статус и истории статусов
 				$this->addStatusToHistory($order);
@@ -214,8 +221,17 @@ class OrderController extends Controller
 				}
 				//echo'<pre>';print_r($order->oldAttributes['status']);echo'</pre>';die;
 				
-				$order->save();
 				//echo'<pre>';print_r($order);echo'</pre>';die;
+				//echo'<pre>';print_r($order->oldAttributes['user_id']);echo'</pre>';//die;
+				//echo'<pre>';print_r($order->user_id);echo'</pre>';die;
+				
+				if($order->oldAttributes['user_id'] != $order->user_id && $order->user_id > 0) {
+					//если назначили исполнителя - отправляем ему оповещение
+					$this->sendUserNotify($order);
+				}
+				
+				
+				$order->save();
 				
 				
 				
@@ -375,6 +391,23 @@ class OrderController extends Controller
 		$OrderStatusHistory->status_id = $order->status;
 		$OrderStatusHistory->save();
 		//echo'<pre>';print_r($OrderStatusHistory);echo'</pre>';die;
+		
+	}
+	
+	public function sendUserNotify($order)
+	{
+		$notify = new Notify();
+		$notify->user_id = $order->user_id;
+		$notify->msg = '<p>Вы назначены исполнителем для заказа №'.$order->id.'</p>';
+		$notify->msg .= '<p>Заказчик: '.$order->client->fio.'</p>';
+		if($order->client->phone != '')
+			$notify->msg .= '<p>Телефон: '.$order->client->phone.'</p>';
+		
+		if($order->client->email != '')
+			$notify->msg .= '<p>E-mail: '.$order->client->email.'</p>';
+		
+		$notify->save();
+		//echo'<pre>';print_r($notify);echo'</pre>';die;
 		
 	}
 }

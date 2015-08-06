@@ -107,7 +107,7 @@ class AjaxController extends Controller
 				$json_arr['filename'] = Html::input('hidden', $profile_model.'[awards][]', $model->filename);
 				//$json_arr['file'] = Url::home(true) . 'tmp/' .$model->filename;
 				//$json_arr['thumb_file'] = Url::home(true) . 'tmp/thumb_' .$model->filename;
-				$json_arr['html_file'] = Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->filename), Url::home(true) . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
+				$json_arr['html_file'] = Html::a(Html::img('http://team.by/' . 'tmp/thumb_' .$model->filename), 'http://team.by/' . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
 				$json_arr['html_file_remove'] = Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->filename]);
 				
 				echo Json::htmlEncode($json_arr);
@@ -148,7 +148,7 @@ class AjaxController extends Controller
 				
 				$json_arr['res'] = 'ok';
 				$json_arr['filename'] = Html::input('hidden', $profile_model.'[avatar]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->filename, ['class'=>'img-responsive']), Url::home(true) . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
+				$json_arr['html_file'] = Html::a(Html::img('http://team.by/' . 'tmp/thumb_' .$model->filename, ['class'=>'img-responsive']), 'http://team.by/' . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
 				
 				echo Json::htmlEncode($json_arr);
 
@@ -188,7 +188,7 @@ class AjaxController extends Controller
 				
 				$json_arr['res'] = 'ok';
 				$json_arr['filename'] = Html::input('hidden', $profile_model.'[license]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->filename, ['class'=>'img-responsive']), Url::home(true) . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
+				$json_arr['html_file'] = Html::a(Html::img('http://team.by/' . 'tmp/thumb_' .$model->filename, ['class'=>'img-responsive']), 'http://team.by/' . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
 				
 				echo Json::htmlEncode($json_arr);
 
@@ -227,7 +227,7 @@ class AjaxController extends Controller
 				
 				$json_arr['res'] = 'ok';
 				$json_arr['filename'] = Html::input('hidden', $profile_model.'[examples][]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->filename), Url::home(true) . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
+				$json_arr['html_file'] = Html::a(Html::img('http://team.by/' . 'tmp/thumb_' .$model->filename), 'http://team.by/' . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
 				$json_arr['html_file_remove'] = Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->filename]);
 				
 				echo Json::htmlEncode($json_arr);

@@ -40,6 +40,11 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+		
+        'cache' => [
+            'class' => 'yii\caching\FileCache',
+        ],
+		
 		'urlManager' => [
 			'class'=>'frontend\components\AUrlManager',
 			

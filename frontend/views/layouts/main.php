@@ -50,8 +50,8 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 </head>
 <body>
     <?php $this->beginBody() ?>
-    <div class="wrap">
-		<div class="wrap__cnt <?= $wrap_cnt_class ?>">
+    <div class="wrap <?= $wrap_cnt_class ?>">
+		<div class="wrap__cnt">
 			<div class="header">
 				<?php if($show_header_row1) echo $this->render('_header_row1', [], false, true); ?>
 				
@@ -92,8 +92,8 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 
 	<footer class="footer">
 		<?php if($current_controller == 'site' && $current_action == 'reg') {	?>
-			<img src="/images/reg-img-left.jpg" alt="" class="site_reg__footer_img_left">
-			<img src="/images/reg-img-right.jpg" alt="" class="site_reg__footer_img_right">
+			<img src="/images/reg-img-left.png" alt="" class="site_reg__footer_img_left">
+			<img src="/images/reg-img-right.png" alt="" class="site_reg__footer_img_right">
 		<?php 	}	?>
 		<div class="container clearfix">
 			<a href="<?php echo Yii::$app->params['homeUrl']; ?>" class="logo_bottom pull-left"><img src="/images/logo-bottom.png" alt=""></a>

@@ -1,13 +1,15 @@
 <?php
 
-namespace app\controllers;
+namespace pro\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+
+use common\models\Order;
+//use app\models\LoginForm;
+//use app\models\ContactForm;
 
 use yii\helpers\Url;
 
@@ -65,7 +67,7 @@ class Ipay_testController extends Controller
     public function actionPay($id)
     {
 		// https://.../!iSOU.Login?srv_no=...&pers_acc=...& amount=...&amount_editable=...&provider_url=...		
-		$order = \app\models\Order::findOne($id);
+		$order = Order::findOne($id);
 		if ($order === null) {
 			\Yii::$app->session->setFlash('error', 'При сохранении возникла ошибка');
 			return $this->render('pay-error');
@@ -117,7 +119,7 @@ class Ipay_testController extends Controller
 				$order_id = (string) $xml->PersonalAccount[0];
 				//echo'<pre>';print_r($order_id);echo'</pre>';
 				
-				$order = \app\models\Order::findOne($order_id);
+				$order = Order::findOne($order_id);
 				
 				//Создает XML-строку и XML-документ при помощи DOM 
 				$dom = new \DomDocument('1.0');
@@ -187,7 +189,7 @@ class Ipay_testController extends Controller
 				$order_id = (string) $xml->PersonalAccount[0];
 				$summ = (string) $xml->TransactionStart->Amount[0];
 				
-				$order = \app\models\Order::findOne($order_id);
+				$order = Order::findOne($order_id);
 				
 				$dom = new \DomDocument('1.0');
 				
@@ -260,7 +262,7 @@ class Ipay_testController extends Controller
 				$ErrorText = (string) $xml->TransactionResult->ErrorText[0];
 				$ServiceProvider_TrxId = (string) $xml->TransactionResult->ServiceProvider_TrxId[0];
 				
-				$order = \app\models\Order::findOne($order_id);
+				$order = Order::findOne($order_id);
 				
 				$dom = new \DomDocument('1.0');
 				

@@ -4,6 +4,9 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\RegStep1Form */
 /* @var $form ActiveForm */
+
+$this->title = 'Завершить регистрацию';
+
 ?>
 <div class="site-reg-final">
 	<div class="site-reg-final__cnt">

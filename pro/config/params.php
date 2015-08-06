@@ -20,5 +20,15 @@ return [
 			'wsb_url_test_check_trans' => 'https://sandbox.webpay.by',
 		],
 		'erip' => [],
-	]
+	],
+	
+	'orderlist-orderby' => [
+		'created_at' => 'дате добавления',
+		'payment_status'	 => 'статусу',
+	],
+	
+	'call_time_from' => 8,	//время для связи
+	'call_time_to' => 20,
+	
+	
 ];

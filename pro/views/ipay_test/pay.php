@@ -17,7 +17,7 @@ $this->title = 'Оплата заказ N'.$orderNum;
 		<input type="hidden" id="ipayform-pers_acc" class="form-control" name="pers_acc" value="<?= $orderNum?>">
 		<input type="hidden" id="ipayform-amount" class="form-control" name="amount" value="<?= $order->fee ?>">
 		<input type="hidden" id="ipayform-amount_editable" class="form-control" name="amount_editable" value="N">	
-		<input type="hidden" id="ipayform-provider_url" class="form-control" name="provider_url" value="http://team.by/profile">
+		<input type="hidden" id="ipayform-provider_url" class="form-control" name="provider_url" value="http://pro.team.by/">
 		<div class="form-group">
 			<button type="submit" class="button-red">Продолжить</button>		
 		</div>

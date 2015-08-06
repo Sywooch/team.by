@@ -50,7 +50,7 @@ jQuery(function($) {
 	{
 		$.ajax({
 			type: 'post',				
-			url: '/ajax/getspeclist',
+			url: 'http://team.by/ajax/getspeclist',
 			data: {phone : $(".modal").find('#addreviewform-phone').val()},
 			//dataType: 'json',
 			beforeSend: function(){},
@@ -68,7 +68,7 @@ jQuery(function($) {
 	function init_upload_reviewfoto()
 	{
 		var upload_reviewfoto = new AjaxUpload('#upload-reviewfoto-btn', {
-			action: '/ajax/upload-reviewfoto',
+			action: 'http://team.by/ajax/upload-reviewfoto',
 			name: 'UploadReviewFotoForm[imageFiles]',
 			onSubmit : function(file, extension){
 				$("#loading-reviewfoto").show();

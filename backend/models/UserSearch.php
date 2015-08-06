@@ -7,6 +7,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\User;
 use common\models\Category;
+use common\models\Region;
 
 use yii\helpers\ArrayHelper;
 
@@ -62,6 +63,7 @@ class UserSearch extends User
         $query = User::find()
 			//->joinWith(['userCategories'])
 			->joinWith(['userCategoriesArray'])
+			->joinWith(['userRegion'])
 			->where(['group_id' => 2])
 			->andWhere('{{%user}}.id > 0');
 
@@ -86,7 +88,7 @@ class UserSearch extends User
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'user_type' => $this->user_type,
-            'region_id' => $this->region_id,
+            'region_id' => $this->regionIds,
             'to_client' => $this->to_client,
             'call_time_from' => $this->call_time_from,
             'call_time_to' => $this->call_time_to,
@@ -172,6 +174,41 @@ class UserSearch extends User
 			$children = $category->children()->all();
 			
 			$res = [$userSearch['category_id'] => $userSearch['category_id']] + ArrayHelper::map($children, 'id', 'id');
+		}	else	{
+			$res = 	[];
+		}
+		
+		//echo'<pre>';print_r($res);echo'</pre>';die;
+		
+		return $res;
+	}
+	
+    public function getDropdownRegionsList()
+    {
+ 		$categories = Region::find()
+			->where('id <> 1')
+			->orderBy('lft, rgt')->all();
+
+		foreach($categories as $c){
+			$separator = '';
+			for ($x=0; $x++ < $c->depth;) $separator .= '-';
+			$c->name = $separator.$c->name;
+		}
+		
+		$categories = ArrayHelper::map($categories, 'id', 'name');
+
+		return $categories;
+    }
+	
+	public function getRegionIds()
+	{
+		$userSearch = Yii::$app->request->get('UserSearch', []);
+		if(isset($userSearch['region_id']) && $userSearch['region_id'] != 0) {
+			
+			$category = Region::findOne($userSearch['region_id']);
+			$children = $category->children()->all();
+			
+			$res = [$userSearch['region_id'] => $userSearch['region_id']] + ArrayHelper::map($children, 'id', 'id');
 		}	else	{
 			$res = 	[];
 		}

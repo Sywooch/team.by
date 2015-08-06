@@ -53,9 +53,9 @@ $wsb_email = $order->user->email;
 		<input NAME="wsb_seed"  type="hidden" value="<?=$wsb_seed?>">	
 		<input NAME="wsb_signature"  type="hidden" value="<?=$wsb_signature?>">
 
-		<input NAME="wsb_return_url"  type="hidden" value="http://pro.team.by/webpay/complete.php">
-		<input NAME="wsb_cancel_return_url"  type="hidden" value="http://pro.team.by/webpay/cancel.php">
-		<input name="wsb_notify_url" type="hidden" value="http://pro.team.by/webpay/notify.php">
+		<input NAME="wsb_return_url"  type="hidden" value="http://pro.team.by/webpay/complete">
+		<input NAME="wsb_cancel_return_url"  type="hidden" value="http://pro.team.by/webpay/cancel">
+		<input name="wsb_notify_url" type="hidden" value="http://pro.team.by/webpay/notify">
 
 		<?php if($wsb_email != '')	{	?>
 			<input NAME="wsb_email"  type="hidden" value="<?=$wsb_email?>">

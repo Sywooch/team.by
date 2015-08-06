@@ -1,17 +1,18 @@
 <?php
 
-namespace app\controllers;
+namespace pro\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 
-use app\models\LoginForm;
+use common\models\LoginForm;
+use common\models\User;
+
 use app\models\ContactForm;
-use app\models\User;
-use app\models\ProfileAnketaForm;
-use app\models\ProfilePaymentTypeForm;
+//use app\models\ProfileAnketaForm;
+//use app\models\ProfilePaymentTypeForm;
 
 class SiteController extends Controller
 {
@@ -43,7 +44,7 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => 'yii\web\ErrorAction',
+                'class' => 'yii\web\E	rrorAction',
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
@@ -290,25 +291,26 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
-        
+        /*
 		if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
+		*/
 		
+		//echo 'login';return;
 
         $model = new LoginForm();
-		$isLogged ='no';
 		
-        //if ($model->load(Yii::$app->request->post()) && $model->login()) {
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-			//($model->validate())	{}
-			//echo'<pre>';print_r($model);echo'</pre>';
+		$request = Yii::$app->request;
+		$modal = $request->get('modal');
 		
-			//$isLogged = file_get_contents ('http://team.by/site/login-pro?LoginForm[username]='.$model->username.'&LoginForm[password]='.$model->password.'&LoginForm[rememberMe]=1');
-           	//var_dump($isLogged);die;
-			//  http://team.by/site/login-pro?LoginForm[username]=petr@ya.com&LoginForm[password]=11111111&LoginForm[rememberMe]=1
-			//return $this->redirect('index');
-			return $this->redirect('http://team.by/site/login-pro?LoginForm[username]='.$model->username.'&LoginForm[password]='.$model->password.'&LoginForm[rememberMe]=1');
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        } elseif($modal == 1) {
+            return $this->renderPartial('login-modal', [
+                'model' => $model,
+            ]);
+			
         } else {
             return $this->render('login', [
                 'model' => $model,

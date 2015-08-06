@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+			
 			[
 				'class' => 'yii\grid\CheckboxColumn',
 				'name' => 'user-ids',
@@ -64,6 +65,17 @@ $this->params['breadcrumbs'][] = $this->title;
 					return $data->userStatusTxt;
 				},
 				'filter' => User::getUserStatuses(),
+				//'headerOptions' => ['width' => '100'],
+			],			
+			
+			[
+				'attribute'=>'region_id',
+				//'label'=>'Родительская категория',
+				'format'=>'text', // Возможные варианты: raw, html
+				'content'=>function($data){
+					return $data->userRegion->name;
+				},
+				'filter' => $searchModel->getDropdownRegionsList(),
 				//'headerOptions' => ['width' => '100'],
 			],			
 			

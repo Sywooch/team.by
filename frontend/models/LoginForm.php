@@ -1,5 +1,4 @@
 <?php
-namespace common\models;
 namespace frontend\models;
 
 use Yii;

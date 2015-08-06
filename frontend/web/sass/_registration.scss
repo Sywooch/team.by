@@ -98,15 +98,16 @@
 .site_reg__footer_img_left,
 .site_reg__footer_img_right {
 	@extend %pos_abs;
-	margin-top: -485px;
 }
 
 .site_reg__footer_img_left {
 	left: 0;
+	margin-top: -374px;	
 }
 
 .site_reg__footer_img_right {
 	right: 0;
+	margin-top: -363px;	
 }
 
 .site-reg-step1,
@@ -352,4 +353,11 @@
 }
 #uploading-avatar {
 	height: 260px;
+}
+
+@media (max-width: 1600px) {
+	.site_reg__footer_img_left,
+	.site_reg__footer_img_right {
+		display: none;
+	}
 }

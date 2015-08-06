@@ -5,4 +5,5 @@ $this->title = 'При оплате возникла ошибка';
 ?>
 
 <div class="site-index">
+	<p><a href="http://pro.team.by/">Вернуться в личный кабинет</a></p>
 </div>

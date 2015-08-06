@@ -17,7 +17,7 @@ use app\widgets\Alert;
 
 //use yii\widgets\Alert;
 
-//use widgets\ProfileHeader;
+use app\widgets\ProfileHeader;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -60,15 +60,14 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 				<?php echo $this->render('_header_row2', [], false, true); ?>
 				
 			</div>
-
-
 			
-			<?php //if(!\Yii::$app->user->isGuest && $current_controller == 'profile') echo ProfileHeader::widget() ?>
+			<?php if(!\Yii::$app->user->isGuest && $current_controller == 'profile') echo ProfileHeader::widget() ?>
 			
 			<?php if(isset($this->params['breadcrumbs']))	{	?>
 				<div class="breadcrumbs-cnt">
 					<div class="container">
 						<?= Breadcrumbs::widget([
+							'homeLink' => false,
 							'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
 						]) ?>
 					</div>
@@ -122,20 +121,23 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 				<p class="created_by">Разработка сайта: <a href="http://www.medialine.by" target="_blank" title="Medialine.by">Medialine.by</a></p>
 			</div>
 			
-			<?/*
-			<div class="footer__buttons">
-				<?php if (\Yii::$app->user->isGuest) {	?>
-					<a href="<?= Url::toRoute('/site/reg')?>" class="button-gray footer__reg_btn">Стать специалистом</a>
-					<a href="<?= Url::toRoute('/site/login')?>" id="login-modal-footer" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
-				<?	}	else	{	?>
-					<?php $form = ActiveForm::begin(['action'=>['/site/logout']]); ?>						
-						<a id="logout-btn-footer" class="button-gray footer__logout_btn" href="<?= Url::toRoute('/site/logout')?>">Выйти из системы</a>
-					<?php ActiveForm::end(); ?>
-				
-					<a href="<?= Url::toRoute('/profile')?>" id="login-modal-footer" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
-				<?	}	?>
+			
+			<div class="footer__buttons footer__buttons_pro">
+				<p>
+					<img src="http://team.by/images/raschet_h_50.jpg" alt="" />
+					<img src="http://team.by/images/logo_IPAY_h_50.png" alt="" />
+					<img src="http://team.by/images/iPay_life_h_50.png" alt="" />
+					<img src="http://team.by/images/iPay_mts_h_50.png" alt="" />
+				</p>
+				<p>
+					<img src="http://team.by/images/webpay_h_50.png" alt="" />
+					<img src="http://team.by/images/visa_h_50.png" alt="" />
+					<img src="http://team.by/images/verified-by-visa_h_50.png" alt="" />
+					<img src="http://team.by/images/mastercard-securecode_h_50.png" alt="" />
+					<img src="http://team.by/images/mastercard_h_50.png" alt="" />
+				</p>
 			</div>
-			*/?>
+			
 
 		</div>
 	</footer>
