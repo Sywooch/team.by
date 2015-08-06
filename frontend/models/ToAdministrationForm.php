@@ -53,7 +53,7 @@ class ToAdministrationForm extends Model
     {
         return Yii::$app->mailer->compose('mail-to-administration', ['model'=>$this])
             ->setTo($email)
-            ->setFrom('noreply@team.gf-club.net')
+            ->setFrom(\Yii::$app->params['noreplyEmail'])
             ->setSubject('Внутреннее сообщение от специалиста')
             ->send();
     }

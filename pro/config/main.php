@@ -49,6 +49,9 @@ return [
 			//'enableStrictParsing' => true,
 			'showScriptName' => false,
 			'rules' => [
+				
+				'page/<alias:[\w_\/-]+>'=>'page/view',
+				
 				'<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',
 				'<_c:[\w\-]+>' => '<_c>/index',
 				'<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>' => '<_c>/<_a>',

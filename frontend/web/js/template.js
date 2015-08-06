@@ -102,9 +102,11 @@ jQuery(function($) {
 	
 	//подстраиваем ширину инпута для поиска
 	if($("div").is(".profi_search_inner__inputbox_cnt")) {
+		console.log('111');
 		$('.profi_search_inner__inputbox').css('width', ($('.profi_search_inner__inputbox_cnt').width() - $('#profi_search_inner_regions__active').width() - 140)+'px');
 	} else {
-		$('.profi_search_tab_1__inputbox').css('width', ($('.profi_search_tab_1__cnt').width() - $('#profi_search_inner_regions__active').width() - 405)+'px');
+		console.log('222');
+		$('.profi_search_tab_1__inputbox').css('width', ($('.profi_search_tab_1__cnt').width() - $('#profi_search_inner_regions__active').width() - 455)+'px');
 	}
 	
 	

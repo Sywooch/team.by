@@ -81,9 +81,11 @@ return [
 				'disabledCommands' => ['netmount'], //отключение ненужных команд https://github.com/Studio-42/elFinder/wiki/Client-configuration-options#commands
 				'roots' => [
 					[
-						'baseUrl'=>'@web',
+						//'baseUrl'=>'@web',
+						'baseUrl'=>'http://team.by',
 						//'baseUrl'=>'/frontend/web',
-						'basePath'=>'@webroot',
+						//'basePath'=>'@webroot',
+						'basePath'=>'@frontend/web',
 						//'basePath'=>$_SERVER['DOCUMENT_ROOT'].'/frontend/web',
 						'path' => 'files/global',
 						'name' => 'Global'
@@ -259,8 +261,9 @@ return [
 			
 			'elfinder' =>	[	//controller
 				[
-					'actions' => ['index','manager'],
+					'actions' => ['index','manager','connect'],
 					'allow' => true,
+					'roles' => ['admin'],
 				],
 			],
 			

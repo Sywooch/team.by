@@ -95,3 +95,16 @@
 		top: 9px;
 	}
 }
+
+.footer__buttons_pro {
+	margin-top: 0;
+	
+	p {
+		@extend %text_r;
+		margin-bottom: 10px; 
+		
+	}
+	img {
+		margin: 0 5px;
+	}
+}

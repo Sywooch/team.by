@@ -58,3 +58,4 @@ $categories_l2_arr = [];
 			<?= Html::submitButton('Отправить', ['class' => 'button-red']) ?>
 		</div>
 	<?php ActiveForm::end(); ?>
+</div>

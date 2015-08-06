@@ -56,9 +56,9 @@ class OrderSearch extends Order
      */
     public function search($params)
     {
-        $query = Order::find();
-		$query->joinWith(['client']);
-		$query->joinWith(['user']);
+        $query = Order::find()
+			->joinWith(['client'])
+			->joinWith(['user']);
 		
 		if(isset($params['date'])) {
 			$date = DDateHelper::DateToUnix($params['date'], 2);
@@ -70,6 +70,11 @@ class OrderSearch extends Order
 		
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+			/*
+			'sort' => [
+				'{{%order}}.id'=>SORT_DESC,
+			]
+			*/
         ]);
 		
 		$dataProvider->sort->attributes['client'] = [

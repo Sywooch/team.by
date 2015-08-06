@@ -58,7 +58,7 @@ class ZakazSpec2 extends Model
     {
         return Yii::$app->mailer->compose('mail-zakaz-spec', ['model'=>$this])
             ->setTo($email)
-            ->setFrom('noreply@team.gf-club.net')
+            ->setFrom(\Yii::$app->params['noreplyEmail'])
             ->setSubject('Заявка на поиск специалиста')
             ->send();
     }
