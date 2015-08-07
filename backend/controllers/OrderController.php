@@ -51,6 +51,17 @@ class OrderController extends Controller
         ]);
     }
 
+    public function actionPayed()
+    {
+        $searchModel = new OrderSearch();
+		$dataProvider = $searchModel->searchPayed(Yii::$app->request->queryParams);
+		
+        return $this->render('index-payed', [
+			'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single Order model.
      * @param integer $id
@@ -138,9 +149,21 @@ class OrderController extends Controller
 				//сохраняем статус и истории статусов
 				$this->addStatusToHistory($order);
 				
-				return $this->redirect(['index']);
+				$session = Yii::$app->session;
+				$returnUrl = $session->get('order-return-url', null);
+				if($returnUrl != null) return $this->redirect($returnUrl);
+					else return $this->redirect(['index']);
+				
+				//return $this->redirect(['index']);
 			}
         }
+		
+		if(count($model->errors) == 0) {
+			$returnUrl = Yii::$app->request->referrer;
+			$session = Yii::$app->session;
+			$session->set('order-return-url', $returnUrl);
+		}
+		
 		
 		$model->scenario = ''; //выключаем сценарий
 		return $this->render('create', [
@@ -261,9 +284,24 @@ class OrderController extends Controller
 				
 				//echo'<pre>';print_r(Yii::getAlias('@frontend'));echo'</pre>';die;
 				//echo'<pre>';print_r($model);echo'</pre>';die;
-				return $this->redirect(['index']);
+				$session = Yii::$app->session;
+				$returnUrl = $session->get('order-return-url', null);
+				if($returnUrl != null) return $this->redirect($returnUrl);
+					else return $this->redirect(['index']);
+				//echo'<pre>';var_dump($returnUrl);echo'</pre>';die;
+				
+				//return $this->redirect(['index']);
 			}
 		}
+		
+		//echo'<pre>';var_dump(count($model->errors));echo'</pre>';//die;
+		if(count($model->errors) == 0) {
+			$returnUrl = Yii::$app->request->referrer;
+			$session = Yii::$app->session;
+			$session->set('order-return-url', $returnUrl);
+		}
+		
+		
 		//echo'<pre>';print_r($model->date_control);echo'</pre>';//die;
 		if($model->date_control) {
 			$model->date_control = Yii::$app->formatter->asDate($model->date_control, 'php:d-m-yy');
@@ -303,8 +341,12 @@ class OrderController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+		
+		$returnUrl = Yii::$app->request->referrer;		
+		if($returnUrl != null) return $this->redirect($returnUrl);
+			else return $this->redirect(['index']);
 
-        return $this->redirect(['index']);
+        //return $this->redirect(['index']);
     }
 
     /**

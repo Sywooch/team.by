@@ -34,7 +34,9 @@ class RegionController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Region::find()->where('id <> 1')->orderBy('lft, rgt'),
+            'query' => Region::find()
+				->where(['<>', 'id', 1])
+				->orderBy('lft, rgt'),
         ]);
 
         return $this->render('index', [
@@ -95,10 +97,19 @@ class RegionController extends Controller
 				$parent_category = Region::find()->where(['id' => $model->parent_id])->one();
 				$model->appendTo($parent_category);
 			}
+			$session = Yii::$app->session;
+			$returnUrl = $session->get('region-return-url', null);
+			if($returnUrl != null) return $this->redirect($returnUrl);
+				else return $this->redirect(['index']);			
 				
-            return $this->redirect(['index']);
-            //return $this->redirect(['view', 'id' => $model->id]);
+            //return $this->redirect(['index']);
         } else {
+			if(count($model->errors) == 0) {
+				$returnUrl = Yii::$app->request->referrer;
+				$session = Yii::$app->session;
+				$session->set('region-return-url', $returnUrl);
+			}			
+			
             return $this->render('update', [
                 'model' => $model,
             ]);
@@ -114,6 +125,11 @@ class RegionController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+		
+		$returnUrl = Yii::$app->request->referrer;		
+		if($returnUrl != null) return $this->redirect($returnUrl);
+			else return $this->redirect(['index']);
+		
 
         return $this->redirect(['index']);
     }
@@ -129,8 +145,11 @@ class RegionController extends Controller
 		
 		//echo'<pre>';print_r($model);echo'</pre>';//die;
 		//echo'<pre>';var_dump($model_prev);echo'</pre>';die;
-		
-		return $this->redirect(['index']);		
+		$returnUrl = Yii::$app->request->referrer;		
+		if($returnUrl != null) return $this->redirect($returnUrl);
+			else return $this->redirect(['index']);
+				
+		//return $this->redirect(['index']);		
     }
 
     public function actionMovedown($id)
@@ -144,8 +163,11 @@ class RegionController extends Controller
 		
 		//echo'<pre>';print_r($model);echo'</pre>';//die;
 		//echo'<pre>';var_dump($model_prev);echo'</pre>';die;
+		$returnUrl = Yii::$app->request->referrer;		
+		if($returnUrl != null) return $this->redirect($returnUrl);
+			else return $this->redirect(['index']);
 		
-		return $this->redirect(['index']);		
+		//return $this->redirect(['index']);		
     }
 	
     public function actionMakeroot()

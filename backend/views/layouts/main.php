@@ -61,6 +61,15 @@ AppAsset::register($this);
 						],
 					],            
 
+					[
+						'label' => 'Выгрузка',
+						'items' => [
+							 ['label' => 'Клиенты', 'url' => ['/permit/access/role']],
+							 ['label' => 'Специалисты', 'url' => ['/permit/access/permission']],
+							 ['label' => 'Заказы', 'url' => ['/permit/access/permission']],
+						],
+					],            
+
 					['label' => 'Валюта', 'url' => ['/currency/index']],
 
 

@@ -8,6 +8,8 @@ use yii\helpers\Html;
 $this->title = 'Изменение заказа №' . $model->order_id;
 $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Изменение заказа';
+
+echo Yii::$app->request->referrer;
 ?>
 <div class="order-update">
 

@@ -156,7 +156,7 @@ return [
 			
 			'order' =>	[	//controller
 				[
-					'actions' => ['index', 'create', 'update', 'delete'],
+					'actions' => ['index', 'payed', 'create', 'update', 'delete'],
 					'allow' => true,
 					'roles' => ['admin'],					
 				],

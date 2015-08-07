@@ -10,7 +10,7 @@ use backend\models\OrderForm;
 /* @var $searchModel app\models\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Заказы';
+$this->title = 'Оплаченные заказы';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-index">
@@ -19,8 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Новый заказ', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Оплаченные', ['payed'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Все заказы', ['index'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -59,14 +58,9 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			
 			[
-				'attribute'=>'status',
-				//'label'=>'Родительская категория',
-				'format'=>'text', // Возможные варианты: raw, html
-				'content'=>function($data){
-					return $data->orderStatusTxt;
-				},
-				'filter' => OrderForm::getStatuses(),
-			],			
+				'attribute'=>'payInfo',
+				'format'=>'html'
+			],		
 
 			['attribute' => 'updated_at', 'format' => ['date', 'php:d-m-Y H:i']],
 

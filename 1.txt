@@ -14,3 +14,5 @@ Yii2 Starter Kit - шаблон для старта приложения
 http://www.yiiframework.ru/forum/viewtopic.php?f=9&t=19306
 
 http://www.w3schools.com/bootstrap/bootstrap_ref_comp_glyphs.asp
+
+http://nix-tips.ru/yii2-eksport-v-excel-pdf-csv-i-drugie-formaty.html

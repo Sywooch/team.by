@@ -34,7 +34,9 @@ class CategoryController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Category::find()->where('id <> 1')->orderBy('lft, rgt'),
+            'query' => Category::find()
+				->where(['<>', 'id', 1])
+				->orderBy('lft, rgt'),
         ]);
 
         return $this->render('index', [
@@ -70,9 +72,20 @@ class CategoryController extends Controller
 			
 			$parent_category = Category::find()->where(['id' => $model->parent_id])->one();
 			$model->appendTo($parent_category);
+				
+			$session = Yii::$app->session;
+			$returnUrl = $session->get('category-return-url', null);
+			if($returnUrl != null) return $this->redirect($returnUrl);
+				else return $this->redirect(['index']);
+            //return $this->redirect(['index']);
 			
-            return $this->redirect(['index']);
         } else {
+			if(count($model->errors) == 0) {
+				$returnUrl = Yii::$app->request->referrer;
+				$session = Yii::$app->session;
+				$session->set('category-return-url', $returnUrl);
+			}
+			
             return $this->render('create', [
                 'model' => $model,
                 'categories' => $this->getCategoriesDropDownList(),
@@ -101,9 +114,21 @@ class CategoryController extends Controller
 				$parent_category = Category::find()->where(['id' => $model->parent_id])->one();
 				$model->appendTo($parent_category);
 			}
-				
-            return $this->redirect(['index']);
+			
+			$session = Yii::$app->session;
+			$returnUrl = $session->get('category-return-url', null);
+			if($returnUrl != null) return $this->redirect($returnUrl);
+				else return $this->redirect(['index']);
+            //return $this->redirect(['index']);
+			
         } else {
+			
+			if(count($model->errors) == 0) {
+				$returnUrl = Yii::$app->request->referrer;
+				$session = Yii::$app->session;
+				$session->set('category-return-url', $returnUrl);
+			}
+			
             return $this->render('update', [
                 'model' => $model,
 				'categories' => $this->getCategoriesDropDownList(),
@@ -120,8 +145,12 @@ class CategoryController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+		
+		$returnUrl = Yii::$app->request->referrer;		
+		if($returnUrl != null) return $this->redirect($returnUrl);
+			else return $this->redirect(['index']);
 
-        return $this->redirect(['index']);
+        //return $this->redirect(['index']);
     }
 
     public function actionMoveup($id)
@@ -135,23 +164,33 @@ class CategoryController extends Controller
 		
 		//echo'<pre>';print_r($model);echo'</pre>';//die;
 		//echo'<pre>';var_dump($model_prev);echo'</pre>';die;
+		$returnUrl = Yii::$app->request->referrer;		
+		if($returnUrl != null) return $this->redirect($returnUrl);
+			else return $this->redirect(['index']);
 		
-		return $this->redirect(['index']);		
+		
+		//return $this->redirect(['index']);		
     }
 
     public function actionMovedown($id)
     {
 		$model = $this->findModel($id);
 		
+		//echo'<pre>';print_r($model->attributes);echo'</pre>';//die;
+		
 		$model_next = $model->next()->one();
 		
 		if($model_next != null)
 			$model->insertAfter($model_next);
 		
-		//echo'<pre>';print_r($model);echo'</pre>';//die;
+		//echo'<pre>';print_r($model->attributes);echo'</pre>';//die;
+		//echo'<pre>';print_r($model_next->attributes);echo'</pre>';die;
 		//echo'<pre>';var_dump($model_prev);echo'</pre>';die;
+		$returnUrl = Yii::$app->request->referrer;		
+		if($returnUrl != null) return $this->redirect($returnUrl);
+			else return $this->redirect(['index']);
 		
-		return $this->redirect(['index']);		
+		//return $this->redirect(['index']);		
     }
 
     /**

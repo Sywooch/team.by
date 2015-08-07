@@ -87,6 +87,7 @@ class Order extends \yii\db\ActiveRecord
 			'user' => 'Исполнитель',
 			'control_note' => 'Заметка',
 			'orderStatusTxt' => 'Статус заказа',
+			'payInfo' => 'Оплата',
         ];
     }
 
@@ -200,4 +201,26 @@ class Order extends \yii\db\ActiveRecord
 		}
 		return $res;
     }
+	
+	public function getPayInfo()
+	{
+		$text = '';
+		switch($this->pay_system) {
+			case 1:
+				$text .= 'WebPay';
+				break;
+			case 2:
+				$text .= 'ЕРИП';
+				break;
+			default:
+				$text .= 'n/a';
+				break;
+		}
+		
+		$text .= ' №'.$this->tid . '<br>';
+		$text .= Yii::$app->formatter->asDate($this->payed_at, 'php:d-m-yy H:i');;
+		return $text;
+	}
+	
+	
 }
