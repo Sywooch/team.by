@@ -60,16 +60,16 @@ AppAsset::register($this);
 							 ['label' => 'Права доступа', 'url' => ['/permit/access/permission']],
 						],
 					],            
-
+					
 					[
 						'label' => 'Выгрузка',
 						'items' => [
-							 ['label' => 'Клиенты', 'url' => ['/permit/access/role']],
-							 ['label' => 'Специалисты', 'url' => ['/permit/access/permission']],
-							 ['label' => 'Заказы', 'url' => ['/permit/access/permission']],
+							 ['label' => 'Клиенты', 'url' => ['/client/export-csv']],
+							 ['label' => 'Специалисты', 'url' => ['/spec/export-csv']],
+							 ['label' => 'Заказы', 'url' => ['/order/export-csv']],
 						],
 					],            
-
+					
 					['label' => 'Валюта', 'url' => ['/currency/index']],
 
 

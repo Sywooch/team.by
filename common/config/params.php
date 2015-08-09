@@ -16,4 +16,6 @@ return [
 	'pricelists-path' => 'files/users/pricelists',
 	'reviews-path' => 'files/users/reviews',
 	'licenses-path' => 'files/users/licenses',
+	
+	'export-client-path' => 'files/export/client',
 ];

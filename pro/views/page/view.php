@@ -1,14 +1,13 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Page */
 
-$this->title = $model->name;
-//$this->params['breadcrumbs'][] = ['label' => 'Pages', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
+//добавляем мета информацию
+\common\helpers\DMetaHelper::setMeta($model, $this);
+
 ?>
 <div class="page-view">
 

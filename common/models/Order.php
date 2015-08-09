@@ -6,6 +6,8 @@ use Yii;
 
 use yii\behaviors\TimestampBehavior;
 
+use yii\helpers\Html;
+
 /**
  * This is the model class for table "{{%order}}".
  *
@@ -222,5 +224,9 @@ class Order extends \yii\db\ActiveRecord
 		return $text;
 	}
 	
+    public function getOrderBackendUrl()
+    {
+        return Html::a($this->id, ['order/update', 'id'=>$this->id]);
+    }
 	
 }

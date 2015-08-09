@@ -74,7 +74,7 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 					<?php	}	?>
 					
 					<div class="catalog-item_body__rating">
-						<span class="catalog-item_body__rating_txt">Рейтинг <?=$model->total_rating?></span>
+						<span class="catalog-item_body__rating_txt">Рейтинг <?=\Yii::$app->formatter->asDecimal($model->total_rating) ?></span>
 						<div class="catalog-item_body__rating_cnt">
 							<div class="catalog-item_body__rating_inactive"></div>
 							<div class="catalog-item_body__rating_active" style="width:<?=$rating_active?>%;"></div>

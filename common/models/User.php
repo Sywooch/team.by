@@ -117,6 +117,7 @@ class User extends ActiveRecord implements IdentityInterface
 			'license_checked' => 'Лицензия действительна до',
 			'is_active' => 'Активность',
 			'category_id' => 'Категория',
+			'categoryUser' => 'Категория',
 			
         ];
     }
@@ -425,6 +426,19 @@ class User extends ActiveRecord implements IdentityInterface
         return $parent->id;
     }
 	
+    public function getSpecBackendUrl()
+    {
+        if($this->id > 0) $url = Html::a($this->fio, ['spec/update', 'id'=>$this->id], ['target'=>'_blank']);
+			else $url = 'Не указан';
+		return $url;
+    }
+	
+    public function getSpecBackendUrlInner()
+    {
+        if($this->id > 0) $url = Html::a($this->fio, ['spec/update', 'id'=>$this->id]);
+			else $url = 'Не указан';
+		return $url;
+    }
 	
 	
 }

@@ -33,7 +33,8 @@ class PageController extends Controller
      */
     public function actionView($alias)
     {
-        return $this->render('view', [
+        
+		return $this->render('view', [
             'model' => $this->findModel($alias),
         ]);
     }

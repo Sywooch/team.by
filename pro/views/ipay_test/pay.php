@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 // // Номер телефона=333333534, Сеансовый пароль=3797
 
@@ -9,7 +10,9 @@ $this->title = 'Оплата заказ N'.$orderNum;
 ?>
 <div class="site-index">
 
-        <h1><?= $this->title?></h1>
+	<h1><?= $this->title?></h1>
+       
+	<p>Все готово для оплаты.</p><br><br><br>  
         
 	<form id="pay-frm" action="https://stand.besmart.by:4443/pls/ipay/!iSOU.Login" method="post" role="form">
 
@@ -19,7 +22,8 @@ $this->title = 'Оплата заказ N'.$orderNum;
 		<input type="hidden" id="ipayform-amount_editable" class="form-control" name="amount_editable" value="N">	
 		<input type="hidden" id="ipayform-provider_url" class="form-control" name="provider_url" value="http://pro.team.by/">
 		<div class="form-group">
-			<button type="submit" class="button-red">Продолжить</button>		
+			<button type="submit" class="button-red">Продолжить</button>
+			<a href="http://pro.team.by/" class="button-red">Вернуться в личный кабинет</a>
 		</div>
 	</form>
 	        

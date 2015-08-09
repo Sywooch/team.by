@@ -31,8 +31,10 @@ $wsb_email = $order->user->email;
 <div class="site-index">
 
 	<h1><?= $this->title?></h1>
+	
+	<p>Все готово для оплаты.</p><br><br><br>  
 
-	<p>Сейчас  Вы  будете  автоматически  переадресованы  на сервер оплаты Webpay, если этого не произошло нажмите на кнопку ниже.</p>
+	<?/*<p>Сейчас  Вы  будете  автоматически  переадресованы  на сервер оплаты Webpay, если этого не произошло нажмите на кнопку ниже.</p>*/?>
 	<?php if($wsb_test == 1):?>
 		<form ACTION="<?= $params['wsb_url_test']?>" METHOD="POST" name="formwebpay">
 		<input NAME="wsb_test"  type="hidden" value="1">
@@ -68,6 +70,8 @@ $wsb_email = $order->user->email;
 		<br>
 		<?/*<input type="Submit" value=" Оплатить ">*/?>
 		<button class="button-red"> Оплатить </button>
+		
+		<a href="http://pro.team.by/" class="button-red">Вернуться в личный кабинет</a>
 	</form>
 	
 	<?/*<script>document.forms["formwebpay"].submit();</script> */?>

@@ -697,23 +697,35 @@ class SiteController extends Controller
 			]);
 		}
 	}	
-	
-	public function actionIsLogged()
-	{
-		if (\Yii::$app->user->isGuest) {
-			echo '0';
-		}	else	{
-			echo '1';
-		}
-		return; 
-
-	}
+		
 	public function actionIpayTest()
 	{
 		return $this->renderPartial('ipay-test', [
 			'model' => $model,
 		]);		
 	}
+	
+    public function actionClearTmpImages() {
+		$path = Yii::getAlias('@frontend') . '/web/tmp'; // Путь до папки
+		$time = time() - 1 * 86400; // Отсчитываем 1 день
+
+		$dir = scandir($path); // Получаем список папок и файлов
+		
+		foreach($dir as $name) {
+			if($name == '.' || $name == '..') continue;
+
+			if(is_file($path.'/'.$name) == TRUE) { // проверяем, действительно ли это файл
+				$ftime = filemtime($path.'/'.$name); // получаем последнее время модификации файла
+				if($ftime < $time) {
+					unlink($path.'/'.$name); // удаляем файл
+				}
+			}
+		}
+		
+		$dir = scandir($path); // Получаем список папок и файлов
+		//echo'<pre>';print_r(count($dir));echo'</pre>';//die;
+    }
+	
 	
 }
 

@@ -4,10 +4,14 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Client;
+use common\helpers\DCsvHelper;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\BadRequestHttpException;
+use yii\web\InvalidRouteException;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
 
 /**
  * ClientController implements the CRUD actions for Client model.
@@ -25,6 +29,19 @@ class ClientController extends Controller
             ],
         ];
     }
+	
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+        ];
+    }
+	
 
     /**
      * Lists all Client models.
@@ -101,6 +118,54 @@ class ClientController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionExportCsv()
+    {
+        //$this->findModel($id)->delete();
+
+        return $this->render('export-csv');
+    }
+
+    public function actionExportGo()
+    {
+        //$this->findModel($id)->delete();
+		$csv = new DCsvHelper();
+		
+		$client = Client::find()
+			->orderBy('fio')
+			->all();
+		
+		echo Yii::getAlias('@frontend') . Yii::$app->params['export-client-path'];
+        
+		$filename = Yii::$app->basePath . '/web/' . Yii::$app->params['export-client-path']."/client-export.csv";
+		
+        $data = [];
+        $head = ["id","fio","phone","email","info","created_at","black_list"];
+        $data[] = $head;
+        
+        foreach($client as $item){
+            $row = array();
+            $row[] = $item->id;
+            //$row[] = ($item->fio); 
+            $row[] = mb_convert_encoding($item->fio, 'Windows-1251', 'UTF-8');
+            $row[] = $item->phone;
+            $row[] = $item->email;
+			$row[] = mb_convert_encoding($item->info, 'Windows-1251', 'UTF-8');
+            $row[] = Yii::$app->formatter->asDate($item->created_at, 'php:d-m-yy');
+			$row[] = $item->black_list;
+            $data[] = $row; 
+        }
+		
+        
+        //$csv = new csv();
+        $csv->write($filename, $data);
+		
+		$file_link = Html::a('Скачать файл', '@web/' . Yii::$app->params['export-client-path']."/client-export.csv");
+		
+		Yii::$app->session->setFlash('success', 'Создание файла завершено. '.$file_link);
+		
+        return $this->render('export-csv-complete');
     }
 
     /**

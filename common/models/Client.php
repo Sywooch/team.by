@@ -6,6 +6,8 @@ use Yii;
 
 use yii\behaviors\TimestampBehavior;
 
+use yii\helpers\Html;
+
 /**
  * This is the model class for table "{{%client}}".
  *
@@ -19,6 +21,7 @@ use yii\behaviors\TimestampBehavior;
  */
 class Client extends \yii\db\ActiveRecord
 {
+	//public $clientBackendUrlInner;
     /**
      * @inheritdoc
      */
@@ -79,5 +82,17 @@ class Client extends \yii\db\ActiveRecord
     public function getReviews()
     {
         return $this->hasMany(Review::className(), ['client_id' => 'id']);
+    }
+	
+	
+    public function getClientBackendUrl()
+    {
+        return Html::a($this->fio, ['client/update', 'id'=>$this->id], ['target'=>'_blank']);
+    }
+	
+    public function getClientBackendUrlInner()
+    {
+        $res = Html::a($this->fio, ['client/update', 'id'=>$this->id]);
+		return $res;
     }
 }

@@ -45,7 +45,12 @@ $this->params['breadcrumbs'][] = $this->title;
 				'headerOptions' => ['width' => '70'],				
 			],
 			
-            'fio',
+			[
+				'attribute' => 'fio',
+				'format' => 'raw',
+				'value' => 'specBackendUrlInner'
+			],
+			
             'email:email',
 			[
 				'attribute'=>'category_id',
@@ -78,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'filter' => $searchModel->getDropdownRegionsList(),
 				//'headerOptions' => ['width' => '100'],
 			],			
-			
+			/*
 			[
 				'attribute'=>'is_active',
 				'format'=>'text',
@@ -87,6 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 				'filter' => User::getUserActivityList(),
 			],			
+			*/
 			
             // 'created_at',
             // 'updated_at',

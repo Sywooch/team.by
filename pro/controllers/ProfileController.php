@@ -42,6 +42,8 @@ class ProfileController extends Controller
 		
 		$model = User::findOne(\Yii::$app->user->id);
 		
+		if($model->group_id != 2) return $this->render('no-spec');
+		
 		$ProfileAnketaForm = new ProfileAnketaForm();
 		
 		$ProfilePaymentTypeForm = ProfilePaymentTypeForm::findOne(\Yii::$app->user->id);

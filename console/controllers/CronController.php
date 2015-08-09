@@ -1,10 +1,12 @@
 <?php
  
 namespace console\controllers;
- 
+
+//use Yii;
 use yii\console\Controller;
 use common\models\Currency;
 use common\models\User;
+use common\models\Order;
 use common\models\Notify;
  
 /**
@@ -91,11 +93,78 @@ class CronController extends Controller {
 				->setFrom(\Yii::$app->params['noreplyEmail'])
 				->setSubject('Заканчивается срок действия лицензии')
 				->send();
-			
+		}
+	}
+ 
+	//проверяем сроки оплаты заказов чтобы перевести статус оплаты в "просрочена"
+	public function actionCheckPayments() {
+		$timestamp = time();
+
+		$date_time_array = getdate($timestamp);
+		//echo'<pre>';print_r($date_time_array);echo'</pre>';//die;
+
+		$hours = $date_time_array['hours'];
+		$minutes = $date_time_array['minutes'];
+		$seconds = $date_time_array['seconds'];
+		$month = $date_time_array['mon'];
+		$day = $date_time_array['mday'];
+		$year = $date_time_array['year'];
+
+		// используйте mktime для обновления UNIX времени
+		//$start_day = $day + 30;
+
+		$timestamp = mktime(0, 0, 0, $month, $day, $year);
+		
+		$rows = Order::find()
+			->where(['<', 'payment_date', $timestamp])
+			->andWhere(['<>', 'user_id', -1])
+			->all();
+		
+		//echo count($rows);
+		//echo $timestamp;
+		foreach($rows as $model) {
+			if($model->payment_date != '') {
+				$model->payment_status = 2;
+				$model->save();
+				
+				$notify = new Notify();
+				$notify->user_id = $model->user_id;
+				//$notify->msg = \Yii::$app->formatter->asDate(time(), 'php:d-m-yy'). ' заканчивается срок действия лицензии. Необходимо предоставить актуальный документ';
+				$notify->msg = 'Вы не оплатили комиссию на заказ №'.$model->id.', во избежании блокировки аккаунта, оплатите комиссию.';
+				$notify->save();
+
+				\Yii::$app->mailer->compose('mail-notify-payment', ['model'=>$model])
+					//->setTo($model->user->email)
+					->setTo('aldegtyarev@yandex.ru')
+					->setFrom(\Yii::$app->params['noreplyEmail'])
+					->setSubject('Вы не оплатили комиссию на заказ №'.$model->id)
+					->send();
+			}
+		}
+	}
+ 
+    //чистка временной папки от загруженных туда файлов
+	public function actionClearTmpImages() {
+		$path = \Yii::getAlias('@frontend') . '/web/tmp'; // Путь до папки
+		$time = time() - 1 * 86400; // Отсчитываем 1 день
+
+		$dir = scandir($path); // Получаем список папок и файлов
+		
+		foreach($dir as $name) {
+			if($name == '.' || $name == '..') continue;
+
+			if(is_file($path.'/'.$name) == TRUE) { // проверяем, действительно ли это файл
+				$ftime = filemtime($path.'/'.$name); // получаем последнее время модификации файла
+				if($ftime < $time) {
+					unlink($path.'/'.$name); // удаляем файл
+				}
+			}
 		}
 		
-		
-	}
+		$dir = scandir($path); // Получаем список папок и файлов
+		//echo'<pre>';print_r(count($dir));echo'</pre>';//die;
+		echo 'actionClearTmpImages';
+    }
  
     public function actionMail($to) {
         echo "Sending mail to " . $to;

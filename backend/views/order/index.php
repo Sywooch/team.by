@@ -30,32 +30,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 				
 			[
-				'attribute'=>'id',
-				'headerOptions' => ['width' => '100'],
-				/*
-				//'label' => 'Ссылка',
+				'attribute' => 'id',
 				'format' => 'raw',
-				'value' => function($data){
-					return Html::a(
-						$data->id,
-						Url::to('order/update', ['id'=>$data->id]),
-						[
-							'title' => 'Смелей вперед!',
-							//'target' => '_blank'
-						]
-					);
-				},
-				*/
-			],
-			           
-			[
-				'attribute' => 'client',
-				'value' => 'client.fio'
+				'value' => 'orderBackendUrl',
+				'headerOptions' => ['width' => '100'],
 			],
 			
+			 
+			[
+				'attribute' => 'client',
+				'format' => 'raw',
+				'value' => 'client.clientBackendUrl'
+			],
 			[
 				'attribute' => 'user',
-				'value' => 'user.fio'
+				'format' => 'raw',
+				'value' => 'user.specBackendUrl'
 			],
 			
 			[

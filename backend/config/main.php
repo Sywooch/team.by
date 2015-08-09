@@ -172,7 +172,7 @@ return [
 			
 			'client' =>	[	//controller
 				[
-					'actions' => ['index', 'create', 'update', 'delete'],
+					'actions' => ['index', 'create', 'update', 'delete', 'export-csv', 'export-go'],
 					'allow' => true,
 					'roles' => ['admin'],					
 				],

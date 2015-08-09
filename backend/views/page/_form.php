@@ -1,17 +1,9 @@
 <?php
 
-use mihaildev\ckeditor\CKEditor;
-use mihaildev\elfinder\InputFile;
-use mihaildev\elfinder\ElFinder;
-use yii\web\JsExpression;
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
-
-
-
-
+use yii\bootstrap\Tabs;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Page */
@@ -23,24 +15,23 @@ use yii\widgets\ActiveForm;
 <div class="page-form">
 
     <?php $form = ActiveForm::begin(); ?>
+		<?php 
+		echo Tabs::widget([
+			'items' => [
+				[
+					'label' => 'Основное',
+					'content' => $this->render('_form-main', ['model' => $model, 'form' => $form]),
+					'active' => true,
+				],
+				[
+					'label' => 'Meta',
+					'content' => $this->render('_form-meta', ['model' => $model, 'form' => $form]),
+				],
+			]
+		]);			
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
-    
-	<?php 
-	echo $form->field($model, 'text')->widget(CKEditor::className(), [
-	  'editorOptions' => ElFinder::ckeditorOptions('elfinder',['preset' => 'full', 'inline' => false]),
-	]);	
-	/*
-	echo $form->field($model, 'text')->widget(CKEditor::className(),[
-		'editorOptions' => [
-			['elfinder', 'path' => 'some/sub/path'],
-			'preset' => 'full', //разработанны стандартные настройки basic, standard, full данную возможность не обязательно использовать
-			'inline' => false, //по умолчанию false
-		],
-	]); 
-	*/
-	?> 
+		?>        
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

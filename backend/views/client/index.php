@@ -8,6 +8,7 @@ use yii\grid\GridView;
 
 $this->title = 'Клиенты';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="client-index">
 
@@ -16,14 +17,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
+	
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'fio',
+			
+			[
+				'attribute' => 'fio',
+				'format' => 'raw',
+				'value' => 'clientBackendUrlInner',
+			],
+
             'phone',
             'email:email',
             'info',
@@ -32,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'class' => 'yii\grid\ActionColumn',
 				'template' => '{update} {delete}',
 			],
-        ],
+		],
     ]); ?>
 
 </div>

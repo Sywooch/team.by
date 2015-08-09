@@ -45,8 +45,8 @@ class Page extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'text'], 'required'],
-            [['text'], 'string'],
-            [['name', 'alias'], 'string', 'max' => 255]
+            [['text', 'meta_descr'], 'string'],
+            [['name', 'alias', 'meta_title', 'meta_keyword'], 'string', 'max' => 255]
         ];
     }
 
@@ -62,6 +62,9 @@ class Page extends \yii\db\ActiveRecord
             'created_at' => 'Создано',
             'updated_at' => 'Изменено',
             'alias' => 'Alias',
+            'meta_title' => 'Meta title',
+            'meta_keyword' => 'Meta keyword',
+            'meta_descr' => 'Meta Description',
         ];
     }
 	
