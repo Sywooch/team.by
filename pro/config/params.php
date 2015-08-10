@@ -1,7 +1,8 @@
-<?php
+	<?php
 
 return [
-    'adminEmail' => 'aldegtyarev@yandex.ru',
+    //'adminEmail' => 'aldegtyarev@yandex.ru',
+    'adminEmail' => 'alfonsovich@yandex.by',
 	'homeUrl' => 'http://pro.team.by',
 	'noreplyEmail' => 'noreply@team.by',
 	'payment_systems' => [

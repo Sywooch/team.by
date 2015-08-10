@@ -1,6 +1,7 @@
 <?php
 return [
-    'adminEmail' => 'aldegtyarev@yandex.ru',
+    //'adminEmail' => 'aldegtyarev@yandex.ru',
+    'adminEmail' => 'alfonsovich@yandex.by',
 	'homeUrl' => 'http://team.by',
 	'catlist-orderby' => [
 		'fio'	 => 'имени',

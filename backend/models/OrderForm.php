@@ -115,11 +115,14 @@ class OrderForm extends Model
             1 => 'новый',
             2 => 'в работе',
             3 => 'выполнен',
-            4 => 'оплачен',
+            4 => 'оплачен, ожидает отзыва',
             5 => 'отзыв получен',
             6 => 'заказ закрыт',
         ];
     }	
+	
+
+	
 	
     public static function getPaymentStatuses()
     {

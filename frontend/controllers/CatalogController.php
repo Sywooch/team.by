@@ -137,6 +137,7 @@ class CatalogController extends Controller
 			->distinct(true)
 			->joinWith(['userCategories'])
 			->joinWith(['reviews'])
+			->joinWith(['userMedia'])
 			->where(['{{%user_categories}}.category_id'=>$cat_ids])
 			->andWhere(['<>', 'black_list', 1])
 			->andWhere(['=', 'is_active', 1])
@@ -215,6 +216,7 @@ class CatalogController extends Controller
 		$query = User::find()
 			->distinct(true)
 			->joinWith(['reviews'])
+			->joinWith(['UserMedia'])
 			->where(['black_list'=>1])
 			->orderBy('{{%user}}.'.$orderBy.' ASC');
 		
@@ -366,6 +368,7 @@ class CatalogController extends Controller
 				$query = User::find()
 					->distinct(true)
 					->joinWith(['reviews'])
+					->joinWith(['UserMedia'])
 					->where(['{{%user}}.id'=>$user_ids])
 					//->andWhere('black_list <> 1')
 					//->andWhere('user_status IN (2,10)')

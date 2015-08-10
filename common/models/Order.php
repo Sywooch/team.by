@@ -189,7 +189,7 @@ class Order extends \yii\db\ActiveRecord
 				$res = 'выполнен';
 				break;
 			case 4:
-				$res = 'оплачен';
+				$res = 'оплачен, ожидает отзыва';
 				break;
 			case 5:
 				$res = 'отзыв получен';

@@ -159,6 +159,7 @@ class WebpayController extends Controller
 			return $this->render('pay-error');
 		}
 		if($order->payment_status != 10) {
+			$order->status = 4;
 			$order->payment_status = 10;
 			$order->pay_system = 1;
 			$order->tid = $wsb_tid;
@@ -218,6 +219,7 @@ class WebpayController extends Controller
 				
 				$order = Order::findOne($site_order_id);
 				if ($order != null && ($payment_type == 1 || $payment_type == 4)) {
+					$order->status = 4;
 					$order->payment_status = 10;
 					$order->pay_system = 1;
 					$order->tid = $transaction_id;
@@ -235,11 +237,9 @@ class WebpayController extends Controller
 						->setFrom(\Yii::$app->params['noreplyEmail'])
 						->setSubject('Оплата заказа')
 						->send();
-						
 					
 					echo 'OK';
 				}
-				
 			}
 		}
 		

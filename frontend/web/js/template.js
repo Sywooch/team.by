@@ -241,6 +241,41 @@ jQuery(function($) {
 		return false;
 	});
 	
+	$('.category-list-cnt').on('click', '.catalog-category-list-item__reviews', function(e){
+		var examples = $(this).parent().parent().parent().parent().parent().find('.catalog-category-list-examples'),
+			reviews = $(this).parent().parent().parent().parent().parent().find('.catalog-category-list-reviews');
+		
+		e.preventDefault();
+		if(examples.is(':visible'))
+			examples.slideUp(100);
+		
+		reviews.slideToggle(200);
+		return false;
+	});
+	
+	$('.category-list-cnt').on('click', '.catalog-category-list-item__examples', function(e){
+		var examples = $(this).parent().parent().parent().parent().parent().find('.catalog-category-list-examples'),
+			reviews = $(this).parent().parent().parent().parent().parent().find('.catalog-category-list-reviews');
+		
+		e.preventDefault();
+		if(reviews.is(':visible'))
+			reviews.slideUp(100);
+		
+		examples.slideToggle(200);
+
+		return false;
+	});
+	
+	$('.category-list-cnt').on('click', '.catalog-category-list-popup__close', function(e){
+		var block = $(this).parent();
+		
+		e.preventDefault();
+		
+		block.slideToggle(200);
+
+		return false;
+	});
+	
 	
 	//заказ подбора спеиалиста
     $('.contact-to-spec').on('click', function (e) {

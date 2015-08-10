@@ -12,11 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-to-administration-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-	
+	<?/*
     <p>
         <?= Html::a('Create User To Administration', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
+	*/?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,

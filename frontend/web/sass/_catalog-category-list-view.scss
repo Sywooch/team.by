@@ -34,9 +34,13 @@
 
 
 .catalog-category-list-item {
-	@extend .clearfix;
 	@extend .mb-30;
+}
+.catalog-category-list-item-cnt {
+//	@extend .clearfix;
 	@extend .p-15;
+	@extend .pos-rel;	
+	z-index: 2;	  
 	
 	border: 1px solid $gray14;
 	background-color: #f8f8f8;
@@ -212,4 +216,62 @@
 
 .category-sort-lbl {
 	padding-top: 1px;
+}
+
+.catalog-category-list-examples,
+.catalog-category-list-reviews {
+	@extend .pos-rel;
+	@extend %hide;	
+	z-index: 1;
+	margin-top: -6px;
+	padding: 10px 30px 30px 30px;
+	border: 1px solid $gray14;
+	background-color: #f0f0f0;
+	
+	@include border-radius(6px);	
+}
+
+.catalog-category-list-reviews {
+
+}
+
+
+.catalog-category-list-reviews {
+	.reviews_item__text_cnt	{
+		background-color: #fff;
+	}
+	
+	.catalog-item__show_reviews {
+		float: none;
+	}
+	
+	.catalog-item__reviews_bottom {
+		@extend %text_c;
+	}
+}
+
+.catalog-category-list-examples {
+	padding-top: 40px; 
+	
+	.catalog-item__examples_item {
+		margin-bottom: 14px;
+		img {
+			width: 200px;
+		}
+	}
+}
+
+.catalog-category-list-popup__close {
+	@extend %pos_abs;
+	@extend %font_20;
+	@extend %bold;
+	
+	top: 5px;
+	right: 0;
+	background: none;
+	border: none;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	outline: none;
+		
+		
 }

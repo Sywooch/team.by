@@ -86,32 +86,35 @@ class Ipay_testController extends Controller
 
     public function actionService_info()
     {
-		// Константа для подписи запросов
 		
-		$salt = addslashes('2134234fasdasd');
-		/*
-	*/
+		
+		// Константа для подписи запросов		
+		$salt = addslashes('Ytrd7dhghfb787dcjd64vs7');
+		
 		if(isset($_POST['XML'])) {
-			//$xml = new \SimpleXMLElement($_POST['XML']);
-			//$xml = new \SimpleXMLElement($xml_test);
-			$filename = $_SERVER['DOCUMENT_ROOT'] . '/xml.log';
-			if(isset($_POST['XML'])) {
-				$mytext = Yii::$app->formatter->asDate(time(), 'php:d-m-yy G:i:s'). ' - есть xml';	
-			} else {
-				$mytext = Yii::$app->formatter->asDate(time(), 'php:d-m-yy G:i:s'). ' - нет xml';	
-			}
-			//echo'11212<pre>';var_dump($xml->RequestType);echo'</pre>';
-			//$xml->ServiceProvider_Request->RequestType
-
-			$fp = fopen($filename, "w"); // Открываем файл в режиме записи 
-			//$mytext = time().$xml->RequestType;
-			//$mytext = Yii::$app->formatter->asDate(time(), 'php:d-m-yy G:i:s').$_POST['XML'];
-			fwrite($fp, $mytext); // Запись в файл
-			//if ($test) echo 'Данные в файл успешно занесены.';
-			//else echo 'Ошибка при записи в файл.';
-			fclose($fp); //Закрытие файла
 			
-			$xml = new \SimpleXMLElement($_POST['XML']);
+			//echo'<pre>';print_r($_POST['XML']);echo'</pre>';
+			$XML = $this->prerareXml($_POST['XML']);
+
+			// Получаем подпись от iPay
+			$signature = $this->getSignature();
+			
+			// Проверяем подпись iPay
+			$this->checkSignature($XML, $salt, $signature);
+			/*
+			if (strcasecmp(md5($salt.$_POST['XML']), $signature)!=0)	{
+				// Формируем ответ с ошибкой проверки ЦП
+				$answer = '<ServiceProvider_Response><Error><ErrorLine>Ошибка проверки ЦП</ErrorLine></Error></ServiceProvider_Response>';
+				$answer = mb_convert_encoding($answer, 'Windows-1251', 'UTF-8');
+
+				// Формируем ЦП и отправляем ЦП и ответ об ошибке в iPay
+				$md5 = md5($salt . $answer);
+				header("ServiceProvider-Signature: SALT+MD5: $md5");
+				print($answer);
+				exit(0);
+			}			
+			/**/
+			$xml = new \SimpleXMLElement($XML);
 			
 			$RequestType = (string) $xml->RequestType[0];
 			//echo'<pre>';print_r($RequestType);echo'</pre>';
@@ -122,7 +125,7 @@ class Ipay_testController extends Controller
 				$order = Order::findOne($order_id);
 				
 				//Создает XML-строку и XML-документ при помощи DOM 
-				$dom = new \DomDocument('1.0');
+				$dom = new \DomDocument('1.0', 'windows-1251');
 				
 				if ($order === null) {
 					//добавление корня - <ServiceProvider_Response> 
@@ -161,7 +164,8 @@ class Ipay_testController extends Controller
 					
 						$Info = $ServiceInfo->appendChild($dom->createElement('Info'));
 						$InfoLine = $Info->appendChild($dom->createElement('InfoLine'));
-							$InfoLine->appendChild($dom->createTextNode('Оплата комисси за заказ N'.$order->id));
+							$InfoLine->appendChild($dom->createTextNode('Оплата комиссии за заказ N'.$order->id));
+							//$InfoLine->appendChild($dom->createTextNode('Payment for order N'.$order->id));
 				}
 				
 				//генерация xml 
@@ -169,7 +173,23 @@ class Ipay_testController extends Controller
 										   // domDocument в значение true 
 				// save XML as string or file 
 				$response = $dom->saveXML(); // передача строки в test1 
+				
+				$response = $this->btw($response);	//убираем переносы строки
+				
+				$fp = fopen(Yii::$app->basePath."/xml.xml", "w"); // Открываем файл в режиме записи 
+				
+				$test = fwrite($fp, $response); // Запись в файл
+				//if ($test) echo 'Данные в файл успешно занесены.';
+				//else echo 'Ошибка при записи в файл.';
+				fclose($fp); //Закрытие файла				
+				
+				$md5 = md5($salt . $response);
+				
+				$this->setHeaders($md5);				
+				
 				echo $response;
+				
+				die();
 			}
 		}
 		return;
@@ -307,6 +327,7 @@ class Ipay_testController extends Controller
 					$sec = substr($DateTime, 12, 2);
 					
 					$order->tid = $TransactionId;
+					$order->status = 4;
 					$order->payment_status = 10;
 					$order->pay_system = 2;
 					$order->payed_at = mktime($hour, $min, $sec, $month, $day, $year);
@@ -342,4 +363,56 @@ class Ipay_testController extends Controller
 		}
         return;
     }
+	
+	function btw($b1) 
+	{
+        $b1 = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $b1);
+        $b1 = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $b1);
+        return $b1;
+    }
+	
+	function prerareXml($xml) 
+	{
+		// Удаляем лишние символы до начала xml-запроса и после xml-запроса
+		$xml = preg_replace('/^.*\<\?xml/sim', '<?xml', $xml);
+		$xml = preg_replace('/\<\/ServiceProvider_Request\>.*/sim', '</ServiceProvider_Request>', $xml);
+
+		// Избавляемся от экранирования
+		$xml = stripslashes($_POST['XML']);
+		return $xml;
+    }
+	
+	function checkSignature($XML, $salt, $signature)
+	{
+		if (strcasecmp(md5($salt.$XML), $signature)!=0)	{
+			// Формируем ответ с ошибкой проверки ЦП
+			$answer = '<ServiceProvider_Response><Error><ErrorLine>Ошибка проверки ЦП</ErrorLine></Error></ServiceProvider_Response>';
+			$answer = mb_convert_encoding($answer, 'Windows-1251', 'UTF-8');
+
+			// Формируем ЦП и отправляем ЦП и ответ об ошибке в iPay
+			$md5 = md5($salt . $answer);
+			
+			$this->setHeaders($md5);
+			
+			print($answer);
+			
+			die;
+		}			
+	}
+	
+	function getSignature()
+	{
+		$signature = '';
+		if (preg_match('/SALT\+MD5\:\s(.*)/', $_SERVER['HTTP_SERVICEPROVIDER_SIGNATURE'], $matches)) {
+			$signature = $matches[1];
+		}
+		
+		return $signature;
+	}
+	
+	function setHeaders($md5)
+	{
+		header('Content-Type: text/html; charset=windows-1251');
+		header("ServiceProvider-Signature: SALT+MD5: $md5");
+	}
 }
