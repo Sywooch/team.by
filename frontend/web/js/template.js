@@ -422,6 +422,16 @@ jQuery(function($) {
 		}
 	});
 	
+    $('#zayavka-one-click').on('click', function (e) {
+        var url = $(this).data('review')+"?modal=1",
+            modal = $('.modal');
+		
+        $.get(url, function (data) {
+            modal.html(data).modal('show');
+        });
+        return false;
+    });
+	
 	
 	
 	

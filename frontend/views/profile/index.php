@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет'];
 					'options' => ['class' => 'tab_profile_orders']
 				],
 				[
-					'label' => 'Моё расписание',
+					'label' => 'Мое расписание',
 					'content' => $this->render('_shedule', ['model' => $call_time, 'weekends' => $weekends], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
 					'options' => ['class' => 'tab_profile__shedule']

@@ -101,10 +101,10 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 				echo Menu::widget([
 					'items' => [
 						//['label' => 'Условия использования', 'url' => '#'],
-						['label' => 'Правовые документы', 'url' => ['/page/view', 'alias'=>'pravovye-dokumenty']],
+						['label' => 'О компании', 'url' => ['/page/view', 'alias'=>'about']],
 						['label' => 'Оплата', 'url' => ['/page/view', 'alias'=>'oplata']],
 						//['label' => 'О компании', 'url' => '#'],
-						//['label' => 'Чёрный список', 'url' => '#'],
+						//['label' => 'Черный список', 'url' => '#'],
 					],
 					'options' => [
 						'class' => 'footer_menu__list',
@@ -115,9 +115,7 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 				]);
 				?>
 				
-				<p class="footer__info">
-					Единый номер для всех мобильных операторов РБ:  345-89-98<br>Время работы: 8:00 - 22:00
-				</p>
+				<?php echo $this->render('@frontend/views/layouts/_footer_info', [], false, true); ?>
 				
 				<p class="created_by">Разработка сайта: <a href="http://www.medialine.by" target="_blank" title="Medialine.by">Medialine.by</a></p>
 			</div>

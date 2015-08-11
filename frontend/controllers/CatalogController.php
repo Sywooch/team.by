@@ -216,7 +216,7 @@ class CatalogController extends Controller
 		$query = User::find()
 			->distinct(true)
 			->joinWith(['reviews'])
-			->joinWith(['UserMedia'])
+			->joinWith(['userMedia'])
 			->where(['black_list'=>1])
 			->orderBy('{{%user}}.'.$orderBy.' ASC');
 		

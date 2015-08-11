@@ -86,12 +86,10 @@ class Ipay_testController extends Controller
 
     public function actionService_info()
     {
-		
-		
-		// Константа для подписи запросов		
-		$salt = addslashes('Ytrd7dhghfb787dcjd64vs7');
-		
 		if(isset($_POST['XML'])) {
+			
+			// Константа для подписи запросов		
+			$salt = addslashes(Yii::$app->params['payment_systems']['erip']['salt']);			
 			
 			//echo'<pre>';print_r($_POST['XML']);echo'</pre>';
 			$XML = $this->prerareXml($_POST['XML']);
@@ -101,19 +99,7 @@ class Ipay_testController extends Controller
 			
 			// Проверяем подпись iPay
 			$this->checkSignature($XML, $salt, $signature);
-			/*
-			if (strcasecmp(md5($salt.$_POST['XML']), $signature)!=0)	{
-				// Формируем ответ с ошибкой проверки ЦП
-				$answer = '<ServiceProvider_Response><Error><ErrorLine>Ошибка проверки ЦП</ErrorLine></Error></ServiceProvider_Response>';
-				$answer = mb_convert_encoding($answer, 'Windows-1251', 'UTF-8');
-
-				// Формируем ЦП и отправляем ЦП и ответ об ошибке в iPay
-				$md5 = md5($salt . $answer);
-				header("ServiceProvider-Signature: SALT+MD5: $md5");
-				print($answer);
-				exit(0);
-			}			
-			/**/
+			
 			$xml = new \SimpleXMLElement($XML);
 			
 			$RequestType = (string) $xml->RequestType[0];
@@ -176,12 +162,12 @@ class Ipay_testController extends Controller
 				
 				$response = $this->btw($response);	//убираем переносы строки
 				
-				$fp = fopen(Yii::$app->basePath."/xml.xml", "w"); // Открываем файл в режиме записи 
+				//$fp = fopen(Yii::$app->basePath."/xml.xml", "w"); // Открываем файл в режиме записи 
 				
-				$test = fwrite($fp, $response); // Запись в файл
+				//$test = fwrite($fp, $response); // Запись в файл
 				//if ($test) echo 'Данные в файл успешно занесены.';
 				//else echo 'Ошибка при записи в файл.';
-				fclose($fp); //Закрытие файла				
+				//fclose($fp); //Закрытие файла				
 				
 				$md5 = md5($salt . $response);
 				
@@ -189,7 +175,7 @@ class Ipay_testController extends Controller
 				
 				echo $response;
 				
-				die();
+				die();	//нужен так как по return в header кодировка опять становится UTF-8;
 			}
 		}
 		return;
@@ -198,7 +184,18 @@ class Ipay_testController extends Controller
     public function actionTransaction_start()
     {
 		if(isset($_POST['XML'])) {
-			$xml = new \SimpleXMLElement($_POST['XML']);
+			// Константа для подписи запросов		
+			$salt = addslashes(Yii::$app->params['payment_systems']['erip']['salt']);
+			
+			$XML = $this->prerareXml($_POST['XML']);
+
+			// Получаем подпись от iPay
+			$signature = $this->getSignature();
+			
+			// Проверяем подпись iPay
+			$this->checkSignature($XML, $salt, $signature);
+			
+			$xml = new \SimpleXMLElement($XML);
 			$summ = (string) $xml->TransactionStart->Amount[0];
 			//$error = (string) $xml->TransactionStart->ErrorLine[0];
 			//echo'<pre>';var_dump($error);echo'</pre>';die;
@@ -211,7 +208,7 @@ class Ipay_testController extends Controller
 				
 				$order = Order::findOne($order_id);
 				
-				$dom = new \DomDocument('1.0');
+				$dom = new \DomDocument('1.0', 'windows-1251');
 				
 				if ($order === null) {
 					//добавление корня - <ServiceProvider_Response> 
@@ -262,7 +259,15 @@ class Ipay_testController extends Controller
 										   // domDocument в значение true 
 				// save XML as string or file 
 				$response = $dom->saveXML(); // передача строки в test1 
-				echo $response;				
+				
+				$response = $this->btw($response);	//убираем переносы строки
+				
+				$md5 = md5($salt . $response);
+				
+				$this->setHeaders($md5);				
+				
+				echo $response;
+				die();	//нужен так как по return в header кодировка опять становится UTF-8;
 			}
 			
 		}
@@ -272,7 +277,18 @@ class Ipay_testController extends Controller
     public function actionTransaction_result()
     {
 		if(isset($_POST['XML'])) {
-			$xml = new \SimpleXMLElement($_POST['XML']);
+			// Константа для подписи запросов		
+			$salt = addslashes(Yii::$app->params['payment_systems']['erip']['salt']);
+			
+			$XML = $this->prerareXml($_POST['XML']);
+
+			// Получаем подпись от iPay
+			$signature = $this->getSignature();
+			
+			// Проверяем подпись iPay
+			$this->checkSignature($XML, $salt, $signature);
+			
+			$xml = new \SimpleXMLElement($XML);
 			
 			$RequestType = (string) $xml->RequestType[0];
 			
@@ -284,7 +300,7 @@ class Ipay_testController extends Controller
 				
 				$order = Order::findOne($order_id);
 				
-				$dom = new \DomDocument('1.0');
+				$dom = new \DomDocument('1.0', 'windows-1251');
 				
 				if ($order === null) {
 					$ServiceProvider_Response = $dom->appendChild($dom->createElement('ServiceProvider_Response')); 
@@ -354,11 +370,20 @@ class Ipay_testController extends Controller
 				}
 				
 				//генерация xml 
-				$dom->formatOutput = true; // установка атрибута formatOutput
-										   // domDocument в значение true 
+				$dom->formatOutput = true;
+										   
 				// save XML as string or file 
-				$response = $dom->saveXML(); // передача строки в test1 
-				echo $response;				
+				$response = $dom->saveXML();
+				
+				$response = $this->btw($response);	//убираем переносы строки
+				
+				$md5 = md5($salt . $response);
+				
+				$this->setHeaders($md5);				
+				
+				echo $response;
+				die();	//нужен так как по return в header кодировка опять становится UTF-8;
+
 			}
 		}
         return;

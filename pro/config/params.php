@@ -20,7 +20,9 @@ return [
 			'wsb_url_check_trans' => 'https://billing.webpay.by',	//урлы для проверки транзакций
 			'wsb_url_test_check_trans' => 'https://sandbox.webpay.by',
 		],
-		'erip' => [],
+		'erip' => [
+			'salt' => 'Ytrd7dhghfb787dcjd64vs7',
+		],
 	],
 	
 	'orderlist-orderby' => [

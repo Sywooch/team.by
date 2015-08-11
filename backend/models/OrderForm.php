@@ -155,7 +155,7 @@ class OrderForm extends Model
         return [
             0 => 'Новый',
             1 => 'Одобрен',
-            2 => 'Удалён',
+            2 => 'Удален',
         ];
     }
 	

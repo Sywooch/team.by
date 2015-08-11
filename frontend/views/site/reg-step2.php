@@ -54,7 +54,7 @@ $categories_l2_arr = [];
 		<?= $form->field($model, 'region')->dropDownList($model->regionsDropDownList, [$model->region]) ?>
 		
 		<div class="form-group">
-			<a href="" id="site-reg-add-new-city" class="site-reg__add-new-city">Добавить ещё один город</a>
+			<a href="" id="site-reg-add-new-city" class="site-reg__add-new-city">Добавить еще один город</a>
 		</div>
 		
 		
@@ -108,7 +108,7 @@ $categories_l2_arr = [];
 			</div>			
 			
 			<div class="col-lg-5">
-				<p class="uploading-info">Файл .XLS, .CSV, XLSX объёмом не более 10МБ</p>
+				<p class="uploading-info">Файл .XLS, .CSV, XLSX объемом не более 10МБ</p>
 			</div>
 			
 			<p id="loading-price-errormes" class="reg-step2-loading-errors col-lg-12"></p>

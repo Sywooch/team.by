@@ -3,6 +3,11 @@
 .how_it_work {
 	background: url(../images/pattern.png);
 	border-top: 1px solid $gray12;
+	
+	.h1 {
+		@extend %text_c;
+		@extend .mt-30;
+	}
 }
 
 .how_it_work__3_cnt,

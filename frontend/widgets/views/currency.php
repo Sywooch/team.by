@@ -11,8 +11,8 @@ use yii\helpers\Url;
 			<input type="hidden" id="currency_id" name="currency_id" value="<?= $currency_id?>">
 		
 			<ul class="currency_select__list">
-				<li><a href="javascript:void(0)" class="currency_select__item currency_select__byr <?php if($currency_id == 1) echo 'currency_select__byr_active'?>" data-currency="1">BYR</a></li>
-				<li id="currency_select__usd"><a href="javascript:void(0)" class="currency_select__item currency_select__usd <?php if($currency_id == 2) echo 'currency_select__usd_active'?>" data-currency="2">USD</a></li>
+				<li><a href="javascript:void(0)" class="currency_select__item currency_select__byr <?php if($currency_id == 1) echo 'currency_select__byr_active'?>" data-currency="1">РУБ</a></li>
+				<li id="currency_select__usd"><a href="javascript:void(0)" class="currency_select__item currency_select__usd <?php if($currency_id == 2) echo 'currency_select__usd_active'?>" data-currency="2">$</a></li>
 			</ul>
 		<?php ActiveForm::end(); ?>			
 	</div>

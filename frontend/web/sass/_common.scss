@@ -41,8 +41,8 @@ b {
 .wrap {
     min-height: 100%;
     height: auto;
-    margin: 0 auto -160px;
-    padding: 0 0 160px;
+    margin: 0 auto -200px;
+    padding: 0 0 200px; 
 //	background-color: #f8f8f8;
 	background-color: #fff;
 	font-family: 'dinpro-regular', Arial;
@@ -606,4 +606,10 @@ a.desc:after {
     border-left: 3px solid #eed3d7;
     padding: 10px 20px;
     margin: 0 0 15px 0;
+}
+
+.site-index {
+	.h1 {
+		@extend %text_c;
+	}
 }

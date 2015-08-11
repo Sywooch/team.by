@@ -60,7 +60,7 @@ class Currency extends \yii\db\ActiveRecord
             'char_code' => 'Символьный код',
             'name' => 'Название',
             'rate' => 'Курс',
-            'updated_at' => 'Обновлён',
+            'updated_at' => 'Обновлен',
         ];
     }
 }
