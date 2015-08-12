@@ -8,7 +8,17 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 
 use common\models\LoginForm;
+use common\models\Category;
+
 use common\models\User;
+use common\models\UserCategories;
+use common\models\UserSpecials;
+use common\models\UserMedia;
+use common\models\Region;
+
+use frontend\models\RegStep1Form;
+use frontend\models\RegStep2Form;
+
 
 use app\models\ContactForm;
 //use app\models\ProfileAnketaForm;
@@ -55,249 +65,14 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        /*
-		if (\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-		
-		$model = User::findOne(\Yii::$app->user->id);
-		
-		$ProfileAnketaForm = new ProfileAnketaForm();
-		
-		$ProfilePaymentTypeForm = ProfilePaymentTypeForm::findOne(\Yii::$app->user->id);
-
-		//для коректной загрузки файлов аяксом
-		//устанавливаем с какой моделью будем работать		
-		Yii::$app->session->set('profile_model', 'ProfileAnketaForm');
-		
-		if ($ProfilePaymentTypeForm->load(Yii::$app->request->post())) {
-			$ProfilePaymentTypeForm->save();
-			//echo'<pre>';print_r($ProfilePaymentTypeForm);echo'</pre>';die;
-			$this->redirect('/profile');
-		}
-		//echo'<pre>1212121';print_r($ProfilePaymentTypeForm);echo'</pre>';die;
-		
-		if ($ProfileAnketaForm->load(Yii::$app->request->post())) {
-			if($ProfileAnketaForm->price_list != $model->price_list) {
-				//удаляем старый прайс-лист
-				if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list))
-					unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list);
-				
-				//перемещаем новый прайс-лист
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->price_list))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->price_list, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$ProfileAnketaForm->price_list);
-			}
-			
-			if($ProfileAnketaForm->avatar != $model->avatar) {
-				//удаляем старый аватар
-				if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar))
-					unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar);
-								
-				//перемещаем фото аватара
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->avatar))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->avatar, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$ProfileAnketaForm->avatar);
-				
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->avatar))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->avatar, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$ProfileAnketaForm->avatar);
-				
-			}
-			
-			if($ProfileAnketaForm->license != $model->license) {
-				//удаляем старую лицензию
-				if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$model->license))
-					unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$model->license);
-								
-				//перемещаем лицензию
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->license))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->license, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$ProfileAnketaForm->license);
-				
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->license))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->license, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.'thumb_'.$ProfileAnketaForm->license);
-				
-			}
-			
-			$ProfileAnketaForm_attribs = $ProfileAnketaForm->toArray();
-			$model_attr = $model->attributes;
-			
-			foreach($model_attr as $attr_key=>&$attr)	{
-				if(isset($ProfileAnketaForm_attribs[$attr_key]))
-					$model->$attr_key = $ProfileAnketaForm_attribs[$attr_key];
-			}
-			
-			if($ProfileAnketaForm->passwordNew != '')
-				$model->setPassword($ProfileAnketaForm->passwordNew);
-			
-			$model->user_status = 2; //после редактирования меняем статус на "Требует проверки".
-			$model->save();
-			
-			$this->checkUslugi($model, $ProfileAnketaForm); //проверяем изменения в услугах
-			
-			$this->checkCategories($model, $ProfileAnketaForm); //проверяем изменения в категориях
-			
-			$this->checkAwards($model, $ProfileAnketaForm); //проверяем изменения в наградах дипломах
-			
-			$this->checkExamples($model, $ProfileAnketaForm); //проверяем изменения в примерах работ
-			
-			$this->redirect('/profile');
-		}
-		
-		
-		
-		$ProfileAnketaForm->attributes = $model->toArray();
-		
-		foreach($model->userSpecials as $item)	{
-			$ProfileAnketaForm->usluga[] = $item->category_id;
-			$ProfileAnketaForm->price[$item->category_id] = $item->price;
-		}
-		
-		$ProfileAnketaForm->awards = $model->media['awards'];
-		$ProfileAnketaForm->examples = $model->media['examples'];
-		
-		$userCategories = $model->userCategories;
-		
-		//получаем родителя категорий, к которым относится пользователь
-		$parents_cat = $userCategories[0]->category->parents(1)->one();
-		$ProfileAnketaForm->category1 = $parents_cat->id;
-		
-		foreach($userCategories as $item)	{
-			$ProfileAnketaForm->categories[] = $item->category_id;
-		}
-		
-		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
-		
-		$cats_l1 = [];
-		$cats_l3 = [];
-
-		foreach($categories as $c) {
-			if($c->parent_id == 1)	{
-				$cats_l1[] = [
-					'id'=>$c->id,
-					'name'=>$c->name,
-					'alias'=>$c->alias,
-					'path'=>$c->path,
-					'children'=>[],
-				];				
-			}	elseif($c->depth > 2)	{
-				$cats_l3[$c->parent_id][$c->id] = $c->name;
-			}
-		}		
-		
-		foreach($cats_l1 as &$c_l1) {
-			foreach($categories as $c){
-				if($c->parent_id == $c_l1['id']) {
-					$c_l1['children'][] = [
-						'id'=>$c->id,
-						'name'=>$c->name,
-						'alias'=>$c->alias,
-						'path'=>$c->path,
-					];
-				}
-			}
-		}
-		
-		$call_time = new \frontend\models\CallTimeForm();
-		$call_time->call_from  = $model->call_time_from;
-		$call_time->call_to = $model->call_time_to;
-		
-		$weekends_arr = [];
-		foreach($model->userWeekend as $item) 
-			$weekends_arr[] = Yii::$app->formatter->asDate(($item->weekend), 'php:d-m-yy');
-		
-		
-		$weekends = new \frontend\models\SetWeekEndForm();
-		$weekends->weekends = implode(';', $weekends_arr);
-		
-		//получаем поле для сортировки		
-		$orderBy = Yii::$app->request->post('orderby', '');
-		if($orderBy != '') {
-			Yii::$app->response->cookies->add(new \yii\web\Cookie([
-				'name' => 'orderlist-orderby',
-				'value' => $orderBy,
-			]));
-			
-			return $this->redirect(['/profile']);
-		}	else	{
-			$orderBy = Yii::$app->request->cookies->getValue('orderlist-orderby', 'created_at');
-		}
-		
-		//$orderBy = 'id';
-		
-		//строим выпадающий блок для сортировки
-		$ordering_arr = Yii::$app->params['orderlist-orderby'];
-		$ordering_items = [];
-		$current_ordering = ['name'=>'created_at', 'field'=>'дате добавления'];
-		foreach($ordering_arr as $k=>$i) {
-			if($k == $orderBy)	{
-				$current_ordering = ['name'=>$i, 'field'=>$k];
-			}	else	{
-				$ordering_items[] = [
-					'label'=>$i,
-					'url' => '#',
-					'linkOptions' => ['data-sort' => $k],
-				];
-			}
-				
-		}
-		
-		
-		$ordersDataProvider = new ActiveDataProvider([
-			'query' => \common\models\Order::find()
-				->distinct(true)
-				->joinWith(['client'])
-				->where(['{{%order}}.user_id'=>$model->id])
-				->orderBy('{{%order}}.'.$orderBy.' ASC'),
-			
-			'pagination' => [
-				//'pageSize' => Yii::$app->params['catlist-per-page'],
-				'pageSize' => 200,
-				'pageSizeParam' => false,
-			],
-		]);
-		
-		$reviewsDataProvider = new ActiveDataProvider([
-			'query' => \common\models\Review::find()
-				->distinct(true)
-				->joinWith(['client'])
-				->joinWith(['reviewMedia'])
-				->where(['{{%review}}.user_id'=>$model->id])
-				->orderBy('{{%review}}.id DESC'),
-			
-			'pagination' => [
-				//'pageSize' => Yii::$app->params['catlist-per-page'],
-				'pageSize' => 200,
-				'pageSizeParam' => false,
-			],
-		]);
-		
-		
-		return $this->render('index', [
-			'model' => $model,
-			'ProfileAnketaForm' => $ProfileAnketaForm,
-			'categories' => $cats_l1,
-			'categories_l3' => $cats_l3,
-			'call_time' => $call_time,
-			'weekends' => $weekends,
-			'ordersDataProvider' => $ordersDataProvider,
-			'reviewsDataProvider' => $reviewsDataProvider,
-			'ordering_items'=>$ordering_items,
-			'current_ordering'=>$current_ordering,
-			'ProfilePaymentTypeForm'=>$ProfilePaymentTypeForm,
-			
-		]);
-		*/
-		var_dump(\Yii::$app->user->id);
 		return $this->render('index', []);
     }
 
     public function actionLogin()
     {
-        /*
-		if (!\Yii::$app->user->isGuest) {
+        if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-		*/
-		
-		//echo 'login';return;
 
         $model = new LoginForm();
 		
@@ -318,6 +93,7 @@ class SiteController extends Controller
         }
     }
 
+	
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -344,4 +120,298 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+	
+    public function actionReg()
+    {
+        return $this->render('reg', []);
+    }
+	
+	public function actionRegStep1()
+	{
+		$model = new RegStep1Form();
+		
+		if ($model->load(Yii::$app->request->post())) {
+			//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
+			//echo'<pre>';print_r($model);echo'</pre>';die;
+			if ($model->validate()) {
+				//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';die;
+				
+				Yii::$app->response->cookies->add(new \yii\web\Cookie([
+					'name' => 'RegStep1Form',
+					'value' => json_encode(Yii::$app->request->post()['RegStep1Form']),
+				]));
+				
+				return $this->redirect(['reg-step2']);
+			}
+		}
+
+		return $this->render('reg-step1', [
+			'model' => $model,
+		]);
+	}	
+
+	public function actionRegStep2()
+	{
+		$model = new RegStep2Form();
+		
+		$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
+		if(count($RegStep1Form) == 0)
+			return $this->redirect(['reg-step1']);
+		
+		//для кооректной загрузки файлов аяксом
+		//устанавливаем с какой моделью будем работать
+		Yii::$app->session->set('profile_model', 'RegStep2Form');	
+		
+		//if(count(Yii::$app->request->post()))
+			
+		//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
+		if ($model->load(Yii::$app->request->post())) {
+			
+			$region_ok = 1;
+			//если нужно - добавляем новый город
+			if($model->region_name != '') {
+				$parent_region = Region::findOne($model->region_parent_id);
+				if($parent_region === null) {
+					Yii::$app->getSession()->setFlash('error', 'Ошибка при добавлении нового региона');
+					$region_ok = 0;
+				}	else	{
+					$new_region = new Region();
+					$new_region->name = $model->region_name;
+					$new_region->parent_id = $model->region_parent_id;
+					$new_region->appendTo($parent_region);
+				}
+			}
+			
+			
+			if ($model->validate() && $region_ok == 1) {
+				$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
+				$RegStep2Form = $model;
+				//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
+				//echo'<pre>';print_r($model);echo'</pre>';//die;
+				//echo'<pre>';print_r($RegStep2Form);echo'</pre>';
+				//die;
+				
+				
+				//создаем поьзователя
+				$user = new User();
+				$user->username = $RegStep1Form['email'];	//у нас вторизация по мейлу
+				$user->email = $RegStep1Form['email'];
+				
+				$user->group_id = 2;
+				$user->user_type = $RegStep1Form['user_type'];
+				$user->fio = $RegStep1Form['fio'];
+				$user->phone = $RegStep1Form['phone'];
+				$user->region_id = $RegStep2Form['region'];
+				$user->about = $RegStep2Form['about'];
+				$user->education = $RegStep2Form['education'];
+				$user->experience = $RegStep2Form['experience'];
+				
+				$user->price_list = $RegStep2Form['price_list'];
+				$user->avatar = $RegStep2Form['avatar'];				
+				$user->license = $RegStep2Form['license'];				
+				
+				$user->setPassword($RegStep1Form['password']);
+				$user->generateAuthKey();
+				$user->save();
+				
+				//перемещаем фото аватара
+				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['avatar']))
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$RegStep2Form['avatar']);
+				
+				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar']))
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$RegStep2Form['avatar']);
+				
+				if($RegStep2Form['license'] != '') {
+					//перемещаем файл лицензии
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['license']))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$RegStep2Form['license']);
+				}
+				
+				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['license']))
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.'thumb_'.$RegStep2Form['license']);
+				
+				if($RegStep2Form['price_list'] != '') {
+					//перемещаем прайс-лист
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['price_list']))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['price_list'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$RegStep2Form['price_list']);
+				}
+				
+				//назначаем ему категории
+				foreach($RegStep2Form->categories as $cat) {
+					$userCategories = new UserCategories();
+					$userCategories->user_id = $user->id;
+					$userCategories->category_id = $cat;
+					//$userCategories->price = $RegStep2Form->price[$cat];
+					$userCategories->save();
+				}
+				
+				//назначаем ему специализации
+				foreach($RegStep2Form->usluga as $k=>$p) {
+					if(isset($RegStep2Form->price[$p])) {
+						$userCategories = new UserSpecials();
+						$userCategories->user_id = $user->id;
+						$userCategories->category_id = $k;
+						$userCategories->price = $RegStep2Form->price[$p];
+						$userCategories->save();
+					}
+				}
+				
+				//добавляем награды, дипломы
+				foreach($RegStep2Form->awards as $award) {
+					$UserMedia = new UserMedia();
+					$UserMedia->user_id = $user->id;
+					$UserMedia->media_id = 1;
+					$UserMedia->filename = $award;
+					$UserMedia->save();
+					
+					//перемещаем фото
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$award))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$award);
+					
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$award))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$award);
+				}
+				
+				//добавляем примеры работ
+				foreach($RegStep2Form->examples as $example) {
+					$UserMedia = new UserMedia();
+					$UserMedia->user_id = $user->id;
+					$UserMedia->media_id = 2;
+					$UserMedia->filename = $example;
+					$UserMedia->save();
+					
+					//перемещаем фото
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$example))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$example);
+					
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
+				}
+				
+				//echo'<pre>';print_r($user->getId());echo'</pre>';//die;
+				//echo'<pre>';print_r($user->id);echo'</pre>';//die;
+				
+				//назначаем нужный уровень доступа
+				$name_of_role = 'specialist';
+				$userRole = Yii::$app->authManager->getRole($name_of_role);
+				Yii::$app->authManager->assign($userRole, $user->id);
+				
+				Yii::$app->response->cookies->remove('RegStep1Form');
+				
+				Yii::$app->mailer->compose('mail-new-spec', ['user'=>$user])
+					->setTo(\Yii::$app->params['adminEmail'])
+					->setFrom(\Yii::$app->params['noreplyEmail'])
+					->setSubject('Регистрация нового специалиста')
+					->send();
+				
+				
+				return $this->redirect(['reg-final']);
+			}
+		}
+		
+		//echo'<pre>';print_r($model);echo'</pre>';//die;
+		
+		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
+		
+		$cats_l1 = [];
+		$cats_l3 = [];
+
+		foreach($categories as $c){
+			if($c->parent_id == 1)	{
+				$cats_l1[] = [
+					'id'=>$c->id,
+					'name'=>$c->name,
+					'alias'=>$c->alias,
+					'path'=>$c->path,
+					'children'=>[],
+				];				
+			}	elseif($c->depth > 2)	{
+				$cats_l3[$c->parent_id][$c->id] = $c->name;
+			}
+		}		
+		
+		foreach($cats_l1 as &$c_l1){
+			foreach($categories as $c){
+				if($c->parent_id == $c_l1['id']) {
+					$c_l1['children'][] = [
+						'id'=>$c->id,
+						'name'=>$c->name,
+						'alias'=>$c->alias,
+						'path'=>$c->path,
+					];
+				}
+			}
+		}
+		
+		//echo'<pre>';print_r($cats_l3);echo'</pre>';//die;
+		
+
+		return $this->render('reg-step2', [
+			'model' => $model,
+			'categories' => $cats_l1,
+			'categories_l3' => $cats_l3,
+		]);
+	}
+	
+	
+	public function actionRegFinal()
+	{
+		return $this->render('reg-final', [
+		]);
+	}	
+
+    public function actionRequestPasswordReset()
+    {
+        $model = new PasswordResetRequestForm();
+		
+		$request = Yii::$app->request;
+		$modal = $request->get('modal');
+		
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->sendEmail()) {
+                Yii::$app->getSession()->setFlash('success', 'Инструкции высланы на Ваш e-mail.');
+				if($modal == 1) {
+					return $this->renderPartial('requestPasswordResetToken-success-modal', [
+						'model' => $model,
+					]);
+				}	else	{
+					//return $this->goHome();
+				}
+
+            } else {
+                Yii::$app->getSession()->setFlash('error', 'Ошибка отправки почты');
+            }
+        }
+		
+		if($modal == 1) {
+			return $this->renderPartial('requestPasswordResetToken-modal', [
+				'model' => $model,
+			]);
+		}	else	{
+			return $this->render('requestPasswordResetToken', [
+				'model' => $model,
+			]);
+		}
+		
+    }
+
+    public function actionResetPassword($token)
+    {
+        try {
+            $model = new ResetPasswordForm($token);
+        } catch (InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+            Yii::$app->getSession()->setFlash('success', 'Новый пароль сохранен.');
+			$model->password = '';
+            //return $this->goHome();
+        }
+
+        return $this->render('resetPassword', [
+            'model' => $model,
+        ]);
+    }
+	
 }

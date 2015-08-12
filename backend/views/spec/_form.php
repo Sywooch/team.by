@@ -22,7 +22,8 @@ use dosamigos\datepicker\DatePicker;
     <div class="row clearfix">
     	<div class="col-lg-4"><?= $form->field($model, 'username')->textInput() ?></div>
     	<div class="col-lg-4"><?= $form->field($model, 'email')->textInput() ?></div>
-    	<div class="col-lg-4"><?= $form->field($model, 'user_status')->dropDownList($model->userStatuses, [$model->user_status]) ?></div>
+    	<div class="col-lg-2"><?= $form->field($model, 'user_status')->dropDownList($model->userStatuses, [$model->user_status]) ?></div>
+    	<div class="col-lg-2"><?= $form->field($model, 'black_list')->dropDownList([0=>'Нет',1=>'Да'], [$model->user_status]) ?></div>
     </div>
 
     <div class="row clearfix">

@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 //\pro\assets\FormStylerAsset::register($this);
 
 $title = 'Связаться с администрацией';
-$this->title = $title;
+$this->title = \Yii::$app->params['sitename'] .' | ' . $title;
 
 $this->params['breadcrumbs'] = [
 	['label' => 'Личный кабинет', 'url' => '/profile'],

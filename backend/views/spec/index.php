@@ -52,13 +52,14 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			
             'email:email',
+			
 			[
 				'attribute'=>'category_id',
 				'format' => 'raw',
 				'content'=>function($data){
 					return $data->userCategoriesList;
 				},
-				'filter' => $searchModel->getDropdownCatList(),
+				'filter' => $searchModel::getDropdownCatList(),
 				
 			],
             

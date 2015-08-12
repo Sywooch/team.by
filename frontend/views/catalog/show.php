@@ -80,6 +80,8 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 							<div class="catalog-item_body__rating_active" style="width:<?=$rating_active?>%;"></div>
 						</div>
 					</div>
+					
+					<?php echo $model->medalImage ?>
 				</div>
 				<div class="catalog-item_body__info_row catalog-item_body__about clearfix">
 					<?= $model->about ?>

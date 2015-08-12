@@ -575,7 +575,7 @@ class SiteController extends Controller
 				$model->phone = Yii::$app->session['zakaz-spec1']['phone'];
 				$model->comment = Yii::$app->session['zakaz-spec1']['comment'];
 				if($model->sendEmail(Yii::$app->params['adminEmail'])) {
-					Yii::$app->getSession()->setFlash('success', 'Мы получили Вашу заявку.');
+					Yii::$app->getSession()->setFlash('success', 'Мы получили Вашу заявку. Наш оператор свяжется с вами в ближайшее время.');
 				}	else	{
 					Yii::$app->getSession()->setFlash('error', 'При отправке сообщения возникла ошибка');
 				}

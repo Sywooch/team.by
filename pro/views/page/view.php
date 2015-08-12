@@ -11,7 +11,7 @@ use yii\helpers\Html;
 ?>
 <div class="page-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($model->name) ?></h1>
     
     <div class="page-body"><?= $model->text ?></div>
 

@@ -79,6 +79,7 @@ class CatalogController extends Controller
 		//echo'<pre>';print_r($region_id);echo'</pre>';
 		
 		//получаем поле для сортировки
+		/*
 		$orderBy = Yii::$app->request->post('orderby', '');
 		if($orderBy != '') {
 			Yii::$app->response->cookies->add(new \yii\web\Cookie([
@@ -90,7 +91,7 @@ class CatalogController extends Controller
 		}	else	{
 			$orderBy = Yii::$app->request->cookies->getValue('catlist-orderby', 'fio');
 		}
-		
+		*/
 		//строим выпадающий блок для сортировки
 		$ordering_arr = Yii::$app->params['catlist-orderby'];
 		$ordering_items = [];
@@ -142,7 +143,8 @@ class CatalogController extends Controller
 			->andWhere(['<>', 'black_list', 1])
 			->andWhere(['=', 'is_active', 1])
 			->andWhere(['user_status'=> [2,10]])
-			->orderBy('{{%user}}.'.$orderBy.' ASC');
+			//->orderBy('{{%user}}.'.$orderBy.' ASC');
+			->orderBy('{{%user}}.total_rating DESC');
 		
 		//если указан какой-то регион - то фильтруем по нему и его потомкам
 		if($region_id != 1) {
@@ -187,6 +189,7 @@ class CatalogController extends Controller
     public function actionBlackList()
     {
 		//получаем поле для сортировки
+		/*
 		$orderBy = Yii::$app->request->post('orderby', '');
 		if($orderBy != '') {
 			Yii::$app->response->cookies->add(new \yii\web\Cookie([
@@ -196,7 +199,7 @@ class CatalogController extends Controller
 		}	else	{
 			$orderBy = Yii::$app->request->cookies->getValue('catlist-orderby', 'fio');
 		}
-		
+		*/
 		//строим выпадающий блок для сортировки
 		$ordering_arr = Yii::$app->params['catlist-orderby'];
 		$ordering_items = [];
@@ -218,7 +221,8 @@ class CatalogController extends Controller
 			->joinWith(['reviews'])
 			->joinWith(['userMedia'])
 			->where(['black_list'=>1])
-			->orderBy('{{%user}}.'.$orderBy.' ASC');
+			//->orderBy('{{%user}}.'.$orderBy.' ASC');
+			->orderBy('{{%user}}.total_rating DESC');
 		
 		$DataProvider = new ActiveDataProvider([
 			'query' => $query,
@@ -336,6 +340,7 @@ class CatalogController extends Controller
 			$user_ids = $UserSearch->searchUsers($search, $region_id);
 			
 			//получаем поле для сортировки
+			/*
 			$orderBy = Yii::$app->request->post('orderby', '');
 			if($orderBy != '') {
 				Yii::$app->response->cookies->add(new \yii\web\Cookie([
@@ -343,9 +348,9 @@ class CatalogController extends Controller
 					'value' => $orderBy,
 				]));
 			}	else	{
-				$orderBy = Yii::$app->request->cookies->getValue('catlist-orderby', 'fio');
+				$orderBy = Yii::$app->request->cookies->getValue('catlist-orderby', 'rating_total');
 			}
-			
+			*/
 			if($modal == 0) {
 
 				//строим выпадающий блок для сортировки
@@ -368,11 +373,12 @@ class CatalogController extends Controller
 				$query = User::find()
 					->distinct(true)
 					->joinWith(['reviews'])
-					->joinWith(['UserMedia'])
+					->joinWith(['userMedia'])
 					->where(['{{%user}}.id'=>$user_ids])
 					//->andWhere('black_list <> 1')
 					//->andWhere('user_status IN (2,10)')
-					->orderBy('{{%user}}.'.$orderBy.' ASC');
+					//->orderBy('{{%user}}.'.$orderBy.' ASC');
+					->orderBy('{{%user}}.total_rating DESC');
 
 				$DataProvider = new ActiveDataProvider([
 					'query' => $query,
@@ -394,7 +400,8 @@ class CatalogController extends Controller
 					->distinct(true)
 					->where(['{{%user}}.id'=>$user_ids])
 					//->andWhere('black_list <> 1')
-					->orderBy('{{%user}}.'.$orderBy.' ASC');
+					//->orderBy('{{%user}}.'.$orderBy.' ASC');
+					->orderBy('{{%user}}.total_rating DESC');
 
 				$DataProvider = new ActiveDataProvider([
 					'query' => $query,

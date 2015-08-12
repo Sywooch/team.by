@@ -4,9 +4,10 @@ return [
     'adminEmail' => 'alfonsovich@yandex.by',
 	'homeUrl' => 'http://team.by',
 	'catlist-orderby' => [
-		'fio'	 => 'имени',
+		'total_rating'	 => 'рейтингу',
+		//'fio'	 => 'имени',
 		//'price'	 => 'цене',
-		'created_at' => 'дате добавления',
+		//'created_at' => 'дате добавления',
 	],
 	
 	'orderlist-orderby' => [

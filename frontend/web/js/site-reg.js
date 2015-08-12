@@ -96,6 +96,9 @@ jQuery(function($) {
 		var allOk = false,
 			check_presents = false;
 		
+		$(".field-regstep2form-category1").removeClass('has-error');
+		$(".field-regstep2form-category1 .help-block").text('');
+		
 		$('.categories-block').each(function(){
 			if($(this).is(':visible')) {
 				$(this).find('.categories-block-error').remove();
@@ -140,10 +143,23 @@ jQuery(function($) {
 		});
 				
 		//return false;
+		console.log(allOk);
+		console.log($('#regstep2form-category1').val());
 		if(allOk === false)	{
-			$('html, body').animate({
-				scrollTop: $("#category-block-2").offset().top
-			}, 1000);
+			if($('#regstep2form-category1').val() == '') {
+				$(".field-regstep2form-category1").addClass('has-error');
+				$(".field-regstep2form-category1 .help-block").text('Выберите услуги');
+				$('html, body').animate({
+					scrollTop: $(".field-regstep2form-category1").offset().top
+				}, 1000);
+				
+			} else {
+				$('html, body').animate({
+					scrollTop: $("#category-block-2").offset().top
+				}, 1000);
+				
+			}
+			
 			
 			return false;
 		}	else	{

@@ -20,7 +20,7 @@ class RegStep2Asset extends AssetBundle
     public $css = [];
     public $js = [
 		//'js/fileuploader.js',
-		'js/jquery.ajax.upload.js',
+		'http://team.by/js/jquery.ajax.upload.js',
     ];
     public $depends = [
         //'frontend\assets\AppAsset',

@@ -31,6 +31,11 @@
 
 .catalog-item_body__info_row {
 	@extend .catalog-category-list-item__info_row;
+	
+	.catalog-category-list-item__profi_lbl {
+		margin-top: 3px;
+		margin-right: 15px;
+	}
 }
 
 .catalog-item_body__ttl {
@@ -108,16 +113,16 @@
 
 .catalog-item_body__rating_active,
 .catalog-item_body__rating_inactive {
-	right: 0;
+	left: 0;
 	top: 0;
 }
 
 .catalog-item_body__rating_inactive {
-	background: url(../images/rating-b.png) no-repeat right top;
+	background: url(../images/rating-b.png) no-repeat left top;
 	z-index: 1;
 }
 .catalog-item_body__rating_active {
-	background: url(../images/rating-g.png) no-repeat right top;
+	background: url(../images/rating-g.png) no-repeat left top;
 	z-index: 2;
 }
 

@@ -52,7 +52,7 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 </head>
 <body>
     <?php $this->beginBody() ?>
-    <div class="wrap">
+    <div class="wrap wrap__pro">
 		<div class="wrap__cnt <?= $wrap_cnt_class ?>">
 			<div class="header">
 				<?php //if($show_header_row1) echo $this->render('_header_row1', [], false, true); ?>
@@ -90,7 +90,7 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 		</div>
     </div>
 
-	<footer class="footer">
+	<footer class="footer footer__pro">
 	
 		<div class="container clearfix">
 			<a href="<?php echo Yii::$app->params['homeUrl']; ?>" class="logo_bottom pull-left"><img src="/images/logo-bottom.png" alt=""></a>
@@ -116,7 +116,12 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 				?>
 				
 				<?php echo $this->render('@frontend/views/layouts/_footer_info', [], false, true); ?>
-				
+				<p class="footer__info">
+				ЧУП "Профибелтаун"<br>
+				зарегистрировано 28.05.2015 Минским горисполкомом.<br> 
+				УНП 192483697. Юр.адрес 220053,<br>
+				г. Минск, ул. Ярошевичская, д. 33, помещение №19/10
+				</p>
 				<p class="created_by">Разработка сайта: <a href="http://www.medialine.by" target="_blank" title="Medialine.by">Medialine.by</a></p>
 			</div>
 			
@@ -125,14 +130,18 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 				<p>
 					<img src="http://team.by/images/raschet_h_50.jpg" alt="" />
 					<img src="http://team.by/images/logo_IPAY_h_50.png" alt="" />
+					<?/*
 					<img src="http://team.by/images/iPay_life_h_50.png" alt="" />
 					<img src="http://team.by/images/iPay_mts_h_50.png" alt="" />
+					*/?>
 				</p>
 				<p>
 					<img src="http://team.by/images/webpay_h_50.png" alt="" />
 					<img src="http://team.by/images/visa_h_50.png" alt="" />
+					<?/*
 					<img src="http://team.by/images/verified-by-visa_h_50.png" alt="" />
 					<img src="http://team.by/images/mastercard-securecode_h_50.png" alt="" />
+					*/?>
 					<img src="http://team.by/images/mastercard_h_50.png" alt="" />
 				</p>
 			</div>

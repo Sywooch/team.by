@@ -118,6 +118,7 @@ class User extends ActiveRecord implements IdentityInterface
 			'is_active' => 'Активность',
 			'category_id' => 'Категория',
 			'categoryUser' => 'Категория',
+			'black_list' => 'Черный список',
 			
         ];
     }
@@ -439,6 +440,39 @@ class User extends ActiveRecord implements IdentityInterface
 			else $url = 'Не указан';
 		return $url;
     }
+	
+    public function getMedalImage()
+    {
+        $html = '';
+		switch($this->medal) {
+			case 1:
+				$html = Html::img('/images/profi-bronze.png', ['alt'=>'Бронзовый профи', 'title'=>'Бронзовый профи', 'class'=>'profi_lbl catalog-category-list-item__profi_lbl']);
+				break;
+			case 2:
+				$html = Html::img('/images/profi-silver.png', ['alt'=>'Серебряный профи', 'title'=>'Серебряный профи', 'class'=>'profi_lbl catalog-category-list-item__profi_lbl']);
+				break;
+			case 3:
+				$html = Html::img('/images/profi-gold.png', ['alt'=>'Супер профи', 'title'=>'Супер профи', 'class'=>'profi_lbl catalog-category-list-item__profi_lbl']);
+				break;
+		}
+		return $html;
+    }
+	
+    public function setMedalOfRating($count_reviews)
+    {
+		$medal = 0;
+		if($count_reviews == 30 && $this->total_rating >= 4.8) {
+			$medal = 3;
+		}	elseif($count_reviews == 30 && $this->total_rating >= 4.5) {
+			$medal = 2;
+		}	elseif($count_reviews == 30 && $this->total_rating >= 4) {
+			$medal = 1;
+		}
+		$this->medal = $medal;
+		return;
+    }
+	
+	
 	
 	
 }

@@ -4,7 +4,7 @@ return [
     'supportEmail' => 'support@example.com',
     'noreplyEmail' => 'noreply@team.by',
     'user.passwordResetTokenExpire' => 3600,
-    'sitename' => 'Профессионалы',
+    'sitename' => 'Команда профессионалов',
 	'UserTypesArray' => [
 		1 => 'Физическое лицо',
 		2 => 'Юридическое лицо',

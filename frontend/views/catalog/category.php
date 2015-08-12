@@ -10,19 +10,30 @@ use yii\widgets\ActiveForm;
 
 
 //echo'<pre>';print_r($specials);echo'</pre>';die;
-$this->title = $category->name .' | '. Yii::$app->params['sitename'];
+//$this->title = Yii::$app->params['sitename'] .' | '. $parent->name .' | '. $category->name;
 
 //echo'<pre>';print_r($dataProvider);echo'</pre>';
 
 //$this->params['breadcrumbs'][] = ['label' => 'Regions', 'url' => ['index']];
+$title_arr = [Yii::$app->params['sitename']];
 
 $this->params['breadcrumbs'][] = ['label' => 'Каталог специалистов', 'url' => ['index']];
 
 foreach($parents as $parent) {
-	if($parent->id <> 1)
+	if($parent->id <> 1) {
 		$this->params['breadcrumbs'][] = ['label' => $parent->name, 'url' => ['category', 'category'=>$parent->path]];
+		$title_arr[] = $parent->name;
+	}
+		
 }
+
+$title_arr[] = $category->name;
+
+$this->title = implode(' | ', $title_arr);
+
 $this->params['breadcrumbs'][] = $category->name;
+
+
 
 ?>
 
@@ -44,6 +55,7 @@ $this->params['breadcrumbs'][] = $category->name;
 
 <div class="category-list-cnt">
 	<div class="category-sort-cnt clearfix">
+		<?/*
 		<p class="category-sort-lbl">Сортировать по:</p>
 
 		<?php echo ButtonDropdown::widget([
@@ -60,6 +72,7 @@ $this->params['breadcrumbs'][] = $category->name;
 			]
 		]);
 		?>
+		*/?>
 	</div>
 
 	<?php
@@ -76,22 +89,24 @@ $this->params['breadcrumbs'][] = $category->name;
 	?>
 
 	<div class="category-sort-cnt clearfix">
+		<?/*
 
-	<p class="category-sort-lbl">Сортировать по:</p>
+		<p class="category-sort-lbl">Сортировать по:</p>
 
-	<?php echo ButtonDropdown::widget([
-		'label' => $current_ordering['name'],
-		'options' => [
-			'class' => 'btn-lg btn-link',
-			'style' => ''
-		],
-		'containerOptions' => [
-			'class' => 'sorting-switcher',
-		],
-		'dropdown' => [
-			'items' => $ordering_items
-		]
-	]);
-	?>
+		<?php echo ButtonDropdown::widget([
+			'label' => $current_ordering['name'],
+			'options' => [
+				'class' => 'btn-lg btn-link',
+				'style' => ''
+			],
+			'containerOptions' => [
+				'class' => 'sorting-switcher',
+			],
+			'dropdown' => [
+				'items' => $ordering_items
+			]
+		]);
+		?>
+		*/?>
 	</div>
 </div>

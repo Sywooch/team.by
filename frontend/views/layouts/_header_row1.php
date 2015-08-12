@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
 		<div class="autorization_h">
 			<ul class="autorization_h__list">
 				<?php if (\Yii::$app->user->isGuest) {	?>
-					<li class="autorization_h__item autorization_h__item_reg_spec"><a class="autorization_h__reg_spec" href="<?= Url::toRoute('/site/reg')?>">Стать специалистом</a></li>
+					<li class="autorization_h__item autorization_h__item_reg_spec"><a class="autorization_h__reg_spec" href="http://pro.team.by/site/reg">Стать специалистом</a></li>
 				<?	}	else	{	?>
 					<li class="autorization_h__item autorization_h__item_reg_spec">
 						<?php $form = ActiveForm::begin(['action'=>['/site/logout']]); ?>						

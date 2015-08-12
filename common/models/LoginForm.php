@@ -37,8 +37,8 @@ class LoginForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => 'Введите свою почту',
-            'password' => 'Введите свой пароль',
+            'username' => 'Ваш адрес электронной почты',
+            'password' => 'Ваш пароль',
             'rememberMe' => 'Запомнить',
         ];
     }
@@ -56,7 +56,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'Неверный email или пароль.');
             }
         }
     }

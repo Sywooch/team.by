@@ -11,6 +11,7 @@ use yii\helpers\Url;
 /* @var $model \frontend\models\SignupForm */
 
 $this->title = \Yii::$app->params['sitename'] .' | ' . 'Стать специалистом';
+
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-reg">

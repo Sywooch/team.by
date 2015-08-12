@@ -35,6 +35,11 @@
 
 .catalog-category-list-item {
 	@extend .mb-30;
+	
+	.catalog-item_body__rating {
+		margin-top: 8px;
+		margin-left: 15px;
+	}
 }
 .catalog-category-list-item-cnt {
 //	@extend .clearfix;
@@ -123,8 +128,8 @@
 .catalog-category-list-item__uslugi {
 	@extend .clearfix;
 	li {
-		@extend %fl;
-		width: 50%;
+//		@extend %fl;
+//		width: 50%;
 	}
 }
 
@@ -165,6 +170,7 @@
 }
 
 .category-sort-cnt {
+	height: 56px;
 	border-top: 1px solid $gray14;
 	border-bottom: 1px solid $gray14;
 	padding: 15px 0;

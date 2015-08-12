@@ -2,7 +2,7 @@
 use yii\widgets\ListView;
 
 $title = 'Уведомления';
-$this->title = $title;
+$this->title = \Yii::$app->params['sitename'] .' | ' . $title;
 
 $this->params['breadcrumbs'] = [
 	['label' => 'Личный кабинет', 'url' => '/profile'],

@@ -18,7 +18,7 @@ $this->title = 'Вход в личный кабинет';
 		
 		<div class="modal-body">
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-                <?= $form->field($model, 'username') ?>
+                <?= $form->field($model, 'username')->textInput() ?>
                 <?= $form->field($model, 'password')->passwordInput() ?>
                 <?//= $form->field($model, 'rememberMe')->checkbox() ?>
                 <?/*
@@ -29,7 +29,7 @@ $this->title = 'Вход в личный кабинет';
                 <div class="form-group clearfix">
                     <?= Html::submitButton('Войти', ['class' => 'button-red login_button', 'name' => 'login-button']) ?>
                     <?= Html::a('Забыли пароль?', ['site/request-password-reset'], ['class' => 'reset_url']) ?>
-                    <?= Html::a('Регистрация', ['site/reg'], ['class' => 'signup_url']) ?>
+                    <?= Html::a('Регистрация', 'http://pro.team.by/site/reg', ['class' => 'signup_url']) ?>
                 </div>
             <?php ActiveForm::end(); ?>
 		</div>

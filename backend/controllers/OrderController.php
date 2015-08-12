@@ -202,11 +202,8 @@ class OrderController extends Controller
 			if($order->review->reviewMedia !== NULL)	{
 				//получаем загруженные фото к отзыву
 				$reviewMedia_old = $order->review->reviewMedia;
-				
 			}
 		}
-		
-		
 		
 		if(isset($_POST['OrderForm']))	{
 			$model->load(Yii::$app->request->post());
@@ -274,7 +271,13 @@ class OrderController extends Controller
 					}
 					
 					$review->status = $model->review_state;
+					
+					
+						
 					$review->save();
+					
+					if($review->status == 1)
+						$this->calculateRating($order);
 					
 					//echo'<pre>';print_r($review);echo'</pre>';die;
 					$this->checkReviewFoto($model, $reviewMedia_old, $review->id);
@@ -450,6 +453,34 @@ class OrderController extends Controller
 		
 		$notify->save();
 		//echo'<pre>';print_r($notify);echo'</pre>';die;
+		
+	}
+	
+	public function calculateRating($order)
+	{
+		$user = $order->user;
+		$user_reviews = $user->reviews;
+		$total_rating = 0;
+		foreach($user_reviews as $rewiew) {
+			$total_rating += $rewiew->review_rating;
+		}
+		
+		//echo'<pre>';print_r($total_rating);echo'</pre>';//die;
+		//echo'<pre>';print_r(count($user_reviews));echo'</pre>';//die;
+		
+		
+		$total_rating = $total_rating / count($user_reviews);
+		
+		$user->total_rating = $total_rating;
+		//$user->total_rating = 4.7;
+		
+		$user->setMedalOfRating(count($user_reviews));
+		//$user->setMedalOfRating(30);
+		$user->save();
+		
+		//echo'<pre>';print_r($user);echo'</pre>';die;
+		///echo'<pre>';print_r($user->medal);echo'</pre>';die;
+		//echo'<pre>';print_r(count($user_reviews));echo'</pre>';die;
 		
 	}
 }

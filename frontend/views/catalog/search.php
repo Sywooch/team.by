@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = ['label' => $title];
 
 <div class="category-list-cnt">
 	<div class="category-sort-cnt clearfix">
+		<?/*
 		<p class="category-sort-lbl">Сортировать по:</p>
 
 		<?php echo ButtonDropdown::widget([
@@ -43,6 +44,7 @@ $this->params['breadcrumbs'][] = ['label' => $title];
 			]
 		]);
 		?>
+		*/?>
 	</div>
 
 	<?php
@@ -61,20 +63,21 @@ $this->params['breadcrumbs'][] = ['label' => $title];
 	<div class="category-sort-cnt clearfix">
 
 	<p class="category-sort-lbl">Сортировать по:</p>
-
-	<?php echo ButtonDropdown::widget([
-		'label' => $current_ordering['name'],
-		'options' => [
-			'class' => 'btn-lg btn-link',
-			'style' => ''
-		],
-		'containerOptions' => [
-			'class' => 'sorting-switcher',
-		],
-		'dropdown' => [
-			'items' => $ordering_items
-		]
-	]);
-	?>
+		<?/*
+		<?php echo ButtonDropdown::widget([
+			'label' => $current_ordering['name'],
+			'options' => [
+				'class' => 'btn-lg btn-link',
+				'style' => ''
+			],
+			'containerOptions' => [
+				'class' => 'sorting-switcher',
+			],
+			'dropdown' => [
+				'items' => $ordering_items
+			]
+		]);
+		?>
+		*/?>
 	</div>
 </div>

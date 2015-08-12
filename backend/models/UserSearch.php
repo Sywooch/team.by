@@ -150,17 +150,23 @@ class UserSearch extends User
     public function getDropdownCatList()
     {
  		$categories = Category::find()
-			->where('id <> 1')
-			->andWhere('depth < 3')
-			->orderBy('lft, rgt')->all();
-
+			->where(['<>', 'id', 1])
+			->andWhere(['<', 'depth', 3])
+			->orderBy('lft, rgt')
+			->all();
+		
+		
+		
 		foreach($categories as $c){
 			$separator = '';
 			for ($x=0; $x++ < $c->depth;) $separator .= '-';
 			$c->name = $separator.$c->name;
 		}
 		
+		
 		$categories = ArrayHelper::map($categories, 'id', 'name');
+		//echo'<pre>';print_r($categories);echo'</pre>';die;
+		//die;
 
 		return $categories;
 

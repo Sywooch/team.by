@@ -2,6 +2,8 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
+use common\helpers\DStringHelper;
+
 
 
 if($model->education != '')	{
@@ -12,6 +14,8 @@ if($model->education != '')	{
 
 //echo'<pre>';print_r($specials);echo'</pre>';//die;
 //echo'<pre>';print_r($model->userSpecials);echo'</pre>';die;
+
+$rating_active = 20 * $model->total_rating; // максимальная оценка 5 это 100%.  Значит каждая единица = 20%
 ?>
 
 
@@ -22,13 +26,34 @@ if($model->education != '')	{
 		</a>
 
 		<div class="catalog-category-list-item__info_cnt">
+			
 			<div class="catalog-category-list-item__info_row">
-				<p class="catalog-category-list-item__ttl"><?= $model->fio;?></p>	
+				<p class="catalog-category-list-item__ttl">
+				<a href="<?= \Yii::$app->urlManager->createUrl(['catalog/show', 'id' => $model->id])?>" title="<?= $model->fio;?>"><?= $model->fio;?></a></p>
+				
+				
+				<div class="catalog-item_body__rating">				
+					<span class="catalog-item_body__rating_txt">Рейтинг <?=\Yii::$app->formatter->asDecimal($model->total_rating) ?></span>
+					<div class="catalog-item_body__rating_cnt">
+						<div class="catalog-item_body__rating_inactive"></div>
+						<div class="catalog-item_body__rating_active" style="width:<?=$rating_active?>%;"></div>
+					</div>
+				</div>
+				
+				
+				<?php echo $model->medalImage ?>
+				
+				
+				<?/*
 				<span class="catalog-category-list-item__rating">Рейтинг: <?=\Yii::$app->formatter->asDecimal($model->total_rating) ?> из 5</span>
 				<?php 
 					if($model->total_rating == 5) echo Html::img('/images/profi-gold.png', ['alt'=>'Супер профи', 'title'=>'Супер профи', 'class'=>'profi_lbl catalog-category-list-item__profi_lbl']);
 					if($model->total_rating >= 4) echo Html::img('/images/profi-silver.png', ['alt'=>'Профи', 'title'=>'Профи', 'class'=>'profi_lbl catalog-category-list-item__profi_lbl']);
 				?>
+				*/?>
+
+				
+				
 			</div>
 			<div class="catalog-category-list-item__info_row">
 				<?/*<span class="catalog-category-list-item__price">Стоимость работ: <?= \Yii::$app->formatter->asDecimal($model->price); ?> руб.</span>*/?>
@@ -40,19 +65,7 @@ if($model->education != '')	{
 			</div>
 			<div class="catalog-category-list-item__info_row">
 				<div class="row clearfix">
-					<?php if(count($education_arr))	{	?>
-					<div class="col-lg-4">
-						<p class="bold">Обучение:</p>					
-						<ul class="catalog-category-list-item__edu_list">
-							<?php foreach($education_arr as $i) echo Html::tag('li', Html::encode($i), ['class' => 'catalog-category-list-item__edu_item']) ?>
-						</ul>
-					</div>
-					<?php	}	?>
-					<div class="col-lg-2">
-						<p class="bold">Опыт работы:</p>
-						<p><?= $model->experience ?></p>
-					</div>
-					<div class="col-lg-6">
+					<div class="col-lg-5">
 						<p class="bold">Виды услуг:</p>
 						<ul class="catalog-category-list-item__uslugi">
 							<?php 
@@ -62,6 +75,20 @@ if($model->education != '')	{
 							?>
 						</ul>
 					</div>
+					<div class="col-lg-3">
+						<p class="bold">Опыт работы:</p>
+						<p><?= DStringHelper::getIntroText(200, $model->experience) ?></p>
+					</div>
+					
+				
+					<?php if(count($education_arr))	{	?>
+					<div class="col-lg-4">
+						<p class="bold">Обучение:</p>					
+						<ul class="catalog-category-list-item__edu_list">
+							<?php foreach($education_arr as $i) echo Html::tag('li', Html::encode($i), ['class' => 'catalog-category-list-item__edu_item']) ?>
+						</ul>
+					</div>
+					<?php	}	?>
 				</div>
 			</div>
 			<div class="catalog-category-list-item__info_row_bottom">
@@ -74,7 +101,7 @@ if($model->education != '')	{
 				<?	}	?>
 
 				<a href="<?= \Yii::$app->urlManager->createUrl(['catalog/show', 'id' => $model->id])?>" class="button-blue btn-short catalog-category-list-item__detail">Подробнее о специалисте</a>
-				<span class="button-red btn-short catalog-category-list-item__contact contact-to-spec" data-contact="<?= Yii::$app->urlManager->createUrl(['site/zakaz-spec1'])?>">Связаться</span>
+				<span class="button-red btn-short catalog-category-list-item__contact contact-to-spec" data-contact="<?= Yii::$app->urlManager->createUrl(['site/zakaz-spec1'])?>" data-spec="<?= $model->fio;?>">Связаться</span>
 			</div>
 		</div>
 	</div>

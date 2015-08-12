@@ -26,7 +26,7 @@ $this->title = 'Заявка на подбор профессионала';
 
 				<div class="form-group cleafrix">
 					<?= Html::submitButton('Отправить', ['id'=>'zakaz-spec1-btn', 'class' => 'button-red']) ?>
-					<p class="catalog-zakaz-spec1-notice">Отправляя заявку, подтверждаю ознакомление и согласие с <a href="#" target="_blank">Условиями использования</a></p>
+					<?/*<p class="catalog-zakaz-spec1-notice">Отправляя заявку, подтверждаю ознакомление и согласие с <a href="#" target="_blank">Условиями использования</a></p>*/?>
 				</div>
 			<?php ActiveForm::end(); ?>
 		</div>

@@ -5,6 +5,10 @@
 	.container {
 		@extend %text_c;
 	}
+	
+	.reviews_block__cnt {
+		@extend %text_l;
+	}
 }
 
 

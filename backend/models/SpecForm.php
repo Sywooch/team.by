@@ -30,7 +30,7 @@ class SpecForm extends User
 			
 			
 			[['license_checked', 'fio'], 'string'],	
-			[['user_status', 'region_id', 'user_type'], 'integer'],	
+			[['user_status', 'region_id', 'user_type', 'black_list'], 'integer'],	
 			
         ];
     }

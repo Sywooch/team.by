@@ -1,4 +1,7 @@
 jQuery(function($) {
+	var spec_name = '';
+	
+	
 	//получаем кол-во миниатюр у блока
 	function getImageNum(block) {
 		var count_items = 0,
@@ -113,10 +116,16 @@ jQuery(function($) {
 	//$("[data-toggle='tooltip']").tooltip();
 	//$("[data-toggle='popover']").popover();
 	
+	$('#profi_search_inner_catalog').on('click', function(){
+		$('#catalog_popup').fadeToggle();
+	});
+		
+	/*
 	$('#profi_search_inner_catalog').hover(
 		function(){$('#catalog_popup').stop(true,true).fadeIn();},
 		function(){$('#catalog_popup').stop(true,true).fadeOut();}
 	);
+	*/
 	
 	$('#header_phone').hover(
 		function(){$('#header_phone__popup').stop(true,true).fadeIn();},
@@ -282,8 +291,11 @@ jQuery(function($) {
         var url = $(this).data('contact')+"?modal=1",
             modal = $('.modal');
 		
+		spec_name = $(this).data('spec');
+		
         $.get(url, function (data) {
             modal.html(data).modal('show');
+			modal.find('#zakazspec1-comment').val(spec_name);
         });
         return false;
     });

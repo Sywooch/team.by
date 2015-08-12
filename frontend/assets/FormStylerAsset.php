@@ -14,11 +14,11 @@ class FormStylerAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-		'css/formstyler.css',
+		'http://team.by/css/formstyler.css',
 	];
     public $js = [
-		'js/jquery.formstyler.min.js',
-		'js/formstyler-init.js',
+		'http://team.by/js/jquery.formstyler.min.js',
+		'http://team.by/js/formstyler-init.js',
     ];
     public $depends = [
 		'yii\web\YiiAsset',

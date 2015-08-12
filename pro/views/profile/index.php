@@ -3,7 +3,7 @@ use yii\bootstrap\Tabs;
 
 
 $title = 'Личный кабинет специалиста — '.$model->fio;
-$this->title = $title;
+$this->title = \Yii::$app->params['sitename'] .' | ' . $title;
 
 $this->params['breadcrumbs'] = [
 	['label' => 'Личный кабинет'],

@@ -193,6 +193,17 @@ class CategoryController extends Controller
 		//return $this->redirect(['index']);		
     }
 
+    public function actionNameupdate()
+    {
+		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
+		foreach($categories as $cat) {
+			$cat->name = ucfirst($cat->name);
+			$cat->save(false);
+			//echo'<pre>';print_r($cat);echo'</pre>';die;
+		}
+		echo'ok';
+    }
+
     /**
      * Finds the Category model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
