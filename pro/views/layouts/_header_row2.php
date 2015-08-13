@@ -22,18 +22,7 @@
 			</div>
 
 			<div class="col-lg-5 col-lg-offset-2">
-				<div id="header_phone" class="header_phone">
-					<div class="header_phone__txt"><span class="bold">Единый номер для всех</span><br>мобильных операторов РБ:</div>
-					<div class="header_phone__number"><span class="header_phone__number_cnt">345-89-98</span></div>
-					<div id="header_phone__popup" class="header_phone__popup popup_block">
-						<ul class="header_phone_popup__list">
-							<li class="header_phone_popup__item header_phone_popup__phone">+375 (17) <span>345-89-98</span></li>
-							<li class="header_phone_popup__item header_phone_popup__velcom">+375 (33) <span>345-89-98</span></li>
-							<li class="header_phone_popup__item header_phone_popup__mts">+375 (44) <span>345-89-98</span></li>
-							<li class="header_phone_popup__item header_phone_popup__life">+375 (29) <span>345-89-98</span></li>
-						</ul>
-					</div>
-				</div>
+				<?php echo $this->render('@frontend/views/layouts/_header_phone', [], false, true); ?>
 			</div>
 
 		</div>

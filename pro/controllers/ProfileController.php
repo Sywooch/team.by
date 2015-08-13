@@ -9,6 +9,7 @@ use common\models\User;
 use common\models\UserCategories;
 use common\models\UserSpecials;
 use common\models\UserMedia;
+use common\models\UserRegion;
 use common\models\Notify;
 
 
@@ -120,6 +121,8 @@ class ProfileController extends Controller
 			
 			$this->checkExamples($model, $ProfileAnketaForm); //проверяем изменения в примерах работ
 			
+			$this->checkRegions($model, $ProfileAnketaForm); //проверяем изменения в регионах
+			
 			$this->redirect('/profile');
 		}
 		
@@ -130,6 +133,12 @@ class ProfileController extends Controller
 		foreach($model->userSpecials as $item)	{
 			$ProfileAnketaForm->usluga[] = $item->category_id;
 			$ProfileAnketaForm->price[$item->category_id] = $item->price;
+		}
+		
+		//echo'<pre>';print_r($model->userRegions);echo'</pre>';die;
+		foreach($model->userRegions as $k=>$item)	{
+			$ProfileAnketaForm->regions[] = $item->region_id;
+			$ProfileAnketaForm->ratios[$k] = $item->ratio;
 		}
 		
 		$ProfileAnketaForm->awards = $model->media['awards'];
@@ -676,6 +685,39 @@ class ProfileController extends Controller
 
 				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example))
 					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
+			}
+		}
+	}
+	
+	//проверяем изменения в регионах
+	public function checkRegions($model, $ProfileAnketaForm)
+	{
+		//echo'<pre>';print_r($model->userRegions);echo'</pre>';die;
+		//echo'<pre>';print_r($ProfileAnketaForm);echo'</pre>';die;
+		$array_identical = false;
+		if(count($model->userRegions) != count($ProfileAnketaForm->regions)) {
+			$array_identical = false;
+		}	else	{
+			foreach($model->userRegions as $item)	{
+				$array_identical = false;
+				foreach($ProfileAnketaForm->regions as $item1)	{
+					if($item->region_id == $item1)
+						$array_identical = true;
+				}
+			}
+		}
+
+		if($array_identical == false) {
+			foreach($model->userRegions as $item)	{
+				$item->delete();
+			}
+
+			foreach($ProfileAnketaForm->regions as $k=>$item)	{
+				$userRegions = new UserRegion();
+				$userRegions->user_id = $model->id;
+				$userRegions->region_id = $item;
+				$userRegions->ratio = $ProfileAnketaForm->ratios[$k];
+				$userRegions->save();
 			}
 		}
 	}

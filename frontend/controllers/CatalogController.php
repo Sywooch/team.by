@@ -8,6 +8,7 @@ use common\models\Category;
 use common\models\User;
 use common\models\Review;
 use common\models\Region;
+use common\models\UserRegion;
 
 use frontend\models\UserSearch;
 
@@ -134,17 +135,28 @@ class CatalogController extends Controller
 			}
 		}
 		
+		$query = $this->prepareQuery();
+		$query->where(['{{%user_categories}}.category_id'=>$cat_ids])
+			->andWhere(['<>', 'black_list', 1])
+			->andWhere(['=', 'is_active', 1])
+			->andWhere(['user_status'=> [2,10]])
+			//->orderBy('{{%user}}.'.$orderBy.' ASC');
+			->orderBy('{{%user}}.total_rating DESC');
+		
+		/*
 		$query = User::find()
 			->distinct(true)
 			->joinWith(['userCategories'])
 			->joinWith(['reviews'])
 			->joinWith(['userMedia'])
+			->joinWith(['userGegion'])
 			->where(['{{%user_categories}}.category_id'=>$cat_ids])
 			->andWhere(['<>', 'black_list', 1])
 			->andWhere(['=', 'is_active', 1])
 			->andWhere(['user_status'=> [2,10]])
 			//->orderBy('{{%user}}.'.$orderBy.' ASC');
 			->orderBy('{{%user}}.total_rating DESC');
+			*/
 		
 		//если указан какой-то регион - то фильтруем по нему и его потомкам
 		if($region_id != 1) {
@@ -215,7 +227,11 @@ class CatalogController extends Controller
 			}
 				
 		}
-		
+		$query = $this->prepareQuery();
+		$query->where(['black_list'=>1])
+			//->orderBy('{{%user}}.'.$orderBy.' ASC');
+			->orderBy('{{%user}}.total_rating DESC');
+		/*
 		$query = User::find()
 			->distinct(true)
 			->joinWith(['reviews'])
@@ -223,6 +239,7 @@ class CatalogController extends Controller
 			->where(['black_list'=>1])
 			//->orderBy('{{%user}}.'.$orderBy.' ASC');
 			->orderBy('{{%user}}.total_rating DESC');
+		*/
 		
 		$DataProvider = new ActiveDataProvider([
 			'query' => $query,
@@ -369,7 +386,13 @@ class CatalogController extends Controller
 
 				}
 
-
+				$query = $this->prepareQuery();
+				$query->where(['{{%user}}.id'=>$user_ids])
+					//->andWhere('black_list <> 1')
+					//->andWhere('user_status IN (2,10)')
+					//->orderBy('{{%user}}.'.$orderBy.' ASC');
+					->orderBy('{{%user}}.total_rating DESC');
+				/*
 				$query = User::find()
 					->distinct(true)
 					->joinWith(['reviews'])
@@ -379,7 +402,7 @@ class CatalogController extends Controller
 					//->andWhere('user_status IN (2,10)')
 					//->orderBy('{{%user}}.'.$orderBy.' ASC');
 					->orderBy('{{%user}}.total_rating DESC');
-
+				*/
 				$DataProvider = new ActiveDataProvider([
 					'query' => $query,
 					'pagination' => [
@@ -444,5 +467,17 @@ class CatalogController extends Controller
 		$specials = Category::find()->where('depth > 2')->orderBy('lft, rgt')->all();
 		$specials = ArrayHelper::map($specials, 'id', 'name');
 		return $specials;
+	}
+	
+	public function prepareQuery()
+	{
+		$query = User::find()
+			->distinct(true)
+			->joinWith(['userCategories'])
+			->joinWith(['reviews'])
+			->joinWith(['userMedia'])
+			->joinWith(['userRegionsList']);
+		
+		return $query;
 	}
 }

@@ -28,9 +28,16 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 		<div class="catalog-category-list-item__info_cnt">
 			
 			<div class="catalog-category-list-item__info_row">
-				<p class="catalog-category-list-item__ttl">
-				<a href="<?= \Yii::$app->urlManager->createUrl(['catalog/show', 'id' => $model->id])?>" title="<?= $model->fio;?>"><?= $model->fio;?></a></p>
-				
+				<div class="catalog-category-list-item__ttl">
+					<a href="<?= \Yii::$app->urlManager->createUrl(['catalog/show', 'id' => $model->id])?>" title="<?= $model->fio;?>"><?= $model->fio;?></a>
+					<?/*
+					<ul>
+					<?php foreach($model->userRegionsList as $region)	{	?>
+						<li><?= $region->name ?></li>
+					<?php	}	?>
+					</ul>
+					*/?>
+				</div>
 				
 				<div class="catalog-item_body__rating">				
 					<span class="catalog-item_body__rating_txt">Рейтинг <?=\Yii::$app->formatter->asDecimal($model->total_rating) ?></span>

@@ -30,6 +30,13 @@ $errors = $model->getErrors();
 
 
 $categories_l2_arr = [];
+
+if(count($model->regions)) {
+	$regions_rows = count($model->regions) - 1;
+}	else	{
+	$regions_rows = 0;
+}
+
 ?>
 <div class="profile_anketa row1 clearfix1">
  
@@ -65,6 +72,28 @@ $categories_l2_arr = [];
 		
 			<div class="row clearfix">
 				<div class="col-lg-6">
+					<div id="regions-cnt" class="regions-cnt">
+						<?php for ($x=0; $x<=$regions_rows; $x++) { ?>
+							<div <? if ($x==0) echo 'id="region-row-f"' ?> class="form-group row clearfix region-row">
+								<div class="col-lg-8 region-dd-cnt">
+									<?//= Html::activeDropDownList($model, 'regions[]', $model->regionsDropDownList, ['class'=>'form-control']) ?>
+									<?= Html::dropDownList('ProfileAnketaForm[regions][]', $model->regions[$x], $model->regionsDropDownList, ['class'=>'form-control']) ?>
+								</div>
+								<div class="col-lg-3">
+									<?//= Html::activeTextInput($model, 'ratios[]', ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
+									<?= Html::textInput('ProfileAnketaForm[ratios][]', $model->ratios[$x], ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
+								</div>
+								<div class="col-lg-1">
+									<a href="#" class="remove_region_row">—</a>
+								</div>
+							</div>
+						<?php	}	?>
+					</div>
+					
+					<div class="form-group">
+						<a href="#" class="add_new_region">Добавить</a>
+					</div>
+				
 					<?= $form->field($model, 'region')->dropDownList($model->regionsDropDownList, [$model->region]) ?>
 					<div class="form-group">
 						<a href="" id="site-reg-add-new-city" class="site-reg__add-new-city">Добавить еще один город</a>

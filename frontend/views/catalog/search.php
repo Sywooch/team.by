@@ -61,9 +61,9 @@ $this->params['breadcrumbs'][] = ['label' => $title];
 	?>
 
 	<div class="category-sort-cnt clearfix">
-
-	<p class="category-sort-lbl">Сортировать по:</p>
 		<?/*
+	<p class="category-sort-lbl">Сортировать по:</p>
+
 		<?php echo ButtonDropdown::widget([
 			'label' => $current_ordering['name'],
 			'options' => [

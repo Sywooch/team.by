@@ -485,3 +485,31 @@
 		margin-bottom: 0;
 	}
 }
+
+.remove_region_row {
+	@extend %db;
+	@extend %text_c;
+	@extend %bold;
+	@extend %c_fff;
+	@extend %underline_n_n;
+	@extend .btn-blue;
+	
+	@include border-radius(50%);
+	
+	background-repeat: repeat-x;
+	width: 25px;
+	height: 25px;
+	line-height: 24px;
+	font-size: 18px;
+	font-family: tahoma;
+	margin-top: 5px;
+	
+	&:hover {
+		@extend %c_fff;
+	}
+	
+}
+
+#region-row-f .remove_region_row {
+	display: none;
+}

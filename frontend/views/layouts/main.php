@@ -133,7 +133,7 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 				
 				
 					<?/*<a href="<?= Url::toRoute('/site/reg')?>" class="button-gray footer__reg_btn">Стать специалистом</a>*/?>
-					<a href="<?= Url::toRoute('/profile')?>" id="login-modal-footer" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
+					<a href="http://pro.team.by" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
 				<?	}	?>
 			</div>
 

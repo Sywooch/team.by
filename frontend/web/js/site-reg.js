@@ -98,6 +98,26 @@ jQuery(function($) {
 		
 		$(".field-regstep2form-category1").removeClass('has-error');
 		$(".field-regstep2form-category1 .help-block").text('');
+		$("#regions-cnt .categories-block-error").text('');
+		
+		
+		
+		
+		$('#regions-cnt > .region-row').each(function(){
+			if($(this).find('select').val() != 0 && $(this).find('input[type="text"]').val() != '') {				
+				allOk = true;
+				//break;
+			}
+		});
+		
+		if(allOk === false)	{
+			$('#regions-cnt').append('<span class="categories-block-error small">Укажите город и ценовой коэффициент.</span>');
+			$('html, body').animate({
+				scrollTop: $("#regions-cnt").offset().top
+			}, 1000);
+			return false;
+		}
+		
 		
 		$('.categories-block').each(function(){
 			if($(this).is(':visible')) {
@@ -298,7 +318,35 @@ jQuery(function($) {
 		return false;
 	});
 	
+	$('.profile_anketa_row').on('click', '.add_new_region', function(e){
+		var to_block = $('#regions-cnt'),
+			block = $('#region-row-f'),
+			select = block.find('select');
+		
+		e.preventDefault();
+		
+		$("#regions-cnt .categories-block-error").remove();
+		to_block.append('<div class="form-group row clearfix region-row">' + block.html() + '</div>');
+		to_block.find('.region-row:last-of-type .region-dd-cnt').html('<select id="profileanketaform-regions" class="form-control" name="ProfileAnketaForm[regions][]">' + select.html() + '</select>');
+		to_block.find('.region-row:last-of-type .region-dd-cnt select').styler();
+		
+
+		/*
+		block = to_block.find('.region-row:last-of-type select');
+		block.attr('name', 'ProfileAnketaForm[ratios][]');
+		
+		*/
+		//to_block.find('.region-row:last-of-type select').styler();
+		return false;
+	});
 	
+	
+	$('.profile_anketa_row').on('click', '.remove_region_row', function(e){
+		e.preventDefault();
+		$(this).parent().parent().remove();
+		return false;
+	});
+
 
 	
 	$('input.reg-step2-category').on('change', function(e){

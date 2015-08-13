@@ -225,6 +225,19 @@ h1,.h1 {
 	margin-left: 8.33333333%  !important;
 }
 
+.navbar-nav > li {
+	float: left !important;
+}
+
+.navbar-nav {
+	margin: 0 !important;
+}
+
+.navbar-nav > li > a {
+	padding-top: 15px !important;
+	padding-bottom: 15px !important;
+}
+
 .popup_block {
 	@extend %pos_abs;
 

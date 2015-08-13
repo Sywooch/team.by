@@ -48,6 +48,9 @@ class ProfileAnketaForm extends Model
     public $examples = [];
 	public $usluga = [];
 	
+	public $regions = [];
+	public $ratios = [];
+	
 	public $to_client;
 	public $license;
 	public $payment_type;
@@ -105,6 +108,9 @@ class ProfileAnketaForm extends Model
 			['awards', 'each', 'rule' => ['string']],
 			['usluga', 'each', 'rule' => ['string']],
 			
+			['regions', 'each', 'rule' => ['integer']],
+			['ratios', 'each', 'rule' => ['double']],
+			
 			['license', 'string', 'min' => 3, 'max' => 255],
 			
         ];
@@ -158,7 +164,7 @@ class ProfileAnketaForm extends Model
 				//$categories2[] = ['id'=>$row->id, 'text'=>$row->name, 'group'=>$categories1[$row->parent_id]];
 		}
 		
-		$categories = $categories2;
+		$categories = [0=>'Выберите'] + $categories2;
 		return $categories;
     }
 	

@@ -122,7 +122,7 @@ return [
 				*/
 			]
 		],	
-	
+	/*
 	'as AccessBehavior' => [
 		'class' => AccessBehavior::className(),
         'rules' => [
