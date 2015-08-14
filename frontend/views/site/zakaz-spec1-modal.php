@@ -19,7 +19,8 @@ $this->title = 'Заявка на подбор профессионала';
 		
 		<div class="modal-body">
 			<?php $form = ActiveForm::begin(['action'=>['zakaz-spec1', 'modal'=>1]]); ?>
-
+				<?= $form->field($model, 'user_id')->hiddenInput() ?>
+				<?= $form->field($model, 'spec_name')->hiddenInput() ?>
 				<?= $form->field($model, 'phone') ?>
 				<?= $form->field($model, 'name') ?>
 				<?= $form->field($model, 'comment')->textarea(['rows' => 6]) ?>

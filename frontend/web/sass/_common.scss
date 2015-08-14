@@ -51,7 +51,7 @@ b {
 	min-width: 1200px;
 }
 
-.wrao__pro {
+.wrap__pro {
 	padding-bottom: 300px;
 	margin-bottom: -300px;
 }
@@ -190,7 +190,7 @@ h1,.h1 {
 
 .wrap__cnt > .container {
 	@extend .pt-30;
-	@extend .mb-30;
+	padding-bottom: 30px;
 }
 
 .container {
@@ -623,5 +623,11 @@ a.desc:after {
 .site-index {
 	.h1 {
 		@extend %text_c;
+	}
+}
+
+#addreviewform-rating {
+	label {
+		@extend .pr-10;
 	}
 }

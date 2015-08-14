@@ -2,7 +2,7 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-use frontend\helpers\DPriceHelper;
+use common\helpers\DPriceHelper;
 
 \frontend\assets\BootstrapLightboxAsset::register($this);
 
@@ -44,7 +44,7 @@ foreach($model->userMedia as $media)	{
 }
 
 $rating_active = 20 * $model->total_rating; // максимальная оценка 5 это 100%.  Значит каждая единица = 20%
-//echo'<pre>';print_r($model->userSpecials[0]->category);echo'</pre>';die;
+//echo'<pre>';print_r($model->userSpecials);echo'</pre>';die;
 ?>
 
 <div class="catalog-item">
@@ -66,7 +66,7 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 				<div class="catalog-item_body__info_row clearfix">
 					<div class="catalog-item_body__ttl_cnt catalog-item_body__ttl_profi">
 						<h1 class="catalog-item_body__ttl"><?= $model->fio;?></h1>
-						<p class="catalog-item_body__town">Город: <?= $model->userRegion->name;?></p>
+						<p class="catalog-item_body__town"><?= $model->townsList ?></p>
 					</div>
 					
 					<?php if($model->to_client == 1)	{	?>
@@ -90,7 +90,7 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 				<div class="catalog-item_body__info_row catalog-item_body__uslugi clearfix">
 					<p class="catalog-item_body__uslugi_ttl">Виды услуг</p>
 					<ul class="catalog-item_body__uslugi_list row clearfix">
-						<?php foreach($model->userSpecials as $user_spec)	{	?>
+						<?php foreach($model->userSpecialsList as $user_spec)	{	?>
 							<li class="catalog-item_body__uslugi_item col-lg-6">
 								<div class="row">
 									<p class="col-lg-6">• <?= $user_spec->category->name ?></p>
@@ -121,7 +121,7 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 					</div>
 				</div>
 				
-				<span class="button-red catalog-item_body__contact_spec contact-to-spec" data-contact="<?= Yii::$app->urlManager->createUrl(['site/zakaz-spec1'])?>">Связаться со специалистом</span>
+				<span class="button-red catalog-item_body__contact_spec contact-to-spec" data-contact="<?= Yii::$app->urlManager->createUrl(['site/zakaz-spec1'])?>" data-spec="<?= $model->fio;?>" data-spec_id="<?= $model->id;?>">Связаться со специалистом</span>
 				
 			</div>
 			

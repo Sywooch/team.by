@@ -10,6 +10,8 @@ use yii\base\Model;
  */
 class ZakazSpec2 extends Model
 {
+    public $user_id;
+    public $spec_name;
     public $name;
     //public $email = 'aldegtyarev@yandex.ru';
     public $email;

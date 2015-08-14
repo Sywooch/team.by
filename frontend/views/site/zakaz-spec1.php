@@ -10,7 +10,8 @@ use yii\widgets\ActiveForm;
 <div class="catalog-zakaz-spec1">
 
     <?php $form = ActiveForm::begin(); ?>
-
+		<?= $form->field($model, 'user_id')->hiddenInput() ?>
+		<?= $form->field($model, 'spec_name')->hiddenInput() ?>
         <?= $form->field($model, 'phone') ?>
         <?= $form->field($model, 'name') ?>
         <?= $form->field($model, 'comment')->textarea() ?>

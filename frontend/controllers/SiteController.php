@@ -571,9 +571,12 @@ class SiteController extends Controller
 
 		if ($model->load(Yii::$app->request->post())) {
 			if ($model->validate()) {
+				$model->user_id = Yii::$app->session['zakaz-spec1']['user_id'];
+				$model->spec_name = Yii::$app->session['zakaz-spec1']['spec_name'];
 				$model->name = Yii::$app->session['zakaz-spec1']['name'];
 				$model->phone = Yii::$app->session['zakaz-spec1']['phone'];
 				$model->comment = Yii::$app->session['zakaz-spec1']['comment'];
+				
 				if($model->sendEmail(Yii::$app->params['adminEmail'])) {
 					Yii::$app->getSession()->setFlash('success', 'Мы получили Вашу заявку. Наш оператор свяжется с вами в ближайшее время.');
 				}	else	{

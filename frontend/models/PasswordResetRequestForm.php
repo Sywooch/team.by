@@ -18,7 +18,7 @@ class PasswordResetRequestForm extends Model
     {
         return [
             ['email', 'filter', 'filter' => 'trim'],
-            ['email', 'required'],
+            ['email', 'required', 'message'=>'Укажите адрес электронной почты'],
             ['email', 'email'],
             ['email', 'exist',
                 'targetClass' => '\common\models\User',
@@ -27,6 +27,20 @@ class PasswordResetRequestForm extends Model
             ],
         ];
     }
+	
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'email' => 'Ваш адрес электронной почты',
+        ];
+    }
+	
+	
+	
+	
 
     /**
      * Sends an email with a link, for resetting the password.

@@ -9,8 +9,12 @@ use yii\web\IdentityInterface;
 
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 use common\models\Category;
+
+use common\helpers\DPriceHelper;
+
 /**
  * User model
  *
@@ -340,9 +344,34 @@ class User extends ActiveRecord implements IdentityInterface
 	
     public function getUserSpecials()
     {
-        return $this->hasMany(UserSpecials::className(), ['user_id' => 'id']);
+        return $this->hasMany(UserSpecials::className(), ['user_id' => 'id'])->with('category');
+		
     }
 	
+    public function getUserSpecialsList()
+    {
+		$rows = $this->userSpecials;
+		$region_id = Yii::$app->getRequest()->getCookies()->getValue('region', 1);
+		
+		$region_info = UserRegion::find()
+			->where(['user_id'=>$this->id])
+			->andWhere(['region_id'=>$region_id])
+			->one();
+		
+		//echo'<pre>';print_r($rows[0]);echo'</pre>';die;		
+		foreach($rows as $row) {
+			$row->price = DPriceHelper::roundValue($row->price * 1.14);
+		}
+		
+		return $rows;
+    }
+	/*
+    public function getUserSpecialsList()
+    {
+        return $this->hasMany(Category::className(), ['id' => 'category_id'])
+            ->via('userSpecials');
+    }
+	*/
     public function getUserMedia()
     {
         return $this->hasMany(UserMedia::className(), ['user_id' => 'id']);
@@ -484,6 +513,11 @@ class User extends ActiveRecord implements IdentityInterface
 		return;
     }
 	
+    public function getTownsList()
+    {
+		$regions_arr =  ArrayHelper::map($this->userRegionsList, 'id', 'name');
+		return 'Город: ' . implode(', ', $regions_arr);
+	}
 	
 	
 	

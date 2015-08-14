@@ -8,6 +8,8 @@ use yii\bootstrap\ButtonDropdown;
 
 use yii\widgets\ActiveForm;
 
+\frontend\assets\BootstrapLightboxAsset::register($this);
+
 
 //echo'<pre>';print_r($specials);echo'</pre>';die;
 //$this->title = Yii::$app->params['sitename'] .' | '. $parent->name .' | '. $category->name;

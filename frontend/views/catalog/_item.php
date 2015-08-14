@@ -6,6 +6,8 @@ use common\helpers\DStringHelper;
 
 
 
+
+
 if($model->education != '')	{
 	$education_arr = explode('<br />', nl2br($model->education));
 }	else	{
@@ -27,17 +29,14 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 
 		<div class="catalog-category-list-item__info_cnt">
 			
-			<div class="catalog-category-list-item__info_row">
-				<div class="catalog-category-list-item__ttl">
+			<div class="catalog-category-list-item__info_row row clearfix">
+				<div class="catalog-category-list-item__ttl col-lg-8">
 					<a href="<?= \Yii::$app->urlManager->createUrl(['catalog/show', 'id' => $model->id])?>" title="<?= $model->fio;?>"><?= $model->fio;?></a>
-					<?/*
-					<ul>
-					<?php foreach($model->userRegionsList as $region)	{	?>
-						<li><?= $region->name ?></li>
-					<?php	}	?>
-					</ul>
-					*/?>
+					
+					<p class="catalog-item_body__town"><?= $model->townsList ?></p>
 				</div>
+				
+				<div class="col-lg-4">
 				
 				<div class="catalog-item_body__rating">				
 					<span class="catalog-item_body__rating_txt">Рейтинг <?=\Yii::$app->formatter->asDecimal($model->total_rating) ?></span>
@@ -59,7 +58,7 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 				?>
 				*/?>
 
-				
+				</div>
 				
 			</div>
 			<div class="catalog-category-list-item__info_row">
@@ -108,7 +107,7 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 				<?	}	?>
 
 				<a href="<?= \Yii::$app->urlManager->createUrl(['catalog/show', 'id' => $model->id])?>" class="button-blue btn-short catalog-category-list-item__detail">Подробнее о специалисте</a>
-				<span class="button-red btn-short catalog-category-list-item__contact contact-to-spec" data-contact="<?= Yii::$app->urlManager->createUrl(['site/zakaz-spec1'])?>" data-spec="<?= $model->fio;?>">Связаться</span>
+				<span class="button-red btn-short catalog-category-list-item__contact contact-to-spec" data-contact="<?= Yii::$app->urlManager->createUrl(['site/zakaz-spec1'])?>" data-spec="<?= $model->fio;?>" data-spec_id="<?= $model->id;?>">Связаться</span>
 			</div>
 		</div>
 	</div>

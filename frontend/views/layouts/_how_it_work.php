@@ -11,7 +11,7 @@
 			<div class="col-lg-4">
 				<div class="how_it_work__2_cnt">
 					<img src="/images/how-it-work-2.png" alt="как это работает" class="how_it_work__img" />
-					<p class="how_it_work__txt">Выберите профессионала и отправьте нам <a href="#" id="zayavka-one-click" data-review="<?= \Yii::$app->urlManager->createUrl(['site/zakaz-spec1']) ?>">заявку одним кликом</a> или<br>телефонным звонком  <span class="how_it_work__phone">8 ( 033 ) 875-15-12</span></p>
+					<p class="how_it_work__txt">Выберите профессионала и отправьте нам <a href="#" id="zayavka-one-click" data-review="<?= \Yii::$app->urlManager->createUrl(['site/zakaz-spec1']) ?>">заявку одним кликом</a> или<br>телефонным звонком  <span class="how_it_work__phone">722-11-44</span></p>
 				</div>
 			</div>
 			<div class="col-lg-4">

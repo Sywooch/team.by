@@ -1,4 +1,5 @@
 <?php
+use yii\helpers\Html;
 // шаблон отправки письма при заказ специалиста
 ?>
 <table>
@@ -10,12 +11,17 @@
 	
 	<tr>
 		<td><?= $model->getAttributeLabel('name')?></td>
-		<td><?= $model->name?></td>		
+		<td><?= $model->name ?></td>		
 	</tr>
 	
 	<tr>
 		<td style="padding-right:20px;"><?= $model->getAttributeLabel('email1')?></td>		
 		<td><?= $model->email?></td>		
+	</tr>
+	
+	<tr>
+		<td style="padding-right:20px;">Профиль специалиста</td>		
+		<td><?= Html::a($model->spec_name, 'http://adm.team.by/spec/update/'.$model->user_id)?></td>		
 	</tr>
 	
 	<tr>

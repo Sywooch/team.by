@@ -75,14 +75,14 @@ class AddReviewForm extends Model
     public static function getReviewRating()
     {
         return [
-            1 => '1',
-            2 => '2',
-            3 => '3',
-            4 => '4',
-            5 => '5',
+            1 => '1-очень плохо',
+            2 => '2-плохо',
+            3 => '3-удовлетворительно',
+            4 => '4-хорошо',
+            5 => '5-отлично',
         ];
     }
-	
+
     public function getUserList()
     {
 		if($this->phone != '')	{

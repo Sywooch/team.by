@@ -163,7 +163,12 @@ class CatalogController extends Controller
 			$region = Region::findOne($region_id);
 			$region_children = $region->children()->all();
 			$region_ids = [$region_id => $region_id] + ArrayHelper::map($region_children, 'id', 'id');
-			$query->andWhere(['region_id' => $region_ids]);
+			
+			//$user_regions = UserRegion::find()->where(['region_id'=>$region_ids])->all();
+			//echo'<pre>';print_r($user_regions);echo'</pre>';
+			
+			$query->joinWith(['userRegions'])
+				->andWhere(['{{%user_region}}.region_id' => $region_ids]);
 		}	else	{
 			
 		}
@@ -388,8 +393,6 @@ class CatalogController extends Controller
 
 				$query = $this->prepareQuery();
 				$query->where(['{{%user}}.id'=>$user_ids])
-					//->andWhere('black_list <> 1')
-					//->andWhere('user_status IN (2,10)')
 					//->orderBy('{{%user}}.'.$orderBy.' ASC');
 					->orderBy('{{%user}}.total_rating DESC');
 				/*
@@ -422,7 +425,6 @@ class CatalogController extends Controller
 				$query = User::find()
 					->distinct(true)
 					->where(['{{%user}}.id'=>$user_ids])
-					//->andWhere('black_list <> 1')
 					//->orderBy('{{%user}}.'.$orderBy.' ASC');
 					->orderBy('{{%user}}.total_rating DESC');
 
@@ -431,7 +433,20 @@ class CatalogController extends Controller
 					'pagination' => false,
 				]);
 								
-				return $this->renderPartial('search-modal', ['dataProvider'=>$DataProvider]);
+				$query = Category::find()
+					->where(['like', 'name', $search])
+					->andWhere(['<', 'depth', 3])
+					->orderBy('lft, rgt');
+
+				$catDataProvider = new ActiveDataProvider([
+					'query' => $query,
+					'pagination' => false,
+				]);
+								
+				return $this->renderPartial('search-modal', [
+					'dataProvider'=>$DataProvider, 
+					'catdataProvider'=>$catDataProvider
+				]);
 			}
 			
 		}	else	{

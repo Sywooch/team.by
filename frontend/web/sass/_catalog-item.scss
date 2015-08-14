@@ -48,6 +48,8 @@
 
 .catalog-item_body__town {
 	@extend %font_14;
+	@extend %normal;
+	@extend .dinpro-r;
 	color: $gray16;
 }
 

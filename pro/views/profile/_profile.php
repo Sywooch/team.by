@@ -71,7 +71,7 @@ if(count($model->regions)) {
 			<p class="h1">Информация об услугах</p>
 		
 			<div class="row clearfix">
-				<div class="col-lg-6">
+				<div id="regions-wr" class="col-lg-6">
 					<div id="regions-cnt" class="regions-cnt">
 						<?php for ($x=0; $x<=$regions_rows; $x++) { ?>
 							<div <? if ($x==0) echo 'id="region-row-f"' ?> class="form-group row clearfix region-row">

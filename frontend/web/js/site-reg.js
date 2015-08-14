@@ -318,7 +318,7 @@ jQuery(function($) {
 		return false;
 	});
 	
-	$('.profile_anketa_row').on('click', '.add_new_region', function(e){
+	$('#regions-wr').on('click', '.add_new_region', function(e){
 		var to_block = $('#regions-cnt'),
 			block = $('#region-row-f'),
 			select = block.find('select');
@@ -327,7 +327,9 @@ jQuery(function($) {
 		
 		$("#regions-cnt .categories-block-error").remove();
 		to_block.append('<div class="form-group row clearfix region-row">' + block.html() + '</div>');
-		to_block.find('.region-row:last-of-type .region-dd-cnt').html('<select id="profileanketaform-regions" class="form-control" name="ProfileAnketaForm[regions][]">' + select.html() + '</select>');
+		//to_block.find('.region-row:last-of-type .region-dd-cnt').html('<select id="profileanketaform-regions" class="form-control" name="ProfileAnketaForm[regions][]">' + select.html() + '</select>');
+		to_block.find('.region-row:last-of-type .region-dd-cnt').html('<select id="profileanketaform-regions" class="form-control" name="' + select.attr('name') + '">' + select.html() + '</select>');
+		to_block.find('.region-row:last-of-type .region-dd-cnt select').val(0);
 		to_block.find('.region-row:last-of-type .region-dd-cnt select').styler();
 		
 
@@ -341,7 +343,7 @@ jQuery(function($) {
 	});
 	
 	
-	$('.profile_anketa_row').on('click', '.remove_region_row', function(e){
+	$('#regions-wr').on('click', '.remove_region_row', function(e){
 		e.preventDefault();
 		$(this).parent().parent().remove();
 		return false;

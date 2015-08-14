@@ -592,7 +592,6 @@ class ProfileController extends Controller
 		}
 	}
 	
-	
 	//проверяем изменения в наградах дипломах
 	public function checkAwards($model, $ProfileAnketaForm)
 	{

@@ -15,6 +15,7 @@ use common\models\UserCategories;
 use common\models\UserSpecials;
 use common\models\UserMedia;
 use common\models\Region;
+use common\models\UserRegion;
 
 use frontend\models\RegStep1Form;
 use frontend\models\RegStep2Form;
@@ -182,7 +183,6 @@ class SiteController extends Controller
 				}
 			}
 			
-			
 			if ($model->validate() && $region_ok == 1) {
 				$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
 				$RegStep2Form = $model;
@@ -201,7 +201,7 @@ class SiteController extends Controller
 				$user->user_type = $RegStep1Form['user_type'];
 				$user->fio = $RegStep1Form['fio'];
 				$user->phone = $RegStep1Form['phone'];
-				$user->region_id = $RegStep2Form['region'];
+				//$user->region_id = $RegStep2Form['region'];
 				$user->about = $RegStep2Form['about'];
 				$user->education = $RegStep2Form['education'];
 				$user->experience = $RegStep2Form['experience'];
@@ -286,6 +286,14 @@ class SiteController extends Controller
 					
 					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example))
 						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
+				}
+				
+				foreach($RegStep2Form->regions as $k=>$item)	{
+					$userRegions = new UserRegion();
+					$userRegions->user_id = $user->id;
+					$userRegions->region_id = $item;
+					$userRegions->ratio = $RegStep2Form->ratios[$k];
+					$userRegions->save();
 				}
 				
 				//echo'<pre>';print_r($user->getId());echo'</pre>';//die;

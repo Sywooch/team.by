@@ -36,6 +36,9 @@ class RegStep2Form extends Model
     public $examples = [];
     public $usluga = [];
 	
+	public $regions = [];
+	public $ratios = [];	
+	
 	public $to_client;
 	public $license;
 
@@ -60,7 +63,7 @@ class RegStep2Form extends Model
 			
             ['price_list', 'string', 'min' => 3, 'max' => 255],
 			
-			['avatar', 'required'],
+			['avatar', 'required', 'message'=>'Загрузите свое фото для анкеты'],
             ['avatar', 'string', 'min' => 3, 'max' => 255],
             
 			
@@ -77,6 +80,9 @@ class RegStep2Form extends Model
 			
 			['awards', 'each', 'rule' => ['string']],
 			['usluga', 'each', 'rule' => ['string']],
+			
+			['regions', 'each', 'rule' => ['integer']],
+			['ratios', 'each', 'rule' => ['double']],			
 			
 			['license', 'string', 'min' => 3, 'max' => 255],
 			

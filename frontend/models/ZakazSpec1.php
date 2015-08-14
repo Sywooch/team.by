@@ -17,6 +17,8 @@ class ZakazSpec1 extends Model
     public $name;
     public $phone;
     public $comment;
+    public $user_id;
+	public $spec_name;
 
     /**
      * @inheritdoc
@@ -24,10 +26,11 @@ class ZakazSpec1 extends Model
     public function rules()
     {
         return [
-            [['phone'], 'required'],
+            [['phone', 'user_id'], 'required'],
 			['phone', 'string', 'min' => 12, 'tooShort'=>'Неверный номер телефона'],
-			[['name'], 'string', 'min' => 3, 'max' => 255],
+			[['name', 'spec_name'], 'string', 'min' => 3, 'max' => 255],
 			[['comment'], 'string', 'min' => 3, 'max' => 255],
+			['user_id', 'integer'],
         ];
     }
 	

@@ -124,8 +124,8 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 			
 			<div class="footer__buttons">
 				<?php if (\Yii::$app->user->isGuest) {	?>
-					<a href="<?= Url::toRoute('/site/reg')?>" class="button-gray footer__reg_btn">Стать специалистом</a>
-					<a href="<?= Url::toRoute('/site/login')?>" id="login-modal-footer" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
+					<a href="http://pro.team.by<?= Url::toRoute('/site/reg')?>" class="button-gray footer__reg_btn">Стать специалистом</a>
+					<a href="http://pro.team.by<?= Url::toRoute('/site/login')?>" id="login-modal-footer" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
 				<?	}	else	{	?>
 					<?php $form = ActiveForm::begin(['action'=>['/site/logout']]); ?>						
 						<a id="logout-btn-footer" class="button-gray footer__logout_btn" href="<?= Url::toRoute('/site/logout')?>">Выйти из системы</a>

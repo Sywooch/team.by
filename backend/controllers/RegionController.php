@@ -112,6 +112,7 @@ class RegionController extends Controller
 			
             return $this->render('update', [
                 'model' => $model,
+				'categories' => $this->getCategoriesDropDownList(),
             ]);
         }
     }

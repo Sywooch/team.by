@@ -412,3 +412,10 @@
 #zakazspec1-comment {
 	height: 83px;
 }
+
+.field-zakazspec1-spec_name,
+.field-zakazspec1-user_id {
+	label {
+		@extend %hide;
+	}
+}

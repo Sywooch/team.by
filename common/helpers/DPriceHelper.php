@@ -1,5 +1,5 @@
 <?php
-namespace frontend\helpers;
+namespace common\helpers;
 
 use common\models\Currency;
 
@@ -23,6 +23,17 @@ class DPriceHelper
 		}
 		
 		return $price;
+    }
+	
+    public static function roundValue($value = 0)
+    { 
+		/*
+$var=101;
+$res=(ceil($var/100))*100;
+echo "$res";		
+*/
+		$precision = -3;
+		return round($value, $precision);
     }
 }
 

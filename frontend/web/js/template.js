@@ -1,5 +1,6 @@
 jQuery(function($) {
-	var spec_name = '';
+	var spec_name = '',
+		spec_id = 0;
 	
 	
 	//получаем кол-во миниатюр у блока
@@ -292,10 +293,13 @@ jQuery(function($) {
             modal = $('.modal');
 		
 		spec_name = $(this).data('spec');
+		spec_id = parseInt($(this).data('spec_id'));
 		
         $.get(url, function (data) {
             modal.html(data).modal('show');
 			modal.find('#zakazspec1-comment').val(spec_name);
+			modal.find('#zakazspec1-user_id').val(spec_id);
+			modal.find('#zakazspec1-spec_name').val(spec_name);
         });
         return false;
     });
@@ -445,7 +449,17 @@ jQuery(function($) {
     });
 	
 	
-	
+	$(document).click(function(event) {
+		if ($(event.target).closest("#header_regions__list_cnt, #profi_search_inner_catalog").length) return;
+		
+		if($("#header_regions__list_cnt").is(':visible'))
+		   $("#header_regions__list_cnt").fadeOut("fast");
+		
+		if($("#catalog_popup").is(':visible'))
+		   $("#catalog_popup").fadeOut("fast");
+		
+		event.stopPropagation();
+	});	
 	
 });
 

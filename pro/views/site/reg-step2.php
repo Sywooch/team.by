@@ -28,11 +28,18 @@ $this->title = \Yii::$app->params['sitename'] .' | ' . 'Информация о�
 //echo'<pre>';print_r($model);echo'</pre>';//die;
 
 $errors = $model->getErrors();
-//echo'<pre>';print_r($errors);echo'</pre>';//die;
+//echo'<pre>';print_r($model->regions);echo'</pre>';//die;
 
 
 
 $categories_l2_arr = [];
+
+if(count($model->regions)) {
+	$regions_rows = count($model->regions) - 1;
+}	else	{
+	$regions_rows = 0;
+}
+
 ?>
 
 <h1>Информация об услугах</h1>
@@ -44,18 +51,42 @@ $categories_l2_arr = [];
 <noscript><input type="submit" value="submit" class="button2" /></noscript>
 
 
-	<div class="col-lg-7">  
-	<?php $form = ActiveForm::begin([
-		'options'=> ['enctype' => 'multipart/form-data' ],
-		'enableClientValidation' => false,
-		'id'=>'site-reg-step2-frm',
-	] ); ?>
+	<div id="regions-wr" class="col-lg-7">  
+		<?php $form = ActiveForm::begin([
+			'options'=> ['enctype' => 'multipart/form-data' ],
+			'enableClientValidation' => false,
+			'id'=>'site-reg-step2-frm',
+		] ); ?>
+		
+		<div id="regions-cnt" class="regions-cnt">
+			<?php for ($x=0; $x<=$regions_rows; $x++) { ?>
+				<div <? if ($x==0) echo 'id="region-row-f"' ?> class="form-group row clearfix region-row">
+					<div class="col-lg-8 region-dd-cnt">
+						<?//= Html::activeDropDownList($model, 'regions[]', $model->regionsDropDownList, ['class'=>'form-control']) ?>
+						<?= Html::dropDownList('RegStep2Form[regions][]', $model->regions[$x], $model->regionsDropDownList, ['class'=>'form-control']) ?>
+					</div>
+					<div class="col-lg-3">
+						<?//= Html::activeTextInput($model, 'ratios[]', ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
+						<?= Html::textInput('RegStep2Form[ratios][]', $model->ratios[$x], ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
+					</div>
+					<div class="col-lg-1">
+						<a href="#" class="remove_region_row">—</a>
+					</div>
+				</div>
+			<?php	}	?>
+		</div>
 
+		<div class="form-group">
+			<a href="#" class="add_new_region">Добавить</a>
+		</div>
+		
+		<?/*
 		<?= $form->field($model, 'region')->dropDownList($model->regionsDropDownList, [$model->region]) ?>
 		
 		<div class="form-group">
 			<a href="" id="site-reg-add-new-city" class="site-reg__add-new-city">Добавить еще один город</a>
 		</div>
+		*/?>
 		
 		
 		

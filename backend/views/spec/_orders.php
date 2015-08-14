@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-use frontend\helpers\DPriceHelper;
+use common\helpers\DPriceHelper;
 
 $polucheno = count($model->orders);
 $vipolneno = 0;

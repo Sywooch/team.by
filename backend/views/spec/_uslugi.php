@@ -1,5 +1,5 @@
 <?php
-use frontend\helpers\DPriceHelper;
+use common\helpers\DPriceHelper;
 ?>
 
 
