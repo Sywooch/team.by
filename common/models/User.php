@@ -123,6 +123,8 @@ class User extends ActiveRecord implements IdentityInterface
 			'category_id' => 'Категория',
 			'categoryUser' => 'Категория',
 			'black_list' => 'Черный список',
+			'youtube' => 'Видеообращение',
+			
 			
         ];
     }
@@ -392,10 +394,10 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(Order::className(), ['user_id' => 'id']);
 	}
 	
-    public function getUserRegion()
-    {
-        return $this->hasOne(Region::className(), ['id' => 'region_id']);
-    }
+//    public function getUserRegion()
+//    {
+//        return $this->hasOne(Region::className(), ['id' => 'region_id']);
+//    }
 	
     public function getUserRegions()
     {
@@ -417,6 +419,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function getUnreadNotifies()
     {
         return $this->hasMany(Notify::className(), ['user_id' => 'id'])->where('readed = 0');
+	}
+	
+    public function getUserDocuments()
+    {
+        return $this->hasMany(UserDocuments::className(), ['user_id' => 'id']);
 	}	
 	
     public function getMedia()
@@ -515,8 +522,19 @@ class User extends ActiveRecord implements IdentityInterface
 	
     public function getTownsList()
     {
+		//$regions_arr =  ArrayHelper::map($this->userRegionsList, 'id', 'name');
+		return 'Город: ' . $this->townsListItems;
+	}
+	
+    public function getTownsListItems()
+    {
 		$regions_arr =  ArrayHelper::map($this->userRegionsList, 'id', 'name');
-		return 'Город: ' . implode(', ', $regions_arr);
+		return implode(', ', $regions_arr);
+	}
+	
+    public function getYoutubeBlock()
+    {
+		return '<iframe width="277" height="156" src="'.$this->youtube.'" frameborder="0" allowfullscreen></iframe>';
 	}
 	
 	

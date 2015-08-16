@@ -139,6 +139,7 @@
 .jq-selectbox.form-control {
 	padding: 0;
 	border: none;
+	background-color: transparent;
 }
 
 .jq-selectbox__select {

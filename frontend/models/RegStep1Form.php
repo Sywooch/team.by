@@ -14,7 +14,7 @@ class RegStep1Form extends Model
     public $user_type;
     public $fio;
     public $email;
-    public $phone;
+    public $phone = '+375';
     public $password;
     public $passwordRepeat;
 
@@ -32,6 +32,7 @@ class RegStep1Form extends Model
 			
 			['fio', 'required'],
             ['fio', 'string', 'min' => 7, 'max' => 255],
+			['fio', 'validateFio'],
  
             ['email', 'required'],
             ['email', 'email'],
@@ -39,7 +40,7 @@ class RegStep1Form extends Model
             ['email', 'string', 'max' => 255],
 			
 			['phone', 'required'],
-            ['phone', 'string', 'min' => 7, 'max' => 255],
+            [['phone'], 'string', 'min' => 13, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
  									
 			[['password', 'passwordRepeat'], 'required'],
 			[['password', 'passwordRepeat'], 'string', 'min' => 6],
@@ -63,5 +64,13 @@ class RegStep1Form extends Model
         ];
     }
 	
+    public function validateFio($attribute, $params)
+    {
+		if (!$this->hasErrors()) {
+			$fio_arr = explode(' ', $this->fio);
+			if(count($fio_arr) != 3)
+				$this->addError($attribute, 'Укажите полностью ваше ФИО');
+		}
+    }
 	
 }

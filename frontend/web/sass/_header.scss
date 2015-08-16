@@ -475,5 +475,10 @@ a.currency_select__usd_active {
 	right: -100px;
 	top: 40px;
 	display: none;
-	word-break: break-all;
+}
+
+.in_profile__popup {
+	@extend %hide;
+	margin: 8px 0 0 -73px;
+	
 }

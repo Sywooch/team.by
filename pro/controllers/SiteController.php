@@ -55,7 +55,7 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => 'yii\web\E	rrorAction',
+                'class' => 'yii\web\ErrorAction',
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
@@ -170,18 +170,18 @@ class SiteController extends Controller
 			
 			$region_ok = 1;
 			//если нужно - добавляем новый город
-			if($model->region_name != '') {
-				$parent_region = Region::findOne($model->region_parent_id);
-				if($parent_region === null) {
-					Yii::$app->getSession()->setFlash('error', 'Ошибка при добавлении нового региона');
-					$region_ok = 0;
-				}	else	{
-					$new_region = new Region();
-					$new_region->name = $model->region_name;
-					$new_region->parent_id = $model->region_parent_id;
-					$new_region->appendTo($parent_region);
-				}
-			}
+//			if($model->region_name != '') {
+//				$parent_region = Region::findOne($model->region_parent_id);
+//				if($parent_region === null) {
+//					Yii::$app->getSession()->setFlash('error', 'Ошибка при добавлении нового региона');
+//					$region_ok = 0;
+//				}	else	{
+//					$new_region = new Region();
+//					$new_region->name = $model->region_name;
+//					$new_region->parent_id = $model->region_parent_id;
+//					$new_region->appendTo($parent_region);
+//				}
+//			}
 			
 			if ($model->validate() && $region_ok == 1) {
 				$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
@@ -300,9 +300,9 @@ class SiteController extends Controller
 				//echo'<pre>';print_r($user->id);echo'</pre>';//die;
 				
 				//назначаем нужный уровень доступа
-				$name_of_role = 'specialist';
-				$userRole = Yii::$app->authManager->getRole($name_of_role);
-				Yii::$app->authManager->assign($userRole, $user->id);
+				//$name_of_role = 'specialist';
+				//$userRole = Yii::$app->authManager->getRole($name_of_role);
+				//Yii::$app->authManager->assign($userRole, $user->id);
 				
 				Yii::$app->response->cookies->remove('RegStep1Form');
 				
@@ -312,6 +312,7 @@ class SiteController extends Controller
 					->setSubject('Регистрация нового специалиста')
 					->send();
 				
+				Yii::$app->user->login($user, 0);
 				
 				return $this->redirect(['reg-final']);
 			}

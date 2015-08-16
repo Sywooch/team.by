@@ -19,9 +19,6 @@ use yii\web\UploadedFile;
  */
 class ProfileAnketaForm extends Model
 {
-    
-	
-	
 	public $fio;
 	public $phone;
 	public $email;
@@ -54,6 +51,7 @@ class ProfileAnketaForm extends Model
 	public $to_client;
 	public $license;
 	public $payment_type;
+	public $youtube;
 	
 
 
@@ -68,10 +66,11 @@ class ProfileAnketaForm extends Model
 			
 			['fio', 'required'],
             ['fio', 'string', 'min' => 7, 'max' => 255],
+			['fio', 'validateFio'],
  
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => \common\models\User::className(), 'message' => 'Данный email уже используется.'],
+            ['email', 'unique', 'targetClass' => \common\models\User::className(), 'message' => 'Данный email уже используется.', 'on'=>'change_email'],
             ['email', 'string', 'max' => 255],
 			
 			['phone', 'required'],
@@ -113,6 +112,7 @@ class ProfileAnketaForm extends Model
 			
 			['license', 'string', 'min' => 3, 'max' => 255],
 			
+			[['youtube'], 'url'],
         ];
     }
 	
@@ -143,11 +143,19 @@ class ProfileAnketaForm extends Model
             'to_client' => 'Осуществляем выезд к клиенту',
             'specialization' => 'Специализация',
             'license' => 'Лицензия',
-            //'payment_type' => 'Метод оплаты',
+            'youtube' => 'Видеообращение',
             //'' => '',
         ];
     }
 		
+    public function validateFio($attribute, $params)
+    {
+		if (!$this->hasErrors()) {
+			$fio_arr = explode(' ', $this->fio);
+			if(count($fio_arr) != 3)
+				$this->addError($attribute, 'Укажите полностью ваше ФИО');
+		}
+    }
 	
     //получает список категорий для выпадающего списка
 	//с группировкой по областям

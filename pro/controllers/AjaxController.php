@@ -23,6 +23,11 @@ use frontend\models\UploadAvatarForm;
 use frontend\models\UploadExamplesForm;
 use frontend\models\UploadLicenseForm;
 
+use frontend\models\UploadPassportForm;
+use frontend\models\UploadBookForm;
+use frontend\models\UploadDiplomForm;
+use frontend\models\UploadDocumentsOtherForm;
+
 use common\models\Category;
 use common\models\User;
 use common\models\Region;
@@ -228,6 +233,99 @@ class AjaxController extends Controller
 				$json_arr['res'] = 'ok';
 				$json_arr['filename'] = Html::input('hidden', $profile_model.'[examples][]', $model->filename);
 				$json_arr['html_file'] = Html::a(Html::img('http://team.by/' . 'tmp/thumb_' .$model->filename), 'http://team.by/' . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
+				$json_arr['html_file_remove'] = Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->filename]);
+				
+				echo Json::htmlEncode($json_arr);
+
+                return;
+            }	else	{
+				$this->printErrors($model);
+			}
+        }		
+		return;
+    }
+	
+    public function actionUploadPassportFile()
+    {
+        $model = new UploadPassportForm();
+
+        if (Yii::$app->request->isPost) {
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+			
+            if ($model->upload()) {
+				$json_arr['res'] = 'ok';
+				$json_arr['filename'] = Html::input('hidden', 'DocumentsForm1[passport_file]', $model->filename);
+				echo Json::htmlEncode($json_arr);
+                return;
+            }	else	{
+				$this->printErrors($model);
+			}
+        }		
+		return;
+    }
+	
+    public function actionUploadBookFile()
+    {
+        $model = new UploadBookForm();
+
+        if (Yii::$app->request->isPost) {
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+			
+            if ($model->upload()) {
+				$json_arr['res'] = 'ok';
+				$json_arr['filename'] = Html::input('hidden', 'DocumentsForm1[trud_file]', $model->filename);
+				echo Json::htmlEncode($json_arr);
+                return;
+            }	else	{
+				$this->printErrors($model);
+			}
+        }		
+		return;
+    }
+	
+    public function actionUploadDiplomFile()
+    {
+        $model = new UploadDiplomForm();
+
+        if (Yii::$app->request->isPost) {
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+			
+            if ($model->upload()) {
+				$json_arr['res'] = 'ok';
+				$json_arr['filename'] = Html::input('hidden', 'DocumentsForm1[diplom_file]', $model->filename);
+				echo Json::htmlEncode($json_arr);
+                return;
+            }	else	{
+				$this->printErrors($model);
+			}
+        }		
+		return;
+    }
+	
+    public function actionUploadDocumentsOther()
+    {
+        $model = new UploadDocumentsOtherForm();
+		
+        if (Yii::$app->request->isPost) {
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+			
+            if ($model->upload()) {
+				
+				$img = Image::getImagine()->open($model->path. '/' . $model->filename); //загружаем изображение
+				
+				$image_size = $img->getSize();	//получаем размеры изображения
+				
+				if($image_size->getWidth() < 600 || $image_size->getHeight() < 800) {
+					$this->printErrors($model, 'Слишком маленькое изображение');
+					return;
+				}
+				
+				Image::thumbnail( $model->path. '/' . $model->filename, 75, 90)
+					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
+				
+				$json_arr['res'] = 'ok';
+				$json_arr['filename'] = Html::input('hidden', 'DocumentsForm1[other_file][]', $model->filename);
+				$json_arr['html_file'] = Html::a(Html::img('http://team.by/' . 'tmp/thumb_' .$model->filename), 'http://team.by/' . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'other_files']);
 				$json_arr['html_file_remove'] = Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->filename]);
 				
 				echo Json::htmlEncode($json_arr);

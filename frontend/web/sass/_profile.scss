@@ -55,11 +55,19 @@
 		@extend %italic;
 	}
 	
-	.field-profileanketaform-about > label,
+	.field-profileanketaform-about > label {
+		margin-bottom: 70px;
+	}
+	
 	.field-profileanketaform-education > label {
 		margin-bottom: 35px;
 	}
 	
+	.field-profileanketaform-specialization > label {
+		margin-bottom: 55px;
+	}
+	
+	.specialization-field-descr,
 	.education-field-descr,
 	.about-field-descr {
 		margin-top: 25px;

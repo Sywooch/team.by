@@ -15,7 +15,7 @@ class ZakazSpec1 extends Model
 //    public $comment = 'Хочу муму';
 
     public $name;
-    public $phone;
+    public $phone = '+375';
     public $comment;
     public $user_id;
 	public $spec_name;
@@ -27,7 +27,7 @@ class ZakazSpec1 extends Model
     {
         return [
             [['phone', 'user_id'], 'required'],
-			['phone', 'string', 'min' => 12, 'tooShort'=>'Неверный номер телефона'],
+			[['phone'], 'string', 'min' => 13, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
 			[['name', 'spec_name'], 'string', 'min' => 3, 'max' => 255],
 			[['comment'], 'string', 'min' => 3, 'max' => 255],
 			['user_id', 'integer'],

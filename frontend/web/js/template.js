@@ -48,7 +48,7 @@ jQuery(function($) {
 			$(this).ekkoLightbox({loadingMessage:'<p style="padding:20px;font-weight:bold;">Загрузка...</p>'});
 		}); 				
 		
-	}
+	}	
 	
 	function getSpecList()
 	{
@@ -100,16 +100,12 @@ jQuery(function($) {
 		
 	}
 	
-	
-	ekkoLightboxInit();
-	
+	ekkoLightboxInit();	
 	
 	//подстраиваем ширину инпута для поиска
 	if($("div").is(".profi_search_inner__inputbox_cnt")) {
-		console.log('111');
 		$('.profi_search_inner__inputbox').css('width', ($('.profi_search_inner__inputbox_cnt').width() - $('#profi_search_inner_regions__active').width() - 140)+'px');
 	} else {
-		console.log('222');
 		$('.profi_search_tab_1__inputbox').css('width', ($('.profi_search_tab_1__cnt').width() - $('#profi_search_inner_regions__active').width() - 455)+'px');
 	}
 	
@@ -136,6 +132,11 @@ jQuery(function($) {
 	$('#currency_select__usd').hover(
 		function(){$('#currency_select__popup').stop(true,true).fadeIn();},
 		function(){$('#currency_select__popup').stop(true,true).fadeOut();}
+	);
+	
+	$('.autorization_h__login').hover(
+		function(){$('#in_profile__popup').stop(true,true).fadeIn();},
+		function(){$('#in_profile__popup').stop(true,true).fadeOut();}
 	);
 	
     $('#login-modal, #login-modal-footer').on('click', function (e) {
@@ -377,8 +378,6 @@ jQuery(function($) {
 			});	
 			
         });
-		
-		
         return false;
     });
 	

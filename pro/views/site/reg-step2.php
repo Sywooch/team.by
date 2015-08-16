@@ -90,6 +90,7 @@ if(count($model->regions)) {
 		
 		
 		
+		<?/*
 		<div id="site-reg-add-new-city-cnt" class="row clearfix site-reg-add-new-city-cnt">
 			<div class="col-lg-6">
 				<?= $form->field($model, 'region_parent_id')->dropDownList($model->regionsLevel1DropDownList, [$model->region_parent_id]) ?>   
@@ -99,15 +100,11 @@ if(count($model->regions)) {
 				<?= $form->field($model, 'region_name') ?>
 			</div>
 			
-			<?/*
-			<div class="col-lg-4">
-				<a href="#" id="site-reg-add-new-city-btn" class="button-red">Добавить</a>
-			</div>
-			*/?>
 		</div>
+		*/?>
 		
 		
-		<p class="about-field-descr field-descr">Опишите вашу специализацию, квалификацию, любые ваши особенности и требования. Старайтесь писать живым языком, избегая анкетных шаблонов.</p>
+		<p class="about-field-descr field-descr">Опишите вашу специализацию, квалификацию, любые ваши особенности и требования. Старайтесь писать живым языком, избегая анкетных шаблонов. Разрешена прямая реклама ваших услуг. Не разрешено использовать выражения, описывающие, что вы делаете какую-то работу лучше кого-то, или лучше всех. Не разрешено - оставлять свои контактные данные</p>
 		<?= $form->field($model, 'about')->textarea(['rows'=>5]) ?>
 		
 		<p class="education-field-descr field-descr">Учреждение, специальность, год окончания. Перечислите через запятую.</p>
@@ -118,6 +115,7 @@ if(count($model->regions)) {
 		
 		<?= $form->field($model, 'to_client')->checkbox() ?>
 		
+		<p class="specialization-field-descr field-descr">Опишите тот вид работы, который вам удается особенно хорошо. Например - "могу подготовить к экзамену по физике твердого тела за три дня" или "отлично разбираюсь в гидравлической системе ситроен ксантиа."</p>
 		<?= $form->field($model, 'specialization') ?>
 		
 		
@@ -147,7 +145,7 @@ if(count($model->regions)) {
 		
 		<div id="uploading-awards" class="form-group clearfix">
 			<label class="reg-step2-uploading-ttl"><?php echo $model->getAttributeLabel('awards'); ?></label>
-			<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
+			<p class="uploading-info">Если вам есть чем гордиться - обязательно покажите это.<br>Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
 			
 			<div class="row clearfix">
 				<div class="col-lg-4">
@@ -210,14 +208,14 @@ if(count($model->regions)) {
 		</div>
 			
 		<div id="uploading-examples" class="form-group clearfix">
-			<div class="required <?= isset($errors['examples']) ? 'has-error' : '' ?>">
+			<div class=" <?= isset($errors['examples']) ? 'has-error' : '' ?>">
 				<label class="reg-step2-uploading-ttl"><?php echo $model->getAttributeLabel('examples'); ?></label>
 				
 				<?= isset($errors['examples']) ? '<div class="help-block">'.$errors["examples"][0].'</div>' : '' ?>
 				
 			</div>
 			
-			<p class="reg-step2-uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
+			<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
 			
 			<div class="row clearfix">
 				<div class="col-lg-4">
@@ -256,7 +254,7 @@ if(count($model->regions)) {
 			<div class="row clearfix">
 				<div class="col-lg-7">
 					<?= $form->field($model, 'license')->hiddenInput() ?>
-					<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
+					<p class="uploading-info">Если необходима для осуществления деятельности.<br>Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
 					
 					<div class="row clearfix">
 						<div class="col-lg-6">
@@ -278,8 +276,10 @@ if(count($model->regions)) {
 			</div>
 		</div>
 			
-				
-		
+		<div class="ros-rel">
+			<p class="youtube-field-descr field-descr"><a href="http://team.by/images/youtube-example.png" data-toggle="lightbox" data-gallery="youtube-example">Пример</a> того, что нужно сюда вставить</p>
+			<?= $form->field($model, 'youtube') ?>	
+		</div>		
 
 		<div class="form-group">
 			<?= Html::submitButton('Продолжить', ['class' => 'button-red']) ?>

@@ -21,6 +21,7 @@ class UserSearch extends User
 	public $userCategoriesList;
 	public $category_id;
 	public $check_license;
+	public $region_id;
     /**
      * @inheritdoc
      */
@@ -28,7 +29,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'group_id', 'status', 'user_status', 'is_active', 'created_at', 'updated_at', 'user_type', 'region_id', 'to_client', 'call_time_from', 'call_time_to', 'black_list', 'license_checked', 'payment_type', 'category_id', 'check_license'], 'integer'],
-            [['username', 'email', 'fio', 'phone', 'about', 'education', 'experience', 'price_list', 'avatar', 'price_t', 'specialization', 'license'], 'safe'],
+            [['username', 'email', 'fio', 'phone', 'about', 'education', 'experience', 'price_list', 'avatar', 'specialization', 'license'], 'safe'],
             [['total_rating'], 'number'],
         ];
     }
@@ -61,9 +62,8 @@ class UserSearch extends User
     public function search($params)
     {
         $query = User::find()
-			//->joinWith(['userCategories'])
 			->joinWith(['userCategoriesArray'])
-			->joinWith(['userRegion'])
+			->joinWith(['userRegions'])
 			->where(['group_id' => 2])
 			->andWhere('{{%user}}.id > 0');
 
@@ -89,7 +89,7 @@ class UserSearch extends User
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'user_type' => $this->user_type,
-            'region_id' => $this->regionIds,
+            '{{%user_region}}.region_id' => $this->regionIds,
             'to_client' => $this->to_client,
             'call_time_from' => $this->call_time_from,
             'call_time_to' => $this->call_time_to,
@@ -104,7 +104,6 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'fio', $this->fio])
             ->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', 'price_t', $this->price_t])
             ->andFilterWhere(['like', 'specialization', $this->specialization])
             ->andFilterWhere(['like', 'license', $this->license]);
 		

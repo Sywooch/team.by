@@ -25,8 +25,8 @@ class RegStep2Form extends Model
     public $experience;
     public $price_list;
     public $avatar;
-    public $region_parent_id = 2; // 2 - это ИД Минской области
-    public $region_name;
+    //public $region_parent_id = 2; // 2 - это ИД Минской области
+    //public $region_name;
     public $specialization;
     public $categories = [];
     public $category1;
@@ -41,6 +41,7 @@ class RegStep2Form extends Model
 	
 	public $to_client;
 	public $license;
+	public $youtube;
 
 
 
@@ -50,7 +51,7 @@ class RegStep2Form extends Model
     public function rules()
     {
         return [
-			[['region', 'region_parent_id', 'category1', 'to_client'], 'integer'],
+			[[/*'region', 'region_parent_id',*/ 'category1', 'to_client'], 'integer'],
 			
 			
 			['about', 'required'],
@@ -67,7 +68,7 @@ class RegStep2Form extends Model
             ['avatar', 'string', 'min' => 3, 'max' => 255],
             
 			
-            ['region_name', 'string', 'min' => 3, 'max' => 255],
+           // ['region_name', 'string', 'min' => 3, 'max' => 255],
 			
             ['specialization', 'string', 'min' => 3, 'max' => 200],
 			
@@ -75,7 +76,7 @@ class RegStep2Form extends Model
 			//['price', 'validateEmptyPrices'],
 			[['categories', 'price'], 'safe'],
 			
-			['examples', 'required', 'message'=>'Загрузите примеры ваших работ'],
+			//['examples', 'required', 'message'=>'Загрузите примеры ваших работ'],
 			['examples', 'each', 'rule' => ['string']],
 			
 			['awards', 'each', 'rule' => ['string']],
@@ -85,6 +86,7 @@ class RegStep2Form extends Model
 			['ratios', 'each', 'rule' => ['double']],			
 			
 			['license', 'string', 'min' => 3, 'max' => 255],
+			['youtube', 'url'],
 			
         ];
     }
@@ -101,8 +103,8 @@ class RegStep2Form extends Model
             'price_list' => 'Вы можете загрузить прайс',
             'avatar' => 'Загрузите фото для анкеты',
             'region' => 'Город',
-            'region_parent_id' => 'Область',
-            'region_name' => 'Город',
+            //'region_parent_id' => 'Область',
+            //'region_name' => 'Город',
             'category1' => 'Выберите услуги',
             'price' => 'Стоимость работ',
             'awards' => 'Награды, димломы',
@@ -110,6 +112,7 @@ class RegStep2Form extends Model
             'to_client' => 'Осуществляем выезд к клиенту',
             'specialization' => 'Специализация',
             'license' => 'Лицензия',
+			'youtube' => 'Видеообращение',
             //'' => '',
         ];
     }
@@ -144,17 +147,12 @@ class RegStep2Form extends Model
     {
 		$categories = Region::find()->where('id <> 1')->orderBy('lft, rgt')->all();
 		$categories1 = ArrayHelper::map($categories, 'id', 'name');
-		//print_r($categories[2]->parent_id);
 		
 		$categories2 = [];
 		foreach($categories as $row) {
 			if($row->parent_id != 1)
 				$categories2[$categories1[$row->parent_id]][$row->id] = $row->name;
-				//$categories2[] = ['id'=>$row->id, 'text'=>$row->name, 'group'=>$categories1[$row->parent_id]];
 		}
-		
-		//echo'<pre>';print_r($categories1);echo'</pre>';
-		//echo'<pre>';print_r($categories2);echo'</pre>';
 		
 		$categories = $categories2;
 		return $categories;
@@ -187,7 +185,6 @@ class RegStep2Form extends Model
 				}
 			}
 		}
-//		/echo'<pre>';print_r($this->categories);echo'</pre>';
 		return $res;
     }
 	

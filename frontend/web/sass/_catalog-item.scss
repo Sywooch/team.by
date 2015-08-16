@@ -4,6 +4,11 @@
 
 .catalog-item_body_left {
 	@extend %fl;
+	
+	iframe {
+		@extend %db;
+		@extend .mt-15;
+	}
 }
 
 .catalog-item_body_right {

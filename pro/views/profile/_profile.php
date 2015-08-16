@@ -8,13 +8,9 @@ use yii\helpers\Url;
 
 use yii\widgets\ActiveForm;
 
-pro\assets\RegAsset::register($this);
-
-
+\pro\assets\RegAsset::register($this);
 \pro\assets\RegStep2Asset::register($this);
-
 \pro\assets\BootstrapLightboxAsset::register($this);
-
 \pro\assets\FormStylerAsset::register($this);
 
 //echo'<pre>';print_r($categories);echo'</pre>';
@@ -67,7 +63,7 @@ if(count($model->regions)) {
 			</div>
 		</div>
 		
-		<div class="profile_anketa_row">
+		<div class="profile_anketa_row pos-rel">
 			<p class="h1">Информация об услугах</p>
 		
 			<div class="row clearfix">
@@ -94,6 +90,7 @@ if(count($model->regions)) {
 						<a href="#" class="add_new_region">Добавить</a>
 					</div>
 				
+					<?/*
 					<?= $form->field($model, 'region')->dropDownList($model->regionsDropDownList, [$model->region]) ?>
 					<div class="form-group">
 						<a href="" id="site-reg-add-new-city" class="site-reg__add-new-city">Добавить еще один город</a>
@@ -109,11 +106,12 @@ if(count($model->regions)) {
 						</div>
 
 					</div>
+					*/?>
 					
 				</div>
 				<div class="col-lg-6"></div>
 				<div class="col-lg-12">
-					<p class="about-field-descr field-descr">Опишите вашу специализацию, квалификацию, любые ваши особенности и требования. Старайтесь писать живым языком, избегая анкетных шаблонов.</p>
+					<p class="about-field-descr field-descr">Опишите вашу специализацию, квалификацию, любые ваши особенности и требования. Старайтесь писать живым языком, избегая анкетных шаблонов. Разрешена прямая реклама ваших услуг. Не разрешено использовать выражения, описывающие, что вы делаете какую-то работу лучше кого-то, или лучше всех. Не разрешено - оставлять свои контактные данные</p>
 					<?= $form->field($model, 'about')->textarea(['rows'=>5]) ?>
 				</div>
 				<div class="col-lg-12">
@@ -125,6 +123,7 @@ if(count($model->regions)) {
 			
 			<?= $form->field($model, 'experience')->textarea(['rows'=>5]) ?>
 
+			<p class="specialization-field-descr field-descr">Опишите тот вид работы, который вам удается особенно хорошо. Например - "могу подготовить к экзамену по физике твердого тела за три дня" или "отлично разбираюсь в гидравлической системе ситроен ксантиа."</p>
 			<?= $form->field($model, 'specialization') ?>
 
 			<?= $form->field($model, 'to_client')->checkbox() ?>
@@ -196,7 +195,7 @@ if(count($model->regions)) {
 			<div class="col-lg-6">
 				<div id="uploading-awards" class="form-group clearfix">
 					<label class="reg-step2-uploading-ttl"><?php echo $model->getAttributeLabel('awards'); ?></label>
-					<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
+					<p class="uploading-info">Если вам есть чем гордиться - обязательно покажите это.<br>Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
 
 					<div class="row clearfix">
 						<div class="col-lg-4">
@@ -235,7 +234,7 @@ if(count($model->regions)) {
 			
 			<div class="col-lg-6">
 				<div id="uploading-examples" class="form-group clearfix">
-					<div class="required <?= isset($errors['examples']) ? 'has-error' : '' ?>">
+					<div class="<?= isset($errors['examples']) ? 'has-error' : '' ?>">
 						<label class="reg-step2-uploading-ttl"><?php echo $model->getAttributeLabel('examples'); ?></label>
 						<?= isset($errors['examples']) ? '<div class="help-block">'.$errors["examples"][0].'</div>' : '' ?>
 					</div>
@@ -309,6 +308,8 @@ if(count($model->regions)) {
 			</div>
 			
 		</div>
+		
+		<?= $form->field($model, 'youtube') ?>
 		
 		<div class="form-group">
 			<?= Html::submitButton('Сохранить изменения', ['class' => 'button-red']) ?>

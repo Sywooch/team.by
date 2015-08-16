@@ -27,9 +27,12 @@ use yii\widgets\ActiveForm;
 					</li>				
 				<?	}	?>
 				<?php if (\Yii::$app->user->isGuest) {	?>
-					<li class="autorization_h__item autorization_h__item_login"><a id="login-modal" class="autorization_h__login" href="<?= Url::toRoute('/site/login')?>">Войти</a></li>					
+					<li class="autorization_h__item autorization_h__item_login"><a id="login-modal" class="autorization_h__login" href="<?= Url::toRoute('/site/login')?>">Войти</a></li>
 				<?	}	else	{	?>
-					<li class="autorization_h__item autorization_h__item_login"><a class="autorization_h__login" href="http://pro.team.by/">Кабинет</a></li>
+					<li class="autorization_h__item autorization_h__item_login">
+						<a class="autorization_h__login" href="http://pro.team.by/">Кабинет</a>						
+						<div id="in_profile__popup" class="in_profile__popup popup_block">Вход в личный кабинет</div>
+					</li>
 				<?	}	?>
 			</ul>
 		</div>

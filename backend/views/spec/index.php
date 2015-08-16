@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				//'label'=>'Родительская категория',
 				'format'=>'text', // Возможные варианты: raw, html
 				'content'=>function($data){
-					return $data->userRegion->name;
+					return $data->townsListItems;
 				},
 				'filter' => $searchModel->getDropdownRegionsList(),
 				//'headerOptions' => ['width' => '100'],

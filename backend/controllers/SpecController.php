@@ -121,6 +121,12 @@ class SpecController extends Controller
             return $this->redirect(['index']);
         } else {
 			
+			foreach($model->userRegions as $k=>$item)	{
+				$model->regions[] = $item->region_id;
+				$model->ratios[$k] = $item->ratio;
+			}
+			
+			
 			if($model->license_checked) {
 				$model->license_checked = Yii::$app->formatter->asDate($model->license_checked, 'php:d-m-yy');
 			}	else	{

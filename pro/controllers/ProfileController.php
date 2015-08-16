@@ -61,85 +61,104 @@ class ProfileController extends Controller
 		//echo'<pre>1212121';print_r($ProfilePaymentTypeForm);echo'</pre>';die;
 		
 		if ($ProfileAnketaForm->load(Yii::$app->request->post())) {
-			if($ProfileAnketaForm->price_list != $model->price_list) {
-				//удаляем старый прайс-лист
-				if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list))
-					unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list);
-				
-				//перемещаем новый прайс-лист
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->price_list))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->price_list, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$ProfileAnketaForm->price_list);
+			
+			foreach($ProfileAnketaForm->ratios as &$ratio) {
+				$ratio = (double) str_replace(',', '.', $ratio);
 			}
 			
-			if($ProfileAnketaForm->avatar != $model->avatar) {
-				//удаляем старый аватар
-				if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar))
-					unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar);
-								
-				//перемещаем фото аватара
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->avatar))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->avatar, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$ProfileAnketaForm->avatar);
-				
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->avatar))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->avatar, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$ProfileAnketaForm->avatar);
-				
+			
+			if($ProfileAnketaForm->email != $model->email) $ProfileAnketaForm->scenario = 'change_email';
+			
+			if($ProfileAnketaForm->validate()) {
+			
+				//echo'<pre>';var_dump($ProfileAnketaForm->ratios);echo'</pre>';die;
+
+				if($ProfileAnketaForm->price_list != $model->price_list) {
+					//удаляем старый прайс-лист
+					if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list))
+						unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list);
+
+					//перемещаем новый прайс-лист
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->price_list))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->price_list, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$ProfileAnketaForm->price_list);
+				}
+
+				if($ProfileAnketaForm->avatar != $model->avatar) {
+					//удаляем старый аватар
+					if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar))
+						unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar);
+
+					//перемещаем фото аватара
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->avatar))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->avatar, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$ProfileAnketaForm->avatar);
+
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->avatar))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->avatar, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$ProfileAnketaForm->avatar);
+
+				}
+
+				if($ProfileAnketaForm->license != $model->license) {
+					//удаляем старую лицензию
+					if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$model->license))
+						unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$model->license);
+
+					//перемещаем лицензию
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->license))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->license, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$ProfileAnketaForm->license);
+
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->license))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->license, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.'thumb_'.$ProfileAnketaForm->license);
+
+				}
+
+				$ProfileAnketaForm_attribs = $ProfileAnketaForm->toArray();
+				$model_attr = $model->attributes;
+
+				foreach($model_attr as $attr_key=>&$attr)	{
+					if(isset($ProfileAnketaForm_attribs[$attr_key]))
+						$model->$attr_key = $ProfileAnketaForm_attribs[$attr_key];
+				}
+
+				if($ProfileAnketaForm->passwordNew != '')
+					$model->setPassword($ProfileAnketaForm->passwordNew);
+
+				$model->user_status = 2; //после редактирования меняем статус на "Требует проверки".
+				$model->save();
+
+				$this->checkUslugi($model, $ProfileAnketaForm); //проверяем изменения в услугах
+
+				$this->checkCategories($model, $ProfileAnketaForm); //проверяем изменения в категориях
+
+				$this->checkAwards($model, $ProfileAnketaForm); //проверяем изменения в наградах дипломах
+
+				$this->checkExamples($model, $ProfileAnketaForm); //проверяем изменения в примерах работ
+
+				$this->checkRegions($model, $ProfileAnketaForm); //проверяем изменения в регионах
+
+				$this->redirect('/profile');
+			}	else	{
+				//echo'<pre>';var_dump($ProfileAnketaForm);echo'</pre>';die;
+			}
+		}	else	{
+			//echo'<pre>';print_r($model->userRegions);echo'</pre>';die;
+			foreach($model->userRegions as $k=>$item)	{
+				$ProfileAnketaForm->regions[] = $item->region_id;
+				$ProfileAnketaForm->ratios[$k] = $item->ratio;
 			}
 			
-			if($ProfileAnketaForm->license != $model->license) {
-				//удаляем старую лицензию
-				if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$model->license))
-					unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$model->license);
-								
-				//перемещаем лицензию
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->license))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->license, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$ProfileAnketaForm->license);
-				
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->license))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->license, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.'thumb_'.$ProfileAnketaForm->license);
-				
-			}
+			$ProfileAnketaForm->attributes = $model->toArray();
 			
-			$ProfileAnketaForm_attribs = $ProfileAnketaForm->toArray();
-			$model_attr = $model->attributes;
-			
-			foreach($model_attr as $attr_key=>&$attr)	{
-				if(isset($ProfileAnketaForm_attribs[$attr_key]))
-					$model->$attr_key = $ProfileAnketaForm_attribs[$attr_key];
-			}
-			
-			if($ProfileAnketaForm->passwordNew != '')
-				$model->setPassword($ProfileAnketaForm->passwordNew);
-			
-			$model->user_status = 2; //после редактирования меняем статус на "Требует проверки".
-			$model->save();
-			
-			$this->checkUslugi($model, $ProfileAnketaForm); //проверяем изменения в услугах
-			
-			$this->checkCategories($model, $ProfileAnketaForm); //проверяем изменения в категориях
-			
-			$this->checkAwards($model, $ProfileAnketaForm); //проверяем изменения в наградах дипломах
-			
-			$this->checkExamples($model, $ProfileAnketaForm); //проверяем изменения в примерах работ
-			
-			$this->checkRegions($model, $ProfileAnketaForm); //проверяем изменения в регионах
-			
-			$this->redirect('/profile');
 		}
 		
+		//echo'<pre>';var_dump($ProfileAnketaForm);echo'</pre>';die;
 		
 		
-		$ProfileAnketaForm->attributes = $model->toArray();
 		
 		foreach($model->userSpecials as $item)	{
 			$ProfileAnketaForm->usluga[] = $item->category_id;
 			$ProfileAnketaForm->price[$item->category_id] = $item->price;
 		}
 		
-		//echo'<pre>';print_r($model->userRegions);echo'</pre>';die;
-		foreach($model->userRegions as $k=>$item)	{
-			$ProfileAnketaForm->regions[] = $item->region_id;
-			$ProfileAnketaForm->ratios[$k] = $item->ratio;
-		}
 		
 		$ProfileAnketaForm->awards = $model->media['awards'];
 		$ProfileAnketaForm->examples = $model->media['examples'];
@@ -286,6 +305,46 @@ class ProfileController extends Controller
             return $this->goHome();
         }
 		
+		$model = User::findOne(Yii::$app->user->id);
+		
+		Yii::$app->user->logout();
+		
+		foreach($model->userMedia as $media) {
+			switch($media->media_id) {
+				case 1:
+					$path = Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'];
+					break;
+					
+				case 2:
+					$path = Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'];
+					break;
+					
+				default:
+					$path = Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'];
+					break;
+			}
+			
+			if(file_exists($path.'/'.$media->filename))
+				unlink($path.'/'.$media->filename);
+		}
+		
+		if($model->price_list != '') {
+			if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list))
+				unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list);
+		}
+		
+		if($model->avatar != '') {
+			if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar))
+				unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar);
+		}
+		
+		if($model->license != '') {
+			if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$model->license))
+				unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$model->license);
+		}
+		
+        $model->delete();
+		
 		return $this->render('profile-delete');
 	}
 	
@@ -408,6 +467,86 @@ class ProfileController extends Controller
                 'model' => $model,
             ]);
         }
+		
+	}
+
+	public function actionDocuments()
+	{
+        if (\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+		
+		$user = User::findOne(\Yii::$app->user->id);
+		
+		
+		switch($user->user_type) {
+			case 1:
+				$model = new \frontend\models\DocumentsForm1();
+				
+				$model->passport_num = $user->passport_num;
+				$model->passport_vidan = $user->passport_vidan;
+				$model->passport_expire = $user->passport_expire;
+				
+				//echo'<pre>';print_r($user->userDocuments);echo'</pre>';die;
+				
+				foreach($user->userDocuments as $doc) {
+					switch($doc->document_id) {
+						case 1:
+							$model->passport_file = $doc->filename;
+							break;
+						case 2:
+							$model->trud_file = $doc->filename;
+							break;
+						case 3:
+							$model->diplom_file = $doc->filename;
+							break;
+						case 4:
+							$model->other_file[] = $doc->filename;
+							break;
+					}
+				}
+				
+				
+				$tmpl = 'documents-1';
+				break;
+			case 2:
+				$model = new \frontend\models\DocumentsForm2();
+				$tmpl = 'documents-2';
+				break;
+			case 3:
+				$model = new \frontend\models\DocumentsForm3();
+				$tmpl = 'documents-3';
+				break;
+		}
+        
+		
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+			switch($user->user_type) {
+				case 1:
+					$this->saveDocuments1($model, $user);
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+			}
+			
+			
+			Yii::$app->session->setFlash('success', 'Сохранено.');
+
+			return $this->redirect(['/profile/documents']);
+			//echo'<pre>';print_r($model);echo'</pre>';die;
+			
+			
+			//Yii::$app->session->setFlash('success', 'Ваше сообщение успешно отправлено');
+			
+			
+        }
+		
+		return $this->render($tmpl, [
+			'model' => $model,
+		]);
+		
 		
 	}
 
@@ -691,21 +830,25 @@ class ProfileController extends Controller
 	//проверяем изменения в регионах
 	public function checkRegions($model, $ProfileAnketaForm)
 	{
-		//echo'<pre>';print_r($model->userRegions);echo'</pre>';die;
-		//echo'<pre>';print_r($ProfileAnketaForm);echo'</pre>';die;
+		//echo'<pre>';print_r($model->userRegions);echo'</pre>';//die;
+		//echo'<pre>';print_r($ProfileAnketaForm->ratios);echo'</pre>';//die;
 		$array_identical = false;
 		if(count($model->userRegions) != count($ProfileAnketaForm->regions)) {
 			$array_identical = false;
 		}	else	{
+			//echo '122112';
 			foreach($model->userRegions as $item)	{
 				$array_identical = false;
-				foreach($ProfileAnketaForm->regions as $item1)	{
-					if($item->region_id == $item1)
-						$array_identical = true;
+				foreach($ProfileAnketaForm->regions as $k=>$item1)	{
+					//echo'<pre>';print_r($item->ratio . ' | '.$ProfileAnketaForm->ratios[$k]);echo'</pre>';//die;
+					if($item->region_id == $item1 && $item->ratio == $ProfileAnketaForm->ratios[$k])
+						$array_identical = true;					
 				}
+				//echo'<pre>';var_dump($array_identical);echo'</pre>';//die;
+				if($array_identical === false) break;
 			}
 		}
-
+		//echo'<pre>';var_dump($array_identical);echo'</pre>';die;
 		if($array_identical == false) {
 			foreach($model->userRegions as $item)	{
 				$item->delete();
@@ -719,5 +862,75 @@ class ProfileController extends Controller
 				$userRegions->save();
 			}
 		}
+	}
+	
+	public function saveDocuments1(&$model, &$user)
+	{
+		$user_attr = $user->attributes;
+		foreach($user_attr as $attr_key=>&$attr)	{
+			if(isset($model->$attr_key))
+				$user->$attr_key = $model->$attr_key;
+		}
+
+		$user->save();
+		//echo'<pre>';print_r($model);echo'</pre>';die;
+		//echo'<pre>';print_r($user_attr);echo'</pre>';die;
+
+		foreach($user->userDocuments as $item) {
+			if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$item->filename))
+				rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$item->filename, Yii::getAlias('@frontend').'/web/tmp/'.$item->filename);
+		}
+
+		if($model->passport_file != '') {
+			$this->saveDocumentItem($model, 'passport_file', 1);
+		}			
+
+		if($model->trud_file != '') {
+			$UserDocuments = new \common\models\UserDocuments();
+			$UserDocuments->user_id = \Yii::$app->user->id;
+			$UserDocuments->document_id = 2;
+			$UserDocuments->filename = $model->trud_file;
+			$UserDocuments->save();
+			if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$model->trud_file))
+				rename(Yii::getAlias('@frontend').'/web/tmp/'.$model->trud_file, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$model->trud_file);
+		}			
+
+		if($model->diplom_file != '') {
+			$UserDocuments = new \common\models\UserDocuments();
+			$UserDocuments->user_id = \Yii::$app->user->id;
+			$UserDocuments->document_id = 3;
+			$UserDocuments->filename = $model->diplom_file;
+			$UserDocuments->save();
+			if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$model->diplom_file))
+				rename(Yii::getAlias('@frontend').'/web/tmp/'.$model->diplom_file, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$model->diplom_file);
+		}			
+
+		foreach($model->other_file as $file) {
+			if($file != '')	{
+				$UserDocuments = new \common\models\UserDocuments();
+				$UserDocuments->user_id = \Yii::$app->user->id;
+				$UserDocuments->document_id = 4;
+				$UserDocuments->filename = $file;
+				$UserDocuments->save();
+				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$file))
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.$file, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$file);					
+			}
+		}
+	}
+	
+	public function saveDocumentItem(&$model, $attr, $doc_id)
+	{
+		$UserDocuments = \common\models\UserDocuments::find()->where(['document_id'=>$doc_id])->one();
+		if($UserDocuments === NULL) {
+			$UserDocuments = new \common\models\UserDocuments();
+			$UserDocuments->user_id = \Yii::$app->user->id;
+			$UserDocuments->document_id = $doc_id;
+		}
+		$UserDocuments->filename = $model->$attr;
+		$UserDocuments->save();
+
+		if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$model->$attr))
+			rename(Yii::getAlias('@frontend').'/web/tmp/'.$model->$attr, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$model->$attr);
+		
 	}
 }

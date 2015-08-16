@@ -14,7 +14,7 @@ use yii\helpers\Url;
 				<a href="<?= Url::to(['profile/to-administration'])?>" class="button-light profile_top_block__contact">Связь с администрацией</a>
 			</li>
 			<li class="pull-left profile_top_block__item">
-				<a href="#" class="button-light profile_top_block__documents">Документы</a>
+				<a href="<?= Url::to(['profile/documents'])?>" class="button-light profile_top_block__documents">Документы</a>
 			</li>
 			
 			<li class="pull-right profile_top_block__item profile_top_block__activity">

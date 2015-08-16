@@ -13,6 +13,13 @@ use dosamigos\datepicker\DatePicker;
 /* @var $form yii\widgets\ActiveForm */
 
 ///echo'<pre>';var_dump($allRoles);echo'</pre>';die;
+
+if(count($model->regions)) {
+	$regions_rows = count($model->regions) - 1;
+}	else	{
+	$regions_rows = 0;
+}
+
 ?>
 
 <div class="user-form tab_pane_cnt">
@@ -29,9 +36,43 @@ use dosamigos\datepicker\DatePicker;
     <div class="row clearfix">
     	<div class="col-lg-3"><?= $form->field($model, 'fio')->textInput() ?></div>
     	<div class="col-lg-3"><?= $form->field($model, 'user_type')->dropDownList(Yii::$app->params['UserTypesArray'], [$model->user_type]) ?></div>
-    	<div class="col-lg-3"><?= $form->field($model, 'region_id')->dropDownList(RegStep2Form::getRegionsDropDownList(), [$model->region_id]) ?></div>
+    	
     	<div class="col-lg-3"><?= $form->field($model, 'categoryUser')->dropDownList(UserSearch::getDropdownCatList(), [$model->categoryUser]) ?></div>
     </div>
+    
+	<div id="regions-wr" class="row clearfix">
+		<div id="regions-cnt" class="regions-cnt col-lg-6">
+			<div class="row clearfix">
+				<div class="col-lg-8 region-dd-cnt"><label class="control-label">Город</label></div>
+				<div class="col-lg-3"><label class="control-label">Коэфициент</label></div>
+			</div>
+				
+			<?php for ($x=0; $x<=$regions_rows; $x++) { ?>
+				<div <? if ($x==0) echo 'id="region-row-f"' ?> class="form-group row clearfix region-row">
+					<div class="col-lg-8 region-dd-cnt">
+						<?//= Html::activeDropDownList($model, 'regions[]', $model->regionsDropDownList, ['class'=>'form-control']) ?>
+						<?= Html::dropDownList('ProfileAnketaForm[regions][]', $model->regions[$x], RegStep2Form::getRegionsDropDownList(), ['class'=>'form-control', 'disabled'=>'disabled']) ?>
+					</div>
+					<div class="col-lg-3">
+						<?//= Html::activeTextInput($model, 'ratios[]', ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
+						<?= Html::textInput('ProfileAnketaForm[ratios][]', $model->ratios[$x], ['placeholder'=>'коэффициент', 'class'=>'form-control', 'disabled'=>'disabled']) ?>
+					</div>
+					<?/*
+					<div class="col-lg-1">
+						<a href="#" class="remove_region_row">—</a>
+					</div>
+					*/?>
+				</div>
+			<?php	}	?>
+		</div>
+		<?/*
+		<div class="form-group">
+			<a href="#" class="add_new_region">Добавить</a>
+		</div>
+		*/?>
+
+	</div>
+    
 
 	<div class="row clearfix">
     	<div class="col-lg-6"><?= $form->field($model, 'about')->textarea(['rows'=>5]) ?></div>
@@ -106,7 +147,7 @@ use dosamigos\datepicker\DatePicker;
 		</div>
 	<?php	}	?>
 
-
+	<?= $form->field($model, 'youtube') ?>
     
     
     

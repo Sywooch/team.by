@@ -54,6 +54,8 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 					<img class="catalog-item_body__avatar" src="<?= Url::home(true).Yii::$app->params['avatars-path'].'/thumb_'.$model->avatar?>" alt="">
 				</a>
 				
+				<?= $model->youtubeBlock ?>
+				
 				<ul class="catalog-item_body__awards">
 					<?php
 						foreach($model_awards as $item)

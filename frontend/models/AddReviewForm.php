@@ -13,7 +13,7 @@ class AddReviewForm extends Model
 {
 
     public $name;
-    public $phone;
+    public $phone = '+375';
     public $user_id;
     public $foto = [];
 	
@@ -42,8 +42,8 @@ class AddReviewForm extends Model
             [['user_id'], 'required', 'message'=>'Выберите исполнителя'],
             [['rating'], 'required', 'message'=>'Укажите вашу оценку'],
 			
-			[['phone'], 'required'],
-			[['phone'], 'string', 'min' => 12],
+			[['phone'], 'required', 'message'=>'Укажите номер телефона'],
+			[['phone'], 'string', 'min' => 13, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
 			
 			[['name'], 'string', 'min' => 3, 'max' => 255],
 			
