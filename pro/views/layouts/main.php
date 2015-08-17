@@ -105,7 +105,7 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 				echo Menu::widget([
 					'items' => [
 						//['label' => 'Условия использования', 'url' => '#'],
-						['label' => 'О компании', 'url' => ['/page/view', 'alias'=>'about']],
+						['label' => 'О компании', 'url' => 'http://team.by/page/about'],
 						['label' => 'Оплата', 'url' => ['/page/view', 'alias'=>'oplata']],
 						//['label' => 'О компании', 'url' => '#'],
 						//['label' => 'Черный список', 'url' => '#'],

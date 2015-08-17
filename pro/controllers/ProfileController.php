@@ -478,7 +478,6 @@ class ProfileController extends Controller
 		
 		$user = User::findOne(\Yii::$app->user->id);
 		
-		
 		switch($user->user_type) {
 			case 1:
 				$model = new \frontend\models\DocumentsForm1();
@@ -486,8 +485,6 @@ class ProfileController extends Controller
 				$model->passport_num = $user->passport_num;
 				$model->passport_vidan = $user->passport_vidan;
 				$model->passport_expire = $user->passport_expire;
-				
-				//echo'<pre>';print_r($user->userDocuments);echo'</pre>';die;
 				
 				foreach($user->userDocuments as $doc) {
 					switch($doc->document_id) {
@@ -505,16 +502,54 @@ class ProfileController extends Controller
 							break;
 					}
 				}
-				
-				
 				$tmpl = 'documents-1';
 				break;
 			case 2:
 				$model = new \frontend\models\DocumentsForm2();
+				
+				$user_attr = $user->attributes;
+				foreach($user_attr as $attr_key=>&$attr)	{
+					if(isset($model->$attr_key))
+						$model->$attr_key = $user->$attr_key;
+				}
+				
+				$model->license = $user->license;
+				
+				foreach($user->userDocuments as $doc) {
+					switch($doc->document_id) {
+						case 5:
+							$model->reg_file = $doc->filename;
+							break;
+						case 6:
+							$model->bitovie_file = $doc->filename;
+							break;
+						case 7:
+							$model->attestat_file = $doc->filename;
+							break;
+					}
+				}
+				
+				
 				$tmpl = 'documents-2';
 				break;
 			case 3:
 				$model = new \frontend\models\DocumentsForm3();
+				$model->license = $user->license;
+				
+				foreach($user->userDocuments as $doc) {
+					switch($doc->document_id) {
+						case 4:
+							$model->other_file[] = $doc->filename;
+							break;
+						case 5:
+							$model->reg_file = $doc->filename;
+							break;
+						case 6:
+							$model->bitovie_file = $doc->filename;
+							break;
+					}
+				}
+				
 				$tmpl = 'documents-3';
 				break;
 		}
@@ -526,8 +561,10 @@ class ProfileController extends Controller
 					$this->saveDocuments1($model, $user);
 					break;
 				case 2:
+					
 					break;
 				case 3:
+					$this->saveDocuments3($model, $user);
 					break;
 			}
 			
@@ -535,14 +572,7 @@ class ProfileController extends Controller
 			Yii::$app->session->setFlash('success', 'Сохранено.');
 
 			return $this->redirect(['/profile/documents']);
-			//echo'<pre>';print_r($model);echo'</pre>';die;
-			
-			
-			//Yii::$app->session->setFlash('success', 'Ваше сообщение успешно отправлено');
-			
-			
         }
-		
 		return $this->render($tmpl, [
 			'model' => $model,
 		]);
@@ -830,25 +860,21 @@ class ProfileController extends Controller
 	//проверяем изменения в регионах
 	public function checkRegions($model, $ProfileAnketaForm)
 	{
-		//echo'<pre>';print_r($model->userRegions);echo'</pre>';//die;
 		//echo'<pre>';print_r($ProfileAnketaForm->ratios);echo'</pre>';//die;
 		$array_identical = false;
 		if(count($model->userRegions) != count($ProfileAnketaForm->regions)) {
 			$array_identical = false;
 		}	else	{
-			//echo '122112';
 			foreach($model->userRegions as $item)	{
 				$array_identical = false;
 				foreach($ProfileAnketaForm->regions as $k=>$item1)	{
-					//echo'<pre>';print_r($item->ratio . ' | '.$ProfileAnketaForm->ratios[$k]);echo'</pre>';//die;
 					if($item->region_id == $item1 && $item->ratio == $ProfileAnketaForm->ratios[$k])
 						$array_identical = true;					
 				}
-				//echo'<pre>';var_dump($array_identical);echo'</pre>';//die;
 				if($array_identical === false) break;
 			}
 		}
-		//echo'<pre>';var_dump($array_identical);echo'</pre>';die;
+		
 		if($array_identical == false) {
 			foreach($model->userRegions as $item)	{
 				$item->delete();
@@ -882,55 +908,124 @@ class ProfileController extends Controller
 		}
 
 		if($model->passport_file != '') {
-			$this->saveDocumentItem($model, 'passport_file', 1);
+			$this->saveDocumentItem($model->passport_file, 1);
 		}			
 
 		if($model->trud_file != '') {
-			$UserDocuments = new \common\models\UserDocuments();
-			$UserDocuments->user_id = \Yii::$app->user->id;
-			$UserDocuments->document_id = 2;
-			$UserDocuments->filename = $model->trud_file;
-			$UserDocuments->save();
-			if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$model->trud_file))
-				rename(Yii::getAlias('@frontend').'/web/tmp/'.$model->trud_file, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$model->trud_file);
+			$this->saveDocumentItem($model->trud_file, 2);
 		}			
 
 		if($model->diplom_file != '') {
-			$UserDocuments = new \common\models\UserDocuments();
-			$UserDocuments->user_id = \Yii::$app->user->id;
-			$UserDocuments->document_id = 3;
-			$UserDocuments->filename = $model->diplom_file;
-			$UserDocuments->save();
-			if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$model->diplom_file))
-				rename(Yii::getAlias('@frontend').'/web/tmp/'.$model->diplom_file, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$model->diplom_file);
-		}			
-
-		foreach($model->other_file as $file) {
-			if($file != '')	{
-				$UserDocuments = new \common\models\UserDocuments();
-				$UserDocuments->user_id = \Yii::$app->user->id;
-				$UserDocuments->document_id = 4;
-				$UserDocuments->filename = $file;
-				$UserDocuments->save();
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$file))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$file, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$file);					
-			}
+			$this->saveDocumentItem($model->diplom_file, 3);
 		}
+
+		$this->checkOtherDocuments($model, $user->userDocuments);
 	}
 	
-	public function saveDocumentItem(&$model, $attr, $doc_id)
+	public function saveDocuments3(&$model, &$user)
 	{
-		$UserDocuments = \common\models\UserDocuments::find()->where(['document_id'=>$doc_id])->one();
+		$user_attr = $user->attributes;
+		foreach($user_attr as $attr_key=>&$attr)	{
+			if(isset($model->$attr_key))
+				$user->$attr_key = $model->$attr_key;
+		}
+
+		$user->save();
+		//echo'<pre>';print_r($model);echo'</pre>';die;
+		//echo'<pre>';print_r($model);echo'</pre>';die;
+		//echo'<pre>';print_r($user_attr);echo'</pre>';die;
+
+		foreach($user->userDocuments as $item) {
+			if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$item->filename))
+				rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$item->filename, Yii::getAlias('@frontend').'/web/tmp/'.$item->filename);
+		}
+
+		if($model->reg_file != '') {
+			$this->saveDocumentItem($model->reg_file, 5);
+		}			
+
+		if($model->bitovie_file != '') {
+			$this->saveDocumentItem($model->bitovie_file, 6);
+		}			
+
+		$this->checkOtherDocuments($model, $user->userDocuments);
+	}
+	
+	public function saveDocumentItem($filename, $doc_id)
+	{
+		$UserDocuments = \common\models\UserDocuments::find()
+			->where(['document_id'=>$doc_id])
+			->andWhere(['user_id'=>\Yii::$app->user->id])
+			->one();
+		//echo'<pre>';var_dump($filename);echo'</pre>';die;
+		//echo'<pre>';var_dump($UserDocuments);echo'</pre>';die;
 		if($UserDocuments === NULL) {
 			$UserDocuments = new \common\models\UserDocuments();
 			$UserDocuments->user_id = \Yii::$app->user->id;
 			$UserDocuments->document_id = $doc_id;
 		}
-		$UserDocuments->filename = $model->$attr;
+		$UserDocuments->filename = $filename;
 		$UserDocuments->save();
+		//echo'<pre>';print_r($UserDocuments);echo'</pre>';die;
 
-		if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$model->$attr))
-			rename(Yii::getAlias('@frontend').'/web/tmp/'.$model->$attr, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$model->$attr);
+		if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$filename))
+			rename(Yii::getAlias('@frontend').'/web/tmp/'.$filename, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$filename);
 		
+		if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$filename))
+			rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$filename, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.'thumb_'.$filename);
 	}
+	
+	//проверяем изменения в примерах работ
+	public function checkOtherDocuments($model, $userDocuments)
+	{
+		//echo'<pre>';print_r($model->other_file);echo'</pre>';//die;
+		//echo'<pre>';print_r($userDocuments);echo'</pre>';die;
+		
+		$array_identical = false;
+		if(count($model->other_file) != count($userDocuments)) {
+			$array_identical = false;
+		}	else	{
+			foreach($model->other_file as $item)	{
+				$array_identical = false;
+				foreach($userDocuments as $item1)	{
+					if($item == $item1->filename)
+						$array_identical = true;
+				}
+				if($array_identical === false) break;
+			}
+		}
+		
+		if($array_identical == false) {
+			foreach($userDocuments as $item)	{
+				if($item->document_id == 4) {
+					//перемещаем фото в temp
+					if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$item->filename))
+						rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$item->filename, Yii::getAlias('@frontend').'/web/tmp/'.$item->filename);
+
+					if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/thumb_'.$item->filename))
+						rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.'thumb_'.$item->filename, Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$item->filename);
+
+					$item->delete();
+				}
+			}
+
+			foreach($model->other_file as $filename) {
+				if($filename != '') {
+					$UserDocuments = new \common\models\UserDocuments();
+					$UserDocuments->user_id = \Yii::$app->user->id;
+					$UserDocuments->document_id = 4;
+					$UserDocuments->filename = $filename;
+					$UserDocuments->save();
+
+					//перемещаем фото
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$filename))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$filename, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$filename);
+
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$filename))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$filename, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.'thumb_'.$filename);
+				}
+			}
+		}
+	}
+	
 }

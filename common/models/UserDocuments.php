@@ -4,6 +4,10 @@ namespace common\models;
 
 use Yii;
 
+use yii\helpers\Html;
+use yii\helpers\Url;
+
+
 /**
  * This is the model class for table "{{%user_documents}}".
  *
@@ -55,5 +59,17 @@ class UserDocuments extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+	
+    public function getFileLink($value)
+    {
+        if($value == '') return '';
+		return Html::a($value, (Yii::$app->params['homeUrl']. '/' .Yii::$app->params['documents-path'].'/'.$value));
+    }
+	
+    public function getLicenseLink($value)
+    {
+        if($value == '') return '';
+		return Html::a($value, (Yii::$app->params['homeUrl']. '/' .Yii::$app->params['licenses-path'].'/'.$value));
     }
 }

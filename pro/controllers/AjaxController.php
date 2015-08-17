@@ -27,6 +27,8 @@ use frontend\models\UploadPassportForm;
 use frontend\models\UploadBookForm;
 use frontend\models\UploadDiplomForm;
 use frontend\models\UploadDocumentsOtherForm;
+use frontend\models\UploadRegFileForm;
+use frontend\models\UploadBitovieFileForm;
 
 use common\models\Category;
 use common\models\User;
@@ -337,6 +339,71 @@ class AjaxController extends Controller
         }		
 		return;
     }
+	
+    public function actionUploadRegFile()
+    {
+        $model = new UploadRegFileForm();
+		
+        if (Yii::$app->request->isPost) {
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+            if ($model->upload()) {
+				$img = Image::getImagine()->open($model->path. '/' . $model->filename); //загружаем изображение
+				$image_size = $img->getSize();	//получаем размеры изображения
+				
+				if($image_size->getWidth() < 600 || $image_size->getHeight() < 800) {
+					$this->printErrors($model, 'Слишком маленькое изображение');
+					return;
+				}
+				
+				Image::thumbnail( $model->path. '/' . $model->filename, 190, 130)
+					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
+				
+				$json_arr['res'] = 'ok';
+				$json_arr['filename'] = Html::input('hidden', 'DocumentsForm3[reg_file]', $model->filename);
+				$json_arr['html_file'] = Html::a(Html::img('http://team.by/' . 'tmp/thumb_' .$model->filename, ['class'=>'img-responsive']), 'http://team.by/' . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
+				
+				echo Json::htmlEncode($json_arr);
+
+                return;
+            }	else	{
+				$this->printErrors($model);
+			}
+        }		
+		return;
+    }
+	
+    public function actionUploadBitovieFile()
+    {
+        $model = new UploadBitovieFileForm();
+		
+        if (Yii::$app->request->isPost) {
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+            if ($model->upload()) {
+				$img = Image::getImagine()->open($model->path. '/' . $model->filename); //загружаем изображение
+				$image_size = $img->getSize();	//получаем размеры изображения
+				
+				if($image_size->getWidth() < 600 || $image_size->getHeight() < 800) {
+					$this->printErrors($model, 'Слишком маленькое изображение');
+					return;
+				}
+				
+				Image::thumbnail( $model->path. '/' . $model->filename, 190, 130)
+					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
+				
+				$json_arr['res'] = 'ok';
+				$json_arr['filename'] = Html::input('hidden', 'DocumentsForm3[bitovie_file]', $model->filename);
+				$json_arr['html_file'] = Html::a(Html::img('http://team.by/' . 'tmp/thumb_' .$model->filename, ['class'=>'img-responsive']), 'http://team.by/' . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
+				
+				echo Json::htmlEncode($json_arr);
+
+                return;
+            }	else	{
+				$this->printErrors($model);
+			}
+        }		
+		return;
+    }
+	
 	
     public function actionGetChildrens($id)
     {

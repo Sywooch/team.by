@@ -1,8 +1,5 @@
 <?php
 return [
-    //'adminEmail' => 'aldegtyarev@yandex.ru',
-    'adminEmail' => 'alfonsovich@yandex.by',
-	'homeUrl' => 'http://team.by',
 	'catlist-orderby' => [
 		'total_rating'	 => 'рейтингу',
 		//'fio'	 => 'имени',

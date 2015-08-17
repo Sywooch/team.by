@@ -1,6 +1,12 @@
 <?php
 return [
-    'adminEmail' => 'admin@example.com',
+	'homeUrl' => 'http://team.by',
+	'proUrl' => 'http://pro.team.by',
+	'admPanelUrl' => 'http://adm.team.by',
+	
+    //'adminEmail' => 'aldegtyarev@yandex.ru',
+    'adminEmail' => 'alfonsovich@yandex.by',
+
     'supportEmail' => 'support@example.com',
     'noreplyEmail' => 'noreply@team.by',
     'user.passwordResetTokenExpire' => 3600,
