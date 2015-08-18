@@ -521,3 +521,39 @@
 #region-row-f .remove_region_row {
 	display: none;
 }
+
+.remove-document-file {
+	@extend %font_30;
+	@extend %underline_n_n;
+	@extend %pos_abs;
+	
+	color: $red1;
+	line-height: 18px;
+	margin: 3px 0 0 30px;
+	
+	&:hover {
+		color: $red1;
+	}
+}
+
+.document_delete__popup {
+	@extend %hide;
+	margin: 5px 0 0 -40px;
+	p {
+		@extend %text_c;
+		
+		a {
+			padding: 0 5px;
+		}
+	}
+}
+
+.uploading-other-file-list {
+	ul {
+		padding: 15px 0;
+	}
+	
+	li {
+		padding: 5px 0;
+	}
+}

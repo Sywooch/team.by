@@ -132,16 +132,18 @@ jQuery(function($) {
 			onSubmit : function(file, extension){
 				$("#loading-other-file").show();
 				$('#loading-other-file-errormes').html('');
+				$("#loading-other-file-success").hide();
 				upload_other_file.setData({'file': file});
 			},
 			onComplete : function(file, response){
 				$("#loading-other-file").hide();
+				$("#loading-other-file-success").show();
 
 				response = $.parseJSON(response);
 
 				if(response.res == 'ok') {
-					$('#uploading-other-file-list .item-' + upload_other_file_item_num).html(response.html_file + response.html_file_remove + response.filename);
-					$('#uploading-other-file-list .item-' + upload_other_file_item_num).toggleClass('no-foto');
+					$('#uploading-other-file-list ul').append(response.filename);
+					
 					upload_other_file_item_num++;
 					if(upload_other_file_item_num > 9)	$('#upload-other-file-btn').css('visibility', 'hidden');
 				} else {
@@ -169,9 +171,9 @@ jQuery(function($) {
 				response = $.parseJSON(response);
 
 				if(response.res == 'ok') {
-					$('#reg-file-cnt').html(response.html_file + response.filename);
-					$('#documentsform3-reg_file').val($('#reg-file-cnt').find('input[type="hidden"]').val());
-
+					$("#loading-reg-file-success").show();
+					//$("#loading-reg-file-success").append(response.filename);
+					$("#uploading-reg-file").find('input[name="'+response.filename+'"]').val(response.filevalue);
 				} else {
 					for (var i = 0; i < response.msg.length; i++) {
 					   $('#loading-reg-file-errormes').append(response.msg[i]);
@@ -196,8 +198,8 @@ jQuery(function($) {
 				response = $.parseJSON(response);
 
 				if(response.res == 'ok') {
-					$('#license-cnt').html(response.html_file + response.filename);
-
+					$("#loading-license-success").show();
+					$("#loading-license-success").append(response.filename);
 				} else {
 					for (var i = 0; i < response.msg.length; i++) {
 					   $('#loading-license-errormes').append(response.msg[i]);
@@ -222,11 +224,37 @@ jQuery(function($) {
 				response = $.parseJSON(response);
 
 				if(response.res == 'ok') {
-					$('#bitovie-file-cnt').html(response.html_file + response.filename);
-
+					$("#loading-bitovie-file-success").show();
+					$("#loading-bitovie-file-success").append(response.filename);
 				} else {
 					for (var i = 0; i < response.msg.length; i++) {
 					   $('#loading-bitovie-file-errormes').append(response.msg[i]);
+					}
+				}
+			}
+		});
+	}
+	
+	if($("div").is("#uploading-attestat-file")) {
+		var upload_attestat_file = new AjaxUpload('#upload-attestat-file-btn', {
+			action: '/ajax/upload-attestat-file',
+			name: 'UploadAttestatForm[imageFiles]',
+			onSubmit : function(file, extension){
+				$("#loading-attestat-file").show();
+				$('#loading-attestat-file-errormes').html('');
+				upload_attestat_file.setData({'file': file});
+			},
+			onComplete : function(file, response){
+				$("#loading-attestat-file").hide();
+
+				response = $.parseJSON(response);
+
+				if(response.res == 'ok') {
+					$("#loading-attestat-file-success").show();
+					$("#loading-attestat-file-success").append(response.filename);
+				} else {
+					for (var i = 0; i < response.msg.length; i++) {
+					   $('#loading-attestat-file-errormes').append(response.msg[i]);
 					}
 				}
 			}
@@ -247,6 +275,47 @@ jQuery(function($) {
 		if(upload_other_file_item_num < 10)	$('#upload-other-file-btn').css('visibility', 'visible');
 		return false;
 	});
+	
+	$('.remove-document-file').on('click', function(e){
+		e.preventDefault();
+		$(this).parent().find('.document_delete__popup').show();
+		return false;
+	});
+	
+	$('.document-delete-no').on('click', function(e){
+		e.preventDefault();
+		$(this).parent().parent().hide();
+		return false;
+	});
+	
+	$('.document-delete-yes').on('click', function(e){
+		var data_file = $(this).data('file');
+		e.preventDefault();
+		
+		if($(this).parent().parent().parent().parent().parent().hasClass('uploading-other-file-list')) {
+			$(this).parent().parent().parent().remove();
+		} else {
+			$(this).parent().parent().parent().parent().parent().find('input[type="hidden"]').each(function(){			
+				if($(this).attr('name').indexOf(data_file) != -1) $(this).val('');
+			});
+			
+			$(this).parent().parent().hide();
+			$(this).parent().parent().parent().hide();
+			
+		}
+		
+		return false;
+	});
+	
+	$(document).click(function(event) {
+		if ($(event.target).closest(".document_delete__popup").length) return;
+		
+		if($(".document_delete__popup").is(':visible'))
+		   $(".document_delete__popup").hide();
+		
+		event.stopPropagation();
+	});	
+	
 	
 	
 });

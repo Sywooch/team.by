@@ -35,11 +35,11 @@ class UploadDiplomForm extends Model
 				['imageFiles'], 
 				'file', 
 				'skipOnEmpty' => false, 
-				'extensions' => 'rar, zip', 
+				'extensions' => 'png, jpg, jpeg, gif, pdf, zip, rar',
 				'maxFiles' => 2,	//почему-то если поставить 1 то не видит загруженного файла
-				'maxSize' => (10 * 1024 * 1024),
+				'maxSize' => (5 * 1024 * 1024),
 				'wrongExtension' => 'Файл имеет неверный формат',
-				'tooBig' => 'Максимальный размер файла 10МБ',
+				'tooBig' => 'Максимальный размер файла 5МБ',
 			],
         ];
     }

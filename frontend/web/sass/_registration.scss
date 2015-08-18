@@ -228,6 +228,11 @@
 	@extend .mt-10;
 }
 
+.reg-step2-loading-price-success {
+	@extend %italic;
+	color: $green1;
+}
+
 .reg-step2-loading-errors {
 	@extend %italic;
 	@extend %font_14;

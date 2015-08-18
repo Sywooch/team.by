@@ -1,5 +1,4 @@
 <?php
-namespace common\models;
 namespace frontend\models;
 
 use Yii;
@@ -12,9 +11,9 @@ use frontend\helpers\DFileHelper;
 
 
 /**
- * UploadKnigaForm form
+ * RegStep1 form
  */
-class UploadDocumentsOtherForm extends Model
+class UploadAttestatForm extends Model
 {
 	public $imageFiles;
 	public $filename;
@@ -50,6 +49,7 @@ class UploadDocumentsOtherForm extends Model
     public function attributeLabels()
     {
         return [
+            //'' => '',
             //'' => '',
         ];
     }

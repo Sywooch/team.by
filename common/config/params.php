@@ -25,4 +25,8 @@ return [
 	'documents-path' => 'files/users/documents',
 	
 	'export-client-path' => 'files/export/client',
+	'max-image-res' => [
+		'width' => 1024,
+		'height' => 768,
+	]
 ];

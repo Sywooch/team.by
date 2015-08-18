@@ -34,7 +34,7 @@ class UploadBitovieFileForm extends Model
 				['imageFiles'], 
 				'file', 
 				'skipOnEmpty' => false, 
-				'extensions' => 'png, jpg, jpeg, gif', 
+				'extensions' => 'png, jpg, jpeg, gif, pdf, zip, rar', 
 				'maxFiles' => 2,
 				'maxSize' => (5 * 1024 * 1024),
 				'wrongExtension' => 'Файл имеет неверный формат',

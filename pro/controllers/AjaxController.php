@@ -29,12 +29,14 @@ use frontend\models\UploadDiplomForm;
 use frontend\models\UploadDocumentsOtherForm;
 use frontend\models\UploadRegFileForm;
 use frontend\models\UploadBitovieFileForm;
+use frontend\models\UploadAttestatForm;
 
 use common\models\Category;
 use common\models\User;
 use common\models\Region;
 use common\models\UserCategories;
 use common\models\UserSpecials;
+use common\models\UserDocuments;
 
 class AjaxController extends Controller
 {
@@ -102,9 +104,13 @@ class AjaxController extends Controller
 				
 				$image_size = $img->getSize();	//получаем размеры изображения
 				
-				if($image_size->getWidth() < 600 || $image_size->getHeight() < 800) {
+				if($image_size->getWidth() < Yii::$app->params['max-image-res']['width'] || $image_size->getHeight() < Yii::$app->params['max-image-res']['height']) {
 					$this->printErrors($model, 'Слишком маленькое изображение');
 					return;
+				}	else	{
+					Image::thumbnail( $model->path. '/' . $model->filename, Yii::$app->params['max-image-res']['width'], Yii::$app->params['max-image-res']['height'])
+						->save(Yii::getAlias($model->path. '/' . $model->filename), ['quality' => 100]);
+					//Image::watermark($model->path. '/' . $model->filename, )
 				}
 				
 				Image::thumbnail( $model->path. '/' . $model->filename, 75, 90)
@@ -171,7 +177,7 @@ class AjaxController extends Controller
     {
         $model = new UploadLicenseForm();
 		
-		$profile_model = Yii::$app->session->get('profile_model', 'RegStep2Form');
+		$document_form = Yii::$app->session->get('document_form', 'DocumentsForm2');
 
         if (Yii::$app->request->isPost) {
 			
@@ -181,22 +187,8 @@ class AjaxController extends Controller
 			
             if ($model->upload()) {
 				
-				$img = Image::getImagine()->open($model->path. '/' . $model->filename); //загружаем изображение
-				
-				$image_size = $img->getSize();	//получаем размеры изображения
-				
-				if($image_size->getWidth() < 600 || $image_size->getHeight() < 800) {
-					$this->printErrors($model, 'Слишком маленькое изображение');
-					return;
-				}
-				
-				Image::thumbnail( $model->path. '/' . $model->filename, 190, 130)
-					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
-				
 				$json_arr['res'] = 'ok';
-				$json_arr['filename'] = Html::input('hidden', $profile_model.'[license]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img('http://team.by/' . 'tmp/thumb_' .$model->filename, ['class'=>'img-responsive']), 'http://team.by/' . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
-				
+				$json_arr['filename'] = Html::input('hidden', $document_form.'[license]', $model->filename);
 				echo Json::htmlEncode($json_arr);
 
                 return;
@@ -308,28 +300,22 @@ class AjaxController extends Controller
     {
         $model = new UploadDocumentsOtherForm();
 		
+		$document_form = Yii::$app->session->get('document_form', 'DocumentsForm2');
+		
         if (Yii::$app->request->isPost) {
             $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
 			
             if ($model->upload()) {
 				
-				$img = Image::getImagine()->open($model->path. '/' . $model->filename); //загружаем изображение
-				
-				$image_size = $img->getSize();	//получаем размеры изображения
-				
-				if($image_size->getWidth() < 600 || $image_size->getHeight() < 800) {
-					$this->printErrors($model, 'Слишком маленькое изображение');
-					return;
-				}
-				
-				Image::thumbnail( $model->path. '/' . $model->filename, 75, 90)
-					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
+				$html = UserDocuments::getLicenseLink($model->filename);
+				$html .= Html::input('hidden', $document_form.'[other_file][]', $model->filename);
+				$html .= Html::a('×', '#', ['class'=>'remove-document-file', 'title'=>'Удалить файл']);
+				//<a href="#" class="remove-document-file" title="Удалить файл">×</a>
+				$html .= '<div class="document_delete__popup popup_block"><p>Действительно удалить?</p><p><a href="#" class="document-delete-yes" data-file="other_file">Да</a> <a href="#" class="document-delete-no">Нет</a></p></div>';
 				
 				$json_arr['res'] = 'ok';
-				$json_arr['filename'] = Html::input('hidden', 'DocumentsForm1[other_file][]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img('http://team.by/' . 'tmp/thumb_' .$model->filename), 'http://team.by/' . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'other_files']);
-				$json_arr['html_file_remove'] = Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->filename]);
-				
+				$json_arr['filename'] = Html::tag('li', $html);
+								
 				echo Json::htmlEncode($json_arr);
 
                 return;
@@ -344,26 +330,17 @@ class AjaxController extends Controller
     {
         $model = new UploadRegFileForm();
 		
+		$document_form = Yii::$app->session->get('document_form', 'DocumentsForm2');
+		
         if (Yii::$app->request->isPost) {
             $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+			
             if ($model->upload()) {
-				$img = Image::getImagine()->open($model->path. '/' . $model->filename); //загружаем изображение
-				$image_size = $img->getSize();	//получаем размеры изображения
-				
-				if($image_size->getWidth() < 600 || $image_size->getHeight() < 800) {
-					$this->printErrors($model, 'Слишком маленькое изображение');
-					return;
-				}
-				
-				Image::thumbnail( $model->path. '/' . $model->filename, 190, 130)
-					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
-				
 				$json_arr['res'] = 'ok';
-				$json_arr['filename'] = Html::input('hidden', 'DocumentsForm3[reg_file]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img('http://team.by/' . 'tmp/thumb_' .$model->filename, ['class'=>'img-responsive']), 'http://team.by/' . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
-				
+				//$json_arr['filename'] = Html::input('hidden', $document_form.'[reg_file]', $model->filename);
+				$json_arr['filename'] = $document_form.'[reg_file]';
+				$json_arr['filevalue'] = $model->filename;
 				echo Json::htmlEncode($json_arr);
-
                 return;
             }	else	{
 				$this->printErrors($model);
@@ -376,26 +353,34 @@ class AjaxController extends Controller
     {
         $model = new UploadBitovieFileForm();
 		
+		$document_form = Yii::$app->session->get('document_form', 'DocumentsForm2');
+		
         if (Yii::$app->request->isPost) {
             $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
             if ($model->upload()) {
-				$img = Image::getImagine()->open($model->path. '/' . $model->filename); //загружаем изображение
-				$image_size = $img->getSize();	//получаем размеры изображения
-				
-				if($image_size->getWidth() < 600 || $image_size->getHeight() < 800) {
-					$this->printErrors($model, 'Слишком маленькое изображение');
-					return;
-				}
-				
-				Image::thumbnail( $model->path. '/' . $model->filename, 190, 130)
-					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
-				
 				$json_arr['res'] = 'ok';
-				$json_arr['filename'] = Html::input('hidden', 'DocumentsForm3[bitovie_file]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img('http://team.by/' . 'tmp/thumb_' .$model->filename, ['class'=>'img-responsive']), 'http://team.by/' . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
-				
+				$json_arr['filename'] = Html::input('hidden', $document_form.'[bitovie_file]', $model->filename);
 				echo Json::htmlEncode($json_arr);
-
+                return;
+            }	else	{
+				$this->printErrors($model);
+			}
+        }		
+		return;
+    }
+	
+    public function actionUploadAttestatFile()
+    {
+        $model = new UploadAttestatForm();
+		
+		$document_form = Yii::$app->session->get('document_form', 'DocumentsForm2');
+		
+        if (Yii::$app->request->isPost) {
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+            if ($model->upload()) {
+				$json_arr['res'] = 'ok';
+				$json_arr['filename'] = Html::input('hidden', $document_form.'[attestat_file]', $model->filename);
+				echo Json::htmlEncode($json_arr);
                 return;
             }	else	{
 				$this->printErrors($model);

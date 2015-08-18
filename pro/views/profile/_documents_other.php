@@ -1,16 +1,17 @@
 <?php
 use yii\helpers\Html;
 ?>
+
 <div class="row clearfix mb-30">
 	<div class="col-lg-7">
 		<div id="uploading-other-file" class="form-group clearfix pt-30">
-			<?php echo Html::input('hidden', 'DocumentsForm1[other_file][]', ''); ?>
+			<?php echo Html::input('hidden', $document_form.'[other_file][]', ''); ?>
 			<div class="<?= isset($errors['other_file']) ? 'has-error' : '' ?>">
 				<label class="reg-step2-uploading-ttl"><?php echo $model->getAttributeLabel('other_file'); ?></label>
 				<?= isset($errors['other_file']) ? '<div class="help-block">'.$errors["other_file"][0].'</div>' : '' ?>
 			</div>
 
-			<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
+			<?php echo $this->render('_documents_files_note', [], false, true) ?>
 
 			<div class="row clearfix">
 				<div class="col-lg-4">
@@ -19,6 +20,7 @@ use yii\helpers\Html;
 
 				<div class="col-lg-2">
 					<img id="loading-other-file" class="reg-step2-loading-process" src="/images/loading.gif" alt="Loading" />
+					<span id="loading-other-file-success" class="reg-step2-loading-price-success">Загружено</span>
 				</div>
 
 				<div class="col-lg-5">
@@ -26,9 +28,17 @@ use yii\helpers\Html;
 				</div>
 			</div>
 
-			<div id="uploading-other-file-list" class="uploading-tmb-list">
+			<div id="uploading-other-file-list" class="uploading-other-file-list">
 				<ul>
 					<?php for ($x=0; $x<=9; $x++) { ?>
+						<?php if(isset($model->other_file[$x]))	{ ?>
+							<li>
+								<?= $model->getLicenseLink($model->other_file[$x]) ?>
+								<?= Html::input('hidden', $document_form.'[other_file][]', $model->other_file[$x]);?>
+								<?php if($model->other_file[$x] != '') echo $this->render('_remove-document-file', ['data_file'=>'other_file'], false, true) ?>
+							</li>
+						<?php	}	?>
+						<?/*
 						<li class="item-<?= ($x+1) ?> pull-left <?php echo (!isset($model->other_file[$x])) ? 'no-foto' : '' ?>" data-item="<?= ($x+1) ?>">
 							<?php 
 								if(isset($model->other_file[$x]))	{
@@ -40,6 +50,7 @@ use yii\helpers\Html;
 								}	
 							?>
 						</li>
+						*/?>
 					<?php	}	?>
 				</ul>
 			</div>

@@ -53,78 +53,98 @@ $categories_l2_arr = [];
 			<div class="col-lg-6"><?= $form->field($model, 'passport_expire') ?></div>
 		</div>
 		
-		<div id="uploading-passport-file" class="form-group row clearfix  pt-30">
-			<div class="col-lg-4">
-				<?= $form->field($model, 'passport_file')->hiddenInput() ?>
-			</div>
-			<div class="col-lg-8">
-				<?= Html::a($model->passport_file, (Yii::$app->params['homeUrl']. '/' .Yii::$app->params['documents-path'].'/'.$model->passport_file)?>
-			</div>
-			<div class="col-lg-4" style="clear:both;">
-				<span id="upload-passport-file-btn" class="button-red">Загрузить</span>
-			</div>
-
-			<div class="col-lg-5">
-				<p class="uploading-info">архив zip или rar объемом не более 10МБ</p>
-			</div>
-
-			<div class="col-lg-2">
-				<img id="loading-passport-file" class="reg-step2-loading-process" src="/images/loading.gif" alt="Loading" />
-				<span id="loading-passport-file-success" class="reg-step2-loading-price-success">Загружено</span>
-			</div>
-
-			<p id="loading-passport-file-errormes" class="reg-step2-loading-errors col-lg-12 "></p>
-		</div>		
 		
-		<div id="uploading-trud-book-file" class="form-group row clearfix  pt-30">
-			<div class="col-lg-4">
-				<?= $form->field($model, 'trud_file')->hiddenInput() ?>
-			</div>
-			<div class="col-lg-8">
-				<?= Html::a($model->trud_file, (Yii::$app->params['homeUrl']. '/' .Yii::$app->params['documents-path'].'/'.$model->trud_file)?>
-			</div>
-			<div class="col-lg-4" style="clear:both;">
-				<span id="upload-book-file-btn" class="button-red">Загрузить</span>
-			</div>
+		<div class="row clearfix">
+			<div class="col-lg-6">		
+				<div id="uploading-passport-file" class="form-group row clearfix  pt-30">
+					<div class="col-lg-12">
+						<?= $form->field($model, 'passport_file')->hiddenInput() ?>
+					</div>
+					<div class="col-lg-12 mb-15 doc-file-cnt">
+						<?= $model->getFileLink($model->passport_file) ?>
+						<?php if($model->passport_file != '') echo $this->render('_remove-document-file', ['data_file'=>'passport_file'], false, true) ?>				
+						<?//= Html::a($model->passport_file, (Yii::$app->params['homeUrl']. '/' .Yii::$app->params['documents-path'].'/'.$model->passport_file))?>
+					</div>
+					<div class="col-lg-4" style="clear:both;">
+						<span id="upload-passport-file-btn" class="button-red">Загрузить</span>
+					</div>
 
-			<div class="col-lg-5">
-				<p class="uploading-info">архив zip или rar объемом не более 10МБ</p>
-			</div>
+					<div class="col-lg-5">
+						<?php echo $this->render('_documents_files_note', [], false, true) ?>
+					</div>
 
-			<div class="col-lg-2">
-				<img id="loading-book-file" class="reg-step2-loading-process" src="/images/loading.gif" alt="Loading" />
-				<span id="loading-book-file-success" class="reg-step2-loading-price-success">Загружено</span>
-			</div>
+					<div class="col-lg-2">
+						<img id="loading-passport-file" class="reg-step2-loading-process" src="/images/loading.gif" alt="Loading" />
+						<span id="loading-passport-file-success" class="reg-step2-loading-price-success">Загружено</span>
+					</div>
 
-			<p id="loading-book-file-errormes" class="reg-step2-loading-errors col-lg-12"></p>
+					<p id="loading-passport-file-errormes" class="reg-step2-loading-errors col-lg-12 "></p>
+				</div>		
+			</div>		
 		</div>		
-		
-		<div id="uploading-diplom-file" class="form-group row clearfix  pt-30">
-			<div class="col-lg-4">
-				<?= $form->field($model, 'diplom_file')->hiddenInput() ?>
-			</div>
-			<div class="col-lg-8">
-				<?= Html::a($model->diplom_file, (Yii::$app->params['homeUrl']. '/' .Yii::$app->params['documents-path'].'/'.$model->diplom_file)?>
-			</div>
-			<div class="col-lg-4" style="clear:both;">
-				<span id="upload-diplom-file-btn" class="button-red">Загрузить</span>
-			</div>
 
-			<div class="col-lg-5">
-				<p class="uploading-info">архив zip или rar объемом не более 10МБ</p>
-			</div>
+		<div class="row clearfix">
+			<div class="col-lg-6">		
+				<div id="uploading-trud-book-file" class="form-group row clearfix  pt-30">
+					<div class="col-lg-12">
+						<?= $form->field($model, 'trud_file')->hiddenInput() ?>
+					</div>
+					
+					<div class="col-lg-12 mb-15 doc-file-cnt">
+						<?= $model->getFileLink($model->trud_file) ?>
+						<?php if($model->trud_file != '') echo $this->render('_remove-document-file', ['data_file'=>'trud_file'], false, true) ?>
+					</div>
+					
+					<div class="col-lg-4" style="clear:both;">
+						<span id="upload-book-file-btn" class="button-red">Загрузить</span>
+					</div>
 
-			<div class="col-lg-2">
-				<img id="loading-diplom-file" class="reg-step2-loading-process" src="/images/loading.gif" alt="Loading" />
-				<span id="loading-diplom-file-success" class="reg-step2-loading-price-success">Загружено</span>
-			</div>
+					<div class="col-lg-5">
+						<?php echo $this->render('_documents_files_note', [], false, true) ?>
+					</div>
 
-			<p id="loading-diplom-file-errormes" class="reg-step2-loading-errors col-lg-12"></p>
-		</div>	
+					<div class="col-lg-2">
+						<img id="loading-book-file" class="reg-step2-loading-process" src="/images/loading.gif" alt="Loading" />
+						<span id="loading-book-file-success" class="reg-step2-loading-price-success">Загружено</span>
+					</div>
+
+					<p id="loading-book-file-errormes" class="reg-step2-loading-errors col-lg-12"></p>
+				</div>		
+			</div>		
+		</div>		
+
+		<div class="row clearfix">
+			<div class="col-lg-6">						
+				<div id="uploading-diplom-file" class="form-group row clearfix  pt-30">
+					<div class="col-lg-12">
+						<?= $form->field($model, 'diplom_file')->hiddenInput() ?>
+					</div>
+					<div class="col-lg-12 mb-15 doc-file-cnt">
+						<?= $model->getFileLink($model->diplom_file) ?>
+						<?php if($model->diplom_file != '') echo $this->render('_remove-document-file', ['data_file'=>'diplom_file'], false, true) ?>
+					</div>
+					
+					<div class="col-lg-4" style="clear:both;">
+						<span id="upload-diplom-file-btn" class="button-red">Загрузить</span>
+					</div>
+
+					<div class="col-lg-5">
+						<?php echo $this->render('_documents_files_note', [], false, true) ?>
+					</div>
+
+					<div class="col-lg-2">
+						<img id="loading-diplom-file" class="reg-step2-loading-process" src="/images/loading.gif" alt="Loading" />
+						<span id="loading-diplom-file-success" class="reg-step2-loading-price-success">Загружено</span>
+					</div>
+
+					<p id="loading-diplom-file-errormes" class="reg-step2-loading-errors col-lg-12"></p>
+				</div>
+			</div>
+		</div>
 		
 				
 		
-		<?php echo $this->render('_documents_other', ['model'=>$model], false, true) ?>
+		<?php echo $this->render('_documents_other', ['model'=>$model,'document_form' => $document_form], false, true) ?>
 		
 		
 		<div class="form-group">

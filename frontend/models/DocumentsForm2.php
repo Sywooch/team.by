@@ -17,13 +17,13 @@ use common\models\UserDocuments;
 class DocumentsForm2 extends UserDocuments
 {
     public $reg_file;
-    public $license;
+    public $license = '';
     public $bitovie_file;
     public $attestat_file;
-    public $contact_fio;
+    public $contact_fio = '';
     public $contact_phone = '+375';
-    public $contact_dolj;
-    public $contact_osn;
+    public $contact_dolj = '';
+    public $contact_osn = '';
     //public $other_file = [];
 
     /**
@@ -33,6 +33,7 @@ class DocumentsForm2 extends UserDocuments
     {
         return [
 			[['reg_file','contact_fio', 'contact_phone', 'contact_dolj', 'contact_osn'], 'required'],
+			['contact_fio', 'validateFio'],
 			[['reg_file','license', 'bitovie_file', 'attestat_file', 'contact_fio', 'contact_dolj', 'contact_osn'], 'string', 'max' => 255],
 			[['contact_phone'], 'string', 'min' => 13, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
 			//['other_file', 'each', 'rule' => ['string']],
@@ -47,14 +48,24 @@ class DocumentsForm2 extends UserDocuments
         return [
             'reg_file' => 'Свидетельство о гос.регистрации',
             'license' => 'Если лицензируемый вид деятельности – лицензия, выданная уполномоченными органами',
-            'bitovie_file' => 'Если оказываете бытовые услуги- подтверждение о нахождении в реестре бытовых услуг.',
+            'bitovie_file' => 'Если оказываете бытовые услуги- подтверждение о нахождении в реестре бытовых услуг',
             'attestat_file' => 'Если оказываете услуги в строительстве – свидетельство об аттестации',
-			 'contact_fio' => 'ФИО,',
-			 'contact_phone' => 'Телефон,',
-			 'contact_dolj' => 'Должность,',
+			 'contact_fio' => 'ФИО',
+			 'contact_phone' => 'Телефон',
+			 'contact_dolj' => 'Должность',
 			 'contact_osn' => 'На основании чего имеет право заключить договор публичной оферты (доверенность, устав)',
             //'other_file' => 'Другие документы (свидетельства о прохождении курсов, аттестаты)',
             //'' => '',
         ];
     }
+	
+    public function validateFio($attribute, $params)
+    {
+		if (!$this->hasErrors()) {
+			$fio_arr = explode(' ', $this->contact_fio);
+			if(count($fio_arr) != 3)
+				$this->addError($attribute, 'Укажите полностью ваше ФИО');
+		}
+    }
+	
 }
