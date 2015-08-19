@@ -77,7 +77,6 @@ class CatalogController extends Controller
     {
 		//получаем из куки ИД региона
 		$region_id = \Yii::$app->getRequest()->getCookies()->getValue('region', 1);
-		//echo'<pre>';print_r($region_id);echo'</pre>';
 		
 		//получаем поле для сортировки
 		/*
@@ -106,7 +105,6 @@ class CatalogController extends Controller
 					'linkOptions' => ['data-sort' => $k],
 				];
 			}
-				
 		}
 		
          //echo'<pre>';print_r($category);echo'</pre>';
@@ -127,36 +125,32 @@ class CatalogController extends Controller
 		//получаем массив ИД категорий для поиска аккаунтов в них
 		$cat_ids = [$category->id];
 		foreach($children as $k=>$c)	{
-			if($c->depth < 3)	{				
+			if($category->depth > 1) {
 				$cat_ids[] = $c->id;
 			}	else	{
-				//на 3-м уровне у нас идут виды работ. Их нужно исключить
-				unset($children[$k]);
+				if($c->depth < 3)	{				
+					$cat_ids[] = $c->id;
+				}	else	{
+					//на 3-м уровне у нас идут виды работ. Их нужно исключить
+					unset($children[$k]);
+				}
 			}
+			
 		}
 		
 		$query = $this->prepareQuery();
-		$query->where(['{{%user_categories}}.category_id'=>$cat_ids])
-			->andWhere(['<>', 'black_list', 1])
-			->andWhere(['=', 'is_active', 1])
-			->andWhere(['user_status'=> [2,10]])
-			//->orderBy('{{%user}}.'.$orderBy.' ASC');
-			->orderBy('{{%user}}.total_rating DESC');
+		if($category->depth > 2) {
+			$query->joinWith(['userSpecials'])
+				->where(['{{%user_specials}}.category_id'=>$cat_ids]);
+		} else {
+			$query->where(['{{%user_categories}}.category_id'=>$cat_ids]);
+		}
 		
-		/*
-		$query = User::find()
-			->distinct(true)
-			->joinWith(['userCategories'])
-			->joinWith(['reviews'])
-			->joinWith(['userMedia'])
-			->joinWith(['userGegion'])
-			->where(['{{%user_categories}}.category_id'=>$cat_ids])
-			->andWhere(['<>', 'black_list', 1])
+		$query->andWhere(['<>', 'black_list', 1])
 			->andWhere(['=', 'is_active', 1])
 			->andWhere(['user_status'=> [2,10]])
 			//->orderBy('{{%user}}.'.$orderBy.' ASC');
 			->orderBy('{{%user}}.total_rating DESC');
-			*/
 		
 		//если указан какой-то регион - то фильтруем по нему и его потомкам
 		if($region_id != 1) {
@@ -311,6 +305,7 @@ class CatalogController extends Controller
 				->joinWith(['userSpecials'])
 				->where(['{{%user_categories}}.category_id'=>$cat_ids])
 				->andWhere(['=', 'is_active', 1])
+				->andWhere(['user_status'=> [2,10]])
 				->andWhere(['<>', '{{%user}}.id', $id])
 				->orderBy('RAND()'),
 			

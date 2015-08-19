@@ -9,25 +9,30 @@ use yii\helpers\Html;
 		<div class="row clearfix">
 			<div class="col-lg-3">
 				<div id="profi_search_inner_catalog">
-					<span class="profi_search_inner_catalog">Каталог специалистов<span class=""> </span></span>
+					<?php if($controller == 'catalog' && $action == 'black-list')	{	?>
+						<a href="<?= \Yii::$app->urlManager->createUrl(['catalog'])?>" class="profi_search_inner_catalog_url">Каталог специалистов<span class=""> </span></a>
+					<?php	}	else	{	?>
 					
-					<div id="catalog_popup" class="catalog_popup">
-						<ul class="row clearfix all_profi_list">
-							<?php foreach($categories as $cat) {	?>
-								<li class="col-lg-3 all_profi_list__l1_item">
-									<p class="all_profi_list__l1__ttl profi_<?= $cat['id']?>"><a href="<?= (\Yii::$app->urlManager->createUrl(['catalog/category', 'category' => $cat['path']]))?>" class="all_profi_list__l1_item_url"><?= $cat['name']?></a></p>
-									<?php if(count($cat['children']))	{	?>
-										<ul class="all_profi_list__l2">
-											<?php foreach($cat['children'] as $c) {	?>
-												<li class="all_profi_list__l2_item"><a href="<?= (\Yii::$app->urlManager->createUrl(['catalog/category', 'category' => $c['path']]))?>" class="all_profi_list__l2_item_url"><?= $c['name']?></a></li>
-											<?php }	?>
-										</ul>
-									<?php }	?>
-								</li>
-							<?php }	?>
-						</ul>
-					</div>
 					
+						<span class="profi_search_inner_catalog">Каталог специалистов<span class=""> </span></span>
+
+						<div id="catalog_popup" class="catalog_popup">
+							<ul class="row clearfix all_profi_list">
+								<?php foreach($categories as $cat) {	?>
+									<li class="col-lg-3 all_profi_list__l1_item">
+										<p class="all_profi_list__l1__ttl profi_<?= $cat['id']?>"><a href="<?= (\Yii::$app->urlManager->createUrl(['catalog/category', 'category' => $cat['path']]))?>" class="all_profi_list__l1_item_url"><?= $cat['name']?></a></p>
+										<?php if(count($cat['children']))	{	?>
+											<ul class="all_profi_list__l2">
+												<?php foreach($cat['children'] as $c) {	?>
+													<li class="all_profi_list__l2_item"><a href="<?= (\Yii::$app->urlManager->createUrl(['catalog/category', 'category' => $c['path']]))?>" class="all_profi_list__l2_item_url"><?= $c['name']?></a></li>
+												<?php }	?>
+											</ul>
+										<?php }	?>
+									</li>
+								<?php }	?>
+							</ul>
+						</div>
+					<?php	}	?>
 				</div>
 			</div>
 			<div class="col-lg-6">

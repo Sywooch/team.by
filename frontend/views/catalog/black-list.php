@@ -8,6 +8,9 @@ use yii\bootstrap\ButtonDropdown;
 
 use yii\widgets\ActiveForm;
 
+\frontend\assets\BootstrapLightboxAsset::register($this);
+\frontend\assets\BlackListAsset::register($this);
+
 $this->title = 'Черный список специалистов | '. Yii::$app->params['sitename'];
 
 $this->params['breadcrumbs'][] = ['label' => 'Черный список специалистов'];

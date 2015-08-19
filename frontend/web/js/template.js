@@ -447,15 +447,27 @@ jQuery(function($) {
         return false;
     });
 	
+	$('#activity-btn').on('click', function(e){
+		$('#activity').val($(this).data('active'));
+		$('#set-activity-frm').submit();
+	});
+	
+	$('#activity-btn').hover(
+		function(){$('#profile_header__popup').stop(true,true).fadeIn();},
+		function(){$('#profile_header__popup').stop(true,true).fadeOut();}
+	);
 	
 	$(document).click(function(event) {
-		if ($(event.target).closest("#header_regions__list_cnt, #profi_search_inner_catalog").length) return;
+		if ($(event.target).closest("#header_regions__list_cnt, #profi_search_inner_catalog, #profi_search_regions__list_cnt").length) return;
 		
 		if($("#header_regions__list_cnt").is(':visible'))
 		   $("#header_regions__list_cnt").fadeOut("fast");
 		
 		if($("#catalog_popup").is(':visible'))
 		   $("#catalog_popup").fadeOut("fast");
+		
+		if($("#profi_search_regions__list_cnt").is(':visible'))
+		   $("#profi_search_regions__list_cnt").fadeOut("fast");
 		
 		event.stopPropagation();
 	});	

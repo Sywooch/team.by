@@ -13,9 +13,10 @@ use yii\helpers\Html;
 		</a>
 		<p class="related_item__rating">
 			Рейтинг: <?= $model->total_rating?>
+			<?php echo $model->medalImage ?>
 			<?php 
-				if($model->total_rating == 5) echo Html::img('/images/profi-gold.png', ['alt'=>'Супер профи', 'title'=>'Супер профи', 'class'=>'profi_lbl related_item__profi_lbl']);
-				if($model->total_rating >= 4) echo Html::img('/images/profi-silver.png', ['alt'=>'Профи', 'title'=>'Профи', 'class'=>'profi_lbl related_item__profi_lbl']);
+				//if($model->total_rating == 5) echo Html::img('/images/profi-gold.png', ['alt'=>'Супер профи', 'title'=>'Супер профи', 'class'=>'profi_lbl related_item__profi_lbl']);
+				//if($model->total_rating >= 4) echo Html::img('/images/profi-silver.png', ['alt'=>'Профи', 'title'=>'Профи', 'class'=>'profi_lbl related_item__profi_lbl']);
 			?>			
 		</p>
 		<a href="<?= $model->frontendUrl ?>" class="related_item__name" title="<?= $model->fio?>"><?= $model->fio?></a>

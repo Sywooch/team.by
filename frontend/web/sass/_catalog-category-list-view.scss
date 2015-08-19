@@ -281,3 +281,25 @@
 		
 		
 }
+
+.wrap__cnt_black_list {
+	.button-blue,
+	.button-red {
+		@extend .btn-gray;
+		background-repeat: repeat-x;
+		&:hover {
+			@extend .btn-gray-h;
+			background-repeat: repeat-x;			
+		}
+	}
+	
+	.reviews_item__foto_item a,
+	.catalog-item__examples_item a {
+		@extend %pos_rel;
+		@extend %db;
+		img {
+			top: 0 !important;
+		}
+		
+	}
+}

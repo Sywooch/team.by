@@ -199,7 +199,11 @@ class RegionController extends Controller
     //получает список категорий для выпадающего списка
 	protected function getCategoriesDropDownList()
     {
-		$categories = Region::find()->where('id <> 1')->orderBy('lft, rgt')->all();
+		$categories = Region::find()
+			->where(['<>', 'id', 1])
+			->andWhere(['depth' => 1])
+			->orderBy('lft, rgt')
+			->all();
 
 		foreach($categories as $c){
 			$separator = '';

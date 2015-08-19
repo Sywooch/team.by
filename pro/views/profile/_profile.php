@@ -58,8 +58,8 @@ if(count($model->regions)) {
 		
 		<div class="profile_anketa_row">
 			<div class="row clearfix">
-				<div class="col-lg-6"><?= $form->field($model, 'passwordNew') ?></div>
-				<div class="col-lg-6"><?= $form->field($model, 'passwordRepeat') ?></div>
+				<div class="col-lg-6"><?= $form->field($model, 'passwordNew')->passwordInput() ?></div>
+				<div class="col-lg-6"><?= $form->field($model, 'passwordRepeat')->passwordInput() ?></div>
 			</div>
 		</div>
 		
@@ -142,7 +142,7 @@ if(count($model->regions)) {
 						<div class="col-lg-7">
 							<?/*<label class="reg-step2-uploading-ttl"><?php echo $model->getAttributeLabel('avatar'); ?></label> */?>
 							<?= $form->field($model, 'avatar')->hiddenInput() ?>
-							<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
+							<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 1024х768px, до 5МБ</p>
 
 							<div class="row clearfix">
 								<div class="col-lg-7">
@@ -195,7 +195,7 @@ if(count($model->regions)) {
 			<div class="col-lg-6">
 				<div id="uploading-awards" class="form-group clearfix">
 					<label class="reg-step2-uploading-ttl"><?php echo $model->getAttributeLabel('awards'); ?></label>
-					<p class="uploading-info">Если вам есть чем гордиться - обязательно покажите это.<br>Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
+					<p class="uploading-info">Если вам есть чем гордиться - обязательно покажите это.<br>Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 1024х768px, до 5МБ</p>
 
 					<div class="row clearfix">
 						<div class="col-lg-4">
@@ -239,7 +239,7 @@ if(count($model->regions)) {
 						<?= isset($errors['examples']) ? '<div class="help-block">'.$errors["examples"][0].'</div>' : '' ?>
 					</div>
 
-					<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
+					<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 1024х768px, до 5МБ</p>
 
 					<div class="row clearfix">
 						<div class="col-lg-4">

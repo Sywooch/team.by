@@ -17,7 +17,7 @@ class ZakazSpec1 extends Model
     public $name;
     public $phone = '+375';
     public $comment;
-    public $user_id;
+    public $user_id = 0;
 	public $spec_name;
 
     /**

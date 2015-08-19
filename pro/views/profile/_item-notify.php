@@ -15,7 +15,7 @@ use yii\helpers\Url;
 	</div>
 	<div class="col-lg-2">
 		<?php if($model->readed == 0)	{	?>
-			<a href="<?= Url::to(['profile/set-readed-notify', 'id'=>$model->id])?>" class="button-red">Прочитано</a>
+			<a href="<?= Url::to(['profile/set-readed-notify', 'id'=>$model->id])?>" class="button-blue">Прочитано</a>
 		<?php	}	?>
 	</div>
 	<div class="col-lg-2">

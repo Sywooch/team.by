@@ -232,26 +232,22 @@
 	border-bottom: 1px solid #d7d7d7;
 }
 
+.profi_search_inner_catalog_url,
 .profi_search_inner_catalog {
 	@extend %db;
 	@extend %underline_n_n;
-	@extend .btn-blue-big;
+
 	@extend %c_fff;
 	@extend %font_18;
 	@extend .dinpro-b;
 	@extend %pos_rel;
 	@extend %pointer;
 	
-	background-repeat: repeat-x;
+
 	height: 77px;
 	line-height: 76px;
 	padding-left: 15px;
 	
-	&:hover {
-		@extend .btn-blue-big-h;
-		@extend %c_fff;
-		background-repeat: repeat-x;
-	}
 	
 	span {
 		@extend %ico;
@@ -260,7 +256,6 @@
 		height: 77px;
 		right: 0;
 		top: 0;
-		border-left: 1px solid #0083ba;
 		
 		&:before {
 			@extend .ico-arrow-down-white;
@@ -275,12 +270,52 @@
 			content: '';
 			width: 1px;
 			height: 77px;
-			background-color: #149cd4;
+			
 			left: 0;
 			top: 0;
 		}
 		
 	}
+}
+
+.profi_search_inner_catalog {
+	@extend .btn-blue-big;
+	background-repeat: repeat-x;
+	
+	&:hover {
+		@extend .btn-blue-big-h;
+		@extend %c_fff;
+		background-repeat: repeat-x;
+	}
+	
+	span {
+		border-left: 1px solid #0083ba;
+		
+		&:after {
+			background-color: #149cd4;
+		}
+	}
+	
+}
+
+.profi_search_inner_catalog_url {
+	@extend .btn-gray-big;
+	background-repeat: repeat-x;
+	
+	&:hover {
+		@extend .btn-gray-big-h;
+		@extend %c_fff;
+		background-repeat: repeat-x;
+	}
+	
+	span {
+		border-left: 1px solid #555555;
+		
+		&:after {
+			background-color: #6b6b6b;
+		}		
+	}
+	
 }
 
 .profi_search_inner__inputbox_cnt {

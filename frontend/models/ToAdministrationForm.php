@@ -24,7 +24,7 @@ class ToAdministrationForm extends Model
         return [
             // name, email, subject and body are required
             [['subject', 'body'], 'required'],
-			[['subject'], 'string', 'min' => 7],
+			[['subject'], 'string', 'min' => 3],
 			[['body'], 'string', 'min' => 10],
         ];
     }

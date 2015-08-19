@@ -97,7 +97,7 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 		<?php 	}	?>
 	
 		<div class="container clearfix">
-			<a href="<?php echo Yii::$app->params['homeUrl']; ?>" class="logo_bottom pull-left"><img src="/images/logo-bottom.png" alt=""></a>
+			<a href="<?php echo Yii::$app->params['homeUrl']; ?>" class="logo_bottom pull-left"><img src="/images/logo-pro-bottom.png" alt=""></a>
 
 
 			<div class="footer__cnt">
@@ -107,7 +107,7 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 						//['label' => 'Условия использования', 'url' => '#'],
 						['label' => 'О компании', 'url' => 'http://team.by/page/about'],
 						['label' => 'Оплата', 'url' => ['/page/view', 'alias'=>'oplata']],
-						//['label' => 'О компании', 'url' => '#'],
+						['label' => 'Тарифы', 'url' => ['/page/view', 'alias'=>'tarify']],
 						//['label' => 'Черный список', 'url' => '#'],
 					],
 					'options' => [

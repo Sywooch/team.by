@@ -40,7 +40,7 @@ class RegStep1Form extends Model
             ['email', 'string', 'max' => 255],
 			
 			['phone', 'required'],
-            [['phone'], 'string', 'min' => 13, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
+            [['phone'], 'string', 'min' => 13, 'max' => 13, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
  									
 			[['password', 'passwordRepeat'], 'required'],
 			[['password', 'passwordRepeat'], 'string', 'min' => 6],

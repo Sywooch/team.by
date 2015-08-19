@@ -34,3 +34,10 @@
 		margin-left: -7px;
 	}
 }
+
+.field-addreviewform-comment {
+	textarea {
+		@extend %italic;
+	}
+	
+}

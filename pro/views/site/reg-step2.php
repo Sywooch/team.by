@@ -80,30 +80,6 @@ if(count($model->regions)) {
 			<a href="#" class="add_new_region">Добавить</a>
 		</div>
 		
-		<?/*
-		<?= $form->field($model, 'region')->dropDownList($model->regionsDropDownList, [$model->region]) ?>
-		
-		<div class="form-group">
-			<a href="" id="site-reg-add-new-city" class="site-reg__add-new-city">Добавить еще один город</a>
-		</div>
-		*/?>
-		
-		
-		
-		<?/*
-		<div id="site-reg-add-new-city-cnt" class="row clearfix site-reg-add-new-city-cnt">
-			<div class="col-lg-6">
-				<?= $form->field($model, 'region_parent_id')->dropDownList($model->regionsLevel1DropDownList, [$model->region_parent_id]) ?>   
-			</div>
-			
-			<div class="col-lg-6">
-				<?= $form->field($model, 'region_name') ?>
-			</div>
-			
-		</div>
-		*/?>
-		
-		
 		<p class="about-field-descr field-descr">Опишите вашу специализацию, квалификацию, любые ваши особенности и требования. Старайтесь писать живым языком, избегая анкетных шаблонов. Разрешена прямая реклама ваших услуг. Не разрешено использовать выражения, описывающие, что вы делаете какую-то работу лучше кого-то, или лучше всех. Не разрешено - оставлять свои контактные данные</p>
 		<?= $form->field($model, 'about')->textarea(['rows'=>5]) ?>
 		
@@ -122,7 +98,6 @@ if(count($model->regions)) {
 		<?= $this->render('@app/views/profile/_categories-block', ['form'=>$form, 'model'=>$model, 'categories'=>$categories, 'categories_l3'=>$categories_l3, 'model_name'=>'RegStep2Form' ])?>
 				
 		<div id="uploading-price" class="form-group row clearfix">
-			<?/*<label class="reg-step2-uploading-ttl col-lg-12"><?php echo $model->getAttributeLabel('price_list'); ?></label>*/?>
 			<div class="col-lg-12">
 				<?= $form->field($model, 'price_list')->hiddenInput() ?>
 			</div>
@@ -145,7 +120,7 @@ if(count($model->regions)) {
 		
 		<div id="uploading-awards" class="form-group clearfix">
 			<label class="reg-step2-uploading-ttl"><?php echo $model->getAttributeLabel('awards'); ?></label>
-			<p class="uploading-info">Если вам есть чем гордиться - обязательно покажите это.<br>Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
+			<p class="uploading-info">Если вам есть чем гордиться - обязательно покажите это.<br>Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 1024х768px, до 5МБ</p>
 			
 			<div class="row clearfix">
 				<div class="col-lg-4">
@@ -185,7 +160,7 @@ if(count($model->regions)) {
 				<div class="col-lg-7">
 					<?/*<label class="reg-step2-uploading-ttl"><?php echo $model->getAttributeLabel('avatar'); ?></label> */?>
 					<?= $form->field($model, 'avatar')->hiddenInput() ?>
-					<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
+					<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 1024х768px, до 5МБ</p>
 					
 					<div class="row clearfix">
 						<div class="col-lg-6">
@@ -215,7 +190,7 @@ if(count($model->regions)) {
 				
 			</div>
 			
-			<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
+			<p class="uploading-info">Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 1024х768px, до 5МБ</p>
 			
 			<div class="row clearfix">
 				<div class="col-lg-4">
@@ -249,32 +224,6 @@ if(count($model->regions)) {
 				</ul>
 			</div>
 		</div>		
-			
-		<div id="uploading-license" class="form-group clearfix">
-			<div class="row clearfix">
-				<div class="col-lg-7">
-					<?= $form->field($model, 'license')->hiddenInput() ?>
-					<p class="uploading-info">Если необходима для осуществления деятельности.<br>Отличное качество, форматы jpg, jpeg, png, gif, размер не менее 600х800px, до 5МБ</p>
-					
-					<div class="row clearfix">
-						<div class="col-lg-6">
-							<span id="upload-license-btn" class="button-red">Загрузить</span>
-						</div>
-						<div class="col-lg-6">
-							<img id="loading-license" class="reg-step2-loading-process" src="/images/loading.gif" alt="Loading" />
-						</div>
-						<div class="col-lg-12">
-							<p id="loading-license-errormes" class="reg-step2-loading-errors"></p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-5">
-					<span id="license-cnt">
-						<?php if($model->license) echo Html::a(Html::img('http://team.by/tmp/thumb_' .$model->license), 'http://team.by/tmp/' .$model->license, ['class' => '', 'data-toggle' => 'lightbox']) ?>
-					</span>
-				</div>
-			</div>
-		</div>
 			
 		<div class="ros-rel">
 			<p class="youtube-field-descr field-descr"><a href="http://team.by/images/youtube-example.png" data-toggle="lightbox" data-gallery="youtube-example">Пример</a> того, что нужно сюда вставить</p>

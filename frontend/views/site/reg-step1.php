@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 $this->title = 'Личные данные';
-
 ?>
 <div class="site-reg-step1 row clearfix">
 	<div class="col-lg-7">
@@ -29,7 +28,6 @@ $this->title = 'Личные данные';
 			</div>
 		<?php ActiveForm::end(); ?>
 	</div>
-	
 	<div class="col-lg-4 col-lg-offset-1">
 		<div class="reg_info">
 			<div class="reg_info_ttl">

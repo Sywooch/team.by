@@ -387,15 +387,5 @@ jQuery(function($) {
 		
 	});
 	
-	$('#activity-btn').on('click', function(e){
-		$('#activity').val($(this).data('active'));
-		$('#set-activity-frm').submit();
-	});
-	
-	$('#activity-btn').hover(
-		function(){$('#profile_header__popup').stop(true,true).fadeIn();},
-		function(){$('#profile_header__popup').stop(true,true).fadeOut();}
-	);
-	
 	
 });

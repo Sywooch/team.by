@@ -54,7 +54,7 @@ use yii\helpers\Html;
 								);
 								$inner_li .= '</div>';
 								$inner_li .= '<div class="col-sm-6">';
-								$inner_li .=  Html::textInput( $model_name.'[price]['.$child_k.']', isset($model->price[$child_k]) ? $model->price[$child_k] : '', ['class'=>"form-control", 'id'=>'price-'.$child_k] );
+								$inner_li .=  Html::textInput( $model_name.'[price]['.$child_k.']', isset($model->price[$child_k]) ? $model->price[$child_k] : '', ['class'=>"form-control", 'id'=>'price-'.$child_k, 'placeholder'=>'Стоимость'] );
 								$inner_li .= '</div>';
 
 

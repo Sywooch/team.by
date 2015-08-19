@@ -208,7 +208,7 @@ class SiteController extends Controller
 				
 				$user->price_list = $RegStep2Form['price_list'];
 				$user->avatar = $RegStep2Form['avatar'];				
-				$user->license = $RegStep2Form['license'];				
+				//$user->license = $RegStep2Form['license'];				
 				
 				$user->setPassword($RegStep1Form['password']);
 				$user->generateAuthKey();
@@ -308,6 +308,12 @@ class SiteController extends Controller
 				
 				Yii::$app->mailer->compose('mail-new-spec', ['user'=>$user])
 					->setTo(\Yii::$app->params['adminEmail'])
+					->setFrom(\Yii::$app->params['noreplyEmail'])
+					->setSubject('Регистрация нового специалиста')
+					->send();
+				
+				Yii::$app->mailer->compose('mail-new-spec-reg', ['model'=>$RegStep1Form])
+					->setTo($RegStep1Form['email'])
 					->setFrom(\Yii::$app->params['noreplyEmail'])
 					->setSubject('Регистрация нового специалиста')
 					->send();

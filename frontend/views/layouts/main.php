@@ -33,7 +33,10 @@ if($current_controller == 'site' && $current_action == 'index') $show_header_row
 
 $wrap_cnt_class = '';
 if($current_controller == 'site' && ($current_action == 'index' || $current_action == 'reg' || $current_action == 'reg-step1' || $current_action == 'reg-step2' ))
-	$wrap_cnt_class = 'wrap__cnt_main_page'
+	$wrap_cnt_class = 'wrap__cnt_main_page';
+	
+if($current_controller == 'catalog' && $current_action == 'black-list')
+	$wrap_cnt_class = 'wrap__cnt_black_list';
 
 ?>
 
@@ -125,7 +128,7 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 			<div class="footer__buttons">
 				<?php if (\Yii::$app->user->isGuest) {	?>
 					<a href="http://pro.team.by<?= Url::toRoute('/site/reg')?>" class="button-gray footer__reg_btn">Стать специалистом</a>
-					<a href="http://pro.team.by<?= Url::toRoute('/site/login')?>" id="login-modal-footer" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
+					<a href="<?= Url::toRoute('/site/login')?>" id="login-modal-footer" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
 				<?	}	else	{	?>
 					<?php $form = ActiveForm::begin(['action'=>['/site/logout']]); ?>						
 						<a id="logout-btn-footer" class="button-gray footer__logout_btn" href="<?= Url::toRoute('/site/logout')?>">Выйти из системы</a>

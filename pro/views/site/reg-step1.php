@@ -27,9 +27,9 @@ $UserTypesArray = Yii::$app->params['UserTypesArray']
 			
 			<?= $form->field($model, 'phone') ?>
 			
-			<?= $form->field($model, 'password') ?>
+			<?= $form->field($model, 'password')->passwordInput() ?>
 			
-			<?= $form->field($model, 'passwordRepeat') ?>
+			<?= $form->field($model, 'passwordRepeat')->passwordInput() ?>
 
 			<div class="form-group">
 				<?= Html::submitButton('Продолжить', ['class' => 'button-red']) ?>

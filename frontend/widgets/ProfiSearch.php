@@ -83,6 +83,8 @@ class ProfiSearch extends Widget
 					'region_id'=>$region_id,
 					'region_str'=>$regions['active'],
 					'categories'=>$cats_l1,
+					'controller'=>$this->controller,
+					'action'=>$this->action
 				];
 
 			}
