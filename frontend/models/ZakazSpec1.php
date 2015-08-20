@@ -15,7 +15,7 @@ class ZakazSpec1 extends Model
 //    public $comment = 'Хочу муму';
 
     public $name;
-    public $phone = '+375';
+    public $phone = '';
     public $comment;
     public $user_id = 0;
 	public $spec_name;
@@ -42,7 +42,7 @@ class ZakazSpec1 extends Model
         return [
             'name' => 'Ваше имя',
             'phone' => 'Ваш номер телефона',
-            'comment' => 'Какой специалист вам нужен?',
+            'comment' => 'Кого вы ищете? С чем надо помочь?',
         ];
     }
 }

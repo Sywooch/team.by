@@ -35,16 +35,17 @@ use yii\widgets\ActiveForm;
       
 	<?= $form->field($model, 'parent_id')->dropDownList($categories, [$model->parent_id]) ?>   
 	
-    <?= $form->field($model, 's_descr')->textInput(['maxlength' => true]) ?>	
+    <?//= $form->field($model, 's_descr')->textInput(['maxlength' => true]) ?>	
 	 
 	<?php if($model->depth == 2)	{	?>
 		<?= $form->field($model, 'popular')->checkbox(['class'=>'bs-switch']) ?> 
 	<?php	}	?>
 	
 	<?php 
+	/*
 	echo $form->field($model, 'description')->widget(CKEditor::className(), [
 	  'editorOptions' => ElFinder::ckeditorOptions('elfinder',['preset' => 'full', 'inline' => false]),
-	]); ?>	
+	]); */?>	
     
 
     <? //= $form->field($model, 'description')->textarea(['rows' => 6]) ?>

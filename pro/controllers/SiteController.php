@@ -25,6 +25,9 @@ use app\models\ContactForm;
 //use app\models\ProfileAnketaForm;
 //use app\models\ProfilePaymentTypeForm;
 
+use yii\base\InvalidParamException;
+use yii\web\BadRequestHttpException;
+
 class SiteController extends Controller
 {
     /*
@@ -208,6 +211,7 @@ class SiteController extends Controller
 				
 				$user->price_list = $RegStep2Form['price_list'];
 				$user->avatar = $RegStep2Form['avatar'];				
+				$user->youtube = $RegStep2Form['youtube'];				
 				//$user->license = $RegStep2Form['license'];				
 				
 				$user->setPassword($RegStep1Form['password']);
@@ -247,13 +251,13 @@ class SiteController extends Controller
 				
 				//назначаем ему специализации
 				foreach($RegStep2Form->usluga as $k=>$p) {
-					if(isset($RegStep2Form->price[$p])) {
+					//if(isset($RegStep2Form->price[$p])) {
 						$userCategories = new UserSpecials();
 						$userCategories->user_id = $user->id;
-						$userCategories->category_id = $k;
-						$userCategories->price = $RegStep2Form->price[$p];
+						$userCategories->category_id = $p;
+						$userCategories->price = $RegStep2Form->price[$p] ? $RegStep2Form->price[$p] : 0;
 						$userCategories->save();
-					}
+					//}
 				}
 				
 				//добавляем награды, дипломы
@@ -358,7 +362,10 @@ class SiteController extends Controller
 			}
 		}
 		
-		//echo'<pre>';print_r($cats_l3);echo'</pre>';//die;
+		if(count($model->ratios) == 0) $model->ratios[] = 1;	//нужно чтобы у первого городоа коэф был 1.
+		
+		//echo'<pre>';print_r($model->ratios);echo'</pre>';//die;
+		
 		
 
 		return $this->render('reg-step2', [
@@ -377,7 +384,7 @@ class SiteController extends Controller
 
     public function actionRequestPasswordReset()
     {
-        $model = new PasswordResetRequestForm();
+        $model = new \frontend\models\PasswordResetRequestForm();
 		
 		$request = Yii::$app->request;
 		$modal = $request->get('modal');
@@ -413,15 +420,14 @@ class SiteController extends Controller
     public function actionResetPassword($token)
     {
         try {
-            $model = new ResetPasswordForm($token);
+            $model = new \frontend\models\ResetPasswordForm($token);
         } catch (InvalidParamException $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
             Yii::$app->getSession()->setFlash('success', 'Новый пароль сохранен.');
-			$model->password = '';
-            //return $this->goHome();
+            return $this->redirect(Yii::$app->params['proUrl']);
         }
 
         return $this->render('resetPassword', [

@@ -108,20 +108,23 @@ class UserSearch extends User
 
 		//ищем по ФИО и специализации
 		$query = User::find()
-			->select(['id'])
+			->select(['{{%user}}.id'])
 			->asArray()
 			->where(['like', 'fio', $search])			
 			->orWhere(['like', 'specialization', $search])
 			->andWhere(['<>', 'black_list', 1])
-			->andWhere(['=', 'is_active', 1]);
-			->andWhere(['user_status'=>[2,10]])
+			->andWhere(['=', 'is_active', 1])
+			->andWhere(['user_status'=>[2,10]]);
 
 
-		if(count($region_ids))
-			$query->andWhere(['region_id' => $region_ids]);
-
+		if(count($region_ids)) {
+			$query->joinWith(['userRegionsList'])
+				->andWhere(['region_id' => $region_ids]);
+		}
+			
+		
 		$search1 = $query->column();
-
+		/*
 		//ищем по категориям
 		$categories = Category::find()
 			->select(['id'])
@@ -161,14 +164,15 @@ class UserSearch extends User
 			$query->andWhere(['region_id' => $region_ids]);
 
 		$search3 = $query->column();
-
+		*/
 
 
 		//echo'<pre>';print_r($search1);echo'</pre>';//die;
 		//echo'<pre>';print_r($search2);echo'</pre>';//die;
 		//echo'<pre>';print_r($search3);echo'</pre>';//die;
 		
-		return array_merge($search1, $search2, $search3);
+		//return array_merge($search1, $search2, $search3);
+		return $search1;
 
 	}
 	

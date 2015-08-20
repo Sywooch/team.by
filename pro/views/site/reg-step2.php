@@ -225,12 +225,15 @@ if(count($model->regions)) {
 			</div>
 		</div>		
 			
-		<div class="ros-rel">
+		<div class="ros-rel mb-30">
 			<p class="youtube-field-descr field-descr"><a href="http://team.by/images/youtube-example.png" data-toggle="lightbox" data-gallery="youtube-example">Пример</a> того, что нужно сюда вставить</p>
-			<?= $form->field($model, 'youtube') ?>	
+			<?= $form->field($model, 'youtube') ?>
+			<div>
+				<?php if($model->youtube != '') echo \common\models\User::getYoutubeBlock1($model->youtube)?>	
+			</div>
 		</div>		
 
-		<div class="form-group">
+		<div class="form-group pt-30">
 			<?= Html::submitButton('Продолжить', ['class' => 'button-red']) ?>
 		</div>
 	<?php ActiveForm::end(); ?>

@@ -537,6 +537,11 @@ class User extends ActiveRecord implements IdentityInterface
 		return '<iframe width="277" height="156" src="'.$this->youtube.'" frameborder="0" allowfullscreen></iframe>';
 	}
 	
+    public function getYoutubeBlock1($val)
+    {
+		return '<iframe width="277" height="156" src="'.$val.'" frameborder="0" allowfullscreen></iframe>';
+	}
+	
 	
 	
 }

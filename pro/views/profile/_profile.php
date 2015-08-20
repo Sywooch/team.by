@@ -278,8 +278,11 @@ if(count($model->regions)) {
 		</div>
 		
 		<?= $form->field($model, 'youtube') ?>
+		<div class="mb-30">
+			<?php if($model->youtube != '') echo \common\models\User::getYoutubeBlock1($model->youtube) ?>	
+		</div>
 		
-		<div class="form-group">
+		<div class="form-group pt-30">
 			<?= Html::submitButton('Сохранить изменения', ['class' => 'button-red']) ?>
 		</div>
 	<?php ActiveForm::end(); ?>

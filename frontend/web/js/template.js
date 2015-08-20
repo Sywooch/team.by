@@ -466,6 +466,7 @@ jQuery(function($) {
 		
         $.get(url, function (data) {
             modal.html(data).modal('show');
+			modal.find('.phone-input').mask(phone_mask);
         });
         return false;
     });

@@ -36,7 +36,7 @@ class RegStep1Form extends Model
  
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => \common\models\User::className(), 'message' => 'Данный email уже используется.'],
+            ['email', 'unique', 'targetClass' => \common\models\User::className(), 'message' => 'Данный адрес электронной почты уже используется.'],
             ['email', 'string', 'max' => 255],
 			
 			['phone', 'required'],

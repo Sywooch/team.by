@@ -265,9 +265,10 @@ class CatalogController extends Controller
 		$model = User::findOne($id);		
 		if ($model === null) throw new CHttpException(404, 'Аккаунт с данным ID отсутствует в базе');		
 		
+		//echo'<pre>';print_r($categories_history);echo'</pre>'; die;
 		//echo'<pre>';print_r($model->userCategories[0]);echo'</pre>'; die;
 		
-		if(count($categories_history))	{
+		if(count($categories_history) && isset($categories_history[$id]))	{
 			$category = Category::find()
 				->where(['id' => $categories_history[$id]])
 				->one();
