@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 		<?= $form->field($model, 'user_id')->hiddenInput() ?>
 		<?= $form->field($model, 'spec_name')->hiddenInput() ?>
-        <?= $form->field($model, 'phone') ?>
+        <?= $form->field($model, 'phone')->textInput(['class'=>'inputbox width100 phone-input']) ?>
         <?= $form->field($model, 'name') ?>
         <?= $form->field($model, 'comment')->textarea() ?>
     

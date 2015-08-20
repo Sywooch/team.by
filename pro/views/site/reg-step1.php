@@ -3,7 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$this->title = \Yii::$app->params['sitename'] .' | ' . 'Личные данные';
+$title = 'Личные данные';
+$this->title = \Yii::$app->params['sitename'] .' | ' . $title;
 
 
 //print_r();
@@ -12,7 +13,7 @@ $UserTypesArray = Yii::$app->params['UserTypesArray']
 ?>
 <div class="site-reg-step1 row clearfix">
 	<div class="col-lg-7">
-		<h1><?= Html::encode($this->title) ?></h1>
+		<h1><?= Html::encode($title) ?></h1>
 		
 		<?php $form = ActiveForm::begin(); ?>
 
@@ -25,7 +26,7 @@ $UserTypesArray = Yii::$app->params['UserTypesArray']
 			
 			<?= $form->field($model, 'email') ?>
 			
-			<?= $form->field($model, 'phone') ?>
+			<?= $form->field($model, 'phone')->textInput(['class'=>'form-control phone-input']) ?>
 			
 			<?= $form->field($model, 'password')->passwordInput() ?>
 			

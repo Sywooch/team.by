@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 .header {
 	background-color: #f8f8f8;
 }
@@ -31,9 +33,16 @@
 	padding-right: 0;
 }
 
+.profi_search_regions__list,
+.profi_search_tab_1_regions__list,
+.header_regions__list {
+	width: 200px;
+}
+
 .header_regions__item {
 	a {
-		@extend %db;
+		
+		
 		@extend %underline_n_n;
 		
 		line-height: 26px;
@@ -46,6 +55,59 @@
 			background-color: $gray7;
 			color: #fff;
 		}
+	}
+	
+}
+
+.profi_search_regions__item,
+.header_regions__item {
+	a {
+		@extend %pos_rel;
+		@extend %db;
+	}
+	.region-ico {
+		@extend %ico;
+		@extend %pos_abs;
+		right: 5px;
+		top: 2px;
+		width: 20px;
+		height: 20px;
+		line-height: 20px;
+		
+		&:before {
+			@extend %font_20;
+			content: '+';
+			font-family: tahoma, arial;
+				
+		}
+		
+		&.active {
+			&:before {
+				width: 12px;
+				height: 2px;
+				top: 11px;
+				background-color: $blue1;
+				content: ' ';
+				//content: '—';
+			}
+		}
+		
+		&:hover:before {
+			color: $blue1;
+		}
+		
+	}
+}
+
+.profi_search_regions__item {
+	.region-ico {
+		right: 0;
+	}
+}
+
+.header_regions__item_parent {
+	& > ul {
+		@extend %hide;
 	}
 }
 

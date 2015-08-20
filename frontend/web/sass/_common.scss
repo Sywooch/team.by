@@ -258,12 +258,14 @@ h1,.h1 {
 		border: 6px solid transparent;
 		border-bottom: 6px solid #fff;
 		margin-left: -6px;
-	}	
-	
+	}
+}
+
+.header_phone__popup {
 	span {
 		@extend .dinpro-b;
 		color: $blue4;
-	}
+	}	
 }
 
 .popup_block_dark {

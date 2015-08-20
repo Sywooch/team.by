@@ -15,13 +15,20 @@ use yii\helpers\Html;
 				<div id="profi_search_regions__list_cnt" class="profi_search_tab_1_regions__list_cnt popup_block">
 					<ul class="profi_search_tab_1_regions__list">
 						<?php foreach($regions as $row)	{	?>
-							<li class="profi_search_regions__item">
-								<a href="javascript:void(0)" <?= $row['active'] ? 'class="profi_search_regions__item_active"' : '' ?> data-region="<?= $row['id']?>"><?= $row['name']?></a>
+							<li class="profi_search_regions__item <?= $row['children'] ? 'header_regions__item_parent' : '' ?>">
+								<a href="javascript:void(0)" <?= $row['active'] ? 'class="profi_search_regions__item_active"' : '' ?> >
+									<span class="region-name" data-region="<?= $row['id']?>"><?= $row['name']?></span>
+									<?php if($row['children'])	{	?>
+										<span class="region-ico"></span>
+									<?	}	?>
+								</a>
 								<?php if($row['children'])	{	?>
 									<ul class="profi_search_regions_list__l2">
 										<?php foreach($row['children'] as $row_c)	{	?>
 											<li class="profi_search_regions__item profi_search_regions__item_l2">
-												<a href="javascript:void(0)" <?= $row_c['active'] ? 'class="profi_search_regions__item_active"' : '' ?> data-region="<?= $row_c['id']?>"><?= $row_c['name']?></a>
+												<a href="javascript:void(0)" <?= $row_c['active'] ? 'class="profi_search_regions__item_active"' : '' ?> >
+													<span class="region-name" data-region="<?= $row_c['id']?>"><?= $row_c['name']?></span>
+												</a>
 											</li>
 										<?	}	?>
 									</ul>

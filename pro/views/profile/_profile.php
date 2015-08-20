@@ -52,7 +52,7 @@ if(count($model->regions)) {
 			<div class="row clearfix">
 				<div class="col-lg-6"><?= $form->field($model, 'fio') ?></div>
 				<div class="col-lg-6"><?= $form->field($model, 'email') ?></div>
-				<div class="col-lg-6"><?= $form->field($model, 'phone') ?></div>
+				<div class="col-lg-6"><?= $form->field($model, 'phone')->textInput(['class'=>'form-control phone-input']) ?></div>
 			</div>
 		</div>
 		

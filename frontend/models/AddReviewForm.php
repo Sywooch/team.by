@@ -43,7 +43,7 @@ class AddReviewForm extends Model
             [['rating'], 'required', 'message'=>'Укажите вашу оценку'],
 			
 			[['phone'], 'required', 'message'=>'Укажите номер телефона'],
-			[['phone'], 'string', 'min' => 13, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
+			[['phone'], 'string', 'min' => 19, 'max' => 19, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
 			
 			[['name'], 'string', 'min' => 3, 'max' => 255],
 			

@@ -31,7 +31,7 @@ class UserSpecials extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'category_id', 'price'], 'required'],
+            [['user_id', 'category_id'], 'required'],
             [['user_id', 'category_id', 'price'], 'integer']
         ];
     }

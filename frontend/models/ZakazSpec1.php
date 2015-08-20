@@ -27,7 +27,7 @@ class ZakazSpec1 extends Model
     {
         return [
             [['phone', 'user_id'], 'required'],
-			[['phone'], 'string', 'min' => 13, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
+			[['phone'], 'string', 'min' => 19, 'max' => 19, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
 			[['name', 'spec_name'], 'string', 'min' => 3, 'max' => 255],
 			[['comment'], 'string', 'min' => 3, 'max' => 255],
 			['user_id', 'integer'],

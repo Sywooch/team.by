@@ -107,7 +107,7 @@ class RegStep2Form extends Model
             //'region_name' => 'Город',
             'category1' => 'Выберите услуги',
             'price' => 'Стоимость работ',
-            'awards' => 'Награды, димломы',
+            'awards' => 'Награды, дипломы',
             'examples' => 'Примеры ваших работ',
             'to_client' => 'Осуществляем выезд к клиенту',
             'specialization' => 'Специализация',

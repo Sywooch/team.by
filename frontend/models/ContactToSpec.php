@@ -22,7 +22,7 @@ class ContactToSpec extends Model
     {
         return [
             [['phone'], 'required'],
-			[['phone'], 'string', 'min' => 12, 'max' => 12],
+			[['phone'], 'string', 'min' => 19, 'max' => 19, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
 			[['name'], 'string', 'min' => 3, 'max' => 255],
 			[['comment'], 'string', 'min' => 3, 'max' => 255],
             // verifyCode needs to be entered correctly

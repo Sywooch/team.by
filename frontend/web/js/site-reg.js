@@ -104,9 +104,9 @@ jQuery(function($) {
 		
 		
 		$('#regions-cnt > .region-row').each(function(){
-			if($(this).find('select').val() != 0 && $(this).find('input[type="text"]').val() != '') {				
+			if($(this).find('select').val() != 0) {
 				allOk = true;
-				//break;
+				if ($(this).find('input[type="text"]').val() == '') $(this).find('input[type="text"]').val('1');
 			}
 		});
 		
@@ -138,16 +138,21 @@ jQuery(function($) {
 								$(this).removeClass('has-error');
 								if($(this).find('input:checkbox').prop('checked')) {
 									check_presents = true;
+									allOk = true;
+									/*
 									if($(this).find('input:text').val() == '') {
 										allOk = false;
 										$(this).addClass('has-error');
 									}
+									*/
 								} else {
+									/*
 									if($(this).find('input:text').val() != '') {
 										allOk = false;
 										check_presents = false;
 										$(this).addClass('has-error');
-									}									
+									}
+									*/
 								}
 							});
 						}

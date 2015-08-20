@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 
         <?//= $form->field($model, 'user_id') ?>
         <?= $form->field($model, 'rating') ?>
-        <?= $form->field($model, 'phone') ?>
+        <?= $form->field($model, 'phone')->textInput(['class'=>'phone-input']) ?>
         <?= $form->field($model, 'name') ?>
         <?= $form->field($model, 'video') ?>
         <?= $form->field($model, 'comment') ?>

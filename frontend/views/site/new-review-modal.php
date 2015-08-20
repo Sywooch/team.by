@@ -33,7 +33,7 @@ $this->title = 'Новый отзыв';
 
 				<?//= $form->field($model, 'user_id') ?>
 
-				<?= $form->field($model, 'phone') ?>
+				<?= $form->field($model, 'phone')->textInput(['class'=>'inputbox width100 phone-input']) ?>
 				<?= $form->field($model, 'name') ?>
 				<?= $form->field($model, 'user_id')->dropDownList($model->userList, [$model->user_id]) ?>
 				<div id="speclist-cnt" class="form-group"></div>

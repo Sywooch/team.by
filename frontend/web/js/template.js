@@ -1,6 +1,7 @@
 jQuery(function($) {
 	var spec_name = '',
-		spec_id = 0;
+		spec_id = 0,
+		phone_mask = '+375 (99) 999-99-99';
 	
 	
 	//получаем кол-во миниатюр у блока
@@ -102,6 +103,10 @@ jQuery(function($) {
 	
 	ekkoLightboxInit();	
 	
+	$.mask.definitions['~']='[+-]';
+	$('.phone-input').mask(phone_mask);
+	
+	
 	//подстраиваем ширину инпута для поиска
 	if($("div").is(".profi_search_inner__inputbox_cnt")) {
 		$('.profi_search_inner__inputbox').css('width', ($('.profi_search_inner__inputbox_cnt').width() - $('#profi_search_inner_regions__active').width() - 140)+'px');
@@ -191,9 +196,13 @@ jQuery(function($) {
         return false;
     });
 	
-	$('.profi_search_regions__item a').on('click', function (e) {
+	$('.profi_search_regions__item .region-name').on('click', function (e) {
 		$('#profi_search_inner_regions__active').html($(this).html());
 		$('#profi_search_inner_regions__list_cnt').fadeToggle(10);
+		$('html, body').animate({
+			scrollTop: 0
+		}, 1000);
+		
 		
 		//подстраиваем ширину инпута для поиска
 		if($("div").is(".profi_search_inner__inputbox_cnt")) {
@@ -204,6 +213,12 @@ jQuery(function($) {
         return false;
     });
 	
+	/*
+	$('.profi_search_regions__item .region-ico').on('click', function (e) {
+
+		$(this).html());
+    });
+	*/
 	
     $('#profi_search_regions__active').on('click', function (e) {
 		$('#profi_search_regions__list_cnt').fadeToggle();
@@ -218,13 +233,18 @@ jQuery(function($) {
     });
 	*/
 	
-	$('.header_regions__item a').on('click', function(e){
+	$('.header_regions__item .region-name').on('click', function(e){
 		$('#region_id').val($(this).data('region'));
 		$('#header_regions__list_cnt').fadeToggle();
 		$('#set-region-frm').submit();
 	});
 	
-	$('#profi_search_regions__list_cnt a').on('click', function(e){
+	$('.header_regions__item .region-ico, .profi_search_regions__item .region-ico').on('click', function(e){
+		$(this).parent().parent().find('ul').slideToggle(50);
+		$(this).toggleClass('active');
+	});
+	
+	$('#profi_search_regions__list_cnt .region-name').on('click', function(e){
 		$('#profi_search_region_id').val($(this).data('region'));
 		$('#profi_search_regions__active').text($(this).text());
 		$('#profi_search_regions__list_cnt').fadeToggle();
@@ -301,6 +321,7 @@ jQuery(function($) {
 			modal.find('#zakazspec1-comment').val(spec_name);
 			modal.find('#zakazspec1-user_id').val(spec_id);
 			modal.find('#zakazspec1-spec_name').val(spec_name);
+			modal.find('.phone-input').mask(phone_mask);
         });
         return false;
     });
@@ -314,6 +335,7 @@ jQuery(function($) {
             form.serialize(),
             function (data) {
 				modal.html(data).modal('show');
+				$('.modal').find('.phone-input').mask(phone_mask);
             }
         );
         return false;
@@ -375,7 +397,8 @@ jQuery(function($) {
 			upload_reviewfoto_item_num = getImageNum('uploading-reviewfoto-list');
 			$(".modal #addreviewform-phone").bind('paste', function(e) {
 				getSpecList();
-			});	
+			});
+			$('.modal').find('.phone-input').mask(phone_mask);
 			
         });
         return false;

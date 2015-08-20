@@ -13,13 +13,20 @@ use yii\helpers\Url;
 				<input type="hidden" id="region_id" name="region_id" value="<?= $region_id?>">
 				<ul class="header_regions__list">
 					<?php foreach($regions as $row)	{	?>
-						<li class="header_regions__item">
-							<a href="javascript:void(0)" <?=  $row['active'] ? 'class="header_regions_item_active"' : '' ?> data-region="<?= $row['id']?>"><?= $row['name']?></a>
+						<li class="header_regions__item <?= $row['children'] ? 'header_regions__item_parent' : '' ?>">
+							<a href="javascript:void(0)" <?=  $row['active'] ? 'class="header_regions_item_active"' : '' ?> >
+								<span class="region-name" data-region="<?= $row['id']?>"><?= $row['name']?></span>
+								<?php if($row['children'])	{	?>
+									<span class="region-ico"></span>
+								<?	}	?>
+							</a>
 							<?php if($row['children'])	{	?>
 								<ul class="header_regions_list__l2">
 									<?php foreach($row['children'] as $row_c)	{	?>
 										<li class="header_regions__item header_regions__item_l2">
-											<a href="javascript:void(0)" <?=  $row_c['active'] ? 'class="header_regions_item_active"' : '' ?> data-region="<?= $row_c['id']?>"><?= $row_c['name']?></a>
+											<a href="javascript:void(0)" <?=  $row_c['active'] ? 'class="header_regions_item_active"' : '' ?> >
+												<span class="region-name" data-region="<?= $row_c['id']?>"><?= $row_c['name']?></span>
+											</a>
 										</li>
 									<?	}	?>
 								</ul>

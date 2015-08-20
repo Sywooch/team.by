@@ -11,7 +11,7 @@ use yii\bootstrap\NavBar;
 
 use yii\widgets\Breadcrumbs;
 
-use app\assets\AppAsset;
+use frontend\assets\AppAsset;
 
 use app\widgets\Alert;
 
@@ -102,12 +102,14 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 
 			<div class="footer__cnt">
 				<?php
+
+				
 				echo Menu::widget([
 					'items' => [
 						//['label' => 'Условия использования', 'url' => '#'],
 						['label' => 'О компании', 'url' => 'http://team.by/page/about'],
 						['label' => 'Оплата', 'url' => ['/page/view', 'alias'=>'oplata']],
-						['label' => 'Тарифы', 'url' => ['/page/view', 'alias'=>'tarify']],
+						['label' => 'Тарифы', 'url' => ['/page/view', 'alias'=>'tarify'], 'visible' => !Yii::$app->user->isGuest],
 						//['label' => 'Черный список', 'url' => '#'],
 					],
 					'options' => [

@@ -143,7 +143,7 @@ class ProfileController extends Controller
 		
 		foreach($model->userSpecials as $item)	{
 			$ProfileAnketaForm->usluga[] = $item->category_id;
-			$ProfileAnketaForm->price[$item->category_id] = $item->price;
+			$ProfileAnketaForm->price[$item->category_id] = $item->price ? $item->price : '';
 		}
 		
 		
@@ -715,15 +715,20 @@ class ProfileController extends Controller
 		$array_identical = false;
 		if(count($model->userSpecials) != count($ProfileAnketaForm->usluga)) {
 			$array_identical = false;
-		}	else	{
+		}	else	{			
 			foreach($model->userSpecials as $model_spec)	{
+				//echo'<pre>';print_r($model_spec);echo'</pre>';//die;
 				$array_identical = false;
-				foreach($ProfileAnketaForm->usluga as $usluga)	{
-					if($model_spec->category_id == $usluga)
+				foreach($ProfileAnketaForm->usluga as $key=>$usluga)	{
+					if($model_spec->category_id == $usluga && $model_spec->price = $ProfileAnketaForm->price[$usluga])
 						$array_identical = true;
 				}
 			}
 		}
+		
+		//echo'<pre>';var_dump($array_identical);echo'</pre>';//die;
+		//echo'<pre>';var_dump($ProfileAnketaForm->price);echo'</pre>';die;
+
 
 		if($array_identical == false) {
 			foreach($model->userSpecials as $model_spec)	{
@@ -735,7 +740,7 @@ class ProfileController extends Controller
 					$userCategories = new UserSpecials();
 					$userCategories->user_id = $model->id;
 					$userCategories->category_id = $usluga;
-					$userCategories->price = $ProfileAnketaForm->price[$usluga];
+					$userCategories->price = $ProfileAnketaForm->price[$usluga] ? $ProfileAnketaForm->price[$usluga] : 0;
 					$userCategories->save();
 				}
 			}

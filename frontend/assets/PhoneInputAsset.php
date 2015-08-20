@@ -13,20 +13,16 @@ use yii\web\AssetBundle;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class AppAsset extends AssetBundle
+class PhoneInputAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
-    public $css = [
-        'css/screen.css',
-    ];
+    public $css = [];
     public $js = [
 		'http://team.by/js/jquery.maskedinput.min.js',
-		'http://team.by/js/template.js',
+		'http://team.by/js/phone-input.js',
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
-		'yii\bootstrap\BootstrapPluginAsset',
+		'yii\web\YiiAsset',
     ];
 }

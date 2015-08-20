@@ -74,7 +74,7 @@ class ProfileAnketaForm extends Model
             ['email', 'string', 'max' => 255],
 			
 			['phone', 'required'],
-            ['phone', 'string', 'min' => 7, 'max' => 255],
+            [['phone'], 'string', 'min' => 19, 'max' => 19, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
  									
 			//[['password', 'passwordRepeat'], 'required'],
 			[['passwordNew', 'passwordRepeat'], 'string', 'min' => 6],
@@ -138,7 +138,7 @@ class ProfileAnketaForm extends Model
             'region_name' => 'Город',
             'category1' => 'Выберите услуги',
             'price' => 'Стоимость работ',
-            'awards' => 'Награды, димломы',
+            'awards' => 'Награды, дипломы',
             'examples' => 'Примеры ваших работ',
             'to_client' => 'Осуществляем выезд к клиенту',
             'specialization' => 'Специализация',
