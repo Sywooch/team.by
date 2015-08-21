@@ -185,6 +185,11 @@ class SiteController extends Controller
 //					$new_region->appendTo($parent_region);
 //				}
 //			}
+			foreach($model->ratios as &$ratio) {
+				$ratio = (double) str_replace(',', '.', $ratio);
+				if($ratio == 0) $ratio = 1;
+			}
+
 			
 			if ($model->validate() && $region_ok == 1) {
 				$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
@@ -325,10 +330,12 @@ class SiteController extends Controller
 				Yii::$app->user->login($user, 0);
 				
 				return $this->redirect(['reg-final']);
+			}	else	{
+				//echo'<pre>';print_r($model);echo'</pre>';//die;
 			}
 		}
 		
-		//echo'<pre>';print_r($model);echo'</pre>';//die;
+		
 		
 		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
 		

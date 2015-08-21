@@ -69,9 +69,9 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 					<a class="catalog-category-list-item__pricedownload" href="#">Скачать полный прайс</a>
 				<?php }	?>
 			</div>
-			<div class="catalog-category-list-item__info_row">
+			<div class="catalog-category-list-item__info_row catalog-category-list-item__info_row_3">
 				<div class="row clearfix">
-					<div class="col-lg-5">
+					<div class="col-lg-4">
 						<p class="bold">Виды услуг:</p>
 						<ul class="catalog-category-list-item__uslugi">
 							<?php 
@@ -81,7 +81,7 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 							?>
 						</ul>
 					</div>
-					<div class="col-lg-3">
+					<div class="col-lg-4">
 						<p class="bold">Опыт работы:</p>
 						<p><?= DStringHelper::getIntroText(200, $model->experience) ?></p>
 					</div>

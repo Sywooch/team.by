@@ -7,6 +7,11 @@ use yii\web\Controller;
 use common\models\LoginForm;
 use yii\filters\VerbFilter;
 
+use yii\base\InvalidParamException;
+
+use yii\web\BadRequestHttpException;
+
+
 /**
  * Site controller
  */

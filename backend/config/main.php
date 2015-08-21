@@ -14,15 +14,15 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
-//        'permit' => [
-//            'class' => 'developeruz\db_rbac\Yii2DbRbac',
-//        ],		
         'permit' => [
-            'class' => 'app\modules\db_rbac\Yii2DbRbac',
-            'params' => [
-                'userClass' => 'app\models\User'
-            ]
+            'class' => 'developeruz\db_rbac\Yii2DbRbac',
         ],		
+//        'permit' => [
+//            'class' => 'app\modules\db_rbac\Yii2DbRbac',
+//            'params' => [
+//                'userClass' => 'app\models\User'
+//            ]
+//        ],		
 	],
     'components' => [
         'session' => [

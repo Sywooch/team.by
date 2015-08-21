@@ -367,6 +367,15 @@
 	height: 260px;
 }
 
+
+#region-row-f {
+	input[type="text"] {
+		visibility: hidden; 
+	}
+}
+
+
+
 @media (max-width: 1600px) {
 	.site_reg__footer_img_left,
 	.site_reg__footer_img_right {

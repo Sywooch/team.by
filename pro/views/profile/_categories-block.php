@@ -38,7 +38,7 @@ use yii\helpers\Html;
 							$inner_li .= '<ul id="cnt-price-'.$cat2['id'].'"'. (!$model->isChecked($cat2['id']) ? ' style="display:none;"': '') .'>';
 							foreach($categories_l3[$cat2['id']] as $child_k => $child)	{
 								$inner_li .= '<li id="usluga-price-'.$child_k.'" class="form-group clearfix">';
-								$inner_li .= '<div class="col-sm-5 categories-block-lbl-cnt">';
+								$inner_li .= '<div class="col-sm-8 categories-block-lbl-cnt">';
 								$inner_li .= Html::checkbox(
 									$model_name.'[usluga][]', 
 									$model->uslugaIsCheked($child_k), 
@@ -53,7 +53,7 @@ use yii\helpers\Html;
 									]
 								);
 								$inner_li .= '</div>';
-								$inner_li .= '<div class="col-sm-6">';
+								$inner_li .= '<div class="col-sm-4">';
 								$inner_li .=  Html::textInput( $model_name.'[price]['.$child_k.']', isset($model->price[$child_k]) ? $model->price[$child_k] : '', ['class'=>"form-control", 'id'=>'price-'.$child_k, 'placeholder'=>'Стоимость'] );
 								$inner_li .= '</div>';
 
@@ -63,26 +63,30 @@ use yii\helpers\Html;
 							$inner_li .= '</ul>';
 						}
 						$elem = Html::tag('li', $inner_li, ['class'=>'col-lg-611'] );	
+						
+						$col1 .= $elem;
 
-						if ($i % 2 == 0) {
-							$col1 .= $elem;
-						}	else	{
-							$col2 .= $elem;
-						}
+//						if ($i % 2 == 0) {
+//							$col1 .= $elem;
+//						}	else	{
+//							$col2 .= $elem;
+//						}
 
 					}	
 				?>
 				<div class="row clearfix">
-					<div class="col-lg-6">
+					<div class="col-lg-12">
 						<ul class="row1 clearix1">
 							<?= $col1 ?>
 						</ul>
 					</div>
+					<?/*
 					<div class="col-lg-6">
 						<ul class="row1 clearix1">
 							<?= $col2 ?>
 						</ul>
 					</div>
+					*/?>
 				</div>
 
 		<?php	}	?>

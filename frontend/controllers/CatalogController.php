@@ -172,8 +172,8 @@ class CatalogController extends Controller
 			'query' => $query,
 			
 			'pagination' => [
-				//'pageSize' => Yii::$app->params['catlist-per-page'],
-				'pageSize' => 2,
+				'pageSize' => Yii::$app->params['catlist-per-page'],
+				//'pageSize' => 2,
 				'pageSizeParam' => false,
 			],
 		]);

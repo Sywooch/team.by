@@ -53,13 +53,13 @@ AppAsset::register($this);
 
 					['label' => 'Страницы', 'url' => ['/page/index']],
 
-					[
-						'label' => 'Доступ',
-						'items' => [
-							 ['label' => 'Роли', 'url' => ['/permit/access/role']],
-							 ['label' => 'Права доступа', 'url' => ['/permit/access/permission']],
-						],
-					],            
+//					[
+//						'label' => 'Доступ',
+//						'items' => [
+//							 ['label' => 'Роли', 'url' => ['/permit/access/role']],
+//							 ['label' => 'Права доступа', 'url' => ['/permit/access/permission']],
+//						],
+//					],            
 					
 					[
 						'label' => 'Выгрузка',

@@ -44,7 +44,24 @@ $this->params['breadcrumbs'][] = $category->name;
 <?php if(count($children))	{	?>
 	<div class="catalog-category-children__list">
 		<ul class="row clearfixt">
-			<?php foreach($children as $c)	echo Html::tag('li', Html::a(Html::encode($c->name), ['catalog/category', 'category' => $c->path]), ['class' => 'col-lg-2 catalog-category-children__item']) ?>
+			<?php 
+				foreach($children as $k=>$c) {
+					$key = ($k - 4) +1 ;
+					$rowcount = ( ((int)$key - 1) % 2) + 1; 
+					//echo $rowcount;
+					//echo $key;
+					//if($rowcount == 5) {
+					if(($k+1)%5 == 0 && $k <=5) {
+						$clr = ' clear';
+					}	elseif(($k)%4 == 0 && $k >5)	{
+						$clr = ' clear';
+					}	else	{
+						$clr = '';
+					}
+					
+					echo Html::tag('li', Html::a(Html::encode($c->name), ['catalog/category', 'category' => $c->path]), ['class' => 'col-lg-3 catalog-category-children__item' . $clr]);
+				}
+			?>
 		</ul>
 	</div>
 <?php	}	?>

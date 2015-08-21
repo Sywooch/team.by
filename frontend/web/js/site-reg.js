@@ -302,14 +302,29 @@ jQuery(function($) {
 	$('#regions-wr').on('click', '.add_new_region', function(e){
 		var to_block = $('#regions-cnt'),
 			block = $('#region-row-f'),
-			select = block.find('select');
+			select = block.find('select'),
+			selected_towns = [];
 		
 		e.preventDefault();
 		
+		to_block.find('select').each(function(){
+			selected_towns.push(parseInt($(this).val()));
+		});
+		
+		console.log(selected_towns);
+		
 		$("#regions-cnt .categories-block-error").remove();
 		to_block.append('<div class="form-group row clearfix region-row">' + block.html() + '</div>');
-		//to_block.find('.region-row:last-of-type .region-dd-cnt').html('<select id="profileanketaform-regions" class="form-control" name="ProfileAnketaForm[regions][]">' + select.html() + '</select>');
 		to_block.find('.region-row:last-of-type .region-dd-cnt').html('<select id="profileanketaform-regions" class="form-control" name="' + select.attr('name') + '">' + select.html() + '</select>');
+		
+		to_block.find('.region-row:last-of-type .region-dd-cnt select option').each(function(){
+			for(var i=0; i<selected_towns.length; i++) {
+				if(selected_towns[i] == parseInt($(this).attr('value')))
+					$(this).remove();
+			}
+			
+		});
+		
 		to_block.find('.region-row:last-of-type .region-dd-cnt select').val(0);
 		to_block.find('.region-row:last-of-type .region-dd-cnt select').styler();
 		
