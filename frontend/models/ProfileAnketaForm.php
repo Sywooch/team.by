@@ -40,6 +40,7 @@ class ProfileAnketaForm extends Model
     public $categories = [];
     public $category1;
     public $price = [];
+	public $unit = [];
 	
     public $awards = [];
     public $examples = [];
@@ -101,8 +102,7 @@ class ProfileAnketaForm extends Model
 			//['price', 'validateEmptyPrices'],
 			[['categories', 'price'], 'safe'],
 			
-			['examples', 'required', 'message'=>'Загрузите примеры ваших работ'],
-			['examples', 'each', 'rule' => ['string']],
+			[['examples', 'unit'], 'each', 'rule' => ['string']],
 			
 			['awards', 'each', 'rule' => ['string']],
 			['usluga', 'each', 'rule' => ['string']],
@@ -133,11 +133,12 @@ class ProfileAnketaForm extends Model
             'experience' => 'Опыт работы',
             'price_list' => 'Вы можете загрузить прайс',
             'avatar' => 'Загрузите фото для анкеты',
-            'region' => 'Город',
+            'region' => 'Укажите регион',
             'region_parent_id' => 'Область',
-            'region_name' => 'Город',
+            'region_name' => 'Укажите регион',
             'category1' => 'Выберите услуги',
             'price' => 'Стоимость работ',
+			'unit' => 'за',
             'awards' => 'Награды, дипломы',
             'examples' => 'Примеры ваших работ',
             'to_client' => 'Осуществляем выезд к клиенту',
@@ -162,17 +163,24 @@ class ProfileAnketaForm extends Model
 	protected function getRegionsDropDownList()
     {
 		$categories = Region::find()->where('id <> 1')->orderBy('lft, rgt')->all();
-		$categories1 = ArrayHelper::map($categories, 'id', 'name');
+//		$categories1 = ArrayHelper::map($categories, 'id', 'name');
 		//print_r($categories[2]->parent_id);
 		
-		$categories2 = [];
-		foreach($categories as $row) {
-			if($row->parent_id != 1)
-				$categories2[$categories1[$row->parent_id]][$row->id] = $row->name;
-				//$categories2[] = ['id'=>$row->id, 'text'=>$row->name, 'group'=>$categories1[$row->parent_id]];
+//		$categories2 = [];
+//		foreach($categories as $row) {
+//			if($row->parent_id != 1)
+//				$categories2[$categories1[$row->parent_id]][$row->id] = $row->name;
+//			
+//		}
+		foreach($categories as $c){
+			$separator = '';
+			for ($x=0; $x++ < $c->depth;) $separator .= '-';
+			$c->name = $separator.' '.$c->name;
 		}
 		
-		$categories = [0=>'Выберите'] + $categories2;
+		
+		//$categories = [0=>'Выберите'] + $categories2;
+		$categories = [0=>'Выберите'] + ArrayHelper::map($categories, 'id', 'name');
 		return $categories;
     }
 	

@@ -64,24 +64,24 @@ $this->registerJs($js, View::POS_LOAD, 'shedule');
 		</div>
 		<div class="col-lg-6 profile_shedule_call_time">
 			<p class="profile_shedule_ttl">Удобное время для звонков</p>
-			<div class="set-call-time-cnt">
-				<?php $form = ActiveForm::begin(['action'=>Url::to(['profile/set-calltime']), 'id'=>'set-call-time-frm']); ?>
+			<?php $form = ActiveForm::begin(['action'=>Url::to(['profile/set-calltime']), 'id'=>'set-call-time-frm']); ?>
+				<div class="set-call-time-cnt">
 					<div class="row clearfix">
 						<div class="col-lg-6"><?= $form->field($model, 'call_from')->dropDownList($model->callHours, [$model->call_from]) ?></div>
 						<div class="col-lg-6"><?= $form->field($model, 'call_to')->dropDownList($model->callHours, [$model->call_to]) ?></div>
 					</div>
+				</div>
+				
+				<div class="form-group">
+					<?= Html::submitButton('Сохранить', ['class' => 'button-red btn-short']) ?>
+				</div>
 
+				<div id="profile-time-error-cnt" class="has-error">
+					<div id="profile-time-error" class="help-block">Укажите правильно удобное время для звонков.</div>
+				</div>
 
-
-
-					<div class="form-group">
-						<?= Html::submitButton('Сохранить', ['class' => 'button-red btn-short']) ?>
-					</div>
-
-				<?php ActiveForm::end(); ?>
-			</div>
-			<p>Мы будем звонить вам только в удобное вам время.</p>
-
+				<p>Мы будем звонить вам только в удобное вам время.</p>
+			<?php ActiveForm::end(); ?>
 		</div>
 	</div>
 </div>

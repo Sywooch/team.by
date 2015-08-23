@@ -147,8 +147,8 @@ $categories_l2_arr = [];
 		<?php echo $this->render('_documents_other', ['model'=>$model,'document_form' => $document_form], false, true) ?>
 		
 		
-		<div class="form-group">
-			<?= Html::submitButton('Сохранить', ['class' => 'button-red']) ?>
+		<div class="form-group clearfix">
+			<?= Html::submitButton('Сохранить', ['class' => 'button-red pull-right']) ?>
 		</div>
 	<?php ActiveForm::end(); ?>
 </div>

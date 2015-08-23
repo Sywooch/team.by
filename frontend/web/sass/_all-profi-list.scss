@@ -179,7 +179,7 @@
 
 .catalog_popup {
 	@extend %pos_abs;
-	@extend %hide;
+	//@extend %hide;
 	
 	@include border-radius(0 0 7px 7px);
 	@include box-shadow(0 5px 5px 0 #006690 inset);
@@ -188,6 +188,7 @@
 	width: 1140px;
 	padding: 15px;
 	z-index: 10;
+	visibility: hidden;
 	
 	.all_profi_list__l1__ttl {
 		border-color: $blue13;

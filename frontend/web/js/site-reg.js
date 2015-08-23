@@ -91,6 +91,21 @@ jQuery(function($) {
 		//return false;
 	});
 	
+	$('#set-call-time-frm').on('submit', function() {
+		var allOk = false;
+		
+		$('#profile-time-error-cnt').hide();
+		
+		if(parseInt($('#calltimeform-call_to').val()) > parseInt($('#calltimeform-call_from').val())) {
+			allOk = true;
+		} else {
+			$('#profile-time-error-cnt').show();
+		}
+		
+		return allOk
+
+	});
+	
 	
 	$('#site-reg-step2-frm, #anketa-frm').on('submit', function() {
 		var allOk = false,
@@ -111,7 +126,7 @@ jQuery(function($) {
 		});
 		
 		if(allOk === false)	{
-			$('#regions-cnt').append('<span class="categories-block-error small">Укажите город и ценовой коэффициент.</span>');
+			$('#regions-cnt').prepend('<span class="categories-block-error small">Укажите город и ценовой коэффициент.</span>');
 			$('html, body').animate({
 				scrollTop: $("#regions-cnt").offset().top
 			}, 1000);
@@ -128,7 +143,7 @@ jQuery(function($) {
 				});
 				
 				if(allOk === false)	{
-					$(this).append('<span class="categories-block-error small">Отметьте выполняемые услуги</span>')
+					$(this).prepend('<span class="categories-block-error small">Отметьте выполняемые услуги</span>')
 				} else {
 					$(this).find('.reg-step2-category').each(function(){
 						
@@ -158,10 +173,10 @@ jQuery(function($) {
 						}
 					});
 					if(check_presents == false)	{
-						$(this).append('<span class="categories-block-error small">Укажите выполняемые услуги</span>')
+						$(this).prepend('<span class="categories-block-error small">Укажите выполняемые услуги</span>')
 						allOk = false;
 					} else if(allOk === false)	{
-						$(this).append('<span class="categories-block-error small">Укажите цены на выполняемые услуги</span>')
+						$(this).prepend('<span class="categories-block-error small">Укажите цены на выполняемые услуги</span>')
 					}
 				}
 			}
@@ -311,9 +326,38 @@ jQuery(function($) {
 			selected_towns.push(parseInt($(this).val()));
 		});
 		
-		console.log(selected_towns);
+		if(selected_towns.length == 1 && selected_towns[0] == 0)
+			return false;
+		
+		//console.log(selected_towns);
+		//console.log(selected_towns.join());
 		
 		$("#regions-cnt .categories-block-error").remove();
+		
+		$.ajax({
+			type: 'post',				
+			url: 'http://pro.team.by/ajax/getregionsdropdown',
+			data: {ids :selected_towns.join(), form_name: $('#form_name').val()},
+			//dataType: 'json',
+			beforeSend: function(){ $('#adding-region').show(); },
+			success: function(msg){
+				$('#adding-region').hide();
+				$('#regions-field-descr').show();
+				to_block.append(msg);
+				//to_block.find('.region-row:last-of-type .region-dd-cnt select').val(0);
+				to_block.find('.region-row:last-of-type .region-dd-cnt select').styler();
+				
+				
+				/*
+				$(".modal").find('#addreviewform-user_id').remove();
+				$(".modal").find('#addreviewform-user_id-styler').remove();
+				$(".modal").find('.field-addreviewform-user_id').children('label').after(msg);
+				$(".modal").find('select').styler();
+				*/
+				
+			}
+		});
+		/*
 		to_block.append('<div class="form-group row clearfix region-row">' + block.html() + '</div>');
 		to_block.find('.region-row:last-of-type .region-dd-cnt').html('<select id="profileanketaform-regions" class="form-control" name="' + select.attr('name') + '">' + select.html() + '</select>');
 		
@@ -324,9 +368,9 @@ jQuery(function($) {
 			}
 			
 		});
-		
-		to_block.find('.region-row:last-of-type .region-dd-cnt select').val(0);
-		to_block.find('.region-row:last-of-type .region-dd-cnt select').styler();
+		*/
+		//to_block.find('.region-row:last-of-type .region-dd-cnt select').val(0);
+		//to_block.find('.region-row:last-of-type .region-dd-cnt select').styler();
 		
 
 		/*
@@ -342,6 +386,10 @@ jQuery(function($) {
 	$('#regions-wr').on('click', '.remove_region_row', function(e){
 		e.preventDefault();
 		$(this).parent().parent().remove();
+		console.log($('#regions-wr select').length);
+		if ($('#regions-wr select').length < 2)
+			$('#regions-field-descr').hide();
+		
 		return false;
 	});
 
@@ -384,7 +432,6 @@ jQuery(function($) {
 	});
 	
 	$('#regstep2form-category1').on('change', function(e){
-		console.log($(this).val());
 		$('.categories-block').each(function(){
 			if($(this).is(':visible')) {
 				$(this).find('.reg-step2-category').each(function(){
@@ -407,5 +454,31 @@ jQuery(function($) {
 		
 	});
 	
+	$('#calltimeform-call_to').on('change', function(e){
+		var call_to = parseInt($(this).val());
+		
+		console.log($(this).val());
+		$('#calltimeform-call_from option').each(function(){
+			console.log($(this).attr('value'));
+			console.log(call_to);
+			if((parseInt($(this).attr('value'))) > call_to) {
+				$(this).remove();
+			}
+				
+		})
+		$('#calltimeform-call_from').styler();
+	});
+	
+	//
+    $('#offer-service').on('click', function (e) {
+		e.preventDefault();
+        var url = $(this).data('url'),
+            modal = $('.modal');
+		
+        $.get(url, function (data) {
+            modal.html(data).modal('show');
+        });
+        return false;
+    });
 	
 });

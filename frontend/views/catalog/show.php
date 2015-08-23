@@ -19,7 +19,8 @@ foreach($parents as $parent) {
 	if($parent->id <> 1)
 		$this->params['breadcrumbs'][] = ['label' => $parent->name, 'url' => ['category', 'category'=>$parent->path]];
 }
-$this->params['breadcrumbs'][] = $category->name;
+//$this->params['breadcrumbs'][] = $category->name;
+$this->params['breadcrumbs'][] = ['label' => $category->name, 'url' => ['category', 'category'=>$category->path]];
 
 if($model->education != '')	{
 	$education_arr = explode('<br />', nl2br($model->education));
@@ -44,7 +45,8 @@ foreach($model->userMedia as $media)	{
 }
 
 $rating_active = 20 * $model->total_rating; // максимальная оценка 5 это 100%.  Значит каждая единица = 20%
-//echo'<pre>';print_r($model->userSpecials);echo'</pre>';die;
+
+//echo'<pre>';print_r($model->userSpecialsList);echo'</pre>';//die;
 ?>
 
 <div class="catalog-item">
@@ -87,6 +89,11 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 				</div>
 				<div class="catalog-item_body__info_row catalog-item_body__about clearfix">
 					<?= $model->about ?>
+					
+					<?php if($model->specialization)	{	?>
+						<p class="catalog-item_body__uslugi_ttl pt-10">Специализация</p>
+						<p><?= $model->specialization ?></p>
+					<?php	}	?>
 				</div>
 				
 				<div class="catalog-item_body__info_row catalog-item_body__uslugi clearfix">
@@ -95,8 +102,8 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 						<?php foreach($model->userSpecialsList as $user_spec)	{	?>
 							<li class="catalog-item_body__uslugi_item col-lg-6">
 								<div class="row">
-									<p class="col-lg-6">• <?= $user_spec->category->name ?></p>
-									<p class="col-lg-6"><?= DPriceHelper::formatPrice($user_spec->price); ?></p>
+									<p class="col-lg-8">• <?= $user_spec->category->name ?></p>
+									<p class="col-lg-4"><?= $user_spec->price ? DPriceHelper::formatPrice($user_spec->price * $model->regionRatio) : ''; ?><?= $user_spec->unit ? (' за '.$user_spec->unit) : ''?></p>
 									<?/*<p class="col-lg-6"><?= \Yii::$app->formatter->asDecimal($user_spec->price); ?></p> */?>
 								</div>
 							</li>

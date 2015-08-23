@@ -4,6 +4,8 @@ namespace pro\controllers;
 
 use Yii;
 
+use yii\helpers\Url;
+
 use common\models\Category;
 use common\models\User;
 use common\models\UserCategories;
@@ -43,6 +45,14 @@ class ProfileController extends Controller
 		
 		$model = User::findOne(\Yii::$app->user->id);
 		
+		
+		//если пользователя удалили через админку а он был залогинен в этот момент
+		if($model->user_status == 3) {
+			Yii::$app->user->logout();
+			return $this->redirect('/site/login');
+		}
+		
+		
 		if($model->group_id != 2) return $this->render('no-spec');
 		
 		$ProfileAnketaForm = new ProfileAnketaForm();
@@ -56,10 +66,11 @@ class ProfileController extends Controller
 		if ($ProfilePaymentTypeForm->load(Yii::$app->request->post())) {
 			$ProfilePaymentTypeForm->save();
 			//echo'<pre>';print_r($ProfilePaymentTypeForm);echo'</pre>';die;
+			Yii::$app->session->setFlash('success', 'Метод оплаты обновлен.');
 			$this->redirect('/profile');
 		}
 		//echo'<pre>1212121';print_r($ProfilePaymentTypeForm);echo'</pre>';die;
-		
+		//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 		if ($ProfileAnketaForm->load(Yii::$app->request->post())) {
 			
 			foreach($ProfileAnketaForm->ratios as &$ratio) {
@@ -71,13 +82,18 @@ class ProfileController extends Controller
 			if($ProfileAnketaForm->email != $model->email) $ProfileAnketaForm->scenario = 'change_email';
 			
 			if($ProfileAnketaForm->validate()) {
+				
+				//echo'<pre>';print_r($ProfileAnketaForm);echo'</pre>';die;
 			
 				//echo'<pre>';var_dump($ProfileAnketaForm->ratios);echo'</pre>';die;
 
 				if($ProfileAnketaForm->price_list != $model->price_list) {
-					//удаляем старый прайс-лист
-					if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list))
-						unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list);
+					
+					if($model->price_list != '') {
+						//удаляем старый прайс-лист
+						if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list))
+							unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list);
+					}
 
 					//перемещаем новый прайс-лист
 					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->price_list))
@@ -111,7 +127,9 @@ class ProfileController extends Controller
 
 				$model->user_status = 2; //после редактирования меняем статус на "Требует проверки".
 				$model->save();
-
+				//echo'<pre>';print_r($model);echo'</pre>';die;
+				Yii::$app->session->setFlash('success', 'Успешно сохранено.', false);
+				//echo'<pre>';print_r(\Yii::$app->session->allFlashes);echo'</pre>';//die;
 				$this->checkUslugi($model, $ProfileAnketaForm); //проверяем изменения в услугах
 
 				$this->checkCategories($model, $ProfileAnketaForm); //проверяем изменения в категориях
@@ -121,13 +139,19 @@ class ProfileController extends Controller
 				$this->checkExamples($model, $ProfileAnketaForm); //проверяем изменения в примерах работ
 
 				$this->checkRegions($model, $ProfileAnketaForm); //проверяем изменения в регионах
+				
+				//echo'<pre>';print_r(\Yii::$app->session->allFlashes);echo'</pre>';die;
+				//echo'<pre>';print_r($model);echo'</pre>';die;			
 
-				$this->redirect('/profile');
+				$this->redirect(Url::to(['/profile']));
 			}	else	{
-				//echo'<pre>';var_dump($ProfileAnketaForm);echo'</pre>';die;
+				Yii::$app->session->setFlash('error', 'Проверьте правильнось введенных данных');
+				//echo'<pre>';print_r($ProfileAnketaForm);echo'</pre>';die;
 			}
 		}	else	{
-			//echo'<pre>';print_r($model->userRegions);echo'</pre>';die;
+			//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';die;
+			//echo'<pre>';print_r($ProfileAnketaForm);echo'</pre>';die;
+			
 			foreach($model->userRegions as $k=>$item)	{
 				$ProfileAnketaForm->regions[] = $item->region_id;
 				$ProfileAnketaForm->ratios[$k] = $item->ratio;
@@ -136,7 +160,7 @@ class ProfileController extends Controller
 			$ProfileAnketaForm->attributes = $model->toArray();
 			
 		}
-		
+		//echo'<pre>';print_r(\Yii::$app->session->allFlashes);echo'</pre>';//die;
 		//echo'<pre>';var_dump($ProfileAnketaForm);echo'</pre>';die;
 		
 		
@@ -144,6 +168,7 @@ class ProfileController extends Controller
 		foreach($model->userSpecials as $item)	{
 			$ProfileAnketaForm->usluga[] = $item->category_id;
 			$ProfileAnketaForm->price[$item->category_id] = $item->price ? $item->price : '';
+			$ProfileAnketaForm->unit[$item->category_id] = $item->unit ? $item->unit : '';
 		}
 		
 		
@@ -294,8 +319,11 @@ class ProfileController extends Controller
 		
 		$model = User::findOne(Yii::$app->user->id);
 		
-		Yii::$app->user->logout();
+		$model->user_status = 3;
+		$model->save();
 		
+		Yii::$app->user->logout();
+		/*
 		foreach($model->userMedia as $media) {
 			switch($media->media_id) {
 				case 1:
@@ -331,7 +359,7 @@ class ProfileController extends Controller
 		}
 		
         $model->delete();
-		
+		*/
 		return $this->render('profile-delete');
 	}
 	
@@ -348,6 +376,7 @@ class ProfileController extends Controller
 			$model = User::findOne(\Yii::$app->user->id);
 			$model->is_active = $activity;
 			$model->save(false);
+			Yii::$app->session->setFlash('success', 'Текущий статус обновлен.');
 			return $this->redirect($return_url);
 		}	else	{
 			return $this->goHome();
@@ -370,6 +399,9 @@ class ProfileController extends Controller
 				$user->save(false);
 			}
 		}
+		
+		Yii::$app->session->setFlash('success', 'Время звонков обновлено.');
+		
 		return $this->redirect('/profile');
 	}
 	
@@ -713,6 +745,11 @@ class ProfileController extends Controller
 	public function checkUslugi($model, $ProfileAnketaForm)
 	{
 		$array_identical = false;
+		
+		//echo'<pre>';print_r($ProfileAnketaForm->usluga);echo'</pre>';//die;
+		//echo'<pre>';print_r($ProfileAnketaForm->price);echo'</pre>';//die;
+		//echo'<pre>';print_r($ProfileAnketaForm->unit);echo'</pre>';die;
+		
 		if(count($model->userSpecials) != count($ProfileAnketaForm->usluga)) {
 			$array_identical = false;
 		}	else	{			
@@ -720,13 +757,15 @@ class ProfileController extends Controller
 				//echo'<pre>';print_r($model_spec);echo'</pre>';//die;
 				$array_identical = false;
 				foreach($ProfileAnketaForm->usluga as $key=>$usluga)	{
-					if($model_spec->category_id == $usluga && $model_spec->price = $ProfileAnketaForm->price[$usluga])
+					if($model_spec->category_id == $usluga && $model_spec->price == $ProfileAnketaForm->price[$usluga] && $model_spec->unit == $ProfileAnketaForm->unit[$usluga])
 						$array_identical = true;
 				}
+				
+				if($array_identical === false) break;
 			}
 		}
 		
-		//echo'<pre>';var_dump($array_identical);echo'</pre>';//die;
+		//echo'<pre>';var_dump($array_identical);echo'</pre>';die;
 		//echo'<pre>';var_dump($ProfileAnketaForm->price);echo'</pre>';die;
 
 
@@ -740,7 +779,8 @@ class ProfileController extends Controller
 					$userCategories = new UserSpecials();
 					$userCategories->user_id = $model->id;
 					$userCategories->category_id = $usluga;
-					$userCategories->price = $ProfileAnketaForm->price[$usluga] ? $ProfileAnketaForm->price[$usluga] : 0;
+					$userCategories->price = $ProfileAnketaForm->price[$usluga] ? (str_replace(' ', '', $ProfileAnketaForm->price[$usluga])) : 0;
+					$userCategories->unit = $ProfileAnketaForm->unit[$usluga] ? $ProfileAnketaForm->unit[$usluga] : 0;
 					$userCategories->save();
 				}
 			}
@@ -897,11 +937,13 @@ class ProfileController extends Controller
 			}
 
 			foreach($ProfileAnketaForm->regions as $k=>$item)	{
-				$userRegions = new UserRegion();
-				$userRegions->user_id = $model->id;
-				$userRegions->region_id = $item;
-				$userRegions->ratio = $ProfileAnketaForm->ratios[$k];
-				$userRegions->save();
+				if($item != 0) {
+					$userRegions = new UserRegion();
+					$userRegions->user_id = $model->id;
+					$userRegions->region_id = $item;
+					$userRegions->ratio = $ProfileAnketaForm->ratios[$k];
+					$userRegions->save();					
+				}
 			}
 		}
 	}
@@ -935,18 +977,27 @@ class ProfileController extends Controller
 	public function saveDocuments2(&$model, &$user)
 	{
 		$user_attr = $user->attributes;
+		
+		if($user->license != '' && file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$user->license))
+			rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$user->license, Yii::getAlias('@frontend').'/web/tmp/'.$user->license);
+		
 		foreach($user_attr as $attr_key=>&$attr)	{
 			if(isset($model->$attr_key))
 				$user->$attr_key = $model->$attr_key;
 		}
 
 		$user->save();
+		
+		if($user->license != '' && file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$user->license))
+			rename(Yii::getAlias('@frontend').'/web/tmp/'.$user->license, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$user->license);
+		
 		//echo'<pre>';print_r($model);echo'</pre>';die;
 		foreach($user->userDocuments as $item) {
 			if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$item->filename))
 				rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$item->filename, Yii::getAlias('@frontend').'/web/tmp/'.$item->filename);
 		}
 
+		
 		
 		$this->saveDocumentItem($model->reg_file, 5);
 
@@ -958,13 +1009,21 @@ class ProfileController extends Controller
 	public function saveDocuments3(&$model, &$user)
 	{
 		$user_attr = $user->attributes;
+
+		if($user->license != '' && file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$user->license))
+			rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$user->license, Yii::getAlias('@frontend').'/web/tmp/'.$user->license);
+		
+		
 		foreach($user_attr as $attr_key=>&$attr)	{
 			if(isset($model->$attr_key))
 				$user->$attr_key = $model->$attr_key;
 		}
 
+		//echo'<pre>';print_r($user->license);echo'</pre>';die;
 		$user->save();
-		//echo'<pre>';print_r($user_attr);echo'</pre>';die;
+		
+		if($user->license != '' && file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$user->license))
+			rename(Yii::getAlias('@frontend').'/web/tmp/'.$user->license, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$user->license);
 
 		foreach($user->userDocuments as $item) {
 			if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$item->filename))
@@ -1067,6 +1126,18 @@ class ProfileController extends Controller
 						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$filename, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.'thumb_'.$filename);
 				}
 			}
+		}	else	{
+			foreach($userDocuments as $item)	{
+				if($item->document_id == 4) {
+					//перемещаем фото в temp
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$item->filename))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$item->filename, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.$item->filename);
+
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$item->filename))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$item->filename, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['documents-path'].'/'.'thumb_'.$item->filename);
+				}
+			}
+			
 		}
 	}
 	

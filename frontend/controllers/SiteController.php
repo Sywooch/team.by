@@ -131,7 +131,8 @@ class SiteController extends Controller
 		$modal = $request->get('modal');
 		
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            //return $this->goBack();
+            return $this->redirect(Yii::$app->params['proUrl']);
         } elseif($modal == 1) {
             return $this->renderPartial('login-modal', [
                 'model' => $model,
@@ -619,6 +620,8 @@ class SiteController extends Controller
 		$request = Yii::$app->request;
 		$modal = $request->get('modal');
 		
+		$show_form = true;
+		
 
 		if ($model->load(Yii::$app->request->post())) {
 			if ($model->validate()) {
@@ -627,10 +630,13 @@ class SiteController extends Controller
 				if($client === null) {
 					Yii::$app->getSession()->setFlash('error', 'Клиент с заданым телефоном не найден');
 				}	else	{
+					/*
 					$order = \common\models\Order::find()
 								->where(['client_id' => $client->id])
 								->andWhere(['user_id' => $model->user_id])
 								->one();
+					*/
+					$order = \common\models\Order::findOne($model->order_id);
 					if($order === null) {
 						Yii::$app->getSession()->setFlash('error', 'Заказ не найден');
 					}	else	{
@@ -651,7 +657,7 @@ class SiteController extends Controller
 							
 							$review->order_id = $order->id;
 							$review->client_id = $client->id;
-							$review->user_id = $model->user_id;
+							$review->user_id = $order->user_id;
 							$review->review_text = $model->comment;
 							$review->review_rating = $model->rating;
 							$review->youtube = $model->video;
@@ -674,7 +680,11 @@ class SiteController extends Controller
 									}
 								}
 								
+								//$order->status = 5;
+								//$order->save();
+								
 								Yii::$app->getSession()->setFlash('success', 'Благодарим вас за отзыв! Ваш отзыв появится на сайте сразу же после проверки модератором.');
+								$show_form = false;
 							}	else	{
 								//echo'<pre>';print_r($review);echo'</pre>';//die;
 								Yii::$app->getSession()->setFlash('error', 'Ошибка при сохранении отзыва');
@@ -693,6 +703,7 @@ class SiteController extends Controller
 		if($modal == 1) {
 			return $this->renderPartial('new-review-modal', [
 				'model' => $model,
+				'show_form' => $show_form,
 			]);
 		}	else	{
 			return $this->render('new-review', [

@@ -9,7 +9,9 @@ foreach($models as $model) {
 
 
 <div class="container">
-	<span class="header_popular__ttl">Популярные категории</span>
+	<p class="header_popular__ttl_cnt">
+		<span class="header_popular__ttl">Популярные категории</span>
+	</p>
 
 
 	<?php 

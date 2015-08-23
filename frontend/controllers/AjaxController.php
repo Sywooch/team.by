@@ -268,20 +268,35 @@ class AjaxController extends Controller
 		$client = \common\models\Client::find()->where(['phone' => $phone])->one();
 		//echo'<pre>';print_r($client);echo'</pre>';die;
 		if($client !== NULL)	{
-			$orders = $client->orders;
+			//$orders = $client->orders;
+			$orders = \common\models\Order::find()
+				->joinWith(['user'])
+				->where(['client_id'=>$client->id])
+				->andWhere(['{{%order}}.status' => 4])	// 4 - оплачен, ожидает отзыва
+				->all();
 
+			//echo'<pre>';print_r($orders);echo'</pre>';die;
+			/*
 			$users = \common\models\User::find()
 					->distinct(true)
 					->joinWith(['orders'])
 					->where(['{{%order}}.client_id'=>$client->id])
 					->all();
+				*/
+			
+			$spec_arr = [];
+			foreach($orders as $order) {
+				if($order->review === null)
+					$spec_arr[$order->id] = $order->user->fio . ' заказ №'. $order->id;
+			}
 
-			$users_arr = [null => '--- Выберите ----'] + ArrayHelper::map($users, 'id', 'fio');			
+			//$users_arr = [null => '--- Выберите ----'] + ArrayHelper::map($users, 'id', 'fio');			
+			$users_arr = [null => '--- Выберите ----'] + $spec_arr;			
 		}	else	{
 			$users_arr = [null => '--- Заказы не найдены ----'];
 		}
 		
-		echo Html::dropDownList('AddReviewForm[user_id]', 0, $users_arr, ['class'=>'form-control', 'id'=>'addreviewform-user_id']);
+		echo Html::dropDownList('AddReviewForm[order_id]', 0, $users_arr, ['class'=>'form-control', 'id'=>'addreviewform-order_id']);
 		
 		return;
 	}

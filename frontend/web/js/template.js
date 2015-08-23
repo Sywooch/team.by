@@ -60,9 +60,9 @@ jQuery(function($) {
 			//dataType: 'json',
 			beforeSend: function(){},
 			success: function(msg){
-				$(".modal").find('#addreviewform-user_id').remove();
-				$(".modal").find('#addreviewform-user_id-styler').remove();
-				$(".modal").find('.field-addreviewform-user_id').children('label').after(msg);
+				$(".modal").find('#addreviewform-order_id').remove();
+				$(".modal").find('#addreviewform-order_id-styler').remove();
+				$(".modal").find('.field-addreviewform-order_id').children('label').after(msg);
 				$(".modal").find('select').styler();
 				
 			}
@@ -405,7 +405,7 @@ jQuery(function($) {
     });
 	
 	
-    $('.modal').on('keyup', '#addreviewform-phone', function () {
+    $('.modal').on('keyup', '#addreviewform-phone', function (e) {
 		getSpecList();
     });
 	
@@ -438,18 +438,22 @@ jQuery(function($) {
         return false;
     });
 	
-    $('#profi_search_input').on('keyup', function () {		
+    $('#profi_search_input').on('keyup', function (e) {		
         var form = $(this).closest('form');
-		
-		if($(this).val().length > 2)
-        $.get(
-            form.attr('action'),
-            form.serialize(),
-            function (data) {
-				$('#search-result-cnt').html(data);
-				$('#search-result-cnt').show();
-            }
-        );
+				
+		if($(this).val().length > 2 && e.keyCode != 13) {//13 - нажали Ввод
+			$('#profi_search_modal').val(1);
+			$.get(
+				form.attr('action'),
+				form.serialize(),
+				function (data) {
+					$('#search-result-cnt').html(data);
+					$('#search-result-cnt').show();
+				}
+			);
+		} else {
+			$('#search-result-cnt').hide();
+		}
     });
 	
 	$('#profi_search_frm').on('submit', function(){
@@ -481,8 +485,34 @@ jQuery(function($) {
 		function(){$('#profile_header__popup').stop(true,true).fadeOut();}
 	);
 	
+	if($("ul").is(".all_profi_list")) {
+		var max_h = 0;
+		$('.all_profi_list .all_profi_list__l1__ttl').each(function(){
+			if($(this).height() > max_h)
+				max_h = $(this).height();
+		})
+		
+		$('.all_profi_list .all_profi_list__l1__ttl').css('height', (max_h+10));
+		
+		if($("div").is("#catalog_popup")) {
+			$("#catalog_popup").hide();
+			$("#catalog_popup").css('visibility','visible');
+		}
+	}
+	
+	if($("ul").is(".header_navbar")) {
+		var max_h = 0;
+		$('.header_navbar li').each(function(){
+			if($(this).height() > max_h)
+				max_h = $(this).height();
+		})
+		
+		$('.header_navbar li').css('height', (max_h));
+		$('.header_popular__ttl_cnt').css('height', (max_h));
+	}
+	
 	$(document).click(function(event) {
-		if ($(event.target).closest("#header_regions__list_cnt, #profi_search_inner_catalog, #profi_search_regions__list_cnt").length) return;
+		if ($(event.target).closest("#header_regions__list_cnt, #profi_search_inner_catalog, #profi_search_regions__list_cnt, #search-result-cnt").length) return;
 		
 		if($("#header_regions__list_cnt").is(':visible'))
 		   $("#header_regions__list_cnt").fadeOut("fast");
@@ -492,6 +522,9 @@ jQuery(function($) {
 		
 		if($("#profi_search_regions__list_cnt").is(':visible'))
 		   $("#profi_search_regions__list_cnt").fadeOut("fast");
+		
+		if($("#search-result-cnt").is(':visible'))
+		   $("#search-result-cnt").fadeOut("fast");
 		
 		event.stopPropagation();
 	});	

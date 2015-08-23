@@ -59,14 +59,17 @@
 		margin-bottom: 70px;
 	}
 	
+	.field-profileanketaform-youtube > label,
 	.field-profileanketaform-education > label {
 		margin-bottom: 35px;
 	}
+	
 	
 	.field-profileanketaform-specialization > label {
 		margin-bottom: 55px;
 	}
 	
+	.youtube-field-descr,
 	.specialization-field-descr,
 	.education-field-descr,
 	.about-field-descr {
@@ -300,7 +303,7 @@
 }
 
 .set-call-time-cnt {
-	margin: 85px 0 110px 310px;
+	margin: 85px 0 138px 310px;
 }
 
 .tab_profile_orders,
@@ -556,4 +559,24 @@
 	li {
 		padding: 5px 0;
 	}
+}
+
+#profile-time-error-cnt,
+.adding-region {
+	@extend %hide;
+}
+
+.regions-field-descr {
+	position: relative;
+	margin-bottom: 15px;
+}
+
+.profile-uslugi-currency {
+	@extend %italic;
+	@extend %font_14;
+	
+	color: $gray13;
+	padding-left: 0;
+	margin-top: 7px;
+	
 }

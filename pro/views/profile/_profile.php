@@ -13,6 +13,7 @@ use yii\widgets\ActiveForm;
 \pro\assets\BootstrapLightboxAsset::register($this);
 \pro\assets\FormStylerAsset::register($this);
 
+
 //echo'<pre>';print_r($categories);echo'</pre>';
 //echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 
@@ -26,12 +27,6 @@ $errors = $model->getErrors();
 
 
 $categories_l2_arr = [];
-
-if(count($model->regions)) {
-	$regions_rows = count($model->regions) - 1;
-}	else	{
-	$regions_rows = 0;
-}
 
 ?>
 <div class="profile_anketa row1 clearfix1">
@@ -47,12 +42,15 @@ if(count($model->regions)) {
 			'id'=>'anketa-frm',
 		] ); ?>
 		
+		<?php echo $form->errorSummary($model); ?>
+		
+		<input type="hidden" id="form_name" value="ProfileAnketaForm">
 		
 		<div class="profile_anketa_row">
-			<div class="row clearfix">
-				<div class="col-lg-6"><?= $form->field($model, 'fio') ?></div>
-				<div class="col-lg-6"><?= $form->field($model, 'email') ?></div>
-				<div class="col-lg-6"><?= $form->field($model, 'phone')->textInput(['class'=>'form-control phone-input']) ?></div>
+			<div class="row clearfix"> 
+				<div class="col-lg-6"><?= $form->field($model, 'fio')->textInput(['readonly'=>'readonly']) ?></div>
+				<div class="col-lg-6"><?= $form->field($model, 'email')->textInput(['readonly'=>'readonly']) ?></div>
+				<div class="col-lg-6"><?= $form->field($model, 'phone')->textInput(['readonly'=>'readonly']) ?></div>
 			</div>
 		</div>
 		
@@ -67,16 +65,19 @@ if(count($model->regions)) {
 			<p class="h1">Информация об услугах</p>
 		
 			<div class="row clearfix">
+				<div class="col-lg-12">
+					<?php echo $this->render('@pro/views/profile/_add-regions-frm', ['form_name'=>'ProfileAnketaForm', 'model'=>$model], false, true); ?>
+				</div>
+				
+				<?/*
 				<div id="regions-wr" class="col-lg-6">
 					<div id="regions-cnt" class="regions-cnt">
 						<?php for ($x=0; $x<=$regions_rows; $x++) { ?>
 							<div <? if ($x==0) echo 'id="region-row-f"' ?> class="form-group row clearfix region-row">
 								<div class="col-lg-8 region-dd-cnt">
-									<?//= Html::activeDropDownList($model, 'regions[]', $model->regionsDropDownList, ['class'=>'form-control']) ?>
 									<?= Html::dropDownList('ProfileAnketaForm[regions][]', $model->regions[$x], $model->regionsDropDownList, ['class'=>'form-control']) ?>
 								</div>
 								<div class="col-lg-3">
-									<?//= Html::activeTextInput($model, 'ratios[]', ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
 									<?= Html::textInput('ProfileAnketaForm[ratios][]', $model->ratios[$x], ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
 								</div>
 								<div class="col-lg-1">
@@ -89,26 +90,8 @@ if(count($model->regions)) {
 					<div class="form-group">
 						<a href="#" class="add_new_region">Добавить</a>
 					</div>
-				
-					<?/*
-					<?= $form->field($model, 'region')->dropDownList($model->regionsDropDownList, [$model->region]) ?>
-					<div class="form-group">
-						<a href="" id="site-reg-add-new-city" class="site-reg__add-new-city">Добавить еще один город</a>
-					</div>
-					
-					<div id="site-reg-add-new-city-cnt" class="row clearfix site-reg-add-new-city-cnt">
-						<div class="col-lg-6">
-							<?= $form->field($model, 'region_parent_id')->dropDownList($model->regionsLevel1DropDownList, [$model->region_parent_id]) ?>   
-						</div>
-
-						<div class="col-lg-6">
-							<?= $form->field($model, 'region_name') ?>
-						</div>
-
-					</div>
-					*/?>
-					
 				</div>
+				*/?>
 				<div class="col-lg-6"></div>
 				<div class="col-lg-12">
 					<p class="about-field-descr field-descr">Опишите вашу специализацию, квалификацию, любые ваши особенности и требования. Старайтесь писать живым языком, избегая анкетных шаблонов. Разрешена прямая реклама ваших услуг. Не разрешено использовать выражения, описывающие, что вы делаете какую-то работу лучше кого-то, или лучше всех. Не разрешено - оставлять свои контактные данные</p>
@@ -277,7 +260,10 @@ if(count($model->regions)) {
 			</div>
 		</div>
 		
+		<p class="youtube-field-descr field-descr">Иногда проще один раз показать, чем сто раз написать. Здесь вы можете оставить ссылку на ваше видеообращение.</p>
 		<?= $form->field($model, 'youtube') ?>
+		
+		
 		<div class="mb-30">
 			<?php if($model->youtube != '') echo \common\models\User::getYoutubeBlock1($model->youtube) ?>	
 		</div>

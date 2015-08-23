@@ -33,6 +33,7 @@ class CategoryController extends Controller
      */
     public function actionIndex()
     {
+		$this->chekUserAdmin();
         $dataProvider = new ActiveDataProvider([
             'query' => Category::find()
 				->where(['<>', 'id', 1])
@@ -49,13 +50,15 @@ class CategoryController extends Controller
      * @param integer $id
      * @return mixed
      */
+	/*
     public function actionView($id)
     {
+		
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
-
+	*/
     /**
      * Creates a new Category model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -63,6 +66,8 @@ class CategoryController extends Controller
      */
     public function actionCreate()
     {
+		$this->chekUserAdmin();
+		
         $model = new Category();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -101,6 +106,8 @@ class CategoryController extends Controller
      */
     public function actionUpdate($id)
     {
+		$this->chekUserAdmin();
+		
         $model = $this->findModel($id);
 		$model->parent_id_old = $model->parent_id;
 		$model->path = '';
@@ -144,6 +151,8 @@ class CategoryController extends Controller
      */
     public function actionDelete($id)
     {
+		$this->chekUserAdmin();
+		
         $this->findModel($id)->delete();
 		
 		$returnUrl = Yii::$app->request->referrer;		
@@ -155,6 +164,8 @@ class CategoryController extends Controller
 
     public function actionMoveup($id)
     {
+		$this->chekUserAdmin();
+		
 		$model = $this->findModel($id);
 		
 		$model_prev = $model->prev()->one();
@@ -174,6 +185,8 @@ class CategoryController extends Controller
 
     public function actionMovedown($id)
     {
+		$this->chekUserAdmin();
+		
 		$model = $this->findModel($id);
 		
 		//echo'<pre>';print_r($model->attributes);echo'</pre>';//die;
@@ -192,7 +205,8 @@ class CategoryController extends Controller
 		
 		//return $this->redirect(['index']);		
     }
-
+	
+	/*
     public function actionNameupdate()
     {
 		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
@@ -203,6 +217,7 @@ class CategoryController extends Controller
 		}
 		echo'ok';
     }
+	*/
 
     /**
      * Finds the Category model based on its primary key value.
@@ -243,5 +258,16 @@ class CategoryController extends Controller
 		if($model->alias == '') $model->alias = str_replace($search, $replace, (strtolower($model->ToTranslit($model->name)))) ;
 	}
 	
+    
+	public function chekUserAdmin()
+    {
+		if (\Yii::$app->user->isGuest) {
+			return $this->redirect('site/login'); 
+		}
+		
+		if (Yii::$app->user->id != 1) {
+			throw new \yii\web\ForbiddenHttpException('У вас нет доступа к данной странице');
+		}
+    }
 	
 }

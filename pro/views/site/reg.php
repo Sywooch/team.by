@@ -1,14 +1,7 @@
 <?php
-//use yii\helpers\Html;
 use yii\helpers\Url;
 
-//use frontend\assets\RegAsset;
-
-//RegAsset::register($this);
-
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\SignupForm */
+\frontend\assets\FormStylerAsset::register($this);
 
 $this->title = \Yii::$app->params['sitename'] .' | ' . 'Стать специалистом';
 

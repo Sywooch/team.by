@@ -5,6 +5,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use common\models\LoginForm;
+
 use yii\filters\VerbFilter;
 
 use yii\base\InvalidParamException;
@@ -60,9 +61,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-		if (\Yii::$app->user->isGuest) {
-			return $this->redirect('site/login'); 
-		}
+		$this->chekUserAdminOrManager();
 		
         return $this->render('index');
     }
@@ -89,4 +88,19 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+	
+    public function chekUserAdminOrManager()
+    {
+		if (\Yii::$app->user->isGuest) {
+			return $this->redirect('site/login'); 
+		}
+		
+        $user = \common\models\User::findOne(Yii::$app->user->id);
+		
+		if($user->group_id != 1) {
+			throw new \yii\web\ForbiddenHttpException('У вас нет доступа к данной странице');
+		}
+    }
+	
+	
 }

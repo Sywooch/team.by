@@ -427,18 +427,28 @@ a.currency_select__usd_active {
 }
 
 .header_navbar,
-.header_popular__ttl {
+.header_popular__ttl_cnt {
 	@extend %fl;	
+}
+
+.header_popular__ttl_cnt {
+	@extend %pos_rel;
+	width: 215px;
+	height: 50px;
 }
 
 
 .header_popular__ttl {
+	@extend %pos_abs;
+	left: 0;
+	top: 50%;
+	
 	background-color: $red1;
 	height: 30px;
 	line-height: 30px;
 	padding-left: 12px;
 	padding-right: 5px;
-	margin-top: 20px;
+	margin-top: -15px;
 	margin-right: 25px;
 	
 	@extend %pos_rel;
@@ -462,6 +472,7 @@ a.currency_select__usd_active {
 .header_navbar {
 	li {
 		border-left: 1px solid $gray8;
+		width: 230px;
 
 		&:last-of-type {
 			border-right: 1px solid $gray8;

@@ -34,11 +34,6 @@ $errors = $model->getErrors();
 
 $categories_l2_arr = [];
 
-if(count($model->regions)) {
-	$regions_rows = count($model->regions) - 1;
-}	else	{
-	$regions_rows = 0;
-}
 
 ?>
 
@@ -51,34 +46,18 @@ if(count($model->regions)) {
 <noscript><input type="submit" value="submit" class="button2" /></noscript>
 
 
-	<div id="regions-wr" class="col-lg-7">  
+	<div class="col-lg-7">  
 		<?php $form = ActiveForm::begin([
 			'options'=> ['enctype' => 'multipart/form-data' ],
 			'enableClientValidation' => false,
 			'id'=>'site-reg-step2-frm',
 		] ); ?>
 		
-		<div id="regions-cnt" class="regions-cnt">
-			<?php for ($x=0; $x<=$regions_rows; $x++) { ?>
-				<div <? if ($x==0) echo 'id="region-row-f"' ?> class="form-group row clearfix region-row">
-					<div class="col-lg-8 region-dd-cnt">
-						<?//= Html::activeDropDownList($model, 'regions[]', $model->regionsDropDownList, ['class'=>'form-control']) ?>
-						<?= Html::dropDownList('RegStep2Form[regions][]', $model->regions[$x], $model->regionsDropDownList, ['class'=>'form-control']) ?>
-					</div>
-					<div class="col-lg-3">
-						<?//= Html::activeTextInput($model, 'ratios[]', ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
-						<?= Html::textInput('RegStep2Form[ratios][]', $model->ratios[$x], ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
-					</div>
-					<div class="col-lg-1">
-						<a href="#" class="remove_region_row">—</a>
-					</div>
-				</div>
-			<?php	}	?>
-		</div>
-
-		<div class="form-group">
-			<a href="#" class="add_new_region">Добавить</a>
-		</div>
+		<?php echo $form->errorSummary($model); ?>
+		
+		<input type="hidden" id="form_name" value="RegStep2Form">
+		
+		<?php echo $this->render('@pro/views/profile/_add-regions-frm', ['form_name'=>'RegStep2Form', 'model'=>$model], false, true); ?>
 		
 		<p class="about-field-descr field-descr">Опишите вашу специализацию, квалификацию, любые ваши особенности и требования. Старайтесь писать живым языком, избегая анкетных шаблонов. Разрешена прямая реклама ваших услуг. Не разрешено использовать выражения, описывающие, что вы делаете какую-то работу лучше кого-то, или лучше всех. Не разрешено - оставлять свои контактные данные</p>
 		<?= $form->field($model, 'about')->textarea(['rows'=>5]) ?>
@@ -96,6 +75,8 @@ if(count($model->regions)) {
 		
 		
 		<?= $this->render('@app/views/profile/_categories-block', ['form'=>$form, 'model'=>$model, 'categories'=>$categories, 'categories_l3'=>$categories_l3, 'model_name'=>'RegStep2Form' ])?>
+		
+		<?/*<div class="form-group"><span class="dinpro-b pr-20">Чего-то не хватает?</span> <span id="offer-service" class="button-blue button-narrow" data-url="<?= Url::to(['site/offer-service'])?>">Предложить услугу</span></div>*/?>
 				
 		<div id="uploading-price" class="form-group row clearfix">
 			<div class="col-lg-12">
@@ -226,8 +207,8 @@ if(count($model->regions)) {
 		</div>		
 			
 		<div class="ros-rel mb-30">
-			<p class="youtube-field-descr field-descr"><a href="http://team.by/images/youtube-example.png" data-toggle="lightbox" data-gallery="youtube-example">Пример</a> того, что нужно сюда вставить</p>
-			<?= $form->field($model, 'youtube') ?>
+			<p class="youtube-field-descr field-descr">Иногда проще один раз показать, чем сто раз написать. Здесь вы можете оставить ссылку на ваше видеообращение.</p>
+			<?= $form->field($model, 'youtube') ?>			
 			<div>
 				<?php if($model->youtube != '') echo \common\models\User::getYoutubeBlock1($model->youtube)?>	
 			</div>

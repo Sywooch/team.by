@@ -9,6 +9,20 @@ use yii\bootstrap\Tabs;
 $this->title = 'Специалист : ' . ' ' . $model->fio;
 $this->params['breadcrumbs'][] = ['label' => 'Специалисты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+
+$documents_tmpl = '_documents-1';
+switch($model->user_type) {
+	case 1:
+		$documents_tmpl = '_documents-1';
+		break;
+	case 2:
+		$documents_tmpl = '_documents-2';
+		break;
+	case 3:
+		$documents_tmpl = '_documents-3';
+		break;
+}
 ?>
 <div class="user-update">
 
@@ -21,20 +35,18 @@ $this->params['breadcrumbs'][] = $this->title;
 					'label' => 'Анкета',
 					'content' => $this->render('_form', ['model' => $model]),
 					'active' => true,
-					'linkOptions' => ['class' => ''],
-					'options' => ['class' => '']
+				],
+				[
+					'label' => 'Документы',
+					'content' => $this->render($documents_tmpl, ['model' => $document_form]),
 				],
 				[
 					'label' => 'Перечень услуг',
 					'content' => $this->render('_uslugi', ['model' => $model]),
-					'linkOptions' => ['class' => ''],
-					'options' => ['class' => '']
 				],
 				[
 					'label' => 'Заказы',
 					'content' => $this->render('_orders', ['model' => $model]),
-					'linkOptions' => ['class' => ''],
-					'options' => ['class' => '']
 				],
 			]
 		]);			

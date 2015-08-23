@@ -8,6 +8,8 @@ use backend\models\UserSearch;
 
 use dosamigos\datepicker\DatePicker;
 
+\frontend\assets\PhoneInputAsset::register($this);
+
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 /* @var $form yii\widgets\ActiveForm */
@@ -26,8 +28,10 @@ if(count($model->regions)) {
 
     <?php $form = ActiveForm::begin(); ?>
     
+    <div class="hidden"><?= $form->field($model, 'username')->textInput() ?></div>
+    
     <div class="row clearfix">
-    	<div class="col-lg-4"><?= $form->field($model, 'username')->textInput() ?></div>
+    	<div class="col-lg-4"><?= $form->field($model, 'phone')->textInput(['maxlength' => true, 'class'=>'form-control phone-input']) ?></div>
     	<div class="col-lg-4"><?= $form->field($model, 'email')->textInput() ?></div>
     	<div class="col-lg-2"><?= $form->field($model, 'user_status')->dropDownList($model->userStatuses, [$model->user_status]) ?></div>
     	<div class="col-lg-2"><?= $form->field($model, 'black_list')->dropDownList([0=>'Нет',1=>'Да'], [$model->user_status]) ?></div>
@@ -37,7 +41,8 @@ if(count($model->regions)) {
     	<div class="col-lg-3"><?= $form->field($model, 'fio')->textInput() ?></div>
     	<div class="col-lg-3"><?= $form->field($model, 'user_type')->dropDownList(Yii::$app->params['UserTypesArray'], [$model->user_type]) ?></div>
     	
-    	<div class="col-lg-3"><?= $form->field($model, 'categoryUser')->dropDownList(UserSearch::getDropdownCatList(), [$model->categoryUser]) ?></div>
+    	<div class="col-lg-3"><?= $form->field($model, 'categoryUser')->dropDownList(UserSearch::getDropdownCatList(), [$model->categoryUser, 'readonly'=>'readonly']) ?></div>
+		<div class="col-lg-3"><?= $form->field($model, 'is_active')->dropDownList($model->userActivityList, [$model->is_active, 'readonly'=>'readonly']) ?></div>    	
     </div>
     
 	<div id="regions-wr" class="row clearfix">
@@ -148,6 +153,11 @@ if(count($model->regions)) {
 	<?php	}	?>
 
 	<?= $form->field($model, 'youtube') ?>
+   
+	<div class="mb-30">
+		<?php if($model->youtube != '') echo \common\models\User::getYoutubeBlock1($model->youtube) ?>	
+	</div>
+
     
     
     

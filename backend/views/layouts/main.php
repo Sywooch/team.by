@@ -10,6 +10,27 @@ use frontend\widgets\Alert;
 /* @var $content string */
 
 AppAsset::register($this);
+
+
+if (\Yii::$app->user->isGuest) {
+	$showManager = false;
+	$showAdmin = false;
+}	elseif(Yii::$app->user->id == 1)	{
+	$showManager = true;
+	$showAdmin = true;
+}	else	{
+	$user = \common\models\User::findOne(Yii::$app->user->id);
+	if($user->group_id == 1) {
+		$showManager = true;
+		$showAdmin = false;
+	}	else	{
+		$showManager = false;
+		$showAdmin = false;
+	}
+	
+}
+
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -36,22 +57,23 @@ AppAsset::register($this);
 				if (!\Yii::$app->user->isGuest) {
 				$menuItems = [
 					//['label' => 'Home', 'url' => ['/site/index']],
-					['label' => 'Категории', 'url' => ['/category/index']],
-					['label' => 'Регионы', 'url' => ['/region/index']],
-					['label' => 'Заказы', 'url' => ['/order/index']],
+					['label' => 'Категории', 'url' => ['/category/index'], 'visible'=>$showAdmin],
+					['label' => 'Регионы', 'url' => ['/region/index'], 'visible'=>$showAdmin],
+					['label' => 'Заказы', 'url' => ['/order/index'], 'visible'=>$showManager],
 
 					[
 						'label' => 'Пользователи',
 						'items' => [
-							['label' => 'Пользователи', 'url' => ['/user/index']],
+							['label' => 'Пользователи', 'url' => ['/user/index'], 'visible'=>$showAdmin],
 							['label' => 'Специалисты', 'url' => ['/spec/index']],
 							['label' => 'Клиенты', 'url' => ['/client/index']],
 						],
+						'visible'=>$showManager
 					],            
 
-					['label' => 'Сообщения', 'url' => ['/toadministration/index']],
+					['label' => 'Сообщения', 'url' => ['/toadministration/index'], 'visible'=>$showManager],
 
-					['label' => 'Страницы', 'url' => ['/page/index']],
+					['label' => 'Страницы', 'url' => ['/page/index'], 'visible'=>$showAdmin],
 
 //					[
 //						'label' => 'Доступ',
@@ -68,9 +90,10 @@ AppAsset::register($this);
 							 ['label' => 'Специалисты', 'url' => ['/spec/export-csv']],
 							 ['label' => 'Заказы', 'url' => ['/order/export-csv']],
 						],
+						'visible'=>$showAdmin
 					],            
 					
-					['label' => 'Валюта', 'url' => ['/currency/index']],
+					['label' => 'Валюта', 'url' => ['/currency/index'], 'visible'=>$showAdmin],
 
 
 
@@ -87,9 +110,9 @@ AppAsset::register($this);
 					*/
 				];
 
-				if (Yii::$app->user->can('manager') || Yii::$app->user->can('admin')) {
+				//if (Yii::$app->user->can('manager') || Yii::$app->user->can('admin')) {
 					//$menuItems[] = ['label' => 'Пользователи', 'url' => ['/user/index']];
-				}
+				//}
 
 				if (Yii::$app->user->isGuest) {
 					$menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];

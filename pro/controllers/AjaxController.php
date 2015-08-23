@@ -587,6 +587,73 @@ class AjaxController extends Controller
 	}
 	
 	
+	public function actionGetregionsdropdown()
+	{
+		$form_name = Yii::$app->request->post('form_name', 'ProfileAnketaForm');
+		$region_ids = Yii::$app->request->post('ids', []);
+		$region_ids = explode(',', $region_ids);
+		
+		foreach($region_ids as $k=>$id)
+			if($id == 0) unset($region_ids[$k]);
+			
+		if(count($region_ids) == '') return
+		
+		
+		
+		$selected_ids = [];
+			
+		$selected_ids[] = 1;
+		
+		foreach($region_ids as $id) {
+			$selected_ids[] = $id;
+			$model = Region::findOne($id);
+			if($model === null) return;
+			
+			$children = $model->children()->all();
+			foreach($children as $child) {
+				$selected_ids[] = $child->id;
+			}
+			
+		}
+		
+		//echo'<pre>';print_r($selected_ids);echo'</pre>';//die;
+		$categories = Region::find()
+			->where(['not in', 'id',  $selected_ids])
+			->orderBy('lft, rgt')->all();
+		
+		foreach($categories as $c){
+			$separator = '';
+			for ($x=0; $x++ < $c->depth;) $separator .= '-';
+			$c->name = $separator.' '.$c->name;
+		}
+		
+		
+		//$categories = [0=>'Выберите'] + $categories2;
+		$categories = [0=>'Выберите'] + ArrayHelper::map($categories, 'id', 'name');
+		$html = '';
+		$html .= Html::tag('div', Html::dropDownList($form_name.'[regions][]', 0, $categories, ['class'=>'form-control']), ['class'=>'col-lg-8 region-dd-cnt']);
+		$html .= Html::tag('div', Html::textInput($form_name.'[ratios][]', '', ['placeholder'=>'коэффициент', 'class'=>'form-control']), ['class'=>'col-lg-3']);
+		$html .= Html::tag('div', (Html::a('—', '#', ['class'=>'remove_region_row'])), ['class'=>'col-lg-1']);
+		$html = Html::tag('div', $html, ['class'=>'form-group row clearfix region-row']);
+		
+		echo $html;
+		//echo Html::dropDownList($form_name.'[regions][]', 0, $categories, ['class'=>'form-control']);
+		//echo'<pre>';print_r($categories);echo'</pre>';die;
+		
+/*
+			<div class="form-group row clearfix region-row">
+				<div class="col-lg-8 region-dd-cnt">
+					<?= Html::dropDownList($form_name.'[regions][]', $model->regions[$x], $model->regionsDropDownList, ['class'=>'form-control']) ?>
+				</div>
+				<div class="col-lg-3">
+					<?= Html::textInput($form_name.'[ratios][]', $model->ratios[$x], ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
+				</div>
+				<div class="col-lg-1">
+					<a href="#" class="remove_region_row">—</a>
+				</div>
+			</div>
+*/
+	}
 	
 	
 	public function printErrors($model, $error_msg = '')

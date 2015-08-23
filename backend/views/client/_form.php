@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+\frontend\assets\PhoneInputAsset::register($this);
+
 /* @var $this yii\web\View */
 /* @var $model common\models\Client */
 /* @var $form yii\widgets\ActiveForm */
@@ -14,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'fio')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'phone')->textInput(['maxlength' => true, 'class'=>'form-control phone-input']) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 

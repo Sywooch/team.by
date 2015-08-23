@@ -14,7 +14,7 @@ class AddReviewForm extends Model
 
     public $name;
     public $phone = '+375';
-    public $user_id;
+    public $order_id;
     public $foto = [];
 	
     public $video;
@@ -38,8 +38,8 @@ class AddReviewForm extends Model
     public function rules()
     {
         return [
-			[['user_id', 'rating'], 'integer'],
-            [['user_id'], 'required', 'message'=>'Выберите исполнителя'],
+			[['order_id', 'rating'], 'integer'],
+            [['order_id'], 'required', 'message'=>'Выберите исполнителя'],
             [['rating'], 'required', 'message'=>'Укажите вашу оценку'],
 			
 			[['phone'], 'required', 'message'=>'Укажите номер телефона'],
@@ -50,7 +50,7 @@ class AddReviewForm extends Model
 			[['video'], 'url', 'message'=> 'Введите корректный URL'],
 			
 			[['comment'], 'required', 'message'=>'Напишите свой отзыв'],
-			[['comment'], 'string', 'min' => 3, 'max' => 1024],
+			[['comment'], 'string', 'min' => 3, 'max' => 5120],
 			
 			['foto', 'each', 'rule' => ['string']],
         ];
@@ -64,7 +64,7 @@ class AddReviewForm extends Model
         return [
             'name' => 'Ваше имя',            
             'phone' => 'Ваш номер телефона',
-			'user_id' => 'Специалист',
+			'order_id' => 'Специалист',
             'foto' => 'Загрузите фото работы (форматы gif, png, jpeg)',
             'video' => 'Ссылка на видео в youtube.com',
             'rating' => 'Оцените работу',
@@ -88,6 +88,7 @@ class AddReviewForm extends Model
 		if($this->phone != '')	{
 			$client = \common\models\Client::find()->where(['phone' => $this->phone])->one();
 			if($client !== NULL)	{
+				/*
 				$orders = $client->orders;
 
 				$users = \common\models\User::find()
@@ -97,6 +98,20 @@ class AddReviewForm extends Model
 						->all();
 				
 				$users_arr = [null => '--- Выберите ----'] + ArrayHelper::map($users, 'id', 'fio');
+				*/
+				$orders = \common\models\Order::find()
+					->joinWith(['user'])
+					->where(['client_id'=>$client->id])
+					->andWhere(['{{%order}}.status' => 4])	// 4 - оплачен, ожидает отзыва
+					->all();
+				
+				$spec_arr = [];
+				foreach($orders as $order) {
+					if($order->review === null)
+						$spec_arr[$order->id] = $order->user->fio . ' заказ №'. $order->id;
+				}
+				
+				$users_arr = [null => '--- Выберите ----'] + $spec_arr;
 				
 			}	else	{
 				$users_arr = [null => '--- Введите сначала ваш номер телефона ----'];

@@ -13,11 +13,12 @@ use yii\widgets\Breadcrumbs;
 
 use frontend\assets\AppAsset;
 
-use app\widgets\Alert;
+//use pro\widgets\Alert;
+use frontend\widgets\Alert;
 
 //use yii\widgets\Alert;
 
-use app\widgets\ProfileHeader;
+use pro\widgets\ProfileHeader;
 
 /* @var $this \yii\web\View */
 /* @var $content string */

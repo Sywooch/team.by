@@ -148,7 +148,7 @@ class CatalogController extends Controller
 		
 		$query->andWhere(['<>', 'black_list', 1])
 			->andWhere(['=', 'is_active', 1])
-			->andWhere(['user_status'=> [2,10]])
+			->andWhere(['user_status'=> User::getActiveUserStatuses()])
 			//->orderBy('{{%user}}.'.$orderBy.' ASC');
 			->orderBy('{{%user}}.total_rating DESC');
 		
@@ -306,7 +306,7 @@ class CatalogController extends Controller
 				->joinWith(['userSpecials'])
 				->where(['{{%user_categories}}.category_id'=>$cat_ids])
 				->andWhere(['=', 'is_active', 1])
-				->andWhere(['user_status'=> [2,10]])
+				->andWhere(['user_status'=> User::getActiveUserStatuses()])
 				->andWhere(['<>', '{{%user}}.id', $id])
 				->orderBy('RAND()'),
 			
@@ -353,9 +353,8 @@ class CatalogController extends Controller
 		
 		if($search != '') {
 			
-			$UserSearch = new UserSearch();
 			
-			$user_ids = $UserSearch->searchUsers($search, $region_id);
+			
 			
 			//получаем поле для сортировки
 			/*
@@ -370,6 +369,9 @@ class CatalogController extends Controller
 			}
 			*/
 			if($modal == 0) {
+				$UserSearch = new UserSearch();
+
+				$user_ids = $UserSearch->searchUsers($search, $region_id);
 
 				//строим выпадающий блок для сортировки
 				$ordering_arr = Yii::$app->params['catlist-orderby'];
@@ -410,14 +412,32 @@ class CatalogController extends Controller
 					],
 				]);
 				
+				$query = Category::find()
+					->where(['like', 'name', $search])
+					->andWhere(['>', 'id', 1])
+					//->andWhere(['<', 'depth', 3])
+					->orderBy('lft, rgt');
+				
+				//echo'<pre>';print_r($query);echo'</pre>';
+
+				$catDataProvider = new ActiveDataProvider([
+					'query' => $query,
+					'pagination' => false,
+				]);
+				
+				//echo'<pre>';print_r($catDataProvider->models);echo'</pre>';
+				
+				
 				return $this->render('search', [
 					'dataProvider'=>$DataProvider,
+					'catdataProvider'=>$catDataProvider,
 					'current_ordering'=>$current_ordering,
 					'ordering_items'=>$ordering_items,
 					'specials'=>$this->getSpecials(),
 				]);
 				
 			}	else	{
+				$user_ids = [0];
 				$query = User::find()
 					->distinct(true)
 					->where(['{{%user}}.id'=>$user_ids])
@@ -428,11 +448,15 @@ class CatalogController extends Controller
 					'query' => $query,
 					'pagination' => false,
 				]);
-								
+				
+				
 				$query = Category::find()
 					->where(['like', 'name', $search])
-					->andWhere(['<', 'depth', 3])
+					->andWhere(['>', 'id', 1])
+					//->andWhere(['<', 'depth', 3])
 					->orderBy('lft, rgt');
+				
+				//echo'<pre>';print_r($query);echo'</pre>';
 
 				$catDataProvider = new ActiveDataProvider([
 					'query' => $query,

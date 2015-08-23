@@ -133,8 +133,93 @@ class SpecController extends Controller
 				$model->license_checked = Yii::$app->formatter->asDate(time(), 'php:d-m-yy');
 			}
 			
+			$user = $model;
+			switch($user->user_type) {
+				case 1:
+					$document_form = 'DocumentsForm1';
+					$document_form = new \frontend\models\DocumentsForm1();
+
+					$document_form->passport_num = $user->passport_num;
+					$document_form->passport_vidan = $user->passport_vidan;
+					$document_form->passport_expire = $user->passport_expire;
+
+
+
+					foreach($user->userDocuments as $doc) {
+						switch($doc->document_id) {
+							case 1:
+								$document_form->passport_file = $doc->filename;
+								break;
+							case 2:
+								$document_form->trud_file = $doc->filename;
+								break;
+							case 3:
+								$document_form->diplom_file = $doc->filename;
+								break;
+							case 4:
+								$document_form->other_file[] = $doc->filename;
+								break;
+						}
+					}
+					break;
+				case 2:
+					$document_form = 'DocumentsForm2';
+					$document_form = new \frontend\models\DocumentsForm2();
+
+					$user_attr = $user->attributes;
+					foreach($user_attr as $attr_key=>$attr)	{					
+						if(isset($document_form->$attr_key))
+							$document_form->$attr_key = $user->$attr_key;
+					}
+
+					if($document_form->contact_phone == '')
+						$document_form->contact_phone = '+375';
+
+					foreach($user->userDocuments as $doc) {
+						switch($doc->document_id) {
+							case 5:
+								$document_form->reg_file = $doc->filename;
+								break;
+							case 6:
+								$document_form->bitovie_file = $doc->filename;
+								break;
+							case 7:
+								$document_form->attestat_file = $doc->filename;
+								break;
+						}
+					}
+
+
+					$tmpl = 'documents-2';
+					break;
+				case 3:
+					$document_form = 'DocumentsForm3';
+
+					$document_form = new \frontend\models\DocumentsForm3();
+					$document_form->license = $user->license;
+
+					foreach($user->userDocuments as $doc) {
+						switch($doc->document_id) {
+							case 4:
+								$document_form->other_file[] = $doc->filename;
+								break;
+							case 5:
+								$document_form->reg_file = $doc->filename;
+								break;
+							case 6:
+								$document_form->bitovie_file = $doc->filename;
+								break;
+						}
+					}
+
+					$tmpl = 'documents-3';
+					break;
+			}
+			
+			
             return $this->render('update', [
                 'model' => $model,
+				'document_form' => $document_form,
                 //'allRoles' => $allRoles,
                 //'modelHasRoles' => $modelHasRoles,
             ]);

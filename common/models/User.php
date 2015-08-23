@@ -100,6 +100,7 @@ class User extends ActiveRecord implements IdentityInterface
             'userStatus' => 'Статус',
             'user_status' => 'Статус',
             'fio' => 'ФИО',
+            'phone' => 'Телефон',
 			
             'about' => 'Коротко о себе',
             'education' => 'Ваше образование',
@@ -155,9 +156,16 @@ class User extends ActiveRecord implements IdentityInterface
             0 => 'новый',
             1 => 'приостановлен',
             2 => 'требует проверки',
+            3 => 'удален',
             10 => 'активен',
         ];
     }
+	
+    public function getActiveUserStatuses()
+    {
+        return [2,10];
+    }
+	
     public function getUserStatusTxt()
     {
         return $this->userStatuses[$this->user_status];
@@ -353,16 +361,9 @@ class User extends ActiveRecord implements IdentityInterface
     public function getUserSpecialsList()
     {
 		$rows = $this->userSpecials;
-		$region_id = Yii::$app->getRequest()->getCookies()->getValue('region', 1);
 		
-		$region_info = UserRegion::find()
-			->where(['user_id'=>$this->id])
-			->andWhere(['region_id'=>$region_id])
-			->one();
-		
-		//echo'<pre>';print_r($rows[0]);echo'</pre>';die;		
 		foreach($rows as $row) {
-			$row->price = DPriceHelper::roundValue($row->price * 1.14);
+			$row->price = DPriceHelper::roundValue($row->price * $this->regionRatio);
 		}
 		
 		return $rows;
@@ -408,6 +409,20 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasMany(Region::className(), ['id' => 'region_id'])
             ->via('userRegions');
+	}	
+	
+    public function getRegionRatio()
+    {
+		//получаем из куки ИД региона
+		$region_id = \Yii::$app->getRequest()->getCookies()->getValue('region', 1);
+		$region_info = UserRegion::find()->where(['region_id'=>$region_id])->andWhere(['user_id'=>$this->id])->one();
+		if($region_info === null)	{
+			$res = 1;
+		}	else	{
+			$res = $region_info->ratio;
+		}
+		//echo'<pre>';print_r($region_info);echo'</pre>';//die;
+		return $res;
 	}	
 	
 	
@@ -534,12 +549,19 @@ class User extends ActiveRecord implements IdentityInterface
 	
     public function getYoutubeBlock()
     {
-		return '<iframe width="277" height="156" src="'.$this->youtube.'" frameborder="0" allowfullscreen></iframe>';
+		$this->youtube = trim($this->youtube);
+		if($this->youtube == '') return '';
+		$youtube = explode('?v=', $this->youtube);
+		return '<iframe width="277" height="156" src="https://www.youtube.com/embed/'.$youtube[1].'" frameborder="0" allowfullscreen></iframe>';
 	}
 	
     public function getYoutubeBlock1($val)
     {
-		return '<iframe width="277" height="156" src="'.$val.'" frameborder="0" allowfullscreen></iframe>';
+		$val = trim($val);
+		if($val == '') return '';
+		
+		$youtube = explode('?v=', $val);
+		return '<iframe width="277" height="156" src="https://www.youtube.com/embed/'.$youtube[1].'" frameborder="0" allowfullscreen></iframe>';
 	}
 	
 	

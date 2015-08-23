@@ -8,19 +8,6 @@ use yii\helpers\Url;
 
 use yii\widgets\ActiveForm;
 
-\pro\assets\DocumentsAsset::register($this);
-\pro\assets\BootstrapLightboxAsset::register($this);
-\pro\assets\FormStylerAsset::register($this);
-
-$title = 'Документы';
-$this->title = \Yii::$app->params['sitename'] .' | ' . $title;
-
-$this->params['breadcrumbs'] = [
-	['label' => 'Личный кабинет', 'url' => '/profile'],
-	['label' => $title]
-];
-	
-$errors = $model->getErrors();
 ?>
 <div class="to_administration">
 	<h1><?= $title?></h1>
@@ -48,14 +35,6 @@ $errors = $model->getErrors();
 		<?php echo $this->render('_documents-bitovie', ['model'=>$model, 'form'=>$form], false, true) ?>
 		
 		<?php echo $this->render('_documents-attestat', ['model'=>$model, 'form'=>$form], false, true) ?>
-		
-		
-		<?php //echo $this->render('_documents_other', ['model'=>$model], false, true) ?>
-		
-		
-
-		<div class="form-group clearfix">
-			<?= Html::submitButton('Сохранить', ['class' => 'button-red pull-right']) ?>
-		</div>
+				
 	<?php ActiveForm::end(); ?>
 </div>

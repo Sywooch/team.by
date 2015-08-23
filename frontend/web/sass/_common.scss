@@ -206,6 +206,16 @@ h1,.h1 {
 	@extend %fl;
 }
 
+.col-lg-8 {
+	width: 66.66666667% !important;
+	@extend %fl;
+}
+
+.col-lg-6 {
+	width: 50% !important;
+	@extend %fl;
+}
+
 .col-lg-5 {
 	width: 41.66666667% !important;
 	@extend %fl;

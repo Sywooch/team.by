@@ -55,7 +55,7 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-            if (!$user || !$user->validatePassword($this->password)) {
+            if (!$user || !$user->validatePassword($this->password) || $user->user_status == 3) {	// 3-удаленный пользователь
                 $this->addError($attribute, 'Неверный email или пароль.');
             }
         }

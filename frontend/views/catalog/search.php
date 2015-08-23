@@ -13,7 +13,7 @@ $title = 'Поиск по сайту';
 $this->title = $title .' | '. Yii::$app->params['sitename'];
 
 $this->params['breadcrumbs'][] = ['label' => $title];
-
+//echo'<pre>';print_r($catDataProvider->models);echo'</pre>';
 ?>
 
 
@@ -24,6 +24,24 @@ $this->params['breadcrumbs'][] = ['label' => $title];
 <?php $form = ActiveForm::begin(['id' => 'category-sort-sw', 'options'=>['class'=>'category-sort-sw ']]); ?>
 	<input type="hidden" id="orderby" name="orderby" value="<?= $current_ordering['field']?>" />
 <?php ActiveForm::end(); ?>
+
+<?php if(count($catdataProvider->models))	{	?>
+	<div class="catalog-category-children__list">
+		<ul class="row clearfixt">
+			<?php 
+				$i = 1;
+				foreach($catdataProvider->models as $k=>$c) {
+					if(($i-1)%4 == 0) $clr = ' clear';
+						else $clr = '';
+					
+					$i++;
+					echo Html::tag('li', Html::a(Html::encode($c->name), ['catalog/category', 'category' => $c->path]), ['class' => 'col-lg-3 catalog-category-children__item' . $clr]);
+				}
+			?>
+		</ul>
+	</div>
+<?php	}	?>
+
 
 <div class="category-list-cnt">
 	<div class="category-sort-cnt clearfix">

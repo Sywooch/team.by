@@ -135,11 +135,8 @@ class SiteController extends Controller
 		$model = new RegStep1Form();
 		
 		if ($model->load(Yii::$app->request->post())) {
-			//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 			//echo'<pre>';print_r($model);echo'</pre>';die;
 			if ($model->validate()) {
-				//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';die;
-				
 				Yii::$app->response->cookies->add(new \yii\web\Cookie([
 					'name' => 'RegStep1Form',
 					'value' => json_encode(Yii::$app->request->post()['RegStep1Form']),
@@ -166,7 +163,6 @@ class SiteController extends Controller
 		//устанавливаем с какой моделью будем работать
 		Yii::$app->session->set('profile_model', 'RegStep2Form');	
 		
-		//if(count(Yii::$app->request->post()))
 			
 		//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 		if ($model->load(Yii::$app->request->post())) {
@@ -194,11 +190,8 @@ class SiteController extends Controller
 			if ($model->validate() && $region_ok == 1) {
 				$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
 				$RegStep2Form = $model;
-				//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
-				//echo'<pre>';print_r($model);echo'</pre>';//die;
 				//echo'<pre>';print_r($RegStep2Form);echo'</pre>';
 				//die;
-				
 				
 				//создаем поьзователя
 				$user = new User();
@@ -260,7 +253,8 @@ class SiteController extends Controller
 						$userCategories = new UserSpecials();
 						$userCategories->user_id = $user->id;
 						$userCategories->category_id = $p;
-						$userCategories->price = $RegStep2Form->price[$p] ? $RegStep2Form->price[$p] : 0;
+						$userCategories->price = $RegStep2Form->price[$p] ? (str_replace(' ', '', $RegStep2Form->price[$p])) : 0;
+						$userCategories->unit = $RegStep2Form->unit[$p] ? $RegStep2Form->unit[$p] : '';
 						$userCategories->save();
 					//}
 				}
@@ -369,7 +363,7 @@ class SiteController extends Controller
 			}
 		}
 		
-		if(count($model->ratios) == 0) $model->ratios[] = 1;	//нужно чтобы у первого городоа коэф был 1.
+		if(count($model->ratios) == 0) $model->ratios[] = 1;	//нужно чтобы у первого города коэф был 1.
 		
 		//echo'<pre>';print_r($model->ratios);echo'</pre>';//die;
 		
@@ -441,5 +435,29 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+	
+	public function actionOfferService()
+	{
+		$model = new \pro\models\OfferServicesForm();
+
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+				if($model->sendEmail(Yii::$app->params['adminEmail'])) {
+					Yii::$app->getSession()->setFlash('success', 'Мы получили Ваше предложение. Наш оператор свяжется с вами в ближайшее время.');
+				}	else	{
+					Yii::$app->getSession()->setFlash('error', 'При отправке сообщения возникла ошибка');
+				}
+
+				return $this->renderPartial('offer-service-result-modal', [
+					'model' => $model,
+				]);
+
+			}
+		}
+
+		return $this->renderPartial('offer-service-modal', [
+			'model' => $model,
+		]);
+	}	
 	
 }

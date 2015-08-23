@@ -33,7 +33,7 @@ use yii\helpers\Html;
 					<?php for ($x=0; $x<=9; $x++) { ?>
 						<?php if(isset($model->other_file[$x]))	{ ?>
 							<li>
-								<?= $model->getLicenseLink($model->other_file[$x]) ?>
+								<?= $model->getFileLink($model->other_file[$x]) ?>
 								<?= Html::input('hidden', $document_form.'[other_file][]', $model->other_file[$x]);?>
 								<?php if($model->other_file[$x] != '') echo $this->render('_remove-document-file', ['data_file'=>'other_file'], false, true) ?>
 							</li>

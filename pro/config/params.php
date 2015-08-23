@@ -30,7 +30,7 @@ return [
 	],
 	
 	'call_time_from' => 8,	//время для связи
-	'call_time_to' => 20,
+	'call_time_to' => 22,
 	
 	
 ];

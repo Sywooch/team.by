@@ -29,7 +29,8 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 
 		<div class="catalog-category-list-item__info_cnt">
 			
-			<div class="catalog-category-list-item__info_row row clearfix">
+			<div class="catalog-category-list-item__info_row">
+			<div class="row clearfix">
 				<div class="catalog-category-list-item__ttl col-lg-8">
 					<a href="<?= \Yii::$app->urlManager->createUrl(['catalog/show', 'id' => $model->id])?>" title="<?= $model->fio;?>"><?= $model->fio;?></a>
 					
@@ -61,14 +62,14 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 				</div>
 				
 			</div>
-			<div class="catalog-category-list-item__info_row">
-				<?/*<span class="catalog-category-list-item__price">Стоимость работ: <?= \Yii::$app->formatter->asDecimal($model->price); ?> руб.</span>*/?>
-				<?php if($model->price_list)	{	?>
-					<a class="catalog-category-list-item__pricedownload" href="<?= Url::home(true).Yii::$app->params['pricelists-path'].'/'.$model->price_list?>">Скачать полный прайс</a>
-				<?php }	else	{	?>
-					<a class="catalog-category-list-item__pricedownload" href="#">Скачать полный прайс</a>
-				<?php }	?>
 			</div>
+			
+			<?php if($model->price_list)	{	?>
+			<div class="catalog-category-list-item__info_row">				
+					<a class="catalog-category-list-item__pricedownload" href="<?= Url::home(true).Yii::$app->params['pricelists-path'].'/'.$model->price_list?>">Скачать полный прайс</a>
+				<?php //}	else	{	?>
+			</div>
+			<?php }	?>
 			<div class="catalog-category-list-item__info_row catalog-category-list-item__info_row_3">
 				<div class="row clearfix">
 					<div class="col-lg-4">

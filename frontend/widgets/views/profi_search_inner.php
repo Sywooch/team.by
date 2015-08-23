@@ -23,8 +23,9 @@ use yii\helpers\Html;
 										<p class="all_profi_list__l1__ttl profi_<?= $cat['id']?>"><a href="<?= (\Yii::$app->urlManager->createUrl(['catalog/category', 'category' => $cat['path']]))?>" class="all_profi_list__l1_item_url"><?= $cat['name']?></a></p>
 										<?php if(count($cat['children']))	{	?>
 											<ul class="all_profi_list__l2">
-												<?php foreach($cat['children'] as $c) {	?>
+												<?php foreach($cat['children'] as $k=>$c) {	?>
 													<li class="all_profi_list__l2_item"><a href="<?= (\Yii::$app->urlManager->createUrl(['catalog/category', 'category' => $c['path']]))?>" class="all_profi_list__l2_item_url"><?= $c['name']?></a></li>
+													<?php if($k>=4) break; ?>
 												<?php }	?>
 											</ul>
 										<?php }	?>
@@ -37,9 +38,10 @@ use yii\helpers\Html;
 			</div>
 			<div class="col-lg-6">
 				<div class="profi_search_inner__inputbox_cnt clearfix">
-					<?php $form = ActiveForm::begin(['action'=>\Yii::$app->urlManager->createUrl(['catalog/search']), 'method'=>'get']); ?>
+					<?php $form = ActiveForm::begin(['action'=>\Yii::$app->urlManager->createUrl(['catalog/search']), 'method'=>'get', 'id'=>'profi_search_frm']); ?>
 						<input type="hidden" id="profi_search_region_id" name="region_id" value="<?= $region_id?>" />
-						<input type="text" id="profi_search_input" class="inputbox profi_search_inner__inputbox" name="profi_search" value="<?= Html::encode($search_qry)?>" placeholder="Введите специальность или услугу">
+						<input type="hidden" id="profi_search_modal" name="modal" value="1" />
+						<input type="text" id="profi_search_input" class="inputbox profi_search_inner__inputbox" name="profi_search" value="<?= Html::encode($search_qry)?>" autocomplete="off" placeholder="Введите специальность или услугу">
 				
 						<?/*<input type="text" class="inputbox profi_search_inner__inputbox" value="" placeholder="Введите специальность или услугу">*/?>
 						<div class="profi_search_inner__regions">
@@ -70,6 +72,7 @@ use yii\helpers\Html;
 								</ul>
 							</div>
 					</div>
+					<div id="search-result-cnt" class="search-result-cnt"></div>
 					<?php ActiveForm::end(); ?>					
 				</div>
 				
