@@ -50,39 +50,18 @@ class ProfiSearch extends Widget
 			}	else	{
 				$view = 'profi_search_inner';
 				$categories = \common\models\Category::find()->where('id <> 1 AND depth < 3')->orderBy('lft, rgt')->all();
+				
+				\common\helpers\DCategoryHelper::prepareMainCategoriesForView($categories);
 
-				$cats_l1 = [];
-
-				foreach($categories as $c){
-					if($c->parent_id == 1)	$cats_l1[] = [
-						'id'=>$c->id,
-						'name'=>$c->name,
-						'alias'=>$c->alias,
-						'path'=>$c->path,
-						'children'=>[],
-					];
-				}		
-
-				foreach($cats_l1 as &$c_l1){
-					foreach($categories as $c){
-						if($c->parent_id == $c_l1['id']) {
-							$c_l1['children'][] = [
-								'id'=>$c->id,
-								'name'=>$c->name,
-								'alias'=>$c->alias,
-								'path'=>$c->path,
-							];
-						}
-					}
-				}
-
-				$categories = $cats_l1;
+				//var_dump($categories);die;
+				
+				
 				$data = [
 					'search_qry'=>\Yii::$app->request->get('profi_search', ''),
 					'regions'=>$regions['list'],
 					'region_id'=>$region_id,
 					'region_str'=>$regions['active'],
-					'categories'=>$cats_l1,
+					'categories'=>$categories,
 					'controller'=>$this->controller,
 					'action'=>$this->action
 				];

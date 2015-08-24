@@ -76,7 +76,7 @@ $categories_l2_arr = [];
 		
 		<?= $this->render('@app/views/profile/_categories-block', ['form'=>$form, 'model'=>$model, 'categories'=>$categories, 'categories_l3'=>$categories_l3, 'model_name'=>'RegStep2Form' ])?>
 		
-		<?/*<div class="form-group"><span class="dinpro-b pr-20">Чего-то не хватает?</span> <span id="offer-service" class="button-blue button-narrow" data-url="<?= Url::to(['site/offer-service'])?>">Предложить услугу</span></div>*/?>
+		<?/*<div class="form-group"><span class="dinpro-b pr-20">Чего-то не хватает?</span> <span id="offer-service" class="button-blue button-narrow" data-url="<?= Yii::$app->params['homeUrl'].Url::to(['site/offer-service'])?>">Предложить услугу</span></div>*/?>
 				
 		<div id="uploading-price" class="form-group row clearfix">
 			<div class="col-lg-12">

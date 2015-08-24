@@ -88,6 +88,8 @@ class SiteController extends Controller
     {
 		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
 		
+		\common\helpers\DCategoryHelper::prepareMainCategoriesForView($categories);
+		
 		$cats_l1 = [];
 
 		foreach($categories as $c){
@@ -740,6 +742,30 @@ class SiteController extends Controller
 		//echo'<pre>';print_r(count($dir));echo'</pre>';//die;
     }
 	
+	public function actionOfferService()
+	{
+		header('Access-Control-Allow-Origin: *');
+		$model = new \pro\models\OfferServicesForm();
+
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+				if($model->sendEmail(Yii::$app->params['adminEmail'])) {
+					Yii::$app->getSession()->setFlash('success', 'Мы получили Ваше предложение. Наш оператор свяжется с вами в ближайшее время.');
+				}	else	{
+					Yii::$app->getSession()->setFlash('error', 'При отправке сообщения возникла ошибка');
+				}
+
+				return $this->renderPartial('offer-service-result-modal', [
+					'model' => $model,
+				]);
+
+			}
+		}
+
+		return $this->renderPartial('offer-service-modal', [
+			'model' => $model,
+		]);
+	}	
 	
 }
 

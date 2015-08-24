@@ -28,6 +28,8 @@ class SpecForm extends User
 			['about', 'string', 'min' => 3, 'max' => 2048],
 
 			['education', 'string', 'min' => 3, 'max' => 2048],
+			
+			[['phone'], 'string', 'min' => 19, 'max' => 19, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
 
 			['experience', 'required'],
 			['experience', 'string', 'min' => 3, 'max' => 2048],
