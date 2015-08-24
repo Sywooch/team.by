@@ -68,7 +68,7 @@ class RegStep1Form extends Model
     {
 		if (!$this->hasErrors()) {
 			$fio_arr = explode(' ', $this->fio);
-			if(count($fio_arr) != 3)
+			if(count($fio_arr) < 3)
 				$this->addError($attribute, 'Укажите полностью ваше ФИО');
 		}
     }

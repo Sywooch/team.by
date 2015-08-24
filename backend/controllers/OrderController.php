@@ -42,7 +42,9 @@ class OrderController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new OrderSearch();
+        $this->chekUserAdminOrManager();
+		
+		$searchModel = new OrderSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		
         return $this->render('index', [
@@ -53,7 +55,9 @@ class OrderController extends Controller
 
     public function actionPayed()
     {
-        $searchModel = new OrderSearch();
+        $this->chekUserAdminOrManager();
+		
+		$searchModel = new OrderSearch();
 		$dataProvider = $searchModel->searchPayed(Yii::$app->request->queryParams);
 		
         return $this->render('index-payed', [
@@ -67,13 +71,14 @@ class OrderController extends Controller
      * @param integer $id
      * @return mixed
      */
+	/*
     public function actionView($id)
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
-
+	*/
     /**
      * Creates a new Order model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -81,7 +86,9 @@ class OrderController extends Controller
      */
     public function actionCreate()
     {
-        $model = new OrderForm();
+        $this->chekUserAdminOrManager();
+		
+		$model = new OrderForm();
 		
 		if(isset($_POST['OrderForm']))	{
 			//echo'<pre>';print_r(Yii::$app->request->post('OrderForm'));echo'</pre>';die;
@@ -180,7 +187,9 @@ class OrderController extends Controller
      */
     public function actionUpdate($id)
     {
-        $order = $this->findModel($id);
+        $this->chekUserAdminOrManager();
+		
+		$order = $this->findModel($id);
 		//echo $_SERVER['DOCUMENT_ROOT'];
 		
 		$model = new OrderForm();
@@ -343,7 +352,9 @@ class OrderController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->chekUserAdminOrManager();
+		
+		$this->findModel($id)->delete();
 		
 		$returnUrl = Yii::$app->request->referrer;		
 		if($returnUrl != null) return $this->redirect($returnUrl);
@@ -483,4 +494,18 @@ class OrderController extends Controller
 		//echo'<pre>';print_r(count($user_reviews));echo'</pre>';die;
 		
 	}
+	
+    public function chekUserAdminOrManager()
+    {
+		if (\Yii::$app->user->isGuest) {
+			return $this->redirect('site/login'); 
+		}
+		
+        $user = \common\models\User::findOne(Yii::$app->user->id);
+		
+		if($user->group_id != 1) {
+			throw new \yii\web\ForbiddenHttpException('У вас нет доступа к данной странице');
+		}
+    }
+	
 }

@@ -4,7 +4,7 @@ return [
 	'proUrl' => 'http://pro.team.by',
 	'admPanelUrl' => 'http://adm.team.by',
 	
-    //'adminEmail' => 'aldegtyarev@yandex.ru',
+   	//'adminEmail' => 'aldegtyarev@yandex.ru',
     'adminEmail' => 'alfonsovich@yandex.by',
 
     'supportEmail' => 'support@example.com',

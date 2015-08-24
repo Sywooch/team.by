@@ -24,6 +24,7 @@ class BootstrapLightboxAsset extends AssetBundle
     public $js = [
 		//'js/fileuploader.js',
 		'js/ekko-lightbox.min.js',
+		'http://team.by/js/ekko-lightbox-init.js',		
     ];
     public $depends = [
         //'frontend\assets\AppAsset',

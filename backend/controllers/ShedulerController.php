@@ -14,12 +14,16 @@ class ShedulerController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        return $this->render('index');
+        $this->chekUserAdminOrManager();
+		
+		return $this->render('index');
     }
 
     public function actionOrders($date)
     {
-        //$date_unix = DDateHelper::DateToUnix($date, 2);
+        $this->chekUserAdminOrManager();
+		
+		//$date_unix = DDateHelper::DateToUnix($date, 2);
 		//echo'<pre>';print_r(Yii::$app->request->queryParams);echo'</pre>';die;
 		$searchModel = new OrderSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -30,5 +34,19 @@ class ShedulerController extends \yii\web\Controller
 			'date'=>$date,
         ]);
     }
+	
+    public function chekUserAdminOrManager()
+    {
+		if (\Yii::$app->user->isGuest) {
+			return $this->redirect('site/login'); 
+		}
+		
+        $user = \common\models\User::findOne(Yii::$app->user->id);
+		
+		if($user->group_id != 1) {
+			throw new \yii\web\ForbiddenHttpException('У вас нет доступа к данной странице');
+		}
+    }
+	
 
 }

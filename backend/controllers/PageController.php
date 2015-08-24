@@ -32,6 +32,8 @@ class PageController extends Controller
      */
     public function actionIndex()
     {
+		$this->chekUserAdmin();
+		
         $dataProvider = new ActiveDataProvider([
             'query' => Page::find(),
         ]);
@@ -46,13 +48,14 @@ class PageController extends Controller
      * @param integer $id
      * @return mixed
      */
+	/*
     public function actionView($id)
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
-
+	*/
     /**
      * Creates a new Page model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -60,7 +63,9 @@ class PageController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Page();
+        $this->chekUserAdmin();
+		
+		$model = new Page();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -79,7 +84,9 @@ class PageController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $this->chekUserAdmin();
+		
+		$model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -98,7 +105,9 @@ class PageController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->chekUserAdmin();
+		
+		$this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -118,4 +127,16 @@ class PageController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+	
+	public function chekUserAdmin()
+    {
+		if (\Yii::$app->user->isGuest) {
+			return $this->redirect('site/login'); 
+		}
+		
+		if (Yii::$app->user->id != 1) {
+			throw new \yii\web\ForbiddenHttpException('У вас нет доступа к данной странице');
+		}
+    }
+	
 }

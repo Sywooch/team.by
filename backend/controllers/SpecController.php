@@ -43,6 +43,7 @@ class SpecController extends Controller
      */
     public function actionIndex()
     {
+		$this->chekUserAdminOrManager();
 //        $dataProvider = new ActiveDataProvider([
 //            'query' => User::find()->where(['group_id' => 2])->andWhere('id > 0'),
 //        ]);
@@ -104,7 +105,9 @@ class SpecController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $this->chekUserAdminOrManager();
+		
+		$model = $this->findModel($id);
 		
 //		$allRoles = ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description');
 //		$modelHasRoles = array_keys(Yii::$app->authManager->getRolesByUser($model->getId()));
@@ -234,7 +237,9 @@ class SpecController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = $this->findModel($id);
+        $this->chekUserAdminOrManager();
+		
+		$model = $this->findModel($id);
 		
 		//echo'<pre>';print_r($model->userMedia);echo'</pre>';die;
 		foreach($model->userMedia as $media) {
@@ -280,7 +285,9 @@ class SpecController extends Controller
 	
     public function actionChangePassword($id)
     {
-        $user = $this->findModel($id);
+        $this->chekUserAdminOrManager();
+		
+		$user = $this->findModel($id);
         $model = new ChangePasswordForm($user);
  
         if ($model->load(Yii::$app->request->post()) && $model->changePassword()) {
@@ -290,6 +297,58 @@ class SpecController extends Controller
                 'model' => $model,
             ]);
         }
+    }	
+
+    public function actionDelFile($id)
+    {
+        $this->chekUserAdminOrManager();
+		
+		$model = $this->findModel($id);
+		$task = Yii::$app->request->get('task', '');
+		$file = Yii::$app->request->get('file', '');
+		if($file == '' || $task == '') return $this->redirect(['index']);
+		
+		$fileToDelete = '';
+		$fileToDeleteTmb = '';
+		
+		switch($task) {
+			case 'youtube':
+				$model->youtube = '';
+				$model->save();
+				break;
+			case 'avatar':
+				$fileToDelete = Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar;
+				$fileToDeleteTmb = Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/thumb_'.$model->avatar;
+				$model->avatar = '';
+				$model->save();
+				break;
+			case 'awards':
+				$fileToDelete = Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$file;
+				
+				foreach($model->userMedia as $media)
+					if($media->filename == $file)
+						$media->delete();
+					
+				break;
+			case 'examples':
+				$fileToDelete = Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$file;
+				
+				foreach($model->userMedia as $media)
+					if($media->filename == $file)
+						$media->delete();
+
+				break;
+		}
+		
+		if($fileToDelete != '' && file_exists($fileToDelete))
+			unlink($fileToDelete);
+		   
+		if($fileToDeleteTmb != '' && file_exists($fileToDeleteTmb))
+			unlink($fileToDeleteTmb);
+		   
+		 Yii::$app->session->setFlash('success', 'Файл успешно удален.'); 
+		
+		return $this->redirect(['update', 'id'=>$id]);		
     }	
 
     /**
@@ -307,4 +366,18 @@ class SpecController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+	
+    public function chekUserAdminOrManager()
+    {
+		if (\Yii::$app->user->isGuest) {
+			return $this->redirect('site/login'); 
+		}
+		
+        $user = \common\models\User::findOne(Yii::$app->user->id);
+		
+		if($user->group_id != 1) {
+			throw new \yii\web\ForbiddenHttpException('У вас нет доступа к данной странице');
+		}
+    }
+	
 }

@@ -7,6 +7,7 @@ use creocoder\nestedsets\NestedSetsBehavior;
 
 use common\models\UserCategories;
 use common\models\User;
+use common\models\CategoryQuery;
 
 /**
  * This is the model class for table "{{%category}}".
@@ -170,7 +171,7 @@ class Category extends \yii\db\ActiveRecord
 			
 		}
 
-		//return parent::afterSave($insert);
+		return parent::afterSave($insert, $changedAttribute);
 	}	
 	
     public function getUserCategories()

@@ -192,11 +192,12 @@ class CategoryController extends Controller
 		//echo'<pre>';print_r($model->attributes);echo'</pre>';//die;
 		
 		$model_next = $model->next()->one();
+		//echo'<pre>';print_r($model_next->attributes);echo'</pre>';//die;
 		
 		if($model_next != null)
-			$model->insertAfter($model_next);
+			$model->insertAfter($model_next, false);
 		
-		//echo'<pre>';print_r($model->attributes);echo'</pre>';//die;
+		//echo'<pre>';print_r($model);echo'</pre>';die;
 		//echo'<pre>';print_r($model_next->attributes);echo'</pre>';die;
 		//echo'<pre>';var_dump($model_prev);echo'</pre>';die;
 		$returnUrl = Yii::$app->request->referrer;		
@@ -205,6 +206,22 @@ class CategoryController extends Controller
 		
 		//return $this->redirect(['index']);		
     }
+	
+	/*
+	
+SELECT id FROM abc_category WHERE lft >= rgt
+
+SELECT COUNT(id), MIN(lft), MAX(rgt) FROM abc_category
+
+SELECT id, MOD((rgt - lft) / 2) AS ostatok FROM abc_category WHERE ostatok = 0
+
+SELECT id, MOD((lft - depth + 2) / 2) AS ostatok FROM abc_category WHERE ostatok = 1
+
+SELECT t1.id, COUNT(t1.id) AS rep, MAX(t3.rgt) AS max_right FROM abc_category AS t1, abc_category AS t2, abc_category AS t3 
+WHERE t1.lft <> t2.lft AND t1.lft <> t2.rgt AND t1.rgt <> t2.lft AND t1.rgt <> t2.rgt 
+GROUP BY t1.id HAVING max_right <> SQRT(4 * rep + 1) + 1
+
+	*/
 	
 	/*
     public function actionNameupdate()

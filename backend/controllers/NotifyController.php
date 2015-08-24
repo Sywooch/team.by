@@ -37,7 +37,9 @@ class NotifyController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new NotifySearch();
+        $this->chekUserAdminOrManager();
+		
+		$searchModel = new NotifySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -51,13 +53,14 @@ class NotifyController extends Controller
      * @param integer $id
      * @return mixed
      */
+	/*
     public function actionView($id)
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
-
+	*/
     /**
      * Creates a new UserNotify model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -65,7 +68,9 @@ class NotifyController extends Controller
      */
     public function actionCreate()
     {
-        $model = new UserNotify();
+        $this->chekUserAdminOrManager();
+		
+		$model = new UserNotify();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -84,7 +89,9 @@ class NotifyController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $this->chekUserAdminOrManager();
+		
+		$model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -103,13 +110,17 @@ class NotifyController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->chekUserAdminOrManager();
+		
+		$this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
 
     public function actionToSpec()
     {
+		$this->chekUserAdminOrManager();
+		
 		$user_ids = Yii::$app->request->post('user-ids', []);
 		//echo'<pre>';print_r($user_ids);echo'</pre>';die;
 		//echo'<pre>';print_r($_POST);echo'</pre>';die;
@@ -132,6 +143,8 @@ class NotifyController extends Controller
 	
     public function actionToSpecAdd()
     {
+		$this->chekUserAdminOrManager();
+		
 		$model = new NotifyForm();
 		
 		if ($model->load(Yii::$app->request->post()) ) {
@@ -173,4 +186,18 @@ class NotifyController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+	
+    public function chekUserAdminOrManager()
+    {
+		if (\Yii::$app->user->isGuest) {
+			return $this->redirect('site/login'); 
+		}
+		
+        $user = \common\models\User::findOne(Yii::$app->user->id);
+		
+		if($user->group_id != 1) {
+			throw new \yii\web\ForbiddenHttpException('У вас нет доступа к данной странице');
+		}
+    }
+	
 }

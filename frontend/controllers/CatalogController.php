@@ -40,7 +40,43 @@ class CatalogController extends Controller
     public function actionIndex()
 	{
 		$categories = Category::find()->where('id <> 1 AND depth < 3')->orderBy('lft, rgt')->all();
+		/*
+		$cat_ids = [];
+		foreach($categories as $c){
+			if($c->depth == 2) {
+				$cat_ids[] = $c->id;
+			}
+		}
 		
+		$command = \Yii::$app->db->createCommand('SELECT `category_id`, count(`user_id`) AS count FROM {{%user_categories}} AS uc INNER JOIN {{%user}} AS u ON u.id = uc.user_id WHERE u.is_active = 1 AND u.`user_status` IN('.implode(',', \common\models\User::getActiveUserStatuses()).') AND `category_id` IN ('.implode(', ', $cat_ids).') GROUP BY `category_id`');
+		$with_specs = $command->queryAll();
+		echo'<pre>';print_r($with_specs);echo'</pre>';
+		
+		$categories_n = [];
+		foreach($categories as $k=>$c){
+			if($c->depth == 2) {
+				$is_delete = true;
+				foreach($with_specs as $row) {
+					if($row['category_id'] == $c->id) {
+						$is_delete = false;
+						break;
+					}
+				}
+				
+//				if($is_delete === false)
+//					$categories_n[] = $c;
+				
+				if($is_delete === true)
+					unset($categories[$k]);
+					
+			}	else	{
+				//$categories_n[] = $c;
+			}
+		}
+		
+		//$categories = $categories_n;
+		//echo'<pre>';print_r($categories);echo'</pre>';
+		*/
 		$cats_l1 = [];
 
 		foreach($categories as $c){
@@ -121,6 +157,38 @@ class CatalogController extends Controller
 		
 		//получаем потомков категории
 		$children = $category->children()->all();
+		//echo'<pre>';print_r($category->depth);echo'</pre>'; //die;
+		if(count($children)) {
+			switch($category->depth) {
+				case 1:
+					$table = 'user_categories';
+					break;
+				case 2:
+					$table = 'user_specials';
+					break;
+			}
+			
+			$this->getNonEmptyCategories($children, $table);
+			
+			/*
+			$command = \Yii::$app->db->createCommand('SELECT `category_id`, count(`user_id`) AS count FROM {{%'.$table.'}} AS uc INNER JOIN {{%user}} AS u ON u.id = uc.user_id WHERE u.is_active = 1 AND u.`user_status` IN('.implode(',', \common\models\User::getActiveUserStatuses()).') GROUP BY `category_id`');
+			$with_specs = $command->queryAll();				
+						
+			$children_n = [];
+			foreach($children as $child) {
+				foreach($with_specs as $row) {
+					if($row['category_id'] == $child->id) {
+						$children_n[] = $child;
+					}
+				}
+			}
+			
+			//$children = $children_n;
+			*/	
+			
+			//echo'<pre>';print_r($with_specs);echo'</pre>'; //die;
+			
+		}
 		
 		//получаем массив ИД категорий для поиска аккаунтов в них
 		$cat_ids = [$category->id];
@@ -331,12 +399,11 @@ class CatalogController extends Controller
 		
 		//echo'<pre>';print_r($this->getSpecials());echo'</pre>'; die;
  
-       // $this->render('show', array('model'=>$model));
         return $this->render('show', [
 			'model'=>$model,
 			'category'=>$category,
 			'parents'=>$parents,
-			'children'=>$children,			
+			'children'=>$children,
 			'relatedDataProvider'=>$relatedDataProvider,
 			'specials'=>$this->getSpecials(),
 			'reviews_list'=>$reviews_list,
@@ -514,5 +581,22 @@ class CatalogController extends Controller
 			->joinWith(['userRegionsList']);
 		
 		return $query;
+	}
+	
+	
+	public function getNonEmptyCategories(&$children, $table)
+	{
+		$command = \Yii::$app->db->createCommand('SELECT `category_id`, count(`user_id`) AS count FROM {{%'.$table.'}} AS uc INNER JOIN {{%user}} AS u ON u.id = uc.user_id WHERE u.is_active = 1 AND u.`user_status` IN('.implode(',', \common\models\User::getActiveUserStatuses()).') GROUP BY `category_id`');
+		$with_specs = $command->queryAll();				
+
+		$children_n = [];
+		foreach($children as $child) {
+			foreach($with_specs as $row) {
+				if($row['category_id'] == $child->id) {
+					$children_n[] = $child;
+				}
+			}
+		}
+		$children = $children_n;
 	}
 }

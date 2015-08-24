@@ -49,7 +49,9 @@ class ClientController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
+        $this->chekUserAdminOrManager();
+		
+		$dataProvider = new ActiveDataProvider([
             'query' => Client::find(),
         ]);
 
@@ -63,13 +65,14 @@ class ClientController extends Controller
      * @param integer $id
      * @return mixed
      */
+	/*
     public function actionView($id)
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
-
+	*/
     /**
      * Creates a new Client model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -77,7 +80,9 @@ class ClientController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Client();
+        $this->chekUserAdminOrManager();
+		
+		$model = new Client();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -96,7 +101,9 @@ class ClientController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $this->chekUserAdminOrManager();
+		
+		$model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -115,21 +122,27 @@ class ClientController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->chekUserAdminOrManager();
+		
+		$this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
 
     public function actionExportCsv()
     {
-        //$this->findModel($id)->delete();
-
+        $this->chekUserAdminOrManager();
+		
+		//$this->findModel($id)->delete();
+		
         return $this->render('export-csv');
     }
 
     public function actionExportGo()
     {
-        //$this->findModel($id)->delete();
+        $this->chekUserAdminOrManager();
+		
+		//$this->findModel($id)->delete();
 		$csv = new DCsvHelper();
 		
 		$client = Client::find()
@@ -183,4 +196,18 @@ class ClientController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+	
+    public function chekUserAdminOrManager()
+    {
+		if (\Yii::$app->user->isGuest) {
+			return $this->redirect('site/login'); 
+		}
+		
+        $user = \common\models\User::findOne(Yii::$app->user->id);
+		
+		if($user->group_id != 1) {
+			throw new \yii\web\ForbiddenHttpException('У вас нет доступа к данной странице');
+		}
+    }
+	
 }

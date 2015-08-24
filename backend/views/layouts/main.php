@@ -93,7 +93,7 @@ if (\Yii::$app->user->isGuest) {
 						'visible'=>$showAdmin
 					],            
 					
-					['label' => 'Валюта', 'url' => ['/currency/index'], 'visible'=>$showAdmin],
+					['label' => 'Валюта', 'url' => ['/currency/index'], 'visible'=>$showManager],
 
 
 

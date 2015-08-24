@@ -102,7 +102,7 @@ class AddReviewForm extends Model
 				$orders = \common\models\Order::find()
 					->joinWith(['user'])
 					->where(['client_id'=>$client->id])
-					->andWhere(['{{%order}}.status' => 4])	// 4 - оплачен, ожидает отзыва
+					//->andWhere(['{{%order}}.status' => 4])	// 4 - оплачен, ожидает отзыва
 					->all();
 				
 				$spec_arr = [];

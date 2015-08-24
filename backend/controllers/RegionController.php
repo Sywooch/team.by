@@ -33,6 +33,8 @@ class RegionController extends Controller
      */
     public function actionIndex()
     {
+		$this->chekUserAdmin();
+		
         $dataProvider = new ActiveDataProvider([
             'query' => Region::find()
 				->where(['<>', 'id', 1])
@@ -49,13 +51,15 @@ class RegionController extends Controller
      * @param integer $id
      * @return mixed
      */
+	/*
     public function actionView($id)
     {
+		$this->chekUserAdmin();
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
-
+	*/
     /**
      * Creates a new Region model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -63,6 +67,8 @@ class RegionController extends Controller
      */
     public function actionCreate()
     {
+		$this->chekUserAdmin();
+		
         $model = new Region();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {		
@@ -87,6 +93,8 @@ class RegionController extends Controller
      */
     public function actionUpdate($id)
     {
+		$this->chekUserAdmin();
+		
         $model = $this->findModel($id);
 		$model->parent_id_old = $model->parent_id;
 
@@ -125,6 +133,8 @@ class RegionController extends Controller
      */
     public function actionDelete($id)
     {
+		$this->chekUserAdmin();
+		
         $this->findModel($id)->delete();
 		
 		$returnUrl = Yii::$app->request->referrer;		
@@ -137,6 +147,8 @@ class RegionController extends Controller
 	
     public function actionMoveup($id)
     {
+		$this->chekUserAdmin();
+		
 		$model = $this->findModel($id);
 		
 		$model_prev = $model->prev()->one();
@@ -155,6 +167,8 @@ class RegionController extends Controller
 
     public function actionMovedown($id)
     {
+		$this->chekUserAdmin();
+		
 		$model = $this->findModel($id);
 		
 		$model_next = $model->next()->one();
@@ -173,6 +187,8 @@ class RegionController extends Controller
 	
     public function actionMakeroot()
     {
+		$this->chekUserAdmin();
+		
 		$model = new Region(['name' => 'ROOT']);
 		$model->makeRoot();		
 		
@@ -214,6 +230,17 @@ class RegionController extends Controller
 		$categories = [1=>'Верхний уровень'] + ArrayHelper::map($categories, 'id', 'name');
 
 		return $categories;
+    }
+	
+	public function chekUserAdmin()
+    {
+		if (\Yii::$app->user->isGuest) {
+			return $this->redirect('site/login'); 
+		}
+		
+		if (Yii::$app->user->id != 1) {
+			throw new \yii\web\ForbiddenHttpException('У вас нет доступа к данной странице');
+		}
     }
 	
 }

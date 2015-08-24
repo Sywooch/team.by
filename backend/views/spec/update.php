@@ -37,6 +37,10 @@ switch($model->user_type) {
 					'active' => true,
 				],
 				[
+					'label' => 'Фото / Видео',
+					'content' => $this->render('_foto-video', ['model' => $model]),
+				],
+				[
 					'label' => 'Документы',
 					'content' => $this->render($documents_tmpl, ['model' => $document_form]),
 				],

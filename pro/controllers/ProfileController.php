@@ -102,7 +102,7 @@ class ProfileController extends Controller
 
 				if($ProfileAnketaForm->avatar != $model->avatar) {
 					//удаляем старый аватар
-					if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar))
+					if($model->avatar != '' && file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar))
 						unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar);
 
 					//перемещаем фото аватара
@@ -376,6 +376,13 @@ class ProfileController extends Controller
 			$model = User::findOne(\Yii::$app->user->id);
 			$model->is_active = $activity;
 			$model->save(false);
+			
+			Yii::$app->mailer->compose('mail-spec-change-status', ['model'=>$model, 'statusTxt'=>$model->userActivityList[$model->is_active]])
+				->setTo(\Yii::$app->params['adminEmail'])
+				->setFrom(\Yii::$app->params['noreplyEmail'])
+				->setSubject('Пользователь сменил свой статус')
+				->send();
+			
 			Yii::$app->session->setFlash('success', 'Текущий статус обновлен.');
 			return $this->redirect($return_url);
 		}	else	{

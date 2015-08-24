@@ -125,6 +125,8 @@ class User extends ActiveRecord implements IdentityInterface
 			'categoryUser' => 'Категория',
 			'black_list' => 'Черный список',
 			'youtube' => 'Видеообращение',
+            'avatar1' => 'Фото анкеты',
+            'examples1' => 'Примеры работ',
 			
 			
         ];
@@ -465,12 +467,12 @@ class User extends ActiveRecord implements IdentityInterface
 	
     public function getAvatarUrl()
     {
-        return Url::home(true).Yii::$app->params['avatars-path'].'/'.$this->avatar;
+        return Yii::$app->params['homeUrl'] . '/' . Yii::$app->params['avatars-path'].'/'.$this->avatar;
     }
 	
     public function getAvatarThumbUrl()
     {
-        return Url::home(true).Yii::$app->params['avatars-path'].'/thumb_'.$this->avatar;
+        return Yii::$app->params['homeUrl'] . '/' . Yii::$app->params['avatars-path'].'/thumb_'.$this->avatar;
     }
 	
     public function getUserCategoriesList()

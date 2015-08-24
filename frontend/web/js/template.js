@@ -90,7 +90,7 @@ jQuery(function($) {
 					$('.modal').find('#uploading-reviewfoto-list .item-' + upload_reviewfoto_item_num).html(response.html_file + response.filename);
 					$('.modal').find('#uploading-reviewfoto-list .item-' + upload_reviewfoto_item_num).toggleClass('no-foto');
 					upload_reviewfoto_item_num++;
-					if(upload_reviewfoto_item_num > 4)	$('#upload-reviewfoto-btn').css('visibility', 'hidden');
+					if(upload_reviewfoto_item_num > 5)	$('#upload-reviewfoto-btn').css('visibility', 'hidden');
 				} else {
 					for (var i = 0; i < response.msg.length; i++) {
 					   $('#loading-reviewfoto-errormes').append(response.msg[i]);
