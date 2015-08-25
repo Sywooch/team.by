@@ -54,6 +54,7 @@ class UserToAdministrationSearch extends UserToAdministration
 		
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+			'sort' => ['defaultOrder'=>['id' => SORT_DESC]]
         ]);
 		
 		$dataProvider->sort->attributes['spec'] = [

@@ -5,7 +5,7 @@
 						<ul class="header_phone_popup__list">
 							<li class="header_phone_popup__item header_phone_popup__velcom">+375 (44) <span>722-11-44</span></li>
 							<li class="header_phone_popup__item header_phone_popup__mts">+375 (33) <span>722-11-44</span></li>
-							<li class="header_phone_popup__item header_phone_popup__life">+375 (29) <span>722-11-44</span></li>
+							<li class="header_phone_popup__item header_phone_popup__life">+375 (25) <span>722-11-44</span></li>
 						</ul>
 					</div>
 				</div>

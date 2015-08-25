@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 \pro\assets\RegAsset::register($this);
 \pro\assets\RegStep2Asset::register($this);
-\pro\assets\BootstrapLightboxAsset::register($this);
+\frontend\assets\BootstrapLightboxAsset::register($this);
 \pro\assets\FormStylerAsset::register($this);
 
 

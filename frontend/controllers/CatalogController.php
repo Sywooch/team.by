@@ -311,6 +311,7 @@ class CatalogController extends Controller
 		
 		$reviews_list = Review::find()
 			->where(['user_id'=>$model->id])
+			->andWhere(['status'=>1])
 			->joinWith(['client'])
 			->limit(3)
 			->orderBy('id DESC')

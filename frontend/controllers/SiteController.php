@@ -89,35 +89,9 @@ class SiteController extends Controller
 		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
 		
 		\common\helpers\DCategoryHelper::prepareMainCategoriesForView($categories);
-		
-		$cats_l1 = [];
 
-		foreach($categories as $c){
-			if($c->parent_id == 1)	$cats_l1[] = [
-				'id'=>$c->id,
-				'name'=>$c->name,
-				'alias'=>$c->alias,
-				'path'=>$c->path,
-				'children'=>[],
-			];
-		}		
-		
-		foreach($cats_l1 as &$c_l1){
-			foreach($categories as $c){
-				if($c->parent_id == $c_l1['id']) {
-					$c_l1['children'][] = [
-						'id'=>$c->id,
-						'name'=>$c->name,
-						'alias'=>$c->alias,
-						'path'=>$c->path,
-					];
-				}
-			}
-		}
-		//echo'<pre>';print_r($cats_l1);echo'</pre>';
-		
 		return $this->render('index', [
-			'categories' => $cats_l1,
+			'categories' => $categories,
 		]);
     }
 

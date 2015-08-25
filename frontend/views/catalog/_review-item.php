@@ -21,10 +21,18 @@ use yii\helpers\Url;
 			<?php if(count($model->reviewMedia))	{	?>
 				<div class="reviews_item__review_foto">
 					<ul class="reviews_item__foto_list">
-						<?php foreach($model->reviewMedia as $media)	echo Html::tag('li', Html::a(Html::img(Url::home(true) . '/'. Yii::$app->params['reviews-path'] . '/thumb_' .$media->filename ), Url::home(true) . '/'. Yii::$app->params['reviews-path'] . '/' .$media->filename, ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']);	?>
+						<?php foreach($model->reviewMedia as $media) echo Html::tag('li', Html::a(Html::img(Url::home(true) . '/'. Yii::$app->params['reviews-path'] . '/thumb_' .$media->filename ), Url::home(true) . '/'. Yii::$app->params['reviews-path'] . '/' .$media->filename, ['data-toggle'=>'lightbox', 'data-gallery'=>'review-1-images']), ['class'=>'reviews_item__foto_item']);	?>
 					</ul>
 				</div>
 			<?php	}	?>
+			<?php if($model->youtube != '')	{	?>
+				<a href="<?= $model->youtube ?>" class="db pt-15">Смотреть видео-отзыв</a>
+			<?php	}	?>
 		</div>
+		<?php if($model->answer_text != '' && $model->answer_status == 1)	{	?>
+			<div class="review_answer_cnt">
+				<div class="review_answer__text"><?= $model->answer_text ?></div>
+			</div>
+		<?php	}	?>
 	</div>
 </div>

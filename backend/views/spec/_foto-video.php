@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 //\pro\assets\DocumentsAsset::register($this);
-\pro\assets\BootstrapLightboxAsset::register($this);
+\backend\assets\BootstrapLightboxAsset::register($this);
 \pro\assets\FormStylerAsset::register($this);
 
 ?>

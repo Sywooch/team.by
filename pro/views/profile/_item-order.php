@@ -1,5 +1,6 @@
 <?php
-	use common\helpers\DPriceHelper;
+use yii\helpers\Url;
+use common\helpers\DPriceHelper;
 ?>
 
 
@@ -36,7 +37,7 @@
 							break;
 					}	
 				?>
-					<a href="<?= $payment_url?>" class="button-red btn-short">Оплатить</a>
+					<a href="<?= Url::to(['profile/pay-system', 'id'=>$model->id])?>" class="button-red btn-short">Оплатить</a>
 			<?php	}	?>
 		<?php	}	?>
 	</div>

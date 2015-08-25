@@ -9,6 +9,7 @@ use dosamigos\datepicker\DatePicker;
 
 \frontend\assets\DatePickerRuAsset::register($this);	//русский язык подключаем
 \backend\assets\ReviewFotoAsset::register($this);	//ajax загрузка фото
+\backend\assets\BootstrapLightboxAsset::register($this);
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Order */
@@ -164,6 +165,17 @@ use dosamigos\datepicker\DatePicker;
 				</ul>
 			</div>
 		</div>
+		
+		<?= $form->field($model, 'youtube')->textInput() ?>
+
+		<?php if($model->youtube != '')	{	?>
+			<div class="form-group clearfix">
+				<div class="mb-30">
+					<?php echo \common\helpers\DYoutubeHelper::getYoutubeBlock($model->youtube) ?>
+				</div>
+			</div>
+		<?php	}	?>
+		
 		
 		<?= $form->field($model, 'review_state')->dropDownList($model->reviewStates, [$model->review_state]) ?>
 		

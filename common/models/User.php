@@ -81,6 +81,8 @@ class User extends ActiveRecord implements IdentityInterface
 			['password', 'required', 'on' => 'create'],
 			['password', 'string', 'min' => 6],
 			
+			['comment', 'string'],
+			
         ];
     }
 	
@@ -127,6 +129,7 @@ class User extends ActiveRecord implements IdentityInterface
 			'youtube' => 'Видеообращение',
             'avatar1' => 'Фото анкеты',
             'examples1' => 'Примеры работ',
+            'comment' => 'Комментарий по специалисту',
 			
 			
         ];
@@ -389,8 +392,14 @@ class User extends ActiveRecord implements IdentityInterface
 	
     public function getReviews()
     {
-        return $this->hasMany(Review::className(), ['user_id' => 'id']);
+        return $this->hasMany(Review::className(), ['user_id' => 'id'])->with('client')->orderBy('order_id DESC');
 	}
+	
+//    public function getReviewsList()
+//    {
+//        return $this->hasMany(Client::className(), ['id' => 'client_id'])			
+//			->via('reviews');
+//	}
 	
     public function getOrders()
     {

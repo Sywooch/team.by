@@ -24,7 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+			[
+				'attribute' => 'id',
+				'headerOptions' => ['width' => '100'],
+			],
+
             //'user_id',
 			[
 				'attribute' => 'spec',
@@ -32,9 +36,20 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			
             'subject',
-            //'comment:ntext',
+
             'statusName',
-            // 'answer:ntext',
+
+			
+//			[
+//				'attribute'=>'status',
+//				//'label'=>'Родительская категория',
+//				'format'=>'text', // Возможные варианты: raw, html
+//				'content'=>function($data){
+//					return $data->orderStatusTxt;
+//				},
+//				'filter' => OrderForm::getStatuses(),
+//			],			
+			
 
             [
 				'class' => 'yii\grid\ActionColumn',

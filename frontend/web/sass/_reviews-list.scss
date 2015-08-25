@@ -59,6 +59,7 @@
 	
 	padding: 10px 25px;	
 	border: 1px dashed $gray14;
+	overflow: hidden;
 	
 	&:before {
 		@extend .ico-review-text;

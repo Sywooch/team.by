@@ -11,6 +11,7 @@ use common\helpers\DPriceHelper;
 			<tr>
 				<td><?= $user_spec->category->name ?></td>
 				<td><?= DPriceHelper::formatPrice($user_spec->price); ?></td>
+				<td><?= $user_spec->unit; ?></td>
 			</tr>
 		<?php	}	?>
 	</table>

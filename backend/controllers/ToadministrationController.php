@@ -35,14 +35,11 @@ class ToadministrationController extends Controller
      */
     public function actionIndex()
     {
+		$this->chekUserAdminOrManager();
 		
         $searchModel = new UserToAdministrationSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		/*	
-        $dataProvider = new ActiveDataProvider([
-            'query' => UserToAdministration::find(),
-        ]);
-		*/
+		
         return $this->render('index', [
 			'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -68,6 +65,7 @@ class ToadministrationController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+	/*
     public function actionCreate()
     {
         $this->chekUserAdminOrManager();
@@ -82,7 +80,7 @@ class ToadministrationController extends Controller
             ]);
         }
     }
-
+	*/
     /**
      * Updates an existing UserToAdministration model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -107,11 +105,6 @@ class ToadministrationController extends Controller
 			}	else	{
 				Yii::$app->getSession()->setFlash('error', 'При отправке сообщения возникла ошибка');
 			}
-
-			
-			
-			
-			
 			
             return $this->redirect(['index']);
         } else {

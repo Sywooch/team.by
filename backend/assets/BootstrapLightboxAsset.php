@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace pro\assets;
+namespace backend\assets;
 
 use yii\web\AssetBundle;
 
@@ -22,9 +22,8 @@ class BootstrapLightboxAsset extends AssetBundle
 		'css/ekko-lightbox.min.css',
 	];
     public $js = [
-		//'js/fileuploader.js',
 		'js/ekko-lightbox.min.js',
-		//'http://team.by/js/ekko-lightbox-init.js',		
+		'http://team.by/js/ekko-lightbox-init.js',		
     ];
     public $depends = [
         //'frontend\assets\AppAsset',

@@ -643,3 +643,28 @@ a.desc:after {
 		@extend .pr-10;
 	}
 }
+
+.page-body ul,
+.page-body p {
+	@extend .mb-20;
+}
+
+.page-body ul {
+	@extend .ml-20;
+	
+	li {
+		@extend .mb-5;
+		list-style: disc;
+		list-style-position: outside;		
+	}
+}
+
+.page-body ol {
+	
+	li {
+		@extend .mb-5;
+		list-style: decimal;
+		list-style-position: outside;		
+	}
+}
+

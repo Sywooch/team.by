@@ -431,11 +431,12 @@ jQuery(function($) {
 		return false;
 	});
 	
-	$('#regstep2form-category1').on('change', function(e){
+	$('#regstep2form-category1, #profileanketaform-category1').on('change', function(e){
 		$('.categories-block').each(function(){
 			if($(this).is(':visible')) {
-				$(this).find('.reg-step2-category').each(function(){
+				$(this).find('input[type="checkbox"]').each(function(){
 					$(this).prop('checked', false);
+					//$(this).prop('checked', false).trigger('refresh');
 				});
 				$(this).hide();
 			}

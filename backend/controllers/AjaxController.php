@@ -34,6 +34,7 @@ class AjaxController extends Controller
         $model = new \backend\models\UploadReviewsFotoForm();
 		
 		$profile_model = 'OrderForm';
+		$profile_model = Yii::$app->session->get('profile_model', 'OrderForm');
 
         if (Yii::$app->request->isPost) {
 			
@@ -44,21 +45,31 @@ class AjaxController extends Controller
 			
             if ($model->upload()) {
 				
-				$img = Image::getImagine()->open($model->path. '/' . $model->filename); //загружаем изображение
+				$img_path = $model->path. '/' . $model->filename;
+				$img_dimentions = $this->getImageDimentions($img_path);
 				
-				$image_size = $img->getSize();	//получаем размеры изображения
+				$watermark_path = Yii::getAlias('@frontend').'/web/images/watermark.png';
+				$w_img_dimentions = $this->getImageDimentions($watermark_path);
 				
-				if($image_size->getWidth() < 600 || $image_size->getHeight() < 800) {
+				if($img_dimentions['width'] < Yii::$app->params['max-image-res']['width'] || $img_dimentions['height'] < Yii::$app->params['max-image-res']['height']) {
 					$this->printErrors($model, 'Слишком маленькое изображение');
 					return;
 				}
 				
-				Image::thumbnail( $model->path. '/' . $model->filename, 70, 45)
+				Image::thumbnail( $img_path, Yii::$app->params['max-image-res']['width'], Yii::$app->params['max-image-res']['height'])
+					->save(Yii::getAlias($img_path), ['quality' => 100]);
+
+				$img_dimentions = $this->getImageDimentions($img_path);
+
+				Image::watermark($img_path, $watermark_path, [($img_dimentions['width'] - $w_img_dimentions['width'] - 20), ($img_dimentions['height'] - $w_img_dimentions['height'] - 20)])
+					->save(Yii::getAlias($img_path));
+				
+				Image::thumbnail( $img_path, 75, 90)
 					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
 				
 				$json_arr['res'] = 'ok';
 				$json_arr['filename'] = Html::input('hidden', $profile_model.'[review_foto][]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img(Yii::$app->urlManagerFrontEnd->baseUrl . '/tmp/thumb_' .$model->filename), Yii::$app->urlManagerFrontEnd->baseUrl . '/tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
+				$json_arr['html_file'] = Html::a(Html::img(Yii::$app->params['homeUrl'] . '/tmp/thumb_' .$model->filename), Yii::$app->params['homeUrl'] . '/tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'review_foto_images']);
 				$json_arr['html_file_remove'] = Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->filename]);
 				
 				echo Json::htmlEncode($json_arr);
@@ -87,5 +98,14 @@ class AjaxController extends Controller
 		return;
 	}
 
+	public function getImageDimentions($img_path)
+	{
+		$img = Image::getImagine()->open($img_path); //загружаем изображение
+		$image_size = $img->getSize();	//получаем размеры изображения
+		$img_w = $image_size->getWidth();
+		$img_h = $image_size->getHeight();
+		
+		return ['width'=>$image_size->getWidth(), 'height'=>$image_size->getHeight()];
+	}
 
 }

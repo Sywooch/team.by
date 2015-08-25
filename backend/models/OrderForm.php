@@ -38,6 +38,7 @@ class OrderForm extends Model
     public $review_text;
     public $review_rating;
     public $review_foto = [];
+    public $youtube;
 	public $answer_text;
 	public $answer_status;
 	
@@ -57,7 +58,7 @@ class OrderForm extends Model
             [['client_id', 'descr', 'price1', 'category_id'], 'required'],
             [['review_rating'], 'required', 'on'=>'add_rating'],
             [['order_id', 'client_id', 'category_id', 'user_id', 'created_at', 'price1', 'price', 'fee', 'status', 'review_status', 'review_rating'], 'integer'],
-            [['descr', 'review_text', 'date_control', 'payment_date'], 'string'],
+            [['descr', 'review_text', 'date_control', 'payment_date', 'youtube'], 'string'],
 			
             [['fio', 'phone'], 'required', 'on' => 'create'],
 			['phone', 'unique', 'targetClass' => \common\models\Client::className(), 'message' => 'Данный номер уже используется.'],
@@ -101,6 +102,8 @@ class OrderForm extends Model
             'review_text' => 'Текст отзыва',
             'review_foto' => 'Фото отзыва',
             'review_rating' => 'Оценка клиента',
+            'youtube' => 'Видео отзыв',
+			
             'answer_text' => 'Ответ специалиста',
             'answer_status' => 'Статус ответа',
             'blocked' => 'Заблокирован для оплаты',

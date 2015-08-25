@@ -731,6 +731,17 @@ class ProfileController extends Controller
 		
 		return $this->redirect(['/profile/notify']);
 	}
+	
+	public function actionPaySystem($id)
+	{
+        if (\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+		
+		return $this->render('pay-system', [
+			'id' => $id,
+		]);
+	}
 		
 	/**
      * Finds the Category model based on its primary key value.

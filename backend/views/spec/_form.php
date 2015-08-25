@@ -156,7 +156,7 @@ if(count($model->regions)) {
     
     
     
-    
+	<?= $form->field($model, 'comment')->textarea(['rows'=>5]) ?>
     <?php //if($model->isNewRecord) echo $form->field($model, 'password')->textInput() ?>
        
     <div class="form-group">

@@ -40,6 +40,7 @@ class SpecForm extends User
 			
 			['regions', 'each', 'rule' => ['integer']],
 			['ratios', 'each', 'rule' => ['double']],
+			['comment', 'string'],
 			
         ];
     }

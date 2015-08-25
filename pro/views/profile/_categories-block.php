@@ -6,7 +6,7 @@ use yii\helpers\Html;
 //echo $model_name;
 ?>
 
-<?= $form->field($model, 'category1')->dropDownList($model->categoriesLevel1DropDownList, [$model->category1, 'prompt'=>'Например: строительство']) ?>
+<?= $form->field($model, 'category1')->dropDownList($model->categoriesLevel1DropDownList, [$model->category1, 'prompt'=>'Например: Мастера по ремонту и строительству']) ?>
 
 
 <?php foreach($categories as $cat1)	{	?>
@@ -60,6 +60,7 @@ use yii\helpers\Html;
 								
 								$inner_li .= '<div class="col-sm-1 profile-uslugi-currency">';
 								$inner_li .= ' бел.руб';
+								$inner_li .= '<span class="profile-unit-ttl">за<span>';
 								$inner_li .= '</div>';
 
 								$inner_li .= '<div class="col-sm-2">';

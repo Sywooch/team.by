@@ -71,6 +71,8 @@ if (\Yii::$app->user->isGuest) {
 						'visible'=>$showManager
 					],            
 
+					['label' => 'Отзывы', 'url' => ['/review/index'], 'visible'=>$showManager],
+					
 					['label' => 'Сообщения', 'url' => ['/toadministration/index'], 'visible'=>$showManager],
 
 					['label' => 'Страницы', 'url' => ['/page/index'], 'visible'=>$showAdmin],

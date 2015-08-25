@@ -36,6 +36,7 @@ class DCategoryHelper
 	
     public static function prepareCatalogCategories(&$children, $table)
     { 
+		/*
 		$command = \Yii::$app->db->createCommand('SELECT `category_id`, count(`user_id`) AS count FROM {{%'.$table.'}} AS uc INNER JOIN {{%user}} AS u ON u.id = uc.user_id WHERE u.is_active = 1 AND u.`user_status` IN('.implode(',', \common\models\User::getActiveUserStatuses()).') GROUP BY `category_id`');
 		$with_specs = $command->queryAll();				
 
@@ -48,11 +49,12 @@ class DCategoryHelper
 			}
 		}
 		$children = $children_n;
+		*/
     }
 	
     public static function prepareMainCategoriesForView(&$categories)
     { 
-		self:: prepareMainCategories($categories);
+		//self:: prepareMainCategories($categories);
 		
 		$cats_l1 = [];
 

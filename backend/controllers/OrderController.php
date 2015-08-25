@@ -90,6 +90,8 @@ class OrderController extends Controller
 		
 		$model = new OrderForm();
 		
+		Yii::$app->session->set('profile_model', 'OrderForm');
+		
 		if(isset($_POST['OrderForm']))	{
 			//echo'<pre>';print_r(Yii::$app->request->post('OrderForm'));echo'</pre>';die;
 			$model->load(Yii::$app->request->post());
@@ -199,12 +201,14 @@ class OrderController extends Controller
 		
 		$reviewMedia_old = [];
 		//echo'<pre>';var_dump($order->review);echo'</pre>';die;
+		Yii::$app->session->set('profile_model', 'OrderForm');
 		
 		//загружаем информацию по отзыву
 		if($order->review !== NULL)	{
 			$model->review_text = $order->review->review_text;
 			$model->review_rating = $order->review->review_rating;
 			$model->review_state = $order->review->status;
+			$model->youtube = $order->review->youtube;
 			$model->answer_text = $order->review->answer_text;
 			$model->answer_status = $order->review->answer_status;
 			

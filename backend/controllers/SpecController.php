@@ -241,6 +241,10 @@ class SpecController extends Controller
 		
 		$model = $this->findModel($id);
 		
+		$model->user_status = 3;
+		$model->save();
+		/*
+		
 		//echo'<pre>';print_r($model->userMedia);echo'</pre>';die;
 		foreach($model->userMedia as $media) {
 			switch($media->media_id) {
@@ -276,10 +280,8 @@ class SpecController extends Controller
 				unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$model->license);
 		}
 		
-		
-		
         $model->delete();
-
+		*/
         return $this->redirect(['index']);
     }
 	

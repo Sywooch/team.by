@@ -52,6 +52,10 @@ switch($model->user_type) {
 					'label' => 'Заказы',
 					'content' => $this->render('_orders', ['model' => $model]),
 				],
+				[
+					'label' => 'Отзывы',
+					'content' => $this->render('_reviews', ['model' => $model]),
+				],
 			]
 		]);			
 

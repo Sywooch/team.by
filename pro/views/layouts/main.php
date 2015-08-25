@@ -111,6 +111,7 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 						['label' => 'О компании', 'url' => 'http://team.by/page/about'],
 						['label' => 'Оплата', 'url' => ['/page/view', 'alias'=>'oplata']],
 						['label' => 'Тарифы', 'url' => ['/page/view', 'alias'=>'tarify'], 'visible' => !Yii::$app->user->isGuest],
+						['label' => 'Преимущества для специалистов', 'url' => ['/page/view', 'alias'=>'preimuschestva-dlya-spetsialistov'], 'visible' => Yii::$app->user->isGuest],
 						//['label' => 'Черный список', 'url' => '#'],
 					],
 					'options' => [
@@ -142,13 +143,11 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 					<img src="http://team.by/images/iPay_mts_h_50.png" alt="" />
 					*/?>
 				</p>
-				<p>
-					<img src="http://team.by/images/webpay_h_50.png" alt="" />
+				<p class="footer-webpay">
+					<a href="http://www.webpay.by" target="_blank"><img src="http://team.by/images/webpay_h_50.png" alt="" /></a>
 					<img src="http://team.by/images/visa_h_50.png" alt="" />
-					<?/*
 					<img src="http://team.by/images/verified-by-visa_h_50.png" alt="" />
 					<img src="http://team.by/images/mastercard-securecode_h_50.png" alt="" />
-					*/?>
 					<img src="http://team.by/images/mastercard_h_50.png" alt="" />
 				</p>
 			</div>
