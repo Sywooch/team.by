@@ -40,7 +40,8 @@ class ProfileController extends Controller
         //var_dump(\Yii::$app->user->isGuest);die;
 		if (\Yii::$app->user->isGuest) {
             //return $this->goHome();
-			return $this->redirect('/site/login');
+			//return $this->redirect('/site/login');
+			return $this->render('/site/reg', []);
         }
 		
 		$model = User::findOne(\Yii::$app->user->id);
@@ -738,8 +739,36 @@ class ProfileController extends Controller
             return $this->goHome();
         }
 		
+		$erip_page = '';
+		$ipay_page = '';
+		$webpay_page = '';
+		$transfer_page = '';
+		
+		$pages = \common\models\Page::find()->where(['id'=>[8,9,10,11]])->all();
+		//echo'<pre>';print_r($pages);echo'</pre>';//die;
+		foreach($pages as $page) {
+			switch($page->id) {
+				case 8:
+					$erip_page = $page->text;
+					break;
+				case 9:
+					$ipay_page = $page->text;
+					break;
+				case 10:
+					$webpay_page = $page->text;
+					break;
+				case 11:
+					$transfer_page = $page->text;
+					break;
+			}
+		}
+		
 		return $this->render('pay-system', [
 			'id' => $id,
+			'erip_page' => $erip_page,
+			'ipay_page' => $ipay_page,
+			'webpay_page' => $webpay_page,
+			'transfer_page' => $transfer_page,
 		]);
 	}
 		

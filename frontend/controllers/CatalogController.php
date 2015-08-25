@@ -97,7 +97,7 @@ class CatalogController extends Controller
 		
 		//получаем потомков категории
 		$children = $category->children()->all();
-		//echo'<pre>';print_r($category->depth);echo'</pre>'; //die;
+		//echo'<pre>';print_r($category->leaves()->all());echo'</pre>'; //die;
 		if(count($children)) {
 			switch($category->depth) {
 				case 1:

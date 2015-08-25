@@ -400,8 +400,8 @@ jQuery(function($) {
 		
 		$(this).parent().parent().toggleClass('category-block-checked');
 		if($(this).prop('checked')) {
-			if($("#category-block-2 ul").is("#cnt-price-" + $(this).val())) {
-				$("#category-block-2 ul").find("#cnt-price-" + $(this).val()).slideDown();
+			if($(".categories-block ul").is("#cnt-price-" + $(this).val())) {
+				$(".categories-block ul").find("#cnt-price-" + $(this).val()).slideDown();
 			} else {
 				$.ajax({
 					type: 'get',
@@ -417,7 +417,7 @@ jQuery(function($) {
 				});
 			}
 		}	else	{
-			$("#category-block-2 ul").find("#cnt-price-" + $(this).val()).slideUp();
+			$(".categories-block ul").find("#cnt-price-" + $(this).val()).slideUp();
 		}
 	});
 	

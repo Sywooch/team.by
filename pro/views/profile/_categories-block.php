@@ -38,8 +38,11 @@ use yii\helpers\Html;
 						if(isset($categories_l3[$cat2['id']]))	{
 							$inner_li .= '<ul id="cnt-price-'.$cat2['id'].'"'. (!$model->isChecked($cat2['id']) ? ' style="display:none;"': '') .'>';
 							foreach($categories_l3[$cat2['id']] as $child_k => $child)	{
+								if($cat1['id'] == 2) $cl = 'col-sm-5';
+									else $cl = 'col-sm-7';
+								
 								$inner_li .= '<li id="usluga-price-'.$child_k.'" class="form-group clearfix">';
-								$inner_li .= '<div class="col-sm-6 categories-block-lbl-cnt">';
+								$inner_li .= '<div class="'.$cl.' categories-block-lbl-cnt">';
 								$inner_li .= Html::checkbox(
 									$model_name.'[usluga][]', 
 									$model->uslugaIsCheked($child_k), 
@@ -58,14 +61,18 @@ use yii\helpers\Html;
 								$inner_li .=  Html::textInput( $model_name.'[price]['.$child_k.']', isset($model->price[$child_k]) ? $model->price[$child_k] : '', ['class'=>"form-control price-input", 'id'=>'price-'.$child_k, 'placeholder'=>'Стоимость'] );
 								$inner_li .= '</div>';
 								
-								$inner_li .= '<div class="col-sm-1 profile-uslugi-currency">';
+								$inner_li .= '<div class="col-sm-2 profile-uslugi-currency">';
 								$inner_li .= ' бел.руб';
-								$inner_li .= '<span class="profile-unit-ttl">за<span>';
+								
+								if($cat1['id'] == 2) $inner_li .= '<span class="profile-unit-ttl">за<span>';
+								
 								$inner_li .= '</div>';
 
-								$inner_li .= '<div class="col-sm-2">';
-								$inner_li .=  Html::textInput( $model_name.'[unit]['.$child_k.']', isset($model->unit[$child_k]) ? $model->unit[$child_k] : '', ['class'=>"form-control", 'id'=>'price-'.$child_k, 'placeholder'=>'за'] );
-								$inner_li .= '</div>';
+								if($cat1['id'] == 2) {
+									$inner_li .= '<div class="col-sm-2">';
+									$inner_li .=  Html::textInput( $model_name.'[unit]['.$child_k.']', isset($model->unit[$child_k]) ? $model->unit[$child_k] : '', ['class'=>"form-control", 'id'=>'price-'.$child_k, 'placeholder'=>'за'] );
+									$inner_li .= '</div>';
+								}
 
 
 								$inner_li .= '</li>';

@@ -1,14 +1,10 @@
-<div class="tab_profile_anketa">
-	<p style="text-align:center"><img alt="" src="http://team.by/files/global/logo_IPAY.png" style="height:107px; width:201px" /></p>
+<?php
+use yii\helpers\Url;
+?>
 
-	<p style="text-align:center"><span style="font-size:18px"><strong>iPay - оплата с баланса мобильного телефона**</strong></span></p>
 
-	<p>Совершить платеж Вы можете из личного кабинета сайта <a href="http://ipay.by">iPay.by</a>.<br />
-	Для входа в личный кабинет используйте свой номер телефона и сеансовый пароль, для получения которого достаточно отправить любое SMS-сообщение на номер 5533 (стоимость SMS определяется тарифным планом абонента). После успешного входа в личный кабинет Вы можете осуществлять платежи, выбирая услуги для оплаты. Кроме того, Вы можете узнать баланс Вашего счета мобильного телефона, просмотреть историю платежей, при необходимости распечатать чек.<br />
-	Ссылка на оплату услуги &laquo;Pro.team.by&raquo; через систему iPay для абонентов:</p>
-
-	<p style="text-align:center"><img alt="" src="http://team.by/files/global/iPay_life_720X384px.png" style="height:107px; width:200px" />&nbsp;&nbsp;&nbsp;<img alt="" src="http://team.by/files/global/iPay_mts_720X384px.png" style="height:107px; width:200px" /></p>
-
-	<p><em>Комиссия системы iPay составит для абонентов МТС 3%, Life 3,5%<br />
-	**исключения составляют номера телефонов, подключенные на корпоративный тариф, Свободный life:) и абоненты, использующие оплату услуг сотовой связи по факту. Для осуществления операций в Системе iPay доступна не вся сумма баланса лицевого счета: после списания итоговой суммы операции на вашем счете должно остаться не менее 1 000 белорусских рублей для абонентов МТС и не менее 5 000 белорусских рублей для абонентов life:)</em></p>
+<div class="tab_profile_anketa page-body">
+	<?= $text?>
+	
+	<a href="<?= Url::to(['ipay_test/pay', 'id'=>$id])?>" class="button-red btn-short">Оплатить</a>
 </div>

@@ -415,8 +415,16 @@ class AjaxController extends Controller
     public function actionGetChildrens($id)
     {
 		$model = Category::findOne($id);
-		//print_r($model);die;
 		$children = $model->children()->all();
+		
+		$cats_l1[] = [
+			'id'=>$model->id,
+			'name'=>$model->name,
+			'alias'=>$model->alias,
+			'path'=>$model->path,
+			'children'=>[],
+		];				
+
 		return $this->renderPartial('children-list', [
 			'model'=>$model,
 			'children'=>$children,

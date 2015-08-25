@@ -3,12 +3,19 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Category;
+
 use yii\data\ActiveDataProvider;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+
 use yii\filters\VerbFilter;
+
 use yii\helpers\ArrayHelper;
+
+use common\models\Category;
+use backend\models\CategorySearch;
+
 
 /**
  * CategoryController implements the CRUD actions for Category model.
@@ -34,7 +41,8 @@ class CategoryController extends Controller
     public function actionIndex()
     {
 		$this->chekUserAdmin();
-        $dataProvider = new ActiveDataProvider([
+        /*
+		$dataProvider = new ActiveDataProvider([
             'query' => Category::find()
 				->where(['<>', 'id', 1])
 				->orderBy('lft, rgt'),
@@ -43,6 +51,15 @@ class CategoryController extends Controller
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
+		*/
+        $searchModel = new CategorySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+		
     }
 
     /**

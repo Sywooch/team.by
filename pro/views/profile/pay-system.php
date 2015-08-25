@@ -23,25 +23,25 @@ $this->params['breadcrumbs'] = [
 			'items' => [
 				[
 					'label' => 'ЕРИП',
-					'content' => $this->render('_erip-pay-system', ['id' => $id], false, true),
+					'content' => $this->render('_erip-pay-system', ['id' => $id, 'text'=>$erip_page], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
 					'options' => ['class' => 'tab_profile_orders']
 				],
 				[
 					'label' => 'iPay',
-					'content' => $this->render('_ipay-pay-system', ['id' => $id], false, true),
+					'content' => $this->render('_ipay-pay-system', ['id' => $id, 'text'=>$ipay_page], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
 					'options' => ['class' => 'tab_profile_orders']
 				],
 				[
 					'label' => 'Оплата банковской картой',
-					'content' => $this->render('_webpay-pay-system', ['id' => $id], false, true),
+					'content' => $this->render('_webpay-pay-system', ['id' => $id, 'text'=>$webpay_page], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
 					'options' => ['class' => 'tab_profile_orders']
 				],
 				[
 					'label' => 'Перевод на счет с указанием номера заказа',
-					'content' => $this->render('_transfer-pay-system', ['id' => $id], false, true),
+					'content' => $this->render('_transfer-pay-system', ['id' => $id, 'text'=>$transfer_page], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
 					'options' => ['class' => 'tab_profile_orders']
 				],

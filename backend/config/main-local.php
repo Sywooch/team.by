@@ -12,7 +12,7 @@ $config = [
 if (!YII_ENV_TEST) {
 	
 	$allowedIPs = [
-		'91.149.156.151',
+		'178.121.59.240',
 		
 	];
 	
