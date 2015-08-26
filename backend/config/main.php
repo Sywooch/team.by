@@ -68,7 +68,7 @@ return [
 		
 		'urlManagerFrontEnd' => [
 			'class' => 'yii\web\urlManager',
-			'baseUrl' => 'http://team.by',
+			'baseUrl' => 'https://team.by',
 		],
 		
     ],
@@ -82,7 +82,7 @@ return [
 				'roots' => [
 					[
 						//'baseUrl'=>'@web',
-						'baseUrl'=>'http://team.by',
+						'baseUrl'=>'https://team.by',
 						//'baseUrl'=>'/frontend/web',
 						//'basePath'=>'@webroot',
 						'basePath'=>'@frontend/web',

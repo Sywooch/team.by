@@ -92,7 +92,7 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
     </div>
 
 	<footer class="footer footer__pro">
-		<?php if($current_controller == 'site' && $current_action == 'reg') {	?>
+		<?php if($current_controller == 'site' && $current_action == 'reg' || $current_action == 'index') {	?>
 			<img src="http://team.by/images/reg-img-left.png" alt="" class="site_reg__footer_img_left">
 			<img src="http://team.by/images/reg-img-right.png" alt="" class="site_reg__footer_img_right">
 		<?php 	}	?>

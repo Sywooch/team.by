@@ -21,7 +21,7 @@ use yii\helpers\Html;
 	
 	<tr>
 		<td style="padding-right:20px;">Профиль специалиста</td>		
-		<td><?= Html::a($model->spec_name, 'http://adm.team.by/spec/update/'.$model->user_id)?></td>		
+		<td><?= Html::a($model->spec_name, 'https://adm.team.by/spec/update/'.$model->user_id)?></td>		
 	</tr>
 	
 	<tr>

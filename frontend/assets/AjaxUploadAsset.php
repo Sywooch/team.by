@@ -19,7 +19,7 @@ class AjaxUploadAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [];
     public $js = [
-		'http://team.by/js/jquery.ajax.upload.js',
+		'https://team.by/js/jquery.ajax.upload.js',
     ];
     public $depends = [
 		'yii\web\YiiAsset',

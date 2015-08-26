@@ -336,7 +336,7 @@ jQuery(function($) {
 		
 		$.ajax({
 			type: 'post',				
-			url: 'http://pro.team.by/ajax/getregionsdropdown',
+			url: 'https://pro.team.by/ajax/getregionsdropdown',
 			data: {ids :selected_towns.join(), form_name: $('#form_name').val()},
 			//dataType: 'json',
 			beforeSend: function(){ $('#adding-region').show(); },

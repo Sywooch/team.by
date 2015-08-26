@@ -21,8 +21,8 @@ class AppAsset extends AssetBundle
         'css/screen.css',
     ];
     public $js = [
-		'http://team.by/js/jquery.maskedinput.min.js',
-		'http://team.by/js/template.js',
+		'https://team.by/js/jquery.maskedinput.min.js',
+		'https://team.by/js/template.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

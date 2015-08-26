@@ -1,8 +1,8 @@
 <?php
 return [
-	'homeUrl' => 'http://team.by',
-	'proUrl' => 'http://pro.team.by',
-	'admPanelUrl' => 'http://adm.team.by',
+	'homeUrl' => 'https://team.by',
+	'proUrl' => 'https://pro.team.by',
+	'admPanelUrl' => 'https://adm.team.by',
 	
    	//'adminEmail' => 'aldegtyarev@yandex.ru',
     'adminEmail' => 'alfonsovich@yandex.by',

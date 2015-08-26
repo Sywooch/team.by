@@ -19,8 +19,8 @@ class PriceInputAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [];
     public $js = [
-		'http://team.by/js/jquery.price_format.2.0.min.js',
-		'http://team.by/js/price-input.js',
+		'https://team.by/js/jquery.price_format.2.0.min.js',
+		'https://team.by/js/price-input.js',
     ];
     public $depends = [
 		'yii\web\YiiAsset',

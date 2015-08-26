@@ -18,11 +18,11 @@ class BootstrapLightboxAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-		'http://team.by/css/ekko-lightbox.min.css',
+		'https://team.by/css/ekko-lightbox.min.css',
 	];
     public $js = [
 		//'js/fileuploader.js',
-		'http://team.by/js/ekko-lightbox.min.js',
+		'https://team.by/js/ekko-lightbox.min.js',
     ];
     public $depends = [
         //'frontend\assets\AppAsset',
