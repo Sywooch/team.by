@@ -6,6 +6,8 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+\frontend\assets\PhoneInputAsset::register($this);
+
 $this->title = 'Клиенты';
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -20,10 +22,19 @@ $this->params['breadcrumbs'][] = $this->title;
 	
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+		'filterModel' => $searchModel,
+	
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            [
+				'class' => 'yii\grid\SerialColumn',
+				'headerOptions' => ['width' => '75'],
+			],
 
-            'id',
+
+			[
+				'attribute' => 'id',
+				'headerOptions' => ['width' => '100'],
+			],
 			
 			[
 				'attribute' => 'fio',
@@ -31,7 +42,12 @@ $this->params['breadcrumbs'][] = $this->title;
 				'value' => 'clientBackendUrlInner',
 			],
 
-            'phone',
+			[
+				'attribute' => 'phone',
+				'filterInputOptions' => ['class'=>'form-control phone-input'],
+			],
+
+            //'phone',
             'email:email',
             'info',
 

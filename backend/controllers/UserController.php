@@ -5,6 +5,8 @@ namespace backend\controllers;
 use Yii;
 //use backend\models\User;
 use common\models\User;
+use backend\models\UserSearch;
+
 use app\models\ChangePasswordForm;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -37,11 +39,11 @@ class UserController extends Controller
     {
 		$this->chekUserAdminOrManager();
 		
-        $dataProvider = new ActiveDataProvider([
-            'query' => User::find()->where(['group_id' => 1]),
-        ]);
-
+        $searchModel = new UserSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		
         return $this->render('index', [
+			'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

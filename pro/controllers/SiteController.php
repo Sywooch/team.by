@@ -438,6 +438,7 @@ class SiteController extends Controller
 	
 	public function actionOfferService()
 	{
+		//header('Access-Control-Allow-Origin: *');
 		$model = new \pro\models\OfferServicesForm();
 
 		if ($model->load(Yii::$app->request->post())) {

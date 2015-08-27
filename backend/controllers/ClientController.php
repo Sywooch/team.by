@@ -4,7 +4,10 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Client;
+use backend\models\ClientSearch;
+
 use common\helpers\DCsvHelper;
+
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -51,11 +54,11 @@ class ClientController extends Controller
     {
         $this->chekUserAdminOrManager();
 		
-		$dataProvider = new ActiveDataProvider([
-            'query' => Client::find(),
-        ]);
-
+        $searchModel = new ClientSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		
         return $this->render('index', [
+			'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

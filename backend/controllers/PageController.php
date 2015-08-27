@@ -36,6 +36,11 @@ class PageController extends Controller
 		
         $dataProvider = new ActiveDataProvider([
             'query' => Page::find(),
+			'pagination' => [
+				'pageSize' => Yii::$app->params['per-page'],
+				//'pageSizeParam' => false,
+			],
+			
         ]);
 
         return $this->render('index', [

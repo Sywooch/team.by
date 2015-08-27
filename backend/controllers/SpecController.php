@@ -44,16 +44,9 @@ class SpecController extends Controller
     public function actionIndex()
     {
 		$this->chekUserAdminOrManager();
-//        $dataProvider = new ActiveDataProvider([
-//            'query' => User::find()->where(['group_id' => 2])->andWhere('id > 0'),
-//        ]);
-//
-//        return $this->render('index', [
-//            'dataProvider' => $dataProvider,
-//        ]);
 		
         $searchModel = new UserSearch();
-		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider = $searchModel->searchSpecs(Yii::$app->request->queryParams);
 		
         return $this->render('index', [
 			'searchModel' => $searchModel,

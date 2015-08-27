@@ -11,11 +11,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 //echo'<pre>';print_r($dataProvider->models);echo'<pre>';die;
-foreach($dataProvider->models as $model) {
-	$separator = '';
-	for ($x=1; $x++ < $model->depth;) $separator .= ' - ';
-	$model->name = $separator.$model->name;
-}
 ?>
 <div class="category-index">
 
@@ -27,19 +22,29 @@ foreach($dataProvider->models as $model) {
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+        'filterModel' => $searchModel,
 
-            'id',
-            //'tree',
-            //'lft',
-            //'rgt',
-            //'depth',
-             'name',
-            // 'description:ntext',
-            // 'meta_title',
-            // 'meta_keyword',
-            // 'meta_descr:ntext',
+        'columns' => [
+            [
+				'class' => 'yii\grid\SerialColumn',
+				'headerOptions' => ['width' => '75'],
+			],
+
+			[
+				'attribute' => 'id',
+				'headerOptions' => ['width' => '100'],
+			],
+
+			[
+				'attribute'=>'name',
+				'format'=>'html', // Возможные варианты: raw, html
+				'content'=>function($data){
+					$separator = '';
+					for ($x=1; $x++ < $data->depth;) $separator .= ' - ';					
+					$res = $separator . Html::a($data->name, ['region/update', 'id'=>$data->id]);
+					return $res;
+				},
+			],			
 
             [
 				'class' => 'yii\grid\ActionColumn',
@@ -61,7 +66,8 @@ foreach($dataProvider->models as $model) {
 						//'class' => 'grid-action' // указываем ссылке класс, чтобы потом можно было на него повесить нужный JS-обработчик
 						]);
 					}
-				]				
+				],
+				'headerOptions' => ['width' => '100'],
 			],
         ],
     ]); ?>

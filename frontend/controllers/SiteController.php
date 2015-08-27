@@ -718,26 +718,25 @@ class SiteController extends Controller
 	
 	public function actionOfferService()
 	{
-		header('Access-Control-Allow-Origin: *');
+		//header('Access-Control-Allow-Origin: *');
 		$model = new \pro\models\OfferServicesForm();
+		
+		$show_form = 1;
 
 		if ($model->load(Yii::$app->request->post())) {
 			if ($model->validate()) {
 				if($model->sendEmail(Yii::$app->params['adminEmail'])) {
 					Yii::$app->getSession()->setFlash('success', 'Мы получили Ваше предложение. Наш оператор свяжется с вами в ближайшее время.');
+					$show_form = 0;
 				}	else	{
 					Yii::$app->getSession()->setFlash('error', 'При отправке сообщения возникла ошибка');
 				}
-
-				return $this->renderPartial('offer-service-result-modal', [
-					'model' => $model,
-				]);
-
 			}
 		}
 
-		return $this->renderPartial('offer-service-modal', [
+		return $this->render('offer-service', [
 			'model' => $model,
+			'show_form' => $show_form,
 		]);
 	}	
 	

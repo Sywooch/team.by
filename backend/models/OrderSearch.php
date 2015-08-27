@@ -68,7 +68,12 @@ class OrderSearch extends Order
 		
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-			'sort' => ['defaultOrder'=>['id' => SORT_DESC]]
+			'sort' => ['defaultOrder'=>['id' => SORT_DESC]],
+			'pagination' => [
+				'pageSize' => Yii::$app->params['per-page'],
+				//'pageSizeParam' => false,
+			],
+			
         ]);
 		
 		$dataProvider->sort->attributes['client'] = [

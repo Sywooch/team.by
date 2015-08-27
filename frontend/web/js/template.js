@@ -502,13 +502,13 @@ jQuery(function($) {
 	
 	if($("ul").is(".header_navbar")) {
 		var max_h = 0;
-		$('.header_navbar li').each(function(){
+		$('.header_navbar li a').each(function(){
 			if($(this).height() > max_h)
 				max_h = $(this).height();
 		})
 		
-		$('.header_navbar li').css('height', (max_h));
-		$('.header_popular__ttl_cnt').css('height', (max_h));
+		$('.header_navbar li a').css('height', (max_h + 30));
+		$('.header_popular__ttl_cnt').css('height', (max_h + 30));
 	}
 	
 	$(document).click(function(event) {

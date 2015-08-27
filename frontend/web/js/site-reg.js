@@ -477,7 +477,13 @@ jQuery(function($) {
             modal = $('.modal');
 		
         $.get(url, function (data) {
-            modal.html(data).modal('show');
+			//console.log(data);
+			//data = data.replace('/site/', 'team.by/site/');
+			
+            modal.html(data);
+			//console.log();
+			modal.find('#offerservicesform-verifycode-image').attr('src', ('https://team.by' + modal.find('#offerservicesform-verifycode-image').attr('src')));
+			modal.modal('show');
         });
         return false;
     });

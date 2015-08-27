@@ -19,11 +19,29 @@ $this->params['breadcrumbs'][] = $this->title;
 */?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+        'filterModel' => $searchModel,
 
-            'id',
-            'username',
+        'columns' => [
+            [
+				'class' => 'yii\grid\SerialColumn',
+				'headerOptions' => ['width' => '75'],
+			],
+
+
+			[
+				'attribute' => 'id',
+				'headerOptions' => ['width' => '100'],
+			],
+
+            //'username',
+			[
+				'attribute'=>'username',
+				'format'=>'html', // Возможные варианты: raw, html
+				'content'=>function($data){
+					return Html::a($data->username, ['user/update', 'id'=>$data->id]);
+				},
+			],			
+			
             //'auth_key',
             //'password_hash',
             //'password_reset_token',

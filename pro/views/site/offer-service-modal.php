@@ -25,7 +25,7 @@ $this->title = 'Предложение новой услуги';
 				<?= $form->field($model, 'comment') ?>
 				<?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
 					'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-1"><img id="captcha-reload-bnt" src="http://team.by/images/reload-btn.png" title="Обновить картинку"></div><div class="col-lg-8">{input}</div></div>',
-					'captchaAction' => "http://team.by/site/captcha",
+					//'captchaAction' => "http://team.by/site/captcha",
 				]) ?>
 
 				<div class="form-group cleafrix">
@@ -37,4 +37,18 @@ $this->title = 'Предложение новой услуги';
 </div><!-- site-offer-service-modal -->
 
 <script src="/assets/dd5f9f45/yii.captcha.js"></script>
-<script type="text/javascript">jQuery(document).ready(function () {jQuery('#offerservicesform-verifycode-image').yiiCaptcha({"refreshUrl":"\/site\/captcha?refresh=1","hashKey":"yiiCaptcha\/site\/captcha"});jQuery('#captcha-reload-bnt').on('click', function(){jQuery('#offerservicesform-verifycode-image').click()});});</script>
+<script type="text/javascript">
+	jQuery(document).ready(function () {
+		jQuery('#offerservicesform-verifycode-image').yiiCaptcha({
+			"refreshUrl":"\/site\/captcha?refresh=1",
+			//"refreshUrl":"https:\/\/team.by\/site\/captcha?refresh=1",
+			"hashKey":"yiiCaptcha\/site\/captcha"
+			//"hashKey":"yiiCaptcha\/https:\/\/team.by\/site\/captcha"
+		});
+		jQuery('#captcha-reload-bnt').on('click', function(){
+			jQuery('#offerservicesform-verifycode-image').click()
+			//jQuery('#offerservicesform-verifycode-image').attr('src', ('https://team.by/' + jQuery('#offerservicesform-verifycode-image').attr('src')))
+		});
+	});
+	
+</script>

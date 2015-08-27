@@ -3,8 +3,13 @@ Allow from all
 
 AddDefaultCharset utf-8
 
+# Access-Control-Allow-Origin: http://pro.team.by
+
 RewriteEngine on
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . index.php
+
+RewriteCond %{SERVER_PORT} 80
+RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]

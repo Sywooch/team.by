@@ -41,17 +41,7 @@ class CategoryController extends Controller
     public function actionIndex()
     {
 		$this->chekUserAdmin();
-        /*
-		$dataProvider = new ActiveDataProvider([
-            'query' => Category::find()
-				->where(['<>', 'id', 1])
-				->orderBy('lft, rgt'),
-        ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
-		*/
+		
         $searchModel = new CategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

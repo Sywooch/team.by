@@ -62,14 +62,17 @@ class UserSearch extends User
     public function search($params)
     {
         $query = User::find()
-			->joinWith(['userCategoriesArray'])
-			->joinWith(['userRegions'])
-			->where(['group_id' => 2])
-			->andWhere('{{%user}}.id > 0');
+			->where(['group_id' => 1])
+			->andWhere('id > 0');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-			'sort' => ['defaultOrder'=>['id' => SORT_DESC]]
+			'sort' => ['defaultOrder'=>['id' => SORT_DESC]],
+			'pagination' => [
+				'pageSize' => Yii::$app->params['per-page'],
+				//'pageSizeParam' => false,
+			],
+			
         ]);
 
         $this->load($params);
@@ -77,6 +80,41 @@ class UserSearch extends User
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+			'id' => $this->id,
+			'group_id' => $this->group_id,
+        ]);
+
+        $query->andFilterWhere(['like', 'username', $this->username])
+            ->andFilterWhere(['like', 'email', $this->email]);
+		
+        return $dataProvider;
+    }
+	
+    public function searchSpecs($params)
+    {
+        $query = User::find()
+			->joinWith(['userCategoriesArray'])
+			->joinWith(['userRegions'])
+			->where(['group_id' => 2])
+			->andWhere('{{%user}}.id > 0');
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+			'sort' => ['defaultOrder'=>['id' => SORT_DESC]],
+			'pagination' => [
+				'pageSize' => Yii::$app->params['per-page'],
+				//'pageSizeParam' => false,
+			],
+			
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
             return $dataProvider;
         }
 
@@ -109,12 +147,8 @@ class UserSearch extends User
 		
 		if($this->check_license == 1)	{
 			$timestamp = time();
-			//echo'<pre>';print_r($timestamp);echo'</pre>';die;
 
 			$date_time_array = getdate($timestamp);
-			//echo'<pre>';print_r($date_time_array);echo'</pre>';//die;
-			//echo'<pre>';print_r(Yii::$app->formatter->asDate($timestamp, 'php:d-m-yy'));echo'</pre>';//die;
-
 
 			$hours = $date_time_array['hours'];
 			$minutes = $date_time_array['minutes'];
@@ -123,20 +157,10 @@ class UserSearch extends User
 			$day = $date_time_array['mday'];
 			$year = $date_time_array['year'];
 
-			// используйте mktime для обновления UNIX времени
-			/*
-			$timestamp = mktime($hours,$minutes,$seconds,$month,($day - 55),$year);
-			$date_time_array = getdate($timestamp);
-			echo'<pre>';print_r($timestamp);echo'</pre>';//die;
-
-			echo'<pre>';print_r($date_time_array);echo'</pre>';//die;
-			echo'<pre>';print_r(Yii::$app->formatter->asDate($timestamp, 'php:d F'));echo'</pre>';//die;
-			*/
 			$start_day = $day + 6;
 			
 			$timestamp = mktime(0, 0, 0, $month, $start_day, $year);
 			
-			//$query->andFilterWhere(['license_checked<=:timestamp', [':timestamp' => $timestamp]]);
 			$query->andFilterWhere(['<=', 'license_checked', $timestamp]);
 			$timestamp = mktime(0, 0, 0, $month, $day, $year);
 			$query->andFilterWhere(['>=', 'license_checked', $timestamp]);

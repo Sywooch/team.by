@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Region;
+use backend\models\RegionSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -35,13 +36,11 @@ class RegionController extends Controller
     {
 		$this->chekUserAdmin();
 		
-        $dataProvider = new ActiveDataProvider([
-            'query' => Region::find()
-				->where(['<>', 'id', 1])
-				->orderBy('lft, rgt'),
-        ]);
+        $searchModel = new RegionSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
