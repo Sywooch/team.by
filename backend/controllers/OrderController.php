@@ -19,6 +19,8 @@ use yii\helpers\Html;
 
 use frontend\helpers\DDateHelper;
 
+use common\helpers\DCsvHelper;
+
 /**
  * OrderController implements the CRUD actions for Order model.
  */
@@ -348,6 +350,69 @@ class OrderController extends Controller
         
     }
 
+    public function actionExportCsv()
+    {
+        $this->chekUserAdminOrManager();
+		
+        return $this->render('export-csv');
+    }
+
+    public function actionExportGo()
+    {
+        $this->chekUserAdminOrManager();
+		
+		$csv = new DCsvHelper();
+		
+        $query = Order::find()
+			->joinWith(['client'])
+			->joinWith(['user'])
+			->orderBy('{{%order}}.id DESC')
+			->all();
+		
+		//echo'<pre>';print_r($query);echo'</pre>';die;		
+		
+		//echo Yii::getAlias('@frontend') . Yii::$app->params['export-client-path'];
+        
+		$filename = Yii::$app->basePath . '/web/' . Yii::$app->params['export-path']."/orders-export.csv";
+		
+        $data = [];
+        $head = [
+			"id",
+			$row[] = mb_convert_encoding("Клиент", 'Windows-1251', 'UTF-8'),
+			$row[] = mb_convert_encoding("Исполнитель", 'Windows-1251', 'UTF-8'),
+			$row[] = mb_convert_encoding("Цена окончательная", 'Windows-1251', 'UTF-8'),
+			$row[] = mb_convert_encoding("Комиссия", 'Windows-1251', 'UTF-8'),
+			$row[] = mb_convert_encoding("Статус заказа", 'Windows-1251', 'UTF-8'),
+			$row[] = mb_convert_encoding("Статус оплаты", 'Windows-1251', 'UTF-8'),
+			$row[] = mb_convert_encoding("Контроль оплаты", 'Windows-1251', 'UTF-8'),
+		];
+        $data[] = $head;
+		
+        foreach($query as $item){
+            $row = array();
+            $row[] = $item->id;
+            $row[] = mb_convert_encoding($item->client->fio . ' | ' . $item->client->phone, 'Windows-1251', 'UTF-8');
+            $row[] = mb_convert_encoding($item->user->fio . ' | ' . $item->user->phone, 'Windows-1251', 'UTF-8');
+			$row[] = mb_convert_encoding($item->price, 'Windows-1251', 'UTF-8');
+			$row[] = mb_convert_encoding($item->fee, 'Windows-1251', 'UTF-8');
+			$row[] = mb_convert_encoding($item->orderStatusTxt, 'Windows-1251', 'UTF-8');
+			$row[] = mb_convert_encoding($item->orderPaymentStatusTxt, 'Windows-1251', 'UTF-8');
+			$row[] = Yii::$app->formatter->asDate($item->payment_date, 'php:d-m-yy');
+            
+            $data[] = $row; 
+        }
+		
+        
+        //$csv = new csv();
+        $csv->write($filename, $data);
+		
+		$file_link = Html::a('Скачать файл', '@web/' . Yii::$app->params['export-path']."/orders-export.csv");
+		
+		Yii::$app->session->setFlash('success', 'Создание файла завершено. '.$file_link);
+		
+        return $this->render('export-csv-complete');
+    }
+	
     /**
      * Deletes an existing Order model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

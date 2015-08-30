@@ -29,9 +29,13 @@ foreach($parents as $parent) {
 		
 }
 
-$title_arr[] = $category->name;
+if( $category->meta_title != '') $title_arr[] = $category->meta_title;
+	else $title_arr[] = $category->name;
 
-$this->title = implode(' | ', $title_arr);
+//$this->title = implode(' | ', $title_arr);
+
+//добавляем мета информацию
+\common\helpers\DMetaHelper::setMeta($category, $this, (implode(' | ', $title_arr)));
 
 $this->params['breadcrumbs'][] = $category->name;
 

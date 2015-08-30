@@ -29,6 +29,9 @@ use common\models\Region;
 use common\models\UserCategories;
 use common\models\UserSpecials;
 
+use common\helpers\DImageHelper;
+
+
 class AjaxController extends Controller
 {
 //    public function behaviors()
@@ -53,7 +56,7 @@ class AjaxController extends Controller
     {
 		echo 'index';
     }
-	
+	/*
     public function actionUploadPrice()
     {
         $model = new UploadPriceForm();
@@ -239,7 +242,7 @@ class AjaxController extends Controller
         }		
 		return;
     }
-	
+	*/
     public function actionGetChildrens($id)
     {
 		$model = Category::findOne($id);
@@ -311,6 +314,16 @@ class AjaxController extends Controller
 			
             if ($model->upload()) {
 				
+				$img_path = $model->path. '/' . $model->filename;
+				
+				$img_dimentions = DImageHelper::getImageDimentions($img_path);
+				
+				if($this->checkImageDimentions($model, $img_dimentions) === false)
+					return;
+								
+				DImageHelper::processImage($model->path, $model->filename, 70, 45, $img_dimentions);
+				
+				/*
 				$img = Image::getImagine()->open($model->path. '/' . $model->filename); //загружаем изображение
 				
 				$image_size = $img->getSize();	//получаем размеры изображения
@@ -323,10 +336,10 @@ class AjaxController extends Controller
 				//Image::thumbnail( $model->path. '/' . $model->filename, 75, 90)
 				Image::thumbnail( $model->path. '/' . $model->filename, 70, 45)
 					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
-				
+				*/
 				$json_arr['res'] = 'ok';
 				$json_arr['filename'] = Html::input('hidden', 'AddReviewForm[foto][]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img(Url::home(true) . 'tmp/thumb_' .$model->filename), Url::home(true) . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
+				$json_arr['html_file'] = Html::a(Html::img(DImageHelper::getImageUrl($model->filename, 'tmp', 1)), DImageHelper::getImageUrl($model->filename, 'tmp', 0), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
 				//$json_arr['html_file_remove'] = Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->filename]);
 				
 				echo Json::htmlEncode($json_arr);
@@ -447,5 +460,15 @@ class AjaxController extends Controller
 		return;
 	}
 
+	public function checkImageDimentions(&$model, $img_dimentions)
+	{
+		if($img_dimentions['width'] < Yii::$app->params['max-image-res']['width'] || $img_dimentions['height'] < Yii::$app->params['max-image-res']['height']) {
+			$this->printErrors($model, 'Слишком маленькое изображение');
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 
 }

@@ -1,8 +1,8 @@
 <?php
 return [
-	'homeUrl' => 'https://team.by',
-	'proUrl' => 'https://pro.team.by',
-	'admPanelUrl' => 'https://adm.team.by',
+	'homeUrl' => 'http://team.by',
+	'proUrl' => 'http://pro.team.by',
+	'admPanelUrl' => 'http://adm.team.by',
 	
    	//'adminEmail' => 'aldegtyarev@yandex.ru',
     'adminEmail' => 'alfonsovich@yandex.by',
@@ -24,7 +24,7 @@ return [
 	'licenses-path' => 'files/users/licenses',
 	'documents-path' => 'files/users/documents',
 	
-	'export-client-path' => 'files/export/client',
+	'export-path' => 'files/export',
 	'max-image-res' => [
 		'width' => 1024,
 		'height' => 768,

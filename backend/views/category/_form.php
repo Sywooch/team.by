@@ -32,6 +32,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     
     <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
+    
+     <?= $form->field($model, 'path')->textInput() ?>
       
 	<?= $form->field($model, 'parent_id')->dropDownList($categories, [$model->parent_id]) ?>   
 	

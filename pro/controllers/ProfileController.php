@@ -58,18 +58,20 @@ class ProfileController extends Controller
 		
 		$ProfileAnketaForm = new ProfileAnketaForm();
 		
-		$ProfilePaymentTypeForm = ProfilePaymentTypeForm::findOne(\Yii::$app->user->id);
+		//$ProfilePaymentTypeForm = ProfilePaymentTypeForm::findOne(\Yii::$app->user->id);
 
 		//для коректной загрузки файлов аяксом
 		//устанавливаем с какой моделью будем работать		
 		Yii::$app->session->set('profile_model', 'ProfileAnketaForm');
 		
+		/*
 		if ($ProfilePaymentTypeForm->load(Yii::$app->request->post())) {
 			$ProfilePaymentTypeForm->save();
 			//echo'<pre>';print_r($ProfilePaymentTypeForm);echo'</pre>';die;
 			Yii::$app->session->setFlash('success', 'Метод оплаты обновлен.');
 			$this->redirect('/profile');
 		}
+		*/
 		//echo'<pre>1212121';print_r($ProfilePaymentTypeForm);echo'</pre>';die;
 		//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 		if ($ProfileAnketaForm->load(Yii::$app->request->post())) {
@@ -294,6 +296,7 @@ class ProfileController extends Controller
 			],
 		]);
 		
+		$page_oplata = \common\models\Page::findOne(3);
 		
 		return $this->render('index', [
 			'model' => $model,
@@ -306,7 +309,8 @@ class ProfileController extends Controller
 			'reviewsDataProvider' => $reviewsDataProvider,
 			'ordering_items'=>$ordering_items,
 			'current_ordering'=>$current_ordering,
-			'ProfilePaymentTypeForm'=>$ProfilePaymentTypeForm,
+			//'ProfilePaymentTypeForm'=>$ProfilePaymentTypeForm,
+			'page_oplata'=>$page_oplata,
 			
 		]);
 		

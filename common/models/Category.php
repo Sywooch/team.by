@@ -44,7 +44,7 @@ class Category extends \yii\db\ActiveRecord
         return [
             [['tree', 'lft', 'rgt', 'depth', 'parent_id', 'popular'], 'integer'],
             [['name'], 'required'],
-            [['description', 'meta_descr', 's_descr'], 'string'],
+            [['description', 'meta_descr', 's_descr', 'path'], 'string'],
             [['name', 'alias', 'meta_title', 'meta_keyword', 's_descr'], 'string', 'max' => 255]
         ];
     }
@@ -154,7 +154,7 @@ class Category extends \yii\db\ActiveRecord
 	}	
 	*/
 	
-
+	/*
 	public function afterSave($insert, $changedAttribute)
 	{
 		//echo'<pre>';print_r($this->attributes);echo'<pre>';die;
@@ -172,7 +172,8 @@ class Category extends \yii\db\ActiveRecord
 		}
 
 		return parent::afterSave($insert, $changedAttribute);
-	}	
+	}
+	*/
 	
     public function getUserCategories()
     {

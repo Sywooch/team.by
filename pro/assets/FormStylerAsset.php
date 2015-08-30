@@ -12,7 +12,7 @@ use yii\web\AssetBundle;
 class FormStylerAsset extends AssetBundle
 {
     public $basePath = '@webroot';
-    public $baseUrl = 'http://team.by';
+    public $baseUrl = 'https://team.by';
     public $css = [
 		'css/formstyler.css',
 	];

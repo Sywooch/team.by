@@ -152,6 +152,16 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 				</p>
 			</div>
 			
+			<div class="footer__buttons footer__buttons_pro">
+				<?php if (\Yii::$app->user->isGuest) {	?>
+					<a href="<?= Url::toRoute('/site/login')?>" id="login-modal-footer" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
+				<?	}	else	{	?>
+					<?php $form = ActiveForm::begin(['action'=>['/site/logout']]); ?>						
+						<a id="logout-btn-footer" class="button-gray footer__logout_btn" href="<?= Url::toRoute('/site/logout')?>">Выйти из системы</a>
+					<?php ActiveForm::end(); ?>
+				<?	}	?>
+			</div>
+			
 
 		</div>
 	</footer>

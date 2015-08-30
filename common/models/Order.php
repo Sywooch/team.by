@@ -157,51 +157,43 @@ class Order extends \yii\db\ActiveRecord
 		return $res;
     }
 	
+    public static function getBlockedList()
+    {
+        return [
+            0 => 'Нет',
+            1 => 'Да',
+        ];
+    }
+	
+    public static function getPaymentStatuses()
+    {
+        return [
+            1 => 'ожидает оплаты',
+			2 => 'просрочен',
+            10 => 'оплачен',
+        ];
+    }	
+	
     public function getOrderPaymentStatusTxt()
     {
-        switch($this->payment_status) {
-			case 1:
-				$res = 'Статус ожидает';
-				break;
-			case 2:
-				$res = 'Статус просрочена';
-				break;			
-			case 10:
-				$res = 'Статус оплачена';
-				break;
-			default:
-				$res = 'Статус ожидает';
-				break;
-		}
-		return $res;
+		return $this->paymentStatuses[$this->payment_status];
     }
+	
+    public static function getStatuses()
+    {
+        return [
+            1 => 'новый',
+            2 => 'в работе',
+            3 => 'выполнен',
+            4 => 'оплачен, ожидает отзыва',
+            5 => 'отзыв получен',
+            6 => 'заказ закрыт',
+        ];
+    }	
 	
     public function getOrderStatusTxt()
     {
-        switch($this->status) {
-			case 1:
-				$res = 'новый';
-				break;
-			case 2:
-				$res = 'в работе';
-				break;			
-			case 3:
-				$res = 'выполнен';
-				break;
-			case 4:
-				$res = 'оплачен, ожидает отзыва';
-				break;
-			case 5:
-				$res = 'отзыв получен';
-				break;
-			case 6:
-				$res = 'заказ закрыт';
-				break;
-			default:
-				$res = 'новый';
-				break;
-		}
-		return $res;
+		return $this->statuses[$this->status];
     }
 	
 	public function getPayInfo()

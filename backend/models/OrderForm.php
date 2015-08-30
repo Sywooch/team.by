@@ -5,6 +5,7 @@ use Yii;
 use yii\base\Model;
 use common\models\Client;
 use common\models\Order;
+use common\models\Review;
 
 use yii\helpers\ArrayHelper;
 
@@ -114,72 +115,38 @@ class OrderForm extends Model
 	
     public static function getStatuses()
     {
-        return [
-            1 => 'новый',
-            2 => 'в работе',
-            3 => 'выполнен',
-            4 => 'оплачен, ожидает отзыва',
-            5 => 'отзыв получен',
-            6 => 'заказ закрыт',
-        ];
+		return Order::getStatuses();
     }	
-	
-
-	
 	
     public static function getPaymentStatuses()
     {
-        return [
-            1 => 'ожидает оплаты',
-			2 => 'просрочен',
-            10 => 'оплачен',
-        ];
+		return Order::getPaymentStatuses();
     }	
 	
     public static function getReviewStatuses()
     {
-        return [
-            1 => 'Ожидание',
-            2 => 'Получен',
-            3 => 'Отказано',
-        ];
+        return Review::getReviewStatuses();
     }	
 	
     public static function getReviewStates()
     {
-        return [
-            0 => 'Требует модерации',
-            1 => 'Опубликован',
-        ];
+		return Review::getReviewStates();
     }	
 	
     public static function getAnswerStatuses()
     {
-        return [
-            0 => 'Новый',
-            1 => 'Одобрен',
-            2 => 'Удален',
-        ];
+        return Review::getAnswerStatuses();
     }
 	
     public static function getReviewRating()
     {
-        return [
-            1 => '1',
-            2 => '2',
-            3 => '3',
-            4 => '4',
-            5 => '5',
-        ];
+        return Review::getRatingList();
     }	
 	
 	
     public static function getBlockedList()
     {
-        return [
-            0 => 'Нет',
-            1 => 'Да',
-        ];
+        return Order::getBlockedList();
     }	
 	
 	

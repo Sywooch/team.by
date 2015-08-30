@@ -16,7 +16,7 @@ use yii\web\AssetBundle;
 class RegStep2Asset extends AssetBundle
 {
     public $basePath = '@webroot';
-    public $baseUrl = 'http://team.by';
+    public $baseUrl = 'https://team.by';
     public $css = [];
     public $js = [
 		//'js/fileuploader.js',

@@ -117,13 +117,15 @@ class CategoryController extends Controller
 		
         $model = $this->findModel($id);
 		$model->parent_id_old = $model->parent_id;
-		$model->path = '';
+		//$model->path = '';
 		
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {			
 			$this->checkAlias($model);
 
 			if($model->parent_id_old == $model->parent_id) {
+
 				$model->save();
+						//echo'<pre>';print_r($model);echo'</pre>';die;				
 			}	else	{
 				$parent_category = Category::find()->where(['id' => $model->parent_id])->one();
 				$model->appendTo($parent_category);
@@ -279,7 +281,17 @@ GROUP BY t1.id HAVING max_right <> SQRT(4 * rep + 1) + 1
     {
 		$search = [' ', '(', ')', '/', '*'];
 		$replace = ['-', '', '', '-', ''];
-		if($model->alias == '') $model->alias = str_replace($search, $replace, (strtolower($model->ToTranslit($model->name)))) ;
+		if($model->alias == '') $model->alias = str_replace($search, $replace, (strtolower($model->ToTranslit($model->name))));
+
+		$parents = $model->parents()->all();
+		$aliases = [];
+		foreach($parents as $p) {
+			if($p->id != 1) $aliases[] = $p->alias;
+		}
+
+		$aliases[] = $model->alias;
+		$model->path = implode('/', $aliases);
+
 	}
 	
     

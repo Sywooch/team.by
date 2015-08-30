@@ -154,7 +154,7 @@ class ClientController extends Controller
 		
 		echo Yii::getAlias('@frontend') . Yii::$app->params['export-client-path'];
         
-		$filename = Yii::$app->basePath . '/web/' . Yii::$app->params['export-client-path']."/client-export.csv";
+		$filename = Yii::$app->basePath . '/web/' . Yii::$app->params['export-path']."/client-export.csv";
 		
         $data = [];
         $head = ["id","fio","phone","email","info","created_at","black_list"];
@@ -177,7 +177,7 @@ class ClientController extends Controller
         //$csv = new csv();
         $csv->write($filename, $data);
 		
-		$file_link = Html::a('Скачать файл', '@web/' . Yii::$app->params['export-client-path']."/client-export.csv");
+		$file_link = Html::a('Скачать файл', '@web/' . Yii::$app->params['export-path']."/client-export.csv");
 		
 		Yii::$app->session->setFlash('success', 'Создание файла завершено. '.$file_link);
 		

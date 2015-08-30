@@ -22,6 +22,8 @@ use frontend\widgets\ProfileHeader;
 
 AppAsset::register($this);
 
+\frontend\assets\BootstrapLightboxAsset::register($this);
+
 $current_controller = Yii::$app->controller->id;
 $current_action = Yii::$app->controller->action->id;
 

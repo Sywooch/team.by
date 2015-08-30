@@ -38,6 +38,8 @@ use common\models\UserCategories;
 use common\models\UserSpecials;
 use common\models\UserDocuments;
 
+use common\helpers\DImageHelper;
+
 class AjaxController extends Controller
 {
 //    public function behaviors()
@@ -101,30 +103,17 @@ class AjaxController extends Controller
             if ($model->upload()) {
 				
 				$img_path = $model->path. '/' . $model->filename;
-				$img_dimentions = $this->getImageDimentions($img_path);
 				
-				$watermark_path = Yii::getAlias('@frontend').'/web/images/watermark.png';
-				$w_img_dimentions = $this->getImageDimentions($watermark_path);
+				$img_dimentions = DImageHelper::getImageDimentions($img_path);
 				
-				if($img_dimentions['width'] < Yii::$app->params['max-image-res']['width'] || $img_dimentions['height'] < Yii::$app->params['max-image-res']['height']) {
-					$this->printErrors($model, 'Слишком маленькое изображение');
+				if($this->checkImageDimentions($model, $img_dimentions) === false)
 					return;
-				}
-				
-				Image::thumbnail( $img_path, Yii::$app->params['max-image-res']['width'], Yii::$app->params['max-image-res']['height'])
-					->save(Yii::getAlias($img_path), ['quality' => 100]);
+								
+				DImageHelper::processImage($model->path, $model->filename, 75, 90, $img_dimentions);				
 
-				$img_dimentions = $this->getImageDimentions($img_path);
-
-				Image::watermark($img_path, $watermark_path, [($img_dimentions['width'] - $w_img_dimentions['width'] - 20), ($img_dimentions['height'] - $w_img_dimentions['height'] - 20)])
-					->save(Yii::getAlias($img_path));
-				
-				Image::thumbnail( $img_path, 75, 90)
-					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
-				
 				$json_arr['res'] = 'ok';
 				$json_arr['filename'] = Html::input('hidden', $profile_model.'[awards][]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img(Yii::$app->params['homeUrl'] . '/tmp/thumb_' .$model->filename), Yii::$app->params['homeUrl'] . '/tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
+				$json_arr['html_file'] = Html::a(Html::img(DImageHelper::getImageUrl($model->filename, 'tmp', 1)), DImageHelper::getImageUrl($model->filename, 'tmp', 0), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
 				$json_arr['html_file_remove'] = Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->filename]);
 				
 				echo Json::htmlEncode($json_arr);
@@ -152,29 +141,17 @@ class AjaxController extends Controller
             if ($model->upload()) {
 				
 				$img_path = $model->path. '/' . $model->filename;
-				$img_dimentions = $this->getImageDimentions($img_path);
 				
-				$watermark_path = Yii::getAlias('@frontend').'/web/images/watermark.png';
-				$w_img_dimentions = $this->getImageDimentions($watermark_path);
+				$img_dimentions = DImageHelper::getImageDimentions($img_path);
 				
-				if($img_dimentions['width'] < Yii::$app->params['max-image-res']['width'] || $img_dimentions['height'] < Yii::$app->params['max-image-res']['height']) {
-					$this->printErrors($model, 'Слишком маленькое изображение');
+				if($this->checkImageDimentions($model, $img_dimentions) === false)
 					return;
-				}
-				Image::thumbnail( $img_path, Yii::$app->params['max-image-res']['width'], Yii::$app->params['max-image-res']['height'])
-					->save(Yii::getAlias($img_path), ['quality' => 100]);
+								
+				DImageHelper::processImage($model->path, $model->filename, 275, 280, $img_dimentions);
 
-				$img_dimentions = $this->getImageDimentions($img_path);
-
-				Image::watermark($img_path, $watermark_path, [($img_dimentions['width'] - $w_img_dimentions['width'] - 20), ($img_dimentions['height'] - $w_img_dimentions['height'] - 20)])
-					->save(Yii::getAlias($img_path));
-				
-				Image::thumbnail( $img_path, 275, 280)
-					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
-				
 				$json_arr['res'] = 'ok';
 				$json_arr['filename'] = Html::input('hidden', $profile_model.'[avatar]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img(Yii::$app->params['homeUrl'] . '/tmp/thumb_' .$model->filename, ['class'=>'img-responsive']), Yii::$app->params['homeUrl'] . '/tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox']);
+				$json_arr['html_file'] = Html::a(Html::img(DImageHelper::getImageUrl($model->filename, 'tmp', 1), ['class'=>'img-responsive']), DImageHelper::getImageUrl($model->filename, 'tmp', 0), ['class' => '', 'data-toggle' => 'lightbox']);
 				
 				echo Json::htmlEncode($json_arr);
 
@@ -195,8 +172,6 @@ class AjaxController extends Controller
         if (Yii::$app->request->isPost) {
 			
             $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
-			
-			//echo'imageFiles<pre>';print_r($model->imageFiles);echo'</pre>';//die;
 			
             if ($model->upload()) {
 				
@@ -225,30 +200,17 @@ class AjaxController extends Controller
             if ($model->upload()) {
 				
 				$img_path = $model->path. '/' . $model->filename;
-				$img_dimentions = $this->getImageDimentions($img_path);
 				
-				$watermark_path = Yii::getAlias('@frontend').'/web/images/watermark.png';
-				$w_img_dimentions = $this->getImageDimentions($watermark_path);
+				$img_dimentions = DImageHelper::getImageDimentions($img_path);
 				
-				if($img_dimentions['width'] < Yii::$app->params['max-image-res']['width'] || $img_dimentions['height'] < Yii::$app->params['max-image-res']['height']) {
-					$this->printErrors($model, 'Слишком маленькое изображение');
+				if($this->checkImageDimentions($model, $img_dimentions) === false)
 					return;
-				}
-				
-				Image::thumbnail( $img_path, Yii::$app->params['max-image-res']['width'], Yii::$app->params['max-image-res']['height'])
-					->save(Yii::getAlias($img_path), ['quality' => 100]);
-
-				$img_dimentions = $this->getImageDimentions($img_path);
-
-				Image::watermark($img_path, $watermark_path, [($img_dimentions['width'] - $w_img_dimentions['width'] - 20), ($img_dimentions['height'] - $w_img_dimentions['height'] - 20)])
-					->save(Yii::getAlias($img_path));
-				
-				Image::thumbnail( $img_path, 190, 130)
-					->save(Yii::getAlias($model->path. '/' . 'thumb_' . $model->filename), ['quality' => 90]);
 								
+				DImageHelper::processImage($model->path, $model->filename, 190, 130, $img_dimentions);
+				
 				$json_arr['res'] = 'ok';
 				$json_arr['filename'] = Html::input('hidden', $profile_model.'[examples][]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img('http://team.by/' . 'tmp/thumb_' .$model->filename), 'http://team.by/' . 'tmp/' .$model->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
+				$json_arr['html_file'] = Html::a(Html::img(DImageHelper::getImageUrl($model->filename, 'tmp', 1)), DImageHelper::getImageUrl($model->filename, 'tmp', 0), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
 				$json_arr['html_file_remove'] = Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->filename]);
 				
 				echo Json::htmlEncode($json_arr);
@@ -465,7 +427,7 @@ class AjaxController extends Controller
 		
 		return;
 	}
-	
+	/*
     public function actionUploadReviewfoto()
     {
         $model = new \frontend\models\UploadReviewFotoForm();
@@ -503,7 +465,7 @@ class AjaxController extends Controller
         }		
 		return;
     }
-	
+	*/
     public function actionProfiSearch()
     {
 		$search = Yii::$app->request->post('profi_search', '');
@@ -688,6 +650,18 @@ class AjaxController extends Controller
 		
 		return ['width'=>$image_size->getWidth(), 'height'=>$image_size->getHeight()];
 	}
+	
+	
+	public function checkImageDimentions(&$model, $img_dimentions)
+	{
+		if($img_dimentions['width'] < Yii::$app->params['max-image-res']['width'] || $img_dimentions['height'] < Yii::$app->params['max-image-res']['height']) {
+			$this->printErrors($model, 'Слишком маленькое изображение');
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	
 	
 

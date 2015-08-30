@@ -8,6 +8,9 @@ use yii\helpers\Url;
 
 use yii\widgets\ActiveForm;
 
+use common\helpers\DImageHelper;
+use common\helpers\DYoutubeHelper;
+
 \pro\assets\RegAsset::register($this);
 \pro\assets\RegStep2Asset::register($this);
 \frontend\assets\BootstrapLightboxAsset::register($this);
@@ -69,34 +72,13 @@ $categories_l2_arr = [];
 					<?php echo $this->render('@pro/views/profile/_add-regions-frm', ['form_name'=>'ProfileAnketaForm', 'model'=>$model], false, true); ?>
 				</div>
 				
-				<?/*
-				<div id="regions-wr" class="col-lg-6">
-					<div id="regions-cnt" class="regions-cnt">
-						<?php for ($x=0; $x<=$regions_rows; $x++) { ?>
-							<div <? if ($x==0) echo 'id="region-row-f"' ?> class="form-group row clearfix region-row">
-								<div class="col-lg-8 region-dd-cnt">
-									<?= Html::dropDownList('ProfileAnketaForm[regions][]', $model->regions[$x], $model->regionsDropDownList, ['class'=>'form-control']) ?>
-								</div>
-								<div class="col-lg-3">
-									<?= Html::textInput('ProfileAnketaForm[ratios][]', $model->ratios[$x], ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
-								</div>
-								<div class="col-lg-1">
-									<a href="#" class="remove_region_row">—</a>
-								</div>
-							</div>
-						<?php	}	?>
-					</div>
-					
-					<div class="form-group">
-						<a href="#" class="add_new_region">Добавить</a>
-					</div>
-				</div>
-				*/?>
 				<div class="col-lg-6"></div>
+				
 				<div class="col-lg-12">
 					<p class="about-field-descr field-descr">Опишите вашу специализацию, квалификацию, любые ваши особенности и требования. Старайтесь писать живым языком, избегая анкетных шаблонов. Разрешена прямая реклама ваших услуг. Не разрешено использовать выражения, описывающие, что вы делаете какую-то работу лучше кого-то, или лучше всех. Не разрешено - оставлять свои контактные данные</p>
 					<?= $form->field($model, 'about')->textarea(['rows'=>5]) ?>
 				</div>
+				
 				<div class="col-lg-12">
 					<p class="education-field-descr field-descr">Учреждение, специальность, год окончания. Перечислите через запятую.</p>
 					<?= $form->field($model, 'education')->textarea(['rows'=>5]) ?>
@@ -107,11 +89,10 @@ $categories_l2_arr = [];
 			<?= $form->field($model, 'experience')->textarea(['rows'=>5]) ?>
 
 			<p class="specialization-field-descr field-descr">Опишите тот вид работы, который вам удается особенно хорошо. Например - "могу подготовить к экзамену по физике твердого тела за три дня" или "отлично разбираюсь в гидравлической системе ситроен ксантиа."</p>
+			
 			<?= $form->field($model, 'specialization') ?>
 
 			<?= $form->field($model, 'to_client')->checkbox() ?>
-			
-			
 		</div>
 		
 		<div class="profile_anketa_row">
@@ -141,7 +122,8 @@ $categories_l2_arr = [];
 						</div>
 						<div class="col-lg-5">
 							<span id="avatar-cnt">
-								<?php if($model->avatar) echo Html::a(Html::img('http://team.by/' . Yii::$app->params['avatars-path'] . '/thumb_' .$model->avatar, ['class'=>'img-responsive']), 'http://team.by/' . Yii::$app->params['avatars-path'] . '/' .$model->avatar, ['class' => '', 'data-toggle' => 'lightbox']) ?>
+								<?php //if($model->avatar) echo Html::a(Html::img('http://team.by/' . Yii::$app->params['avatars-path'] . '/thumb_' .$model->avatar, ['class'=>'img-responsive']), 'http://team.by/' . Yii::$app->params['avatars-path'] . '/' .$model->avatar, ['class' => '', 'data-toggle' => 'lightbox']) ?>
+								<?php if($model->avatar) echo Html::a(Html::img(DImageHelper::getImageUrl($model->avatar, 'avatars', 1), ['class'=>'img-responsive']), DImageHelper::getImageUrl($model->avatar, 'avatars', 0), ['class' => '', 'data-toggle' => 'lightbox']) ?>
 							</span>
 						</div>
 					</div>
@@ -154,7 +136,8 @@ $categories_l2_arr = [];
 						<?= $form->field($model, 'price_list')->hiddenInput() ?>
 					</div>
 					<div class="col-lg-8">
-						<?= Html::a($model->price_list, 'http://team.by/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list)?>
+						<?//= Html::a($model->price_list, 'http://team.by/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list)?>
+						<?= Html::a($model->price_list, DImageHelper::getImageUrl($model->price_list, 'pricelists', 0))?>
 					</div>
 					<div class="col-lg-4" style="clear:both;">
 						<span id="upload-price-btn" class="button-red">Загрузить</span>
@@ -200,7 +183,8 @@ $categories_l2_arr = [];
 								<li class="item-<?= ($x+1) ?> pull-left <?php echo (!isset($model->awards[$x])) ? 'no-foto' : '' ?>" data-item="<?= ($x+1) ?>">
 									<?php 
 										if(isset($model->awards[$x]))	{
-											echo Html::a(Html::img('http://team.by/' . Yii::$app->params['awards-path'] . '/thumb_' .$model->awards[$x]), 'http://team.by/' . Yii::$app->params['awards-path'] .'/' .$model->awards[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
+											//echo Html::a(Html::img('http://team.by/' . Yii::$app->params['awards-path'] . '/thumb_' .$model->awards[$x]), 'http://team.by/' . Yii::$app->params['awards-path'] .'/' .$model->awards[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
+											echo Html::a(Html::img(DImageHelper::getImageUrl($model->awards[$x], 'awards', 1)), DImageHelper::getImageUrl($model->awards[$x], 'awards', 0), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
 											echo Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->awards[$x]]);
 											echo Html::input('hidden', 'ProfileAnketaForm[awards][]', $model->awards[$x]);
 										}	else	{
@@ -244,7 +228,8 @@ $categories_l2_arr = [];
 								<li class="item-<?= ($x+1) ?> pull-left <?php echo (!isset($model->examples[$x])) ? 'no-foto' : '' ?>" data-item="<?= ($x+1) ?>">
 									<?php 
 										if(isset($model->examples[$x]))	{
-											echo Html::a(Html::img('http://team.by/' . Yii::$app->params['examples-path'] .'/thumb_' .$model->examples[$x]), 'http://team.by/' . Yii::$app->params['examples-path'] .'/' .$model->examples[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
+											//echo Html::a(Html::img('http://team.by/' . Yii::$app->params['examples-path'] .'/thumb_' .$model->examples[$x]), 'http://team.by/' . Yii::$app->params['examples-path'] .'/' .$model->examples[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
+											echo Html::a(Html::img(DImageHelper::getImageUrl($model->examples[$x], 'examples', 1)), DImageHelper::getImageUrl($model->examples[$x], 'examples', 0), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
 											echo Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->examples[$x]]);
 											echo Html::input('hidden', 'ProfileAnketaForm[examples][]', $model->examples[$x]);
 										}	else	{
@@ -265,7 +250,7 @@ $categories_l2_arr = [];
 		
 		
 		<div class="mb-30">
-			<?php if($model->youtube != '') echo \common\models\User::getYoutubeBlock1($model->youtube) ?>	
+			<?php if($model->youtube != '') echo DYoutubeHelper::getYoutubeBlock($model->youtube) ?>	
 		</div>
 		
 		<div class="form-group pt-30">

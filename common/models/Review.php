@@ -176,5 +176,15 @@ class Review extends \yii\db\ActiveRecord
             1 => 'Одобрен',
             2 => 'Удален',
         ];
-    }	 
+    }
+	
+    public static function getReviewStatuses()
+    {
+		return [
+            1 => 'Ожидание',
+            2 => 'Получен',
+            3 => 'Отказано',
+        ];
+    }	
+	
 }

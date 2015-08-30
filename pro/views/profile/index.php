@@ -46,8 +46,8 @@ $this->params['breadcrumbs'] = [
 					'options' => ['class' => 'tab_profile__reviews']
 				],
 				[
-					'label' => 'Способ оплаты',
-					'content' => $this->render('_payment', ['model'=>$ProfilePaymentTypeForm], false, true),
+					'label' => 'Способы оплаты',
+					'content' => $this->render('_payment', ['model'=>$page_oplata], false, true),
 					'linkOptions' => ['class' => 'profi_search_tabs__tab2'],
 					'options' => ['class' => 'tab_profile__payment']
 				],

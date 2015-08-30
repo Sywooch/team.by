@@ -12,11 +12,17 @@ use backend\models\SpecForm;
 
 use app\models\ChangePasswordForm;
 
+use common\helpers\DCsvHelper;
+
 use yii\data\ActiveDataProvider;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+
 use yii\filters\VerbFilter;
+
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 use frontend\helpers\DDateHelper;
 
@@ -344,7 +350,82 @@ class SpecController extends Controller
 		 Yii::$app->session->setFlash('success', 'Файл успешно удален.'); 
 		
 		return $this->redirect(['update', 'id'=>$id]);		
-    }	
+    }
+	
+    public function actionExportCsv()
+    {
+        $this->chekUserAdminOrManager();
+		
+        return $this->render('export-csv');
+    }
+
+    public function actionExportGo()
+    {
+        $this->chekUserAdminOrManager();
+		
+		$csv = new DCsvHelper();
+		
+		$spec = User::find()
+			->where(['group_id'=>2])
+			->andWhere(['>', 'id', 0])
+			->orderBy('fio')
+			->all();
+		
+		echo Yii::getAlias('@frontend') . Yii::$app->params['export-client-path'];
+        
+		$filename = Yii::$app->basePath . '/web/' . Yii::$app->params['export-path']."/spec-export.csv";
+		
+        $data = [];
+        $head = [
+			"id",
+			"fio",
+			"phone",
+			"email",
+			"created_at",
+			"about",
+			"education",
+			"experience",
+			"price_list",
+			"specialization",
+			"total_rating",
+			"black_list",
+			"youtube",
+			"comment",
+		];
+        $data[] = $head;
+		
+        foreach($spec as $item){
+            $row = array();
+            $row[] = $item->id;
+            //$row[] = ($item->fio); 
+            $row[] = mb_convert_encoding($item->fio, 'Windows-1251', 'UTF-8');
+            $row[] = $item->phone;
+            $row[] = $item->email;
+			$row[] = Yii::$app->formatter->asDate($item->created_at, 'php:d-m-yy');
+			$row[] = mb_convert_encoding($item->about, 'Windows-1251', 'UTF-8');
+			$row[] = mb_convert_encoding($item->education, 'Windows-1251', 'UTF-8');
+			$row[] = mb_convert_encoding($item->experience, 'Windows-1251', 'UTF-8');
+			$row[] = mb_convert_encoding($item->price_list, 'Windows-1251', 'UTF-8');
+			$row[] = mb_convert_encoding($item->specialization, 'Windows-1251', 'UTF-8');
+			$row[] = mb_convert_encoding($item->total_rating, 'Windows-1251', 'UTF-8');
+			$row[] = mb_convert_encoding($item->black_list, 'Windows-1251', 'UTF-8');
+			$row[] = mb_convert_encoding($item->youtube, 'Windows-1251', 'UTF-8');
+			$row[] = mb_convert_encoding($item->comment, 'Windows-1251', 'UTF-8');
+            
+            $data[] = $row; 
+        }
+		
+        
+        //$csv = new csv();
+        $csv->write($filename, $data);
+		
+		$file_link = Html::a('Скачать файл', '@web/' . Yii::$app->params['export-path']."/spec-export.csv");
+		
+		Yii::$app->session->setFlash('success', 'Создание файла завершено. '.$file_link);
+		
+        return $this->render('export-csv-complete');
+    }
+	
 
     /**
      * Finds the User model based on its primary key value.
