@@ -17,7 +17,7 @@ class BootstrapLightboxAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     //public $baseUrl = '@web';
-    public $baseUrl = 'http://team.by';
+    public $baseUrl = 'https://pro.team.by';
     public $css = [
 		'css/ekko-lightbox.min.css',
 	];

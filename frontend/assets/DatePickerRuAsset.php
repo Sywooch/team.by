@@ -23,8 +23,6 @@ class DatePickerRuAsset extends AssetBundle
 		'js/date.format.js',
     ];
     public $depends = [
-		//'dosamigos\datepicker\DatePicker\DatePickerAsset',
-		//'@vendor\2amigos\yii2-date-picker-widget\src\DatePickerAsset',
 		'dosamigos\datepicker\DatePickerAsset'
     ];
 }

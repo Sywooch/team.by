@@ -19,8 +19,8 @@ class BlackListAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [];
     public $js = [
-		'https://team.by/js/jquery.BlackAndWhite.js',
-		'https://team.by/js/black-list-init.js',
+		'js/jquery.BlackAndWhite.js',
+		'js/black-list-init.js',
     ];
     public $depends = [
 		'yii\web\YiiAsset',

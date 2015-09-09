@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace app\assets;
+namespace pro\assets;
 
 use yii\web\AssetBundle;
 
@@ -22,7 +22,8 @@ class AppAsset extends AssetBundle
         'css/screen.css',
     ];
     public $js = [
-		'https://team.by/js/template.js',
+		'js/jquery.maskedinput.min.js',
+		'js/template.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

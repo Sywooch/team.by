@@ -480,6 +480,8 @@ h1,.h1 {
 .breadcrumb {
 	margin-bottom: 0;
 	padding-left: 0;
+	white-space: nowrap;
+	overflow: hidden;
 	
 	& > li + li{
 		@extend %pos_rel;

@@ -19,8 +19,8 @@ class PhoneInputAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [];
     public $js = [
-		'http://team.by/js/jquery.maskedinput.min.js',
-		'http://team.by/js/phone-input.js',
+		'js/jquery.maskedinput.min.js',
+		'js/phone-input.js',
     ];
     public $depends = [
 		'yii\web\YiiAsset',

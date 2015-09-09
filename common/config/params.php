@@ -1,7 +1,7 @@
 <?php
 return [
 	'homeUrl' => 'http://team.by',
-	'proUrl' => 'http://pro.team.by',
+	'proUrl' => 'https://pro.team.by',
 	'admPanelUrl' => 'http://adm.team.by',
 	
    	//'adminEmail' => 'aldegtyarev@yandex.ru',

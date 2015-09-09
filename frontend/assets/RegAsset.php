@@ -19,7 +19,7 @@ class RegAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [];
     public $js = [
-		'https://team.by/js/site-reg.js',
+		'js/site-reg.js',
     ];
     public $depends = [
 		'yii\web\YiiAsset',

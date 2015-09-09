@@ -64,12 +64,12 @@ class UserDocuments extends \yii\db\ActiveRecord
     public function getFileLink($value)
     {
         if($value == '') return '';
-		return Html::a(Html::img(Yii::$app->params['homeUrl']. '/images/icon_doc.png'), (Yii::$app->params['homeUrl']. '/' .Yii::$app->params['documents-path'].'/'.$value));
+		return Html::a(Html::img(Yii::$app->params['proUrl']. '/images/icon_doc.png'), (Yii::$app->params['homeUrl']. '/' .Yii::$app->params['documents-path'].'/'.$value));
     }
 	
     public function getLicenseLink($value)
     {
         if($value == '') return '';
-		return Html::a(Html::img(Yii::$app->params['homeUrl']. '/images/icon_doc.png'), (Yii::$app->params['homeUrl']. '/' .Yii::$app->params['licenses-path'].'/'.$value));
+		return Html::a(Html::img(Yii::$app->params['proUrl']. '/images/icon_doc.png'), (Yii::$app->params['homeUrl']. '/' .Yii::$app->params['licenses-path'].'/'.$value));
     }
 }

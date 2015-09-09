@@ -16,7 +16,7 @@ use yii\web\AssetBundle;
 class DocumentsAsset extends AssetBundle
 {
     public $basePath = '@webroot';
-    public $baseUrl = 'http://team.by';
+    public $baseUrl = 'https://pro.team.by';
     public $css = [];
     public $js = [
 		'js/jquery.ajax.upload.js',

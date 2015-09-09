@@ -11,7 +11,7 @@ use yii\bootstrap\NavBar;
 
 use yii\widgets\Breadcrumbs;
 
-use frontend\assets\AppAsset;
+use pro\assets\AppAsset;
 
 //use pro\widgets\Alert;
 use frontend\widgets\Alert;
@@ -93,8 +93,8 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 
 	<footer class="footer footer__pro">
 		<?php if($current_controller == 'site' && $current_action == 'reg' || $current_action == 'index') {	?>
-			<img src="http://team.by/images/reg-img-left.png" alt="" class="site_reg__footer_img_left">
-			<img src="http://team.by/images/reg-img-right.png" alt="" class="site_reg__footer_img_right">
+			<img src="<?= Yii::$app->params['proUrl']?>/images/reg-img-left.png" alt="" class="site_reg__footer_img_left">
+			<img src="<?= Yii::$app->params['proUrl']?>/images/reg-img-right.png" alt="" class="site_reg__footer_img_right">
 		<?php 	}	?>
 	
 		<div class="container clearfix">
@@ -136,19 +136,19 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 			
 			<div class="footer__buttons footer__buttons_pro">
 				<p>
-					<img src="http://team.by/images/raschet_h_50.jpg" alt="" />
-					<img src="http://team.by/images/logo_IPAY_h_50.png" alt="" />
+					<img src="<?= Yii::$app->params['proUrl']?>/images/raschet_h_50.jpg" alt="" />
+					<img src="<?= Yii::$app->params['proUrl']?>/images/logo_IPAY_h_50.png" alt="" />
 					<?/*
 					<img src="http://team.by/images/iPay_life_h_50.png" alt="" />
 					<img src="http://team.by/images/iPay_mts_h_50.png" alt="" />
 					*/?>
 				</p>
 				<p class="footer-webpay">
-					<a href="http://www.webpay.by" target="_blank"><img src="http://team.by/images/webpay_h_50.png" alt="" /></a>
-					<img src="http://team.by/images/visa_h_50.png" alt="" />
-					<img src="http://team.by/images/verified-by-visa_h_50.png" alt="" />
-					<img src="http://team.by/images/mastercard-securecode_h_50.png" alt="" />
-					<img src="http://team.by/images/mastercard_h_50.png" alt="" />
+					<a href="http://www.webpay.by" target="_blank"><img src="<?= Yii::$app->params['proUrl']?>/images/webpay_h_50.png" alt="" /></a>
+					<img src="<?= Yii::$app->params['proUrl']?>/images/visa_h_50.png" alt="" />
+					<img src="<?= Yii::$app->params['proUrl']?>/images/verified-by-visa_h_50.png" alt="" />
+					<img src="<?= Yii::$app->params['proUrl']?>/images/mastercard-securecode_h_50.png" alt="" />
+					<img src="<?= Yii::$app->params['proUrl']?>/images/mastercard_h_50.png" alt="" />
 				</p>
 			</div>
 			
