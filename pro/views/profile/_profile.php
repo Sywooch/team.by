@@ -122,7 +122,6 @@ $categories_l2_arr = [];
 						</div>
 						<div class="col-lg-5">
 							<span id="avatar-cnt">
-								<?php //if($model->avatar) echo Html::a(Html::img('http://team.by/' . Yii::$app->params['avatars-path'] . '/thumb_' .$model->avatar, ['class'=>'img-responsive']), 'http://team.by/' . Yii::$app->params['avatars-path'] . '/' .$model->avatar, ['class' => '', 'data-toggle' => 'lightbox']) ?>
 								<?php if($model->avatar) echo Html::a(Html::img(DImageHelper::getImageUrl($model->avatar, 'avatars', 1), ['class'=>'img-responsive']), DImageHelper::getImageUrl($model->avatar, 'avatars', 0), ['class' => '', 'data-toggle' => 'lightbox']) ?>
 							</span>
 						</div>
