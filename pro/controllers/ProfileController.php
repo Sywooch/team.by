@@ -96,6 +96,9 @@ class ProfileController extends Controller
 						//удаляем старый прайс-лист
 						if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list))
 							unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list);
+						
+//						if(file_exists(Yii::getAlias('@pro').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list))
+//							unlink(Yii::getAlias('@pro').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list);
 					}
 
 					//перемещаем новый прайс-лист
@@ -108,12 +111,15 @@ class ProfileController extends Controller
 					if($model->avatar != '' && file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar))
 						unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar);
 
-					//перемещаем фото аватара
-					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->avatar))
-						rename(Yii::getAlias('@frontend').'/web/tmp/'.$ProfileAnketaForm->avatar, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$ProfileAnketaForm->avatar);
+//					if($model->avatar != '' && file_exists(Yii::getAlias('@pro').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar))
+//						unlink(Yii::getAlias('@pro').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar);
 
-					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->avatar))
-						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->avatar, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$ProfileAnketaForm->avatar);
+					//перемещаем фото аватара
+					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.$ProfileAnketaForm->avatar))
+						rename(Yii::getAlias('@pro').'/web/tmp/'.$ProfileAnketaForm->avatar, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$ProfileAnketaForm->avatar);
+
+					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->avatar))
+						rename(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$ProfileAnketaForm->avatar, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$ProfileAnketaForm->avatar);
 
 				}
 
@@ -889,10 +895,16 @@ class ProfileController extends Controller
 				if($item->media_id == 1) {
 					//перемещаем фото в temp
 					if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$item->filename))
-						rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$item->filename, Yii::getAlias('@frontend').'/web/tmp/'.$item->filename);
+						rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$item->filename, Yii::getAlias('@pro').'/web/tmp/'.$item->filename);
 
 					if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/thumb_'.$item->filename))
-						rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$item->filename, Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$item->filename);
+						rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$item->filename, Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$item->filename);
+
+//					if(file_exists(Yii::getAlias('@pro').'/web/'.Yii::$app->params['awards-path'].'/'.$item->filename))
+//						unlink(Yii::getAlias('@pro').'/web/'.Yii::$app->params['awards-path'].'/'.$item->filename);
+//					
+//					if(file_exists(Yii::getAlias('@pro').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$item->filename))
+//						unlink(Yii::getAlias('@pro').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$item->filename);
 					
 					
 					$item->delete();
@@ -907,11 +919,11 @@ class ProfileController extends Controller
 				$UserMedia->save();
 				
 				//перемещаем фото
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$award))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$award);
+				if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.$award))
+					rename(Yii::getAlias('@pro').'/web/tmp/'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$award);
 
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$award))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$award);
+				if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$award))
+					rename(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$award);
 			}
 		}
 	}
@@ -937,11 +949,16 @@ class ProfileController extends Controller
 				if($item->media_id == 2) {
 					//перемещаем фото в temp
 					if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$item->filename))
-						rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$item->filename, Yii::getAlias('@frontend').'/web/tmp/'.$item->filename);
+						rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$item->filename, Yii::getAlias('@pro').'/web/tmp/'.$item->filename);
 
 					if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/thumb_'.$item->filename))
-						rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$item->filename, Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$item->filename);
+						rename(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$item->filename, Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$item->filename);
 					
+//					if(file_exists(Yii::getAlias('@pro').'/web/'.Yii::$app->params['examples-path'].'/'.$item->filename))
+//						unlink(Yii::getAlias('@pro').'/web/'.Yii::$app->params['examples-path'].'/'.$item->filename);
+//					
+//					if(file_exists(Yii::getAlias('@pro').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$item->filename))
+//						unlink(Yii::getAlias('@pro').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$item->filename);
 					
 					$item->delete();
 				}
@@ -955,11 +972,11 @@ class ProfileController extends Controller
 				$UserMedia->save();
 
 				//перемещаем фото
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$example))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$example);
+				if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.$example))
+					rename(Yii::getAlias('@pro').'/web/tmp/'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$example);
 
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
+				if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$example))
+					rename(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
 			}
 		}
 	}

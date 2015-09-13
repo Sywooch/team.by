@@ -379,6 +379,7 @@ jQuery(function($) {
 	$('#begin-reg').on('click', function(e){
 		if($('#rules_agree').prop('checked') === false) {
 			e.preventDefault();
+			$('#confirm_agree__popup').fadeIn().delay(1500).fadeOut();
 			return false;
 		}	
 	});

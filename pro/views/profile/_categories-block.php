@@ -6,10 +6,14 @@ use yii\helpers\Html;
 //echo $model_name;
 ?>
 
-<?= $form->field($model, 'category1')->dropDownList($model->categoriesLevel1DropDownList, [$model->category1, 'prompt'=>'Например: Мастера по ремонту и строительству']) ?>
+<?php 
+	if($show_all === true) echo $form->field($model, 'category1')->dropDownList($model->categoriesLevel1DropDownList, [$model->category1, 'prompt'=>'Я оказываю услуги из раздела...']);
+		else echo Html::activeHiddenInput($model, 'category1');
+?>
 
 
 <?php foreach($categories as $cat1)	{	?>
+	<?php if($show_all === false && $model->category1 != $cat1['id']) continue;  ?>
 	<div id="category-block-<?= $cat1['id']?>" class="categories-block" <?php if($model->category1 == $cat1['id']) echo 'style="display:block;"' ?> >
 		<p><?php echo $cat1['name']?></p>
 		<?php if(count($cat1['children']))	{	?>
@@ -38,8 +42,11 @@ use yii\helpers\Html;
 						if(isset($categories_l3[$cat2['id']]))	{
 							$inner_li .= '<ul id="cnt-price-'.$cat2['id'].'"'. (!$model->isChecked($cat2['id']) ? ' style="display:none;"': '') .'>';
 							foreach($categories_l3[$cat2['id']] as $child_k => $child)	{
+								/*
 								if($cat1['id'] == 2) $cl = 'col-sm-5';
 									else $cl = 'col-sm-7';
+								*/
+								$cl = 'col-sm-5';
 								
 								$inner_li .= '<li id="usluga-price-'.$child_k.'" class="form-group clearfix">';
 								$inner_li .= '<div class="'.$cl.' categories-block-lbl-cnt">';
@@ -64,16 +71,21 @@ use yii\helpers\Html;
 								$inner_li .= '<div class="col-sm-2 profile-uslugi-currency">';
 								$inner_li .= ' бел.руб';
 								
-								if($cat1['id'] == 2) $inner_li .= '<span class="profile-unit-ttl">за<span>';
+								//if($cat1['id'] == 2) $inner_li .= '<span class="profile-unit-ttl">за<span>';
+								$inner_li .= '<span class="profile-unit-ttl">за<span>';
 								
 								$inner_li .= '</div>';
-
+								/*
 								if($cat1['id'] == 2) {
 									$inner_li .= '<div class="col-sm-2">';
 									$inner_li .=  Html::textInput( $model_name.'[unit]['.$child_k.']', isset($model->unit[$child_k]) ? $model->unit[$child_k] : '', ['class'=>"form-control", 'id'=>'price-'.$child_k, 'placeholder'=>'за'] );
 									$inner_li .= '</div>';
 								}
+								*/
 
+								$inner_li .= '<div class="col-sm-2">';
+								$inner_li .=  Html::textInput( $model_name.'[unit]['.$child_k.']', isset($model->unit[$child_k]) ? $model->unit[$child_k] : '', ['class'=>"form-control", 'id'=>'price-'.$child_k, 'placeholder'=>'за'] );
+								$inner_li .= '</div>';
 
 								$inner_li .= '</li>';
 							}
@@ -107,5 +119,8 @@ use yii\helpers\Html;
 				</div>
 
 		<?php	}	?>
-	</div>				
+	</div>
+	
+	<?php if($show_all === false && $model->category1 == $cat1['id']) break;  ?>
+	
 <?php	}	?>

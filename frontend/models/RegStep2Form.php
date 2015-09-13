@@ -106,7 +106,7 @@ class RegStep2Form extends Model
             'region' => 'Укажите регион',
             //'region_parent_id' => 'Область',
             //'region_name' => 'Город',
-            'category1' => 'Выберите раздел',
+            'category1' => 'Выберите раздел ваших услуг',
             'price' => 'Стоимость работ',
             'unit' => 'за',
             'awards' => 'Награды, дипломы',

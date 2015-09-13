@@ -8,6 +8,8 @@ use yii\helpers\Url;
 
 use yii\widgets\ActiveForm;
 
+use common\helpers\DImageHelper;
+
 //use frontend\assets\RegAsset;
 //use frontend\assets\RegStep2Asset;
 ///use frontend\assets\BootstrapLightboxAsset;
@@ -71,7 +73,7 @@ $categories_l2_arr = [];
 		<?= $form->field($model, 'specialization') ?>
 		
 		
-		<?= $this->render('@app/views/profile/_categories-block', ['form'=>$form, 'model'=>$model, 'categories'=>$categories, 'categories_l3'=>$categories_l3, 'model_name'=>'RegStep2Form' ])?>
+		<?= $this->render('@app/views/profile/_categories-block', ['form'=>$form, 'model'=>$model, 'categories'=>$categories, 'categories_l3'=>$categories_l3, 'model_name'=>'RegStep2Form', 'show_all'=>true ])?>
 		
 		<?/*<div class="form-group"><span class="dinpro-b pr-20">Чего-то не хватает?</span> <span id="offer-service" class="button-blue button-narrow" data-url="<?= Yii::$app->params['homeUrl'].Url::to(['site/offer-service'])?>">Предложить услугу</span></div>*/?>
 		<div class="form-group"><span class="dinpro-b pr-20">Чего-то не хватает?</span> <a class="button-blue button-narrow" href="<?= Yii::$app->params['homeUrl'].Url::to(['site/offer-service'])?>" target="_blank">Предложить услугу</a></div>
@@ -121,7 +123,7 @@ $categories_l2_arr = [];
 						<li class="item-<?= ($x+1) ?> pull-left <?php echo (!isset($model->awards[$x])) ? 'no-foto' : '' ?>" data-item="<?= ($x+1) ?>">
 							<?php 
 								if(isset($model->awards[$x]))	{
-									echo Html::a(Html::img('http://team.by/tmp/thumb_' .$model->awards[$x]), 'http://team.by/tmp/' .$model->awards[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
+									echo Html::a(Html::img(DImageHelper::getImageUrl($model->awards[$x], 'tmp', 1, 1)), DImageHelper::getImageUrl($model->awards[$x], 'tmp', 0, 1), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
 									echo Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->awards[$x]]);
 									echo Html::input('hidden', 'RegStep2Form[awards][]', $model->awards[$x]);
 								}	else	{
@@ -155,7 +157,7 @@ $categories_l2_arr = [];
 				</div>
 				<div class="col-lg-5">
 					<span id="avatar-cnt">
-						<?php if($model->avatar) echo Html::a(Html::img('http://team.by/tmp/thumb_' .$model->avatar), 'http://team.by/tmp/' .$model->avatar, ['class' => '', 'data-toggle' => 'lightbox']) ?>
+						<?php if($model->avatar) echo Html::a(Html::img(DImageHelper::getImageUrl($model->avatar, 'tmp', 1, 1)), DImageHelper::getImageUrl($model->avatar, 'tmp', 0, 1), ['class' => '', 'data-toggle' => 'lightbox']); ?>
 					</span>
 				</div>
 			</div>
@@ -191,7 +193,8 @@ $categories_l2_arr = [];
 						<li class="item-<?= ($x+1) ?> pull-left <?php echo (!isset($model->examples[$x])) ? 'no-foto' : '' ?>" data-item="<?= ($x+1) ?>">
 							<?php 
 								if(isset($model->examples[$x]))	{
-									echo Html::a(Html::img('http://team.by/tmp/thumb_' .$model->examples[$x]), 'http://team.by/tmp/' .$model->examples[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
+									//echo Html::a(Html::img('http://team.by/tmp/thumb_' .$model->examples[$x]), 'http://team.by/tmp/' .$model->examples[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
+									echo Html::a(Html::img(DImageHelper::getImageUrl($model->examples[$x], 'tmp', 1, 1)), DImageHelper::getImageUrl($model->examples[$x], 'tmp', 0, 1), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
 									echo Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->examples[$x]]);
 									echo Html::input('hidden', 'RegStep2Form[examples][]', $model->examples[$x]);
 								}	else	{

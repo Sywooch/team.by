@@ -1,3 +1,3 @@
 <div class="tab_profile_anketa page-body">
-	<?= $text?>
+	<?= \common\helpers\DImageHelper::processImagesToHttps($text)?>
 </div>

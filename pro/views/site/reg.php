@@ -23,9 +23,17 @@ $this->title = \Yii::$app->params['sitename'] .' | ' . 'Стать специа�
         	<p class="site_reg__rules">
         		<input type="checkbox" id="rules_agree"> С <a href="<?= Url::toRoute(['/page/view', 'alias'=>'pravila-publichnoj-oferty'])?>" target="_blank">правилами публичной оферты</a> ознакомлен и согласен.
         	</p>
+        	
+			<div id="confirm_agree__popup" class="confirm_agree__popup popup_block">
+				Необходимо подтвердить факт ознакомления c условиями Публичной оферты. Для подтверждения поставьте галочку, пожалуйста.
+			</div>
+
+        	        	
         	<p class="site_reg__btn_cnt">
         		<a href="<?= Url::toRoute('/site/reg-step1')?>" id="begin-reg" class="button-red">Начать регистрацию</a>
         	</p>
+        	
+        	
         	
         	
         </div>

@@ -113,7 +113,7 @@ class AjaxController extends Controller
 
 				$json_arr['res'] = 'ok';
 				$json_arr['filename'] = Html::input('hidden', $profile_model.'[awards][]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img(DImageHelper::getImageUrl($model->filename, 'tmp', 1)), DImageHelper::getImageUrl($model->filename, 'tmp', 0), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
+				$json_arr['html_file'] = Html::a(Html::img(DImageHelper::getImageUrl($model->filename, 'tmp', 1, 1)), DImageHelper::getImageUrl($model->filename, 'tmp', 0, 1), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
 				$json_arr['html_file_remove'] = Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->filename]);
 				
 				echo Json::htmlEncode($json_arr);
@@ -144,14 +144,14 @@ class AjaxController extends Controller
 				
 				$img_dimentions = DImageHelper::getImageDimentions($img_path);
 				
-				if($this->checkImageDimentions($model, $img_dimentions) === false)
+				if($this->checkImageDimentions($model, $img_dimentions, 'min-avatar-res') === false)
 					return;
 								
-				DImageHelper::processImage($model->path, $model->filename, 275, 280, $img_dimentions);
+				DImageHelper::processImage($model->path, $model->filename, 275, 280, $img_dimentions, true);
 
 				$json_arr['res'] = 'ok';
 				$json_arr['filename'] = Html::input('hidden', $profile_model.'[avatar]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img(DImageHelper::getImageUrl($model->filename, 'tmp', 1), ['class'=>'img-responsive']), DImageHelper::getImageUrl($model->filename, 'tmp', 0), ['class' => '', 'data-toggle' => 'lightbox']);
+				$json_arr['html_file'] = Html::a(Html::img(DImageHelper::getImageUrl($model->filename, 'tmp', 1, 1), ['class'=>'img-responsive']), DImageHelper::getImageUrl($model->filename, 'tmp', 0, 1), ['class' => '', 'data-toggle' => 'lightbox']);
 				
 				echo Json::htmlEncode($json_arr);
 
@@ -210,7 +210,7 @@ class AjaxController extends Controller
 				
 				$json_arr['res'] = 'ok';
 				$json_arr['filename'] = Html::input('hidden', $profile_model.'[examples][]', $model->filename);
-				$json_arr['html_file'] = Html::a(Html::img(DImageHelper::getImageUrl($model->filename, 'tmp', 1)), DImageHelper::getImageUrl($model->filename, 'tmp', 0), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
+				$json_arr['html_file'] = Html::a(Html::img(DImageHelper::getImageUrl($model->filename, 'tmp', 1, 1)), DImageHelper::getImageUrl($model->filename, 'tmp', 0, 1), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
 				$json_arr['html_file_remove'] = Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->filename]);
 				
 				echo Json::htmlEncode($json_arr);
@@ -652,9 +652,9 @@ class AjaxController extends Controller
 	}
 	
 	
-	public function checkImageDimentions(&$model, $img_dimentions)
+	public function checkImageDimentions(&$model, $img_dimentions, $param = 'max-image-res')
 	{
-		if($img_dimentions['width'] < Yii::$app->params['max-image-res']['width'] || $img_dimentions['height'] < Yii::$app->params['max-image-res']['height']) {
+		if($img_dimentions['width'] < Yii::$app->params[$param]['width'] || $img_dimentions['height'] < Yii::$app->params[$param]['height']) {
 			$this->printErrors($model, 'Слишком маленькое изображение');
 			return false;
 		} else {

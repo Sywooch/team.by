@@ -60,6 +60,20 @@ class SpecController extends Controller
         ]);
 		
     }
+	
+    public function actionDeleted()
+    {
+		$this->chekUserAdminOrManager();
+		
+        $searchModel = new UserSearch();
+		$dataProvider = $searchModel->searchSpecsDeleted(Yii::$app->request->queryParams);
+		
+        return $this->render('index-deleted', [
+			'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+		
+    }
     /**
      * Creates a new User model.
      * If creation is successful, the browser will be redirected to the 'view' page.

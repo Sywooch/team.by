@@ -66,6 +66,7 @@ if (\Yii::$app->user->isGuest) {
 						'items' => [
 							['label' => 'Пользователи', 'url' => ['/user/index'], 'visible'=>$showAdmin],
 							['label' => 'Специалисты', 'url' => ['/spec/index']],
+							['label' => 'Удаленные специалисты', 'url' => ['/spec/deleted']],
 							['label' => 'Клиенты', 'url' => ['/client/index']],
 						],
 						'visible'=>$showManager

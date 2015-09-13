@@ -10,7 +10,7 @@ use common\models\Category;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Специалисты';
+$this->title = 'Удаленные специалисты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
 */?>
    
    <?=Html::submitButton('Отправить уведомления', ['class' => 'btn btn-info',]);?>
-   
    <br>
    <br>
    <br>
@@ -35,7 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
 		'summary' => '',
-
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 			
@@ -74,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'content'=>function($data){
 					return $data->userStatusTxt;
 				},
-				'filter' => User::getUserStatuses(),
+				//'filter' => User::getUserStatuses(),
 				//'headerOptions' => ['width' => '100'],
 			],			
 			

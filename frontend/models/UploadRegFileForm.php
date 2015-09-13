@@ -57,7 +57,7 @@ class UploadRegFileForm extends Model
     public function upload()
     {
         if ($this->validate()) {
-			$this->path = Yii::getAlias('@frontend').'/web/tmp';
+			$this->path = Yii::getAlias('@pro').'/web/tmp';
             foreach ($this->imageFiles as $file) {
 				$this->filename = DFileHelper::getRandomFileName($this->path, $file->extension) . '.' . $file->extension;
                 $file->saveAs($this->path. '/' . $this->filename);

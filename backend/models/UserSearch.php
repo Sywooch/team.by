@@ -100,7 +100,8 @@ class UserSearch extends User
 			->joinWith(['userCategoriesArray'])
 			->joinWith(['userRegions'])
 			->where(['group_id' => 2])
-			->andWhere('{{%user}}.id > 0');
+			->andWhere(['>', '{{%user}}.id', 0])
+			->andWhere(['<>', '{{%user}}.user_status', 3]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -123,6 +124,83 @@ class UserSearch extends User
             'group_id' => $this->group_id,
             'status' => $this->status,
             'user_status' => $this->user_status,
+            'is_active' => $this->is_active,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'user_type' => $this->user_type,
+            '{{%user_region}}.region_id' => $this->regionIds,
+            'to_client' => $this->to_client,
+            'call_time_from' => $this->call_time_from,
+            'call_time_to' => $this->call_time_to,
+            'total_rating' => $this->total_rating,
+            'black_list' => $this->black_list,
+            'license_checked' => $this->license_checked,
+            'payment_type' => $this->payment_type,
+            'category_id' => $this->categoryIds,
+        ]);
+
+        $query->andFilterWhere(['like', 'username', $this->username])
+            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'fio', $this->fio])
+            ->andFilterWhere(['like', 'phone', $this->phone])
+            ->andFilterWhere(['like', 'specialization', $this->specialization])
+            ->andFilterWhere(['like', 'license', $this->license]);
+		
+		if($this->check_license == 1)	{
+			$timestamp = time();
+
+			$date_time_array = getdate($timestamp);
+
+			$hours = $date_time_array['hours'];
+			$minutes = $date_time_array['minutes'];
+			$seconds = $date_time_array['seconds'];
+			$month = $date_time_array['mon'];
+			$day = $date_time_array['mday'];
+			$year = $date_time_array['year'];
+
+			$start_day = $day + 6;
+			
+			$timestamp = mktime(0, 0, 0, $month, $start_day, $year);
+			
+			$query->andFilterWhere(['<=', 'license_checked', $timestamp]);
+			$timestamp = mktime(0, 0, 0, $month, $day, $year);
+			$query->andFilterWhere(['>=', 'license_checked', $timestamp]);
+			
+		}
+
+        return $dataProvider;
+    }
+	
+    public function searchSpecsDeleted($params)
+    {
+        $query = User::find()
+			->joinWith(['userCategoriesArray'])
+			->joinWith(['userRegions'])
+			->where(['group_id' => 2])
+			->andWhere(['>', '{{%user}}.id', 0])
+			->andWhere(['=', '{{%user}}.user_status', 3]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+			'sort' => ['defaultOrder'=>['id' => SORT_DESC]],
+			'pagination' => [
+				'pageSize' => Yii::$app->params['per-page'],
+				//'pageSizeParam' => false,
+			],
+			
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+			'{{%user}}.id' => $this->id,
+            'group_id' => $this->group_id,
+            'status' => $this->status,
+            //'user_status' => $this->user_status,
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

@@ -171,6 +171,9 @@ class CronController extends Controller {
  
     //чистка временной папки от загруженных туда файлов
 	public function actionClearTmpImages() {
+		$this->clearFolder( \Yii::getAlias('@frontend') . '/web/tmp');
+		$this->clearFolder( \Yii::getAlias('@pro') . '/web/tmp');
+		/*
 		$path = \Yii::getAlias('@frontend') . '/web/tmp'; // Путь до папки
 		$time = time() - 1 * 86400; // Отсчитываем 1 день
 
@@ -190,10 +193,29 @@ class CronController extends Controller {
 		$dir = scandir($path); // Получаем список папок и файлов
 		//echo'<pre>';print_r(count($dir));echo'</pre>';//die;
 		echo 'actionClearTmpImages';
+		*/
     }
  
     public function actionMail($to) {
         echo "Sending mail to " . $to;
+    }
+ 
+    public function clearFolder($path) {
+		$time = time() - 1 * 86400; // Отсчитываем 1 день
+
+		$dir = scandir($path); // Получаем список папок и файлов
+		
+		foreach($dir as $name) {
+			if($name == '.' || $name == '..') continue;
+
+			if(is_file($path.'/'.$name) == TRUE) { // проверяем, действительно ли это файл
+				$ftime = filemtime($path.'/'.$name); // получаем последнее время модификации файла
+				if($ftime < $time) {
+					unlink($path.'/'.$name); // удаляем файл
+				}
+			}
+		}
+		echo 'actionClearTmpImages | ';
     }
  
 }

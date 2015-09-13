@@ -20,9 +20,6 @@ use frontend\widgets\Alert;
 
 use pro\widgets\ProfileHeader;
 
-/* @var $this \yii\web\View */
-/* @var $content string */
-
 AppAsset::register($this);
 
 $current_controller = Yii::$app->controller->id;
@@ -52,6 +49,8 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
     <?php $this->head() ?>
 </head>
 <body>
+		<? //echo'<pre>';print_r($current_controller);echo'</pre>';//die;    ?>
+		<? //echo'<pre>';print_r($current_action);echo'</pre>';//die;    ?>
     <?php $this->beginBody() ?>
     <div class="wrap wrap__pro">
 		<div class="wrap__cnt <?= $wrap_cnt_class ?>">
@@ -92,7 +91,7 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
     </div>
 
 	<footer class="footer footer__pro">
-		<?php if($current_controller == 'site' && $current_action == 'reg' || $current_action == 'index') {	?>
+		<?php if(($current_controller == 'site' || $current_controller == 'profile') && ($current_action == 'reg' || $current_action == 'reg-step1' || $current_action == 'reg-step2' || $current_action == 'index')) {	?>
 			<img src="<?= Yii::$app->params['proUrl']?>/images/reg-img-left.png" alt="" class="site_reg__footer_img_left">
 			<img src="<?= Yii::$app->params['proUrl']?>/images/reg-img-right.png" alt="" class="site_reg__footer_img_right">
 		<?php 	}	?>

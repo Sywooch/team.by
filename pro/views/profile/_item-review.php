@@ -2,6 +2,8 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 //use yii\widgets\ListView;
+
+use common\helpers\DImageHelper;
 ?>
 	
 
@@ -22,7 +24,9 @@ use yii\helpers\Url;
 			<div class="reviews_item__review_text"><?= $model->review_text ?></div>
 			<div class="reviews_item__review_foto">
 				<ul class="reviews_item__foto_list">
-					<?php foreach($model->reviewMedia as $media) echo Html::tag('li', Html::a(Html::img('http://team.by/' . Yii::$app->params['reviews-path'] . '/thumb_' .$media->filename), 'http://team.by/' . Yii::$app->params['reviews-path'] . '/' .$media->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'review-images-'.$model->id]), ['class'=>'reviews_item__foto_item']); ?>
+					<?php //foreach($model->reviewMedia as $media) echo Html::tag('li', Html::a(Html::img('http://team.by/' . Yii::$app->params['reviews-path'] . '/thumb_' .$media->filename), 'http://team.by/' . Yii::$app->params['reviews-path'] . '/' .$media->filename, ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'review-images-'.$model->id]), ['class'=>'reviews_item__foto_item']); ?>
+					<?php foreach($model->reviewMedia as $media) echo Html::tag('li', Html::a(Html::img(DImageHelper::getImageUrl($media->filename, 'reviews', 1, 1)), DImageHelper::getImageUrl($media->filename, 'reviews', 0, 1), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'review-images-'.$model->id]), ['class'=>'reviews_item__foto_item']); ?>
+					
 				</ul>
 			</div>
 			<?php if ($model->youtube != '') {	?>

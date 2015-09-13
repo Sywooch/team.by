@@ -96,7 +96,7 @@ $categories_l2_arr = [];
 		</div>
 		
 		<div class="profile_anketa_row">
-			<?= $this->render('_categories-block', ['form'=>$form, 'model'=>$model, 'categories'=>$categories, 'categories_l3'=>$categories_l3, 'model_name'=>'ProfileAnketaForm' ])?>
+			<?= $this->render('_categories-block', ['form'=>$form, 'model'=>$model, 'categories'=>$categories, 'categories_l3'=>$categories_l3, 'model_name'=>'ProfileAnketaForm', 'show_all'=>false ])?>
 		</div>
 
 		<div class="profile_anketa_row row clearfix">
@@ -122,7 +122,7 @@ $categories_l2_arr = [];
 						</div>
 						<div class="col-lg-5">
 							<span id="avatar-cnt">
-								<?php if($model->avatar) echo Html::a(Html::img(DImageHelper::getImageUrl($model->avatar, 'avatars', 1), ['class'=>'img-responsive']), DImageHelper::getImageUrl($model->avatar, 'avatars', 0), ['class' => '', 'data-toggle' => 'lightbox']) ?>
+								<?php if($model->avatar) echo Html::a(Html::img(DImageHelper::getImageUrl($model->avatar, 'avatars', 1, 1), ['class'=>'img-responsive']), DImageHelper::getImageUrl($model->avatar, 'avatars', 0, 1), ['class' => '', 'data-toggle' => 'lightbox']) ?>
 							</span>
 						</div>
 					</div>
@@ -136,7 +136,7 @@ $categories_l2_arr = [];
 					</div>
 					<div class="col-lg-8">
 						<?//= Html::a($model->price_list, 'http://team.by/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list)?>
-						<?= Html::a($model->price_list, DImageHelper::getImageUrl($model->price_list, 'pricelists', 0))?>
+						<?= Html::a($model->price_list, DImageHelper::getImageUrl($model->price_list, 'pricelists', 0, 1))?>
 					</div>
 					<div class="col-lg-4" style="clear:both;">
 						<span id="upload-price-btn" class="button-red">Загрузить</span>
@@ -183,7 +183,7 @@ $categories_l2_arr = [];
 									<?php 
 										if(isset($model->awards[$x]))	{
 											//echo Html::a(Html::img('http://team.by/' . Yii::$app->params['awards-path'] . '/thumb_' .$model->awards[$x]), 'http://team.by/' . Yii::$app->params['awards-path'] .'/' .$model->awards[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
-											echo Html::a(Html::img(DImageHelper::getImageUrl($model->awards[$x], 'awards', 1)), DImageHelper::getImageUrl($model->awards[$x], 'awards', 0), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
+											echo Html::a(Html::img(DImageHelper::getImageUrl($model->awards[$x], 'awards', 1, 1)), DImageHelper::getImageUrl($model->awards[$x], 'awards', 0, 1), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
 											echo Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->awards[$x]]);
 											echo Html::input('hidden', 'ProfileAnketaForm[awards][]', $model->awards[$x]);
 										}	else	{
@@ -228,7 +228,7 @@ $categories_l2_arr = [];
 									<?php 
 										if(isset($model->examples[$x]))	{
 											//echo Html::a(Html::img('http://team.by/' . Yii::$app->params['examples-path'] .'/thumb_' .$model->examples[$x]), 'http://team.by/' . Yii::$app->params['examples-path'] .'/' .$model->examples[$x], ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'examplesimages']);
-											echo Html::a(Html::img(DImageHelper::getImageUrl($model->examples[$x], 'examples', 1)), DImageHelper::getImageUrl($model->examples[$x], 'examples', 0), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
+											echo Html::a(Html::img(DImageHelper::getImageUrl($model->examples[$x], 'examples', 1, 1)), DImageHelper::getImageUrl($model->examples[$x], 'examples', 0, 1), ['class' => '', 'data-toggle' => 'lightbox', 'data-gallery'=>'awardsimages']);
 											echo Html::a('×', '#', ['class' => 'remove-uploaded-file', 'data-file'=>$model->examples[$x]]);
 											echo Html::input('hidden', 'ProfileAnketaForm[examples][]', $model->examples[$x]);
 										}	else	{

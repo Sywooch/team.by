@@ -25,8 +25,14 @@ return [
 	'documents-path' => 'files/users/documents',
 	
 	'export-path' => 'files/export',
-	'max-image-res' => [
+	
+	'max-image-res' => [	// минимальные размеры фото
 		'width' => 1024,
 		'height' => 768,
-	]
+	],
+	
+	'min-avatar-res' => [	// минимальные размеры фото для аватара
+		'width' => 400,
+		'height' => 400,
+	],
 ];
