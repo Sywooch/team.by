@@ -91,7 +91,7 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
     </div>
 
 	<footer class="footer footer__pro">
-		<?php if(($current_controller == 'site' || $current_controller == 'profile') && ($current_action == 'reg' || $current_action == 'reg-step1' || $current_action == 'reg-step2' || $current_action == 'index')) {	?>
+		<?php if(($current_controller == 'profile') && ($current_action == 'index')) {	?>
 			<img src="<?= Yii::$app->params['proUrl']?>/images/reg-img-left.png" alt="" class="site_reg__footer_img_left">
 			<img src="<?= Yii::$app->params['proUrl']?>/images/reg-img-right.png" alt="" class="site_reg__footer_img_right">
 		<?php 	}	?>

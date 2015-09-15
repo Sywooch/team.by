@@ -1,7 +1,8 @@
 jQuery(function($) {
 	var spec_name = '',
 		spec_id = 0,
-		phone_mask = '+375 (99) 999-99-99';
+		phone_mask = '+375 (99) 999-99-99',
+		wrap_height_default = $('.wrap__cnt').height();
 	
 	
 	//получаем кол-во миниатюр у блока
@@ -240,7 +241,18 @@ jQuery(function($) {
 	});
 	
 	$('.header_regions__item .region-ico, .profi_search_regions__item .region-ico').on('click', function(e){
-		$(this).parent().parent().find('ul').slideToggle(50);
+		var wrap_cnt = $('.wrap__cnt'),
+			list_cnt = $('#profi_search_regions__list_cnt'),
+			height = 0;
+		
+		$(this).parent().parent().find('ul').slideToggle(50, function(){
+			height = (list_cnt.height() + list_cnt.offset().top + 80);
+			
+			if(height < wrap_height_default)
+				height = wrap_height_default;
+			
+			wrap_cnt.css('height', height);
+		});
 		$(this).toggleClass('active');
 	});
 	
