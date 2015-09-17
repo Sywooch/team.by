@@ -20,7 +20,9 @@ return [
 			'wsb_url_test_check_trans' => 'https://sandbox.webpay.by',
 		],
 		'erip' => [
-			'salt' => 'Ytrd7dhghfb787dcjd64vs7',
+			//'salt' => 'Ytrd7dhghfb787dcjd64vs7',
+			'salt' => 'c2sd68g7THDx',
+			'form_url' => 'https://stand.besmart.by:4443/pls/ipay/!iSOU.Login'	//url куда данные отправляются
 		],
 	],
 	
