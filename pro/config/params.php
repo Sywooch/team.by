@@ -21,7 +21,8 @@ return [
 		],
 		'erip' => [
 			//'salt' => 'Ytrd7dhghfb787dcjd64vs7',
-			'salt' => 'c2sd68g7THDx',
+			'salt' => 'Ytrd7dhghfb787dcjd64vs7',
+			//'salt' => 'c2sd68g7THDx',
 			'form_url' => 'https://stand.besmart.by:4443/pls/ipay/!iSOU.Login'	//url куда данные отправляются
 		],
 	],
