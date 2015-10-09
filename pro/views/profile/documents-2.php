@@ -32,7 +32,7 @@ $errors = $model->getErrors();
 		<h2 class="mb-20">Контактное лицо</h2>
 		<div class="row clearfix">
 			<div class="col-lg-6"><?= $form->field($model, 'contact_fio') ?></div>
-			<div class="col-lg-6"><?= $form->field($model, 'contact_phone') ?></div>
+			<div class="col-lg-6"><?= $form->field($model, 'contact_phone')->textInput(['class'=>'form-control phone-input']) ?></div>
 		</div>
 		
 		<div class="row clearfix">

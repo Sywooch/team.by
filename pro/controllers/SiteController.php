@@ -218,25 +218,25 @@ class SiteController extends Controller
 				$user->save();
 				
 				//перемещаем фото аватара
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['avatar']))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$RegStep2Form['avatar']);
+				if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.$RegStep2Form['avatar']))
+					rename(Yii::getAlias('@pro').'/web/tmp/'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$RegStep2Form['avatar']);
 				
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar']))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$RegStep2Form['avatar']);
+				if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar']))
+					rename(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$RegStep2Form['avatar']);
 				
 				if($RegStep2Form['license'] != '') {
 					//перемещаем файл лицензии
-					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['license']))
-						rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$RegStep2Form['license']);
+					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.$RegStep2Form['license']))
+						rename(Yii::getAlias('@pro').'/web/tmp/'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$RegStep2Form['license']);
 				}
 				
-				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['license']))
-					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.'thumb_'.$RegStep2Form['license']);
+				if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$RegStep2Form['license']))
+					rename(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.'thumb_'.$RegStep2Form['license']);
 				
 				if($RegStep2Form['price_list'] != '') {
 					//перемещаем прайс-лист
-					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['price_list']))
-						rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['price_list'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$RegStep2Form['price_list']);
+					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.$RegStep2Form['price_list']))
+						rename(Yii::getAlias('@pro').'/web/tmp/'.$RegStep2Form['price_list'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$RegStep2Form['price_list']);
 				}
 				
 				//назначаем ему категории
@@ -269,11 +269,11 @@ class SiteController extends Controller
 					$UserMedia->save();
 					
 					//перемещаем фото
-					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$award))
-						rename(Yii::getAlias('@frontend').'/web/tmp/'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$award);
+					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.$award))
+						rename(Yii::getAlias('@pro').'/web/tmp/'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$award);
 					
-					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$award))
-						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$award);
+					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$award))
+						rename(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$award);
 				}
 				
 				//добавляем примеры работ
@@ -285,11 +285,11 @@ class SiteController extends Controller
 					$UserMedia->save();
 					
 					//перемещаем фото
-					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$example))
-						rename(Yii::getAlias('@frontend').'/web/tmp/'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$example);
+					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.$example))
+						rename(Yii::getAlias('@pro').'/web/tmp/'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$example);
 					
-					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example))
-						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
+					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$example))
+						rename(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
 				}
 				
 				foreach($RegStep2Form->regions as $k=>$item)	{

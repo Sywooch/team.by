@@ -33,7 +33,7 @@ switch($model->user_type) {
 			'items' => [
 				[
 					'label' => 'Анкета',
-					'content' => $this->render('_form', ['model' => $model]),
+					'content' => $this->render('_form', ['model' => $model, 'document_form' => $document_form]),
 					'active' => true,
 				],
 				[

@@ -137,7 +137,11 @@ if(count($model->regions)) {
    
 	<?php	if($model->license != '' || $model->license != 0) { ?>
 		<div class="row clearfix">
-			<div class="col-lg-6 form-group"><?= Html::a(Html::img(Yii::$app->urlManagerFrontEnd->baseUrl . '/'. Yii::$app->params['licenses-path'] . '/thumb_' .$model->license), Yii::$app->urlManagerFrontEnd->baseUrl . '/'. Yii::$app->params['licenses-path'] . '/' .$model->license, ['data-toggle' => 'lightbox', 'data-gallery'=>'license-images']);?></div>
+			<?/*<div class="col-lg-6 form-group"><?= Html::a(Html::img(Yii::$app->urlManagerFrontEnd->baseUrl . '/'. Yii::$app->params['licenses-path'] . '/thumb_' .$model->license), Yii::$app->urlManagerFrontEnd->baseUrl . '/'. Yii::$app->params['licenses-path'] . '/' .$model->license, ['data-toggle' => 'lightbox', 'data-gallery'=>'license-images']);?></div>*/?>
+			<div class="col-lg-6 form-group">
+				<label><?php echo $model->getAttributeLabel('license'); ?></label>
+				<div><?= $document_form->getLicenseLink($document_form->license) ?></div>
+			</div>
 			<div class="col-lg-6">
 				<?= $form->field($model, 'license_checked')->widget(
 					DatePicker::className(), [
