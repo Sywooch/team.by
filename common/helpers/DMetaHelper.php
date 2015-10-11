@@ -13,11 +13,22 @@ class DMetaHelper
 			$cntr->title = $meta_title;
 		}
 
-		if($model->meta_descr != '') $cntr->registerMetaTag(['description' => $model->meta_descr]);
-			else $cntr->registerMetaTag(['description' => $model->name]);
+		if($model->meta_descr != '') $val = $model->meta_descr;
+			else $val = $model->name;
+				
+		$cntr->registerMetaTag([
+			'name' => 'description',
+			'content' => $val,
+		]);				
 
-		if($model->meta_keyword != '') $cntr->registerMetaTag(['keyword' => $model->meta_keyword]);
-			else $cntr->registerMetaTag(['keyword' => $model->name]);
+		if($model->meta_keyword != '') $val = $model->meta_keyword;
+			else $val = $model->name;
+				
+				
+			$cntr->registerMetaTag([
+				'name' => 'keywords',
+				'keyword' => $val,
+			]);
     }
 }
 

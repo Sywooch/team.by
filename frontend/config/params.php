@@ -12,5 +12,5 @@ return [
 		'payment_status'	 => 'статусу',
 	],
 	
-	'catlist-per-page' => 5,
+	'catlist-per-page' => 10,
 ];

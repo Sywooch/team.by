@@ -66,10 +66,22 @@ class RegStep1Form extends Model
 	
     public function validateFio($attribute, $params)
     {
+		$this->fio = trim($this->fio);
 		if (!$this->hasErrors()) {
 			$fio_arr = explode(' ', $this->fio);
-			if(count($fio_arr) < 3)
+			if(count($fio_arr) < 3)	{
 				$this->addError($attribute, 'Укажите полностью ваше ФИО');
+			}	else	{
+				foreach($fio_arr as $i)	{
+					$i = str_replace('.', '', $i);
+					if(strlen($i) < 3) {
+						$this->addError($attribute, 'Укажите ваше ФИО без сокращений');
+						break;
+					}
+					
+				}
+			}
+				
 		}
     }
 	

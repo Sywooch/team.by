@@ -1,6 +1,19 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = Yii::$app->params['sitename'];
+$this->title = Yii::$app->params['mainpage_title'];
+
+if(Yii::$app->params['mainpage_description'] != '')
+	$this->registerMetaTag([
+		'name' => 'description',
+		'content' => Yii::$app->params['mainpage_description']
+	]);
+
+if(Yii::$app->params['mainpage_keywords'] != '')
+	$this->registerMetaTag([
+		'name' => 'keywords',
+		'content' => Yii::$app->params['mainpage_keywords']
+	]);
+
 
 //echo'<pre>';print_r(Yii::$app->params['sitename']);echo'</pre>';
 ?>

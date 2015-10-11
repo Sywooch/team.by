@@ -23,9 +23,16 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 
 <div class="catalog-category-list-item-cnt">
 	<div class="clearfix">
+		<?php if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar) && file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/thumb_'.$model->avatar)) { ?>
 		<a class="catalog-category-list-item__avatar_cnt" href="<?= Url::home(true).Yii::$app->params['avatars-path'].'/'.$model->avatar?>" data-toggle="lightbox">
 			<img class="catalog-category-list-item__avatar" src="<?= Url::home(true).Yii::$app->params['avatars-path'].'/thumb_'.$model->avatar?>" alt="">
 		</a>
+		<?php }	else	{	?>
+			<span class="catalog-category-list-item__avatar_cnt">
+				<img class="catalog-category-list-item__avatar" src="<?= Url::home(true) ?>/images/no-avatar.jpg" alt="" width="277" height="282" />
+			</span>
+		<?php }	?>
+		
 
 		<div class="catalog-category-list-item__info_cnt">
 			
@@ -141,7 +148,7 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 				<ul class="catalog-item__examples_list">
 				<?php 
 					foreach($model->media['examples'] as $key=>$item) {
-						echo Html::tag('li', Html::a(Html::img(Url::home(true).Yii::$app->params['examples-path'].'/thumb_'.$item), Url::home(true).Yii::$app->params['examples-path'].'/'.$item, ['data-toggle'=>'lightbox', 'data-gallery'=>'examples-images']), ['class'=>'catalog-item__examples_item']);
+						echo Html::tag('li', Html::a(Html::img(Url::home(true).Yii::$app->params['examples-path'].'/thumb_'.$item), Url::home(true).Yii::$app->params['examples-path'].'/'.$item, ['data-toggle'=>'lightbox', 'data-gallery'=>'examples-images-'.$model->id]), ['class'=>'catalog-item__examples_item']);
 						if($key > 9) break;
 					}
 				?>
