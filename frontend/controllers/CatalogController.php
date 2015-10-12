@@ -300,7 +300,8 @@ class CatalogController extends Controller
 				->orderBy('RAND()'),
 			
 			'pagination' => [
-				'pageSize' => Yii::$app->params['catlist-per-page'],
+				//'pageSize' => Yii::$app->params['catlist-per-page'],
+				'pageSize' => 5,
 				'pageSizeParam' => false,
 			],
 		]);		

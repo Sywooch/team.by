@@ -481,7 +481,9 @@ class User extends ActiveRecord implements IdentityInterface
 	
     public function getAvatarThumbUrl()
     {
-        return Yii::$app->params['homeUrl'] . '/' . Yii::$app->params['avatars-path'].'/thumb_'.$this->avatar;
+		if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$this->avatar) && file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/thumb_'.$this->avatar))
+        	return Yii::$app->params['homeUrl'] . '/' . Yii::$app->params['avatars-path'].'/thumb_'.$this->avatar;
+				else return Yii::$app->params['homeUrl'] . '/images/no-avatar.jpg';
     }
 	
     public function getUserCategoriesList()

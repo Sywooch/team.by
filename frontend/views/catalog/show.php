@@ -52,9 +52,19 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 <div class="catalog-item">
 	<div class="catalog-item__body clearfix">
 			<div class="catalog-item_body_left">
+				<?/*
 				<a class="catalog-item_body__avatar_cnt" href="<?= Url::home(true).Yii::$app->params['avatars-path'].'/'.$model->avatar?>" data-toggle="lightbox">
 					<img class="catalog-item_body__avatar" src="<?= Url::home(true).Yii::$app->params['avatars-path'].'/thumb_'.$model->avatar?>" alt="">
 				</a>
+				*/?>
+				
+				<span class="catalog-item_body__avatar_cnt">
+					<?php if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar) && file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/thumb_'.$model->avatar)) { ?>
+						<img class="catalog-item_body__avatar" src="<?= Url::home(true).Yii::$app->params['avatars-path'].'/thumb_'.$model->avatar?>" alt="">
+					<?php }	else	{	?>
+						<img class="catalog-category-list-item__avatar" src="<?= Url::home(true) ?>/images/no-avatar.jpg" alt="" width="277" height="282" />
+					<?php }	?>						
+				</span>
 				
 				<?= $model->youtubeBlock ?>
 				

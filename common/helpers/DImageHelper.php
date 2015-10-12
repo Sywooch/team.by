@@ -74,6 +74,14 @@ class DImageHelper
 		//echo'<pre>';print_r($w_img_dimentions);echo'</pre>';die;
 		
 		if($is_avatar === false) {
+			$img_dimentions = self::getImageDimentions($img_path);
+			
+			if($img_dimentions['width'] > Yii::$app->params['image-res']['width'] || $img_dimentions['height'] > Yii::$app->params['image-res']['height'])
+				Image::thumbnail( $img_path, Yii::$app->params['image-res']['width'], Yii::$app->params['image-res']['height'])
+					->save(Yii::getAlias($img_path), ['quality' => 100]);
+			
+			$img_dimentions = self::getImageDimentions($img_path);			
+			
 			//echo'<pre>';print_r($w_img_dimentions);echo'</pre>';die;
 			Image::watermark($img_path, $watermark_path, [(($img_dimentions['width'] / 2) - ($w_img_dimentions['width'] / 2) + $delta), ($img_dimentions['height'] - $w_img_dimentions['height'] - 20)])
 				->save(Yii::getAlias($img_path));
@@ -84,7 +92,7 @@ class DImageHelper
 				->save(Yii::getAlias($file_path. '/' . 'thumb_' . $file_name), ['quality' => 90]);
 			
 		}	else	{
-			Image::thumbnail( $img_path, $thumb_width, $thumb_height)
+			Image::thumbnail( $img_path, $thumb_width, $thumb_height, 'inset')
 				->save(Yii::getAlias($img_path), ['quality' => 100]);
 			
 			$img_dimentions = self::getImageDimentions($img_path);
@@ -95,7 +103,7 @@ class DImageHelper
 
 			$img_dimentions = self::getImageDimentions($img_path);
 
-			Image::thumbnail( $img_path, $thumb_width, $thumb_height)
+			Image::thumbnail( $img_path, $thumb_width, $thumb_height, 'inset')
 				->save(Yii::getAlias($file_path. '/' . 'thumb_' . $file_name), ['quality' => 100]);
 			
 		}

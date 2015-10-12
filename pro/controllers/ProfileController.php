@@ -134,7 +134,8 @@ class ProfileController extends Controller
 				if($ProfileAnketaForm->passwordNew != '')
 					$model->setPassword($ProfileAnketaForm->passwordNew);
 
-				$model->user_status = 2; //после редактирования меняем статус на "Требует проверки".
+				if($model->user_status != 0) $model->user_status = 2; //после редактирования меняем статус на "Требует проверки".
+				
 				$model->save();
 				//echo'<pre>';print_r($model);echo'</pre>';die;
 				Yii::$app->session->setFlash('success', 'Успешно сохранено.', false);

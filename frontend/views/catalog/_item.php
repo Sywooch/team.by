@@ -24,9 +24,11 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 <div class="catalog-category-list-item-cnt">
 	<div class="clearfix">
 		<?php if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar) && file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/thumb_'.$model->avatar)) { ?>
-		<a class="catalog-category-list-item__avatar_cnt" href="<?= Url::home(true).Yii::$app->params['avatars-path'].'/'.$model->avatar?>" data-toggle="lightbox">
+		<?/*<a class="catalog-category-list-item__avatar_cnt" href="<?= Url::home(true).Yii::$app->params['avatars-path'].'/'.$model->avatar?>" data-toggle="lightbox">*/?>
+		<span class="catalog-category-list-item__avatar_cnt">
 			<img class="catalog-category-list-item__avatar" src="<?= Url::home(true).Yii::$app->params['avatars-path'].'/thumb_'.$model->avatar?>" alt="">
-		</a>
+		<?/*</a>*/?>
+		</span>
 		<?php }	else	{	?>
 			<span class="catalog-category-list-item__avatar_cnt">
 				<img class="catalog-category-list-item__avatar" src="<?= Url::home(true) ?>/images/no-avatar.jpg" alt="" width="277" height="282" />

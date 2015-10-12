@@ -106,10 +106,13 @@ class UserSearch extends User
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
 			'sort' => ['defaultOrder'=>['id' => SORT_DESC]],
+			
 			'pagination' => [
-				'pageSize' => Yii::$app->params['per-page'],
+				//'pageSize' => Yii::$app->params['per-page'],
+				'pageSize' => 50,
 				//'pageSizeParam' => false,
 			],
+			
 			
         ]);
 

@@ -102,6 +102,10 @@
 	color: $blue6;
 }
 
+.catalog-category-list-item__edu_list {
+	overflow: hidden;
+}
+
 
 .catalog-category-list-item__pricedownload {
 	@extend %underline_y_n;
