@@ -73,6 +73,14 @@ class DImageHelper
 		//echo'<pre>';print_r($watermark_path);echo'</pre>';//die;
 		//echo'<pre>';print_r($w_img_dimentions);echo'</pre>';die;
 		
+		$startMemory = 0;
+		$startMemory = memory_get_usage();
+
+		// Измеряемое
+
+		//echo (memory_get_usage() - $startMemory) . ' bytes' . PHP_EOL;		
+		//echo'<pre>';print_r(memory_get_usage());echo'</pre>';//die;
+		
 		if($is_avatar === false) {
 			$img_dimentions = self::getImageDimentions($img_path);
 			
@@ -92,15 +100,25 @@ class DImageHelper
 				->save(Yii::getAlias($file_path. '/' . 'thumb_' . $file_name), ['quality' => 90]);
 			
 		}	else	{
+			//134 217 728
+			//5837368
+			
+			//echo'<pre>';print_r(memory_get_usage());echo'</pre>';//die;
+			
 			Image::thumbnail( $img_path, $thumb_width, $thumb_height, 'inset')
 				->save(Yii::getAlias($img_path), ['quality' => 100]);
-			
+			//echo'<pre>';print_r(memory_get_usage());echo'</pre>';die;
 			$img_dimentions = self::getImageDimentions($img_path);
+			
+			
+			
 			
 			//echo'<pre>';print_r($w_img_dimentions);echo'</pre>';die;
 			Image::watermark($img_path, $watermark_path, [(($img_dimentions['width'] / 2) - ($w_img_dimentions['width'] / 2) + $delta), ($img_dimentions['height'] - $w_img_dimentions['height'] - 5)])
 				->save(Yii::getAlias($img_path));
+			
 
+			
 			$img_dimentions = self::getImageDimentions($img_path);
 
 			Image::thumbnail( $img_path, $thumb_width, $thumb_height, 'inset')
@@ -115,6 +133,7 @@ class DImageHelper
 		$image_size = $img->getSize();	//получаем размеры изображения
 		$img_w = $image_size->getWidth();
 		$img_h = $image_size->getHeight();
+		$img = null;
 		
 		return ['width'=>$image_size->getWidth(), 'height'=>$image_size->getHeight()];
 	}

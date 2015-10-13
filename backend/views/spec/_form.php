@@ -39,10 +39,10 @@ if(count($model->regions)) {
 
     <div class="row clearfix">
     	<div class="col-lg-3"><?= $form->field($model, 'fio')->textInput() ?></div>
-    	<div class="col-lg-3"><?= $form->field($model, 'user_type')->dropDownList(Yii::$app->params['UserTypesArray'], [$model->user_type]) ?></div>
+    	<div class="col-lg-2"><?= $form->field($model, 'user_type')->dropDownList(Yii::$app->params['UserTypesArray'], [$model->user_type]) ?></div>
     	
-    	<div class="col-lg-3"><?= $form->field($model, 'categoryUser')->dropDownList(UserSearch::getDropdownCatList(), [$model->categoryUser, 'readonly'=>'readonly']) ?></div>
-		<div class="col-lg-3"><?= $form->field($model, 'is_active')->dropDownList($model->userActivityList, [$model->is_active, 'readonly'=>'readonly']) ?></div>    	
+    	<div class="col-lg-5"><?= $form->field($model, 'categoryUser')->dropDownList(UserSearch::getDropdownCatList(), [$model->categoryUser, 'disabled'=>'disabled']) ?></div>
+		<div class="col-lg-2"><?= $form->field($model, 'is_active')->dropDownList($model->userActivityList, [$model->is_active, 'readonly'=>'readonly']) ?></div>    	
     </div>
     
 	<div id="regions-wr" class="row clearfix">

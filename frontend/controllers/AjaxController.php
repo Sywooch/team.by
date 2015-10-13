@@ -462,7 +462,7 @@ class AjaxController extends Controller
 
 	public function checkImageDimentions(&$model, $img_dimentions)
 	{
-		if($img_dimentions['width'] < Yii::$app->params['max-image-res']['width'] || $img_dimentions['height'] < Yii::$app->params['max-image-res']['height']) {
+		if($img_dimentions['width'] < Yii::$app->params['min-image-res']['width'] || $img_dimentions['height'] < Yii::$app->params['min-image-res']['height']) {
 			$this->printErrors($model, 'Слишком маленькое изображение');
 			return false;
 		} else {

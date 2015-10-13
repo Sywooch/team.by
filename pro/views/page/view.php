@@ -12,7 +12,7 @@ use yii\helpers\Html;
 <div class="page-view">
 
     <h1><?= Html::encode($model->name) ?></h1>
-    
-    <div class="page-body"><?= $model->text ?></div>
+
+    <div class="page-body"><?= \common\helpers\DImageHelper::processImagesToHttps($model->text)?></div>
 
 </div>

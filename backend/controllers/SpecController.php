@@ -232,6 +232,13 @@ class SpecController extends Controller
 					break;
 			}
 			
+			$userCategories = $model->userCategories;
+
+			//получаем родителя категорий, к которым относится пользователь
+			$parents_cat = $userCategories[0]->category->parents(1)->one();
+			$model->categoryUser = $parents_cat->id;
+			
+			
 			
             return $this->render('update', [
                 'model' => $model,
@@ -295,6 +302,53 @@ class SpecController extends Controller
 		
         $model->delete();
 		*/
+        return $this->redirect(['index']);
+    }
+	
+    //полное удаление аккаунта из базы
+	public function actionDeleteTotal($id)
+    {
+        $this->chekUserAdminOrManager();
+		
+		$model = $this->findModel($id);
+		
+		//echo'<pre>';print_r($model->userMedia);echo'</pre>';die;
+		foreach($model->userMedia as $media) {
+			switch($media->media_id) {
+				case 1:
+					$path = Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'];
+					break;
+					
+				case 2:
+					$path = Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'];
+					break;
+					
+				default:
+					$path = Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'];
+					break;
+			}
+			
+			if(file_exists($path.'/'.$media->filename))
+				unlink($path.'/'.$media->filename);
+		}
+		
+		if($model->price_list != '') {
+			if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list))
+				unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$model->price_list);
+		}
+		
+		if($model->avatar != '') {
+			if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar))
+				unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$model->avatar);
+		}
+		
+		if($model->license != '') {
+			if(file_exists(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$model->license))
+				unlink(Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$model->license);
+		}
+		
+        $model->delete();
+		
         return $this->redirect(['index']);
     }
 	

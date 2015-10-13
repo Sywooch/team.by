@@ -51,12 +51,12 @@ class AjaxController extends Controller
 				$watermark_path = Yii::getAlias('@frontend').'/web/images/watermark.png';
 				$w_img_dimentions = $this->getImageDimentions($watermark_path);
 				
-				if($img_dimentions['width'] < Yii::$app->params['max-image-res']['width'] || $img_dimentions['height'] < Yii::$app->params['max-image-res']['height']) {
+				if($img_dimentions['width'] < Yii::$app->params['min-image-res']['width'] || $img_dimentions['height'] < Yii::$app->params['min-image-res']['height']) {
 					$this->printErrors($model, 'Слишком маленькое изображение');
 					return;
 				}
 				
-				Image::thumbnail( $img_path, Yii::$app->params['max-image-res']['width'], Yii::$app->params['max-image-res']['height'])
+				Image::thumbnail( $img_path, Yii::$app->params['min-image-res']['width'], Yii::$app->params['min-image-res']['height'])
 					->save(Yii::getAlias($img_path), ['quality' => 100]);
 
 				$img_dimentions = $this->getImageDimentions($img_path);

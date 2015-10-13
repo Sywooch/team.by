@@ -652,10 +652,16 @@ class AjaxController extends Controller
 	}
 	
 	
-	public function checkImageDimentions(&$model, $img_dimentions, $param = 'max-image-res')
+	public function checkImageDimentions(&$model, $img_dimentions, $param = 'min-image-res')
 	{
 		if($img_dimentions['width'] < Yii::$app->params[$param]['width'] || $img_dimentions['height'] < Yii::$app->params[$param]['height']) {
 			$this->printErrors($model, 'Слишком маленькое изображение');
+			return false;
+		} elseif($img_dimentions['width'] > Yii::$app->params['max-image-res']['width']) {
+			$this->printErrors($model, 'Максимальная ширина изображения - ' . Yii::$app->params['max-image-res']['width'] . 'px');
+			return false;
+		} elseif($img_dimentions['height'] > Yii::$app->params['max-image-res']['height']) {
+			$this->printErrors($model, 'Максимальная высота изображения - ' . Yii::$app->params['max-image-res']['height'] . 'px');
 			return false;
 		} else {
 			return true;

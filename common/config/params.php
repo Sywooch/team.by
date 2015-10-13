@@ -26,7 +26,12 @@ return [
 	
 	'export-path' => 'files/export',
 	
-	'max-image-res' => [	// минимальные размеры фото
+	'max-image-res' => [	// максимальные размеры фото
+		'width' => 3300,
+		'height' => 2500,
+	],
+	
+	'min-image-res' => [	// минимальные размеры фото
 		'width' => 1024,
 		'height' => 768,
 	],

@@ -97,6 +97,7 @@ class UserSearch extends User
     public function searchSpecs($params)
     {
         $query = User::find()
+			->distinct()
 			->joinWith(['userCategoriesArray'])
 			->joinWith(['userRegions'])
 			->where(['group_id' => 2])
@@ -108,8 +109,8 @@ class UserSearch extends User
 			'sort' => ['defaultOrder'=>['id' => SORT_DESC]],
 			
 			'pagination' => [
-				//'pageSize' => Yii::$app->params['per-page'],
-				'pageSize' => 50,
+				'pageSize' => Yii::$app->params['per-page'],
+				//'pageSize' => 50,
 				//'pageSizeParam' => false,
 			],
 			
