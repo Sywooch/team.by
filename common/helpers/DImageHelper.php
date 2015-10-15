@@ -105,7 +105,14 @@ class DImageHelper
 			
 			//echo'<pre>';print_r(memory_get_usage());echo'</pre>';//die;
 			
-			Image::thumbnail( $img_path, $thumb_width, $thumb_height, 'inset')
+			
+			
+			$img_dimentions = self::getImageDimentions($img_path);
+			if($img_dimentions['width'] > $img_dimentions['height']) $resize_type = 'outbound';
+				else $resize_type = 'inset';
+			
+			Image::thumbnail( $img_path, $thumb_width, $thumb_height, $resize_type)
+			//Image::thumbnail( $img_path, $thumb_width, $thumb_height)
 				->save(Yii::getAlias($img_path), ['quality' => 100]);
 			//echo'<pre>';print_r(memory_get_usage());echo'</pre>';die;
 			$img_dimentions = self::getImageDimentions($img_path);

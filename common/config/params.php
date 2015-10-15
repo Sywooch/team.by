@@ -42,7 +42,7 @@ return [
 	],
 	
 	'image-res' => [	// размеры фото, до которого они будут уменьшаться
-		'width' => 1366,
+		'width' => 1024,
 		'height' => 768,
 	],
 	
@@ -62,9 +62,12 @@ return [
 			'wsb_url_test_check_trans' => 'https://sandbox.webpay.by',
 		],
 		'erip' => [
-			'salt' => 'Ytrd7dhghfb787dcjd64vs7',
-			//'salt' => 'c2sd68g7THDx',
-			'form_url' => 'https://stand.besmart.by:4443/pls/ipay/!iSOU.Login'	//url куда данные отправляются
+			'test_mode' => 0,
+			//'salt' => 'Ytrd7dhghfb787dcjd64vs7',
+			'salt' => 'c2sd68g7THDx',
+			'form_url' => 'https://stand.besmart.by:4443/pls/ipay/!iSOU.Login',	//url куда данные отправляются для отладки
+			'form_url_mts' => 'https://mts.ipay.by:4443/pls/iPay/!iSOU.Login?srv_no=4334461',	//url куда данные отправляются для МТС
+			'form_url_life' => 'https://gate.besmart.by/ipaylife/!iSOU.Login?srv_no=4334461',	//url куда данные отправляются для LIFE
 		],
 	],
 	

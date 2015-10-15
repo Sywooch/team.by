@@ -112,8 +112,8 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 						<?php foreach($model->userSpecialsList as $user_spec)	{	?>
 							<li class="catalog-item_body__uslugi_item col-lg-6">
 								<div class="row">
-									<p class="col-lg-8">• <?= $user_spec->category->name ?></p>
-									<p class="col-lg-4"><?= $user_spec->price ? DPriceHelper::formatPrice($user_spec->price * $model->regionRatio) : ''; ?><?= $user_spec->unit ? (' за '.$user_spec->unit) : ''?></p>
+									<p class="col-lg-6">• <?= $user_spec->category->name ?></p>
+									<p class="col-lg-6"><?= $user_spec->price ? DPriceHelper::formatPrice($user_spec->price * $model->regionRatio) : ''; ?><?= $user_spec->unit ? (' за '.$user_spec->unit) : ''?></p>
 									<?/*<p class="col-lg-6"><?= \Yii::$app->formatter->asDecimal($user_spec->price); ?></p> */?>
 								</div>
 							</li>
