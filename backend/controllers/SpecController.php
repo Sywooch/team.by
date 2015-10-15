@@ -10,6 +10,10 @@ use backend\models\UserSearch;
 
 use backend\models\SpecForm;
 
+use frontend\models\DocumentsForm1;
+use frontend\models\DocumentsForm2;
+use frontend\models\DocumentsForm3;
+
 use app\models\ChangePasswordForm;
 
 use common\helpers\DCsvHelper;
@@ -153,7 +157,7 @@ class SpecController extends Controller
 			switch($user->user_type) {
 				case 1:
 					$document_form = 'DocumentsForm1';
-					$document_form = new \frontend\models\DocumentsForm1();
+					$document_form = new DocumentsForm1();
 
 					$document_form->passport_num = $user->passport_num;
 					$document_form->passport_vidan = $user->passport_vidan;
@@ -180,7 +184,7 @@ class SpecController extends Controller
 					break;
 				case 2:
 					$document_form = 'DocumentsForm2';
-					$document_form = new \frontend\models\DocumentsForm2();
+					$document_form = new DocumentsForm2();
 
 					$user_attr = $user->attributes;
 					foreach($user_attr as $attr_key=>$attr)	{					
@@ -211,7 +215,7 @@ class SpecController extends Controller
 				case 3:
 					$document_form = 'DocumentsForm3';
 
-					$document_form = new \frontend\models\DocumentsForm3();
+					$document_form = new DocumentsForm3();
 					$document_form->license = $user->license;
 
 					foreach($user->userDocuments as $doc) {

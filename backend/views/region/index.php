@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -51,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'template' => '{update} {delete} {moveup} {movedown}',
 				'buttons' => [
 					'moveup' => function($url, $model) {
-						$url = \yii\helpers\Url::toRoute(['region/moveup', 'id' => $model->id]);
+						$url = Url::toRoute(['region/moveup', 'id' => $model->id]);
 						return Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', $url, [
 						'title' => 'Переместить вверх',
 						//'data-pjax' => '0', // нужно для отключения для данной ссылки стандартного обработчика pjax. Поверьте, он все портит
@@ -59,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						]);
 					},
 					'movedown' => function($url, $model) {
-						$url = \yii\helpers\Url::toRoute(['region/movedown', 'id' => $model->id]);
+						$url = Url::toRoute(['region/movedown', 'id' => $model->id]);
 						return Html::a('<span class="glyphicon glyphicon-arrow-down"></span>', $url, [
 						'title' => 'Переместить вниз',
 						//'data-pjax' => '0', // нужно для отключения для данной ссылки стандартного обработчика pjax. Поверьте, он все портит
