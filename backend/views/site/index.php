@@ -72,7 +72,7 @@ $end_day = $day + 6;
                 
                 <p><a class="btn btn-default" href="<?= Url::to(['spec/index', 'UserSearch[user_status]'=>0])?>">Новые специалисты</a></p>
                 <p><a class="btn btn-default" href="<?= Url::to(['spec/index', 'UserSearch[user_status]'=>2])?>">Требуют проверки</a></p>
-                <p><a class="btn btn-default" href="<?= Url::to(['spec/index', 'UserSearch[check_license]'=>1])?>">Истекает лицензия</a></p>
+                <p><a class="btn btn-default" href="<?= Url::to(['toadministration/index'])?>">Новые сообщения (<?= count($unreadMessages) ?>)</a></p>
 
             </div>
         </div>

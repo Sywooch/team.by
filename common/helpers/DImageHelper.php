@@ -62,6 +62,7 @@ class DImageHelper
 		
 		if($is_avatar === false) {
 			$delta = 180;
+			$delta = 0;
 			$watermark_file = 'watermark.png';
 		}	else	{
 			$delta = 0;
@@ -83,18 +84,26 @@ class DImageHelper
 		
 		if($is_avatar === false) {
 			$img_dimentions = self::getImageDimentions($img_path);
+			$tmb_dimentions = self::getTmbDimentions($img_dimentions, Yii::$app->params['image-res']['width'], Yii::$app->params['image-res']['height']);
 			
+			//echo'<pre>';print_r($tmb_dimentions);echo'</pre>';die;
 			if($img_dimentions['width'] > Yii::$app->params['image-res']['width'] || $img_dimentions['height'] > Yii::$app->params['image-res']['height'])
-				Image::thumbnail( $img_path, Yii::$app->params['image-res']['width'], Yii::$app->params['image-res']['height'])
+				Image::thumbnail( $img_path, $tmb_dimentions['width'], $tmb_dimentions['height'])
 					->save(Yii::getAlias($img_path), ['quality' => 100]);
 			
 			$img_dimentions = self::getImageDimentions($img_path);			
 			
+			//echo'<pre>';print_r($img_dimentions);echo'</pre>';//die;
 			//echo'<pre>';print_r($w_img_dimentions);echo'</pre>';die;
-			Image::watermark($img_path, $watermark_path, [(($img_dimentions['width'] / 2) - ($w_img_dimentions['width'] / 2) + $delta), ($img_dimentions['height'] - $w_img_dimentions['height'] - 20)])
+			Image::watermark($img_path, $watermark_path, [(int) (($img_dimentions['width'] / 2) - ($w_img_dimentions['width'] / 2) + $delta), (int) ($img_dimentions['height'] - $w_img_dimentions['height'] - 20)])
 				->save(Yii::getAlias($img_path));
 
 			$img_dimentions = self::getImageDimentions($img_path);
+			$tmb_dimentions = self::getTmbDimentions($img_dimentions, $thumb_width, $thumb_height);
+			
+			if($img_dimentions['width'] > $img_dimentions['height']) $resize_type = 'outbound';
+				else $resize_type = 'inset';
+			
 
 			Image::thumbnail( $img_path, $thumb_width, $thumb_height)
 				->save(Yii::getAlias($file_path. '/' . 'thumb_' . $file_name), ['quality' => 90]);
@@ -108,17 +117,34 @@ class DImageHelper
 			
 			
 			$img_dimentions = self::getImageDimentions($img_path);
-			if($img_dimentions['width'] > $img_dimentions['height']) $resize_type = 'outbound';
-				else $resize_type = 'inset';
+			$tmb_dimentions = self::getTmbDimentionsAvatar($img_dimentions, $thumb_width, $thumb_height);
 			
-			Image::thumbnail( $img_path, $thumb_width, $thumb_height, $resize_type)
-			//Image::thumbnail( $img_path, $thumb_width, $thumb_height)
+			//echo'<pre>';print_r($tmb_dimentions);echo'</pre>';//die;
+			
+			Image::thumbnail( $img_path, $tmb_dimentions['width'], $tmb_dimentions['height'])
 				->save(Yii::getAlias($img_path), ['quality' => 100]);
+			
+			if($tmb_dimentions['width'] >= $tmb_dimentions['height']) {
+				$offset_y = 0;
+				
+				$offset_x = (int) (($tmb_dimentions['width'] / 2) - ($thumb_width / 2));
+			}	else	{
+				$offset_x = 0;
+				$offset_y = 0;
+			}
+			
+			//echo'<pre>';print_r($offset_y);echo'</pre>';die;
+			
+			Image::crop($img_path, $thumb_width, $thumb_height, [$offset_x, $offset_y])
+				->save(Yii::getAlias($img_path), ['quality' => 100]);				
+			
+			
+			
+			
+			
+			
 			//echo'<pre>';print_r(memory_get_usage());echo'</pre>';die;
 			$img_dimentions = self::getImageDimentions($img_path);
-			
-			
-			
 			
 			//echo'<pre>';print_r($w_img_dimentions);echo'</pre>';die;
 			Image::watermark($img_path, $watermark_path, [(($img_dimentions['width'] / 2) - ($w_img_dimentions['width'] / 2) + $delta), ($img_dimentions['height'] - $w_img_dimentions['height'] - 5)])
@@ -130,6 +156,7 @@ class DImageHelper
 
 			Image::thumbnail( $img_path, $thumb_width, $thumb_height, 'inset')
 				->save(Yii::getAlias($file_path. '/' . 'thumb_' . $file_name), ['quality' => 100]);
+			
 			
 		}
 	}
@@ -143,6 +170,38 @@ class DImageHelper
 		$img = null;
 		
 		return ['width'=>$image_size->getWidth(), 'height'=>$image_size->getHeight()];
+	}
+	
+	public static function getTmbDimentions($img_dimentions, $default_width, $default_height)
+	{
+		//$img_dimentions = self::getImageDimentions($img_path);
+		
+		if($img_dimentions['width'] >= $img_dimentions['height']) {
+			$tmb_width = $default_width;
+			$tmb_height = $img_dimentions['height'] / $img_dimentions['width'] * $default_width;
+		}	else	{
+			$tmb_height = $default_height;
+			$tmb_width = $img_dimentions['width'] / $img_dimentions['height'] * $default_height;
+		}
+		
+		return ['width'=>(int) $tmb_width, 'height'=>(int) $tmb_height];
+	}
+	
+	public static function getTmbDimentionsAvatar($img_dimentions, $default_width, $default_height)
+	{
+		//$img_dimentions = self::getImageDimentions($img_path);
+		
+		if($img_dimentions['width'] >= $img_dimentions['height']) {
+			$tmb_height = $default_height;
+			$tmb_width = $img_dimentions['width'] / $img_dimentions['height'] * $default_height;
+			
+		}	else	{
+			$tmb_width = $default_width;
+			$tmb_height = $img_dimentions['height'] / $img_dimentions['width'] * $default_width;
+			
+		}
+		
+		return ['width'=>(int) $tmb_width, 'height'=>(int) $tmb_height];
 	}
 	
 	/*

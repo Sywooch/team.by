@@ -5,6 +5,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use common\models\LoginForm;
+use common\models\UserToAdministration;
 
 use yii\filters\VerbFilter;
 
@@ -67,8 +68,9 @@ class SiteController extends Controller
     public function actionIndex()
     {
 		$this->chekUserAdminOrManager();
+		$UserToAdministration = new UserToAdministration();
 		
-        return $this->render('index');
+        return $this->render('index', ['unreadMessages' => $UserToAdministration->unreadMessages]);
     }
 
     public function actionLogin()

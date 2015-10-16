@@ -93,4 +93,12 @@ class UserToAdministration extends \yii\db\ActiveRecord
 		return $this->statuses[$this->status];
     }
 	
+    /**
+	* список новых сообщений
+	*/
+	public function getUnreadMessages()
+    {
+		return self::find()->where(['status'=>1])->all();
+    }
+	
 }
