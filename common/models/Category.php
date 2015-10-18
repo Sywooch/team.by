@@ -5,6 +5,8 @@ namespace common\models;
 use Yii;
 use creocoder\nestedsets\NestedSetsBehavior;
 
+use yii\db\ActiveRecord;
+
 use common\models\UserCategories;
 use common\models\User;
 use common\models\CategoryQuery;
@@ -23,7 +25,7 @@ use common\models\CategoryQuery;
  * @property string $meta_keyword
  * @property string $meta_descr
  */
-class Category extends \yii\db\ActiveRecord
+class Category extends ActiveRecord
 {
 	
 	public $parent_id_old = 0;

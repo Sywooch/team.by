@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 
 use yii\filters\VerbFilter;
 
@@ -297,12 +298,12 @@ GROUP BY t1.id HAVING max_right <> SQRT(4 * rep + 1) + 1
     
 	public function chekUserAdmin()
     {
-		if (\Yii::$app->user->isGuest) {
+		if (Yii::$app->user->isGuest) {
 			return $this->redirect('site/login'); 
 		}
 		
 		if (Yii::$app->user->id != 1) {
-			throw new \yii\web\ForbiddenHttpException('У вас нет доступа к данной странице');
+			throw new ForbiddenHttpException('У вас нет доступа к данной странице');
 		}
     }
 	

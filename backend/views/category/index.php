@@ -42,25 +42,26 @@ $this->params['breadcrumbs'][] = $this->title;
 					$res = $separator . Html::a($data->name, ['category/update', 'id'=>$data->id]);
 					return $res;
 				},
-			],			
+			],		
+			
 			
             [
 				'class' => 'yii\grid\ActionColumn',
 				'template' => '{update} {delete} {moveup} {movedown}',
 				'buttons' => [
-					'moveup' => function($url, $model) {
-						$url = Url::toRoute(['category/moveup', 'id' => $model->id]);
-						//$url = '';
-						return Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', $url, [
+					'moveup' => function(/*$url,*/ $model) {
+						//$url = Url::toRoute(['category/moveup', 'id' => $model->id]);
+						//$url = '/category/moveup/'.$model->id;
+						return Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', '/category/moveup/'.$model->id, [
 						'title' => 'Переместить вверх',
 						//'data-pjax' => '0', // нужно для отключения для данной ссылки стандартного обработчика pjax. Поверьте, он все портит
 						//'class' => 'grid-action' // указываем ссылке класс, чтобы потом можно было на него повесить нужный JS-обработчик
 						]);
 					},
-					'movedown' => function($url, $model) {
-						$url = Url::toRoute(['category/movedown', 'id' => $model->id]);
-						//$url = '';
-						return Html::a('<span class="glyphicon glyphicon-arrow-down"></span>', $url, [
+					'movedown' => function(/*$url,*/ $model) {
+						//$url = Url::toRoute(['category/movedown', 'id' => $model->id]);
+						//$url = '/category/movedown/'.$model->id;
+						return Html::a('<span class="glyphicon glyphicon-arrow-down"></span>', '/category/movedown/'.$model->id, [
 						'title' => 'Переместить вниз',
 						//'data-pjax' => '0', // нужно для отключения для данной ссылки стандартного обработчика pjax. Поверьте, он все портит
 						//'class' => 'grid-action' // указываем ссылке класс, чтобы потом можно было на него повесить нужный JS-обработчик

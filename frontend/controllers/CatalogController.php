@@ -381,19 +381,12 @@ class CatalogController extends Controller
 
 				$query = $this->prepareQuery();
 				$query->where(['{{%user}}.id'=>$user_ids])
+					->andWhere(['=', '{{%user}}.is_active', 1])
+					->andWhere(['<>', '{{%user}}.black_list', 1])
+					->andWhere(['{{%user}}.user_status'=>[2,10]])
 					//->orderBy('{{%user}}.'.$orderBy.' ASC');
 					->orderBy('{{%user}}.total_rating DESC');
-				/*
-				$query = User::find()
-					->distinct(true)
-					->joinWith(['reviews'])
-					->joinWith(['userMedia'])
-					->where(['{{%user}}.id'=>$user_ids])
-					//->andWhere('black_list <> 1')
-					//->andWhere('user_status IN (2,10)')
-					//->orderBy('{{%user}}.'.$orderBy.' ASC');
-					->orderBy('{{%user}}.total_rating DESC');
-				*/
+
 				$DataProvider = new ActiveDataProvider([
 					'query' => $query,
 					'pagination' => [
