@@ -493,6 +493,11 @@ jQuery(function($) {
 		$('#set-activity-frm').submit();
 	});
 	
+	$('.showmorespecials-btn').on('click', function(e){
+		$('#uslugi-list-' + $(this).data('spec')).slideToggle(10);
+		return false;
+	});
+	
 	$('#activity-btn').hover(
 		function(){$('#profile_header__popup').stop(true,true).fadeIn();},
 		function(){$('#profile_header__popup').stop(true,true).fadeOut();}
@@ -556,7 +561,7 @@ $(window).load(function(){
 			if($(this).height() > height_block) height_block = $(this).height();
 		});
 
-		$(blocks).css('height', (height_block + 'px'));
+		$(blocks).css('min-height', (height_block + 'px'));
 		
 	}
 	

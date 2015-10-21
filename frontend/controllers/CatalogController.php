@@ -145,10 +145,9 @@ class CatalogController extends Controller
 		if($region_id != 1) {
 			$region = Region::findOne($region_id);
 			$region_children = $region->children()->all();
-			$region_ids = [$region_id => $region_id] + ArrayHelper::map($region_children, 'id', 'id');
-			
+			$region_parent = $region->parents()->all();
+			$region_ids = [$region_id => $region_id] + ArrayHelper::map($region_children, 'id', 'id') + ArrayHelper::map($region_parent, 'id', 'id');
 			//$user_regions = UserRegion::find()->where(['region_id'=>$region_ids])->all();
-			//echo'<pre>';print_r($user_regions);echo'</pre>';
 			
 			$query->joinWith(['userRegions'])
 				->andWhere(['{{%user_region}}.region_id' => $region_ids]);

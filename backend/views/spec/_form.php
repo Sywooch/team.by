@@ -83,6 +83,8 @@ if(count($model->regions)) {
     	<div class="col-lg-6"><?= $form->field($model, 'about')->textarea(['rows'=>5]) ?></div>
     	<div class="col-lg-6"><?= $form->field($model, 'education')->textarea(['rows'=>5]) ?></div>
     </div>
+    
+    <div><?= $form->field($model, 'specialization')->textInput() ?></div>
 
 	<div class="row clearfix">
     	<div class="col-lg-6"><?= $form->field($model, 'experience')->textarea(['rows'=>5]) ?></div>

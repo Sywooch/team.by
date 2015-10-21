@@ -34,6 +34,8 @@ class SpecForm extends User
 			['experience', 'required'],
 			['experience', 'string', 'min' => 3, 'max' => 2048],
 			
+			['specialization', 'string', 'min' => 3, 'max' => 256],
+			
 			
 			[['license_checked', 'fio'], 'string'],	
 			[['user_status', 'user_type', 'black_list'], 'integer'],

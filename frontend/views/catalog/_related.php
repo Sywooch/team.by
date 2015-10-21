@@ -11,7 +11,16 @@ use yii\helpers\Html;
 <?php if(count($children))	{	?>
 	<div class="catalog-category-children__list">
 		<ul class="row clearfixt">
-			<?php foreach($children as $c)	echo Html::tag('li', Html::a(Html::encode($c->name), ['catalog/category', 'category' => $c->path]), ['class' => 'col-lg-2 catalog-category-children__item']) ?>
+			<?php 
+				$i = 1;
+				foreach($children as $c)	{
+					if(($i-1)%6 == 0) $clr = ' clear';
+						else $clr = '';
+					
+					$i++;
+					echo Html::tag('li', Html::a(Html::encode($c->name), ['catalog/category', 'category' => $c->path]), ['class' => 'col-lg-2 catalog-category-children__item' . $clr]);
+				}
+			?>
 		</ul>
 	</div>
 <?php	}	?>

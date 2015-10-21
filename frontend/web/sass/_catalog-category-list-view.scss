@@ -316,3 +316,14 @@
 		
 	}
 }
+
+.catalog-category-list-item__uslugi-add {
+	@extend %hide;
+}
+
+.showmorespecials-btn {
+//	@extend %font_12;
+	@extend .ml-20;
+//	border-bottom: 1px dotted $blue7;
+	
+}

@@ -479,10 +479,23 @@ h1,.h1 {
 }
 
 .breadcrumb {
+	@extend .pos-rel;
+	
 	margin-bottom: 0;
 	padding-left: 0;
 	white-space: nowrap;
 	overflow: hidden;
+	
+	&:after {
+		@extend .pos-abs;
+		
+		content: ' ';
+		top: 0;
+		right: 0;
+		width: 130px;
+		height: 38px;
+		background: url('../images/rastvorenie.png') repeat-y;
+	}
 	
 	& > li + li{
 		@extend %pos_rel;

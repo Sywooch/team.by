@@ -327,9 +327,15 @@
 }
 
 .related_item__r2_ttl {
-	@extend .dinpro-b;
+//	@extend .dinpro-b;
 	color: $gray27;
 	
+	.showmorespecials-btn {
+	//	@extend %font_12;
+		@extend .ml-10; 
+	//	border-bottom: 1px dotted $blue7;
+
+	}	
 }
 
 .related_item__uslugi {

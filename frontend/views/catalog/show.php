@@ -98,7 +98,7 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 					<?php echo $model->medalImage ?>
 				</div>
 				<div class="catalog-item_body__info_row catalog-item_body__about clearfix">
-					<?= $model->about ?>
+					<?= nl2br($model->about) ?>
 					
 					<?php if($model->specialization)	{	?>
 						<p class="catalog-item_body__uslugi_ttl pt-10">Специализация</p>
@@ -109,8 +109,14 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 				<div class="catalog-item_body__info_row catalog-item_body__uslugi clearfix">
 					<p class="catalog-item_body__uslugi_ttl">Виды услуг</p>
 					<ul class="catalog-item_body__uslugi_list row clearfix">
+						<?php $i = 1;	?>
 						<?php foreach($model->userSpecialsList as $user_spec)	{	?>
-							<li class="catalog-item_body__uslugi_item col-lg-6">
+							<?php 
+								if(($i-1)%2 == 0) $clr = ' clear';
+									else $clr = '';
+								$i++;
+							?>
+							<li class="catalog-item_body__uslugi_item col-lg-6 <?= $clr?>">
 								<div class="row">
 									<p class="col-lg-6">• <?= $user_spec->category->name ?></p>
 									<p class="col-lg-6"><?= $user_spec->price ? DPriceHelper::formatPrice($user_spec->price * $model->regionRatio) : ''; ?><?= $user_spec->unit ? (' за '.$user_spec->unit) : ''?></p>

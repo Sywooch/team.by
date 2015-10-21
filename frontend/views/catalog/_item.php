@@ -18,6 +18,27 @@ if($model->education != '')	{
 //echo'<pre>';print_r($model->userSpecials);echo'</pre>';die;
 
 $rating_active = 20 * $model->total_rating; // максимальная оценка 5 это 100%.  Значит каждая единица = 20%
+
+$userSpecials1 = $userSpecials2 = [];
+$i = 0;
+foreach($model->userSpecials as $spec) {
+	if(isset($specials[$spec->category_id]))	{
+		if($i <= 4) {
+			$userSpecials1[] = $specials[$spec->category_id];
+		}	else	{
+			$userSpecials2[] = $specials[$spec->category_id];
+		}
+		$i++;
+		
+	}
+		
+}
+/*
+if($_SERVER['REMOTE_ADDR'] = '93.125.76.222') {
+	echo'<pre>';print_r($userSpecials1);echo'</pre>';//die;
+	echo'<pre>';print_r($userSpecials2);echo'</pre>';//die;
+}
+*/
 ?>
 
 
@@ -82,7 +103,21 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 			<div class="catalog-category-list-item__info_row catalog-category-list-item__info_row_3">
 				<div class="row clearfix">
 					<div class="col-lg-4">
-						<p class="bold">Виды услуг:</p>
+						<p>
+							<span class="bold">Виды услуг:</span>
+							<?php if(count($userSpecials2))	{	?>
+								<a href="#" class="showmorespecials-btn catalog-category-list-item__examples" data-spec="<?= $model->id ?>">Все услуги (<?= (count($userSpecials1) + count($userSpecials2))?>)</a>
+							<?php	}	?>							
+						</p>
+						<ul class="catalog-category-list-item__uslugi">
+							<?php foreach($userSpecials1 as $spec) echo Html::tag('li', $spec); ?>
+						</ul>
+						<?php if(count($userSpecials2))	{	?>
+							<ul id="uslugi-list-<?= $model->id ?>" class="catalog-category-list-item__uslugi catalog-category-list-item__uslugi-add">
+								<?php foreach($userSpecials2 as $spec) echo Html::tag('li', $spec); ?>
+							</ul>
+						<?php	}	?>
+						<?/*
 						<ul class="catalog-category-list-item__uslugi">
 							<?php 
 								foreach($model->userSpecials as $spec) {
@@ -90,6 +125,7 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 								}
 							?>
 						</ul>
+						*/?>
 					</div>
 					<div class="col-lg-4">
 						<p class="bold">Опыт работы:</p>
