@@ -130,7 +130,7 @@ if($current_controller == 'catalog' && $current_action == 'black-list')
 			
 			<div class="footer__buttons">
 				<?php if (\Yii::$app->user->isGuest) {	?>
-					<a href="http://pro.team.by<?= Url::toRoute('/site/reg')?>" class="button-gray footer__reg_btn">Стать специалистом</a>
+					<a href="<?= Yii::$app->params['proUrl']?>" class="button-gray footer__reg_btn">Стать специалистом</a>
 					<a href="<?= Url::toRoute('/site/login')?>" id="login-modal-footer" class="button-gray footer__login_btn">Вход в личный кабинет специалиста</a>
 				<?	}	else	{	?>
 					<?php $form = ActiveForm::begin(['action'=>['/site/logout']]); ?>						
