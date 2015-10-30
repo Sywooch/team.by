@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'content'=>function($data){
 					return $data->userCategoriesList;
 				},
-				'filter' => $searchModel::getDropdownCatList(),
+				'filter' => $searchModel->getDropdownCatList(),
 				
 			],
             

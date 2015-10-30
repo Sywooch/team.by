@@ -4,7 +4,7 @@
 
 .catalog-category-children__item {
 	@extend .mb-10;
-	list-style: disc outside;
+	list-style: disc inside;
 	line-height: 1;
 	
 	a {
