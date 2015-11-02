@@ -49,9 +49,9 @@ if($current_controller == 'catalog' && $current_action == 'black-list')
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <?php $this->head() ?>
 </head>
 <body>
