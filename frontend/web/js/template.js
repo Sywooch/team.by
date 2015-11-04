@@ -497,6 +497,32 @@ jQuery(function($) {
 		$('#uslugi-list-' + $(this).data('spec')).slideToggle(10);
 		return false;
 	});
+    
+    $('.top-line a').on('click', function (e) {
+        var url = $(this).data('url'),
+            modal = $('.modal');
+		
+        $.get(url, function (data) {
+            modal.html(data).modal('show');
+        });
+        return false;
+    });
+    
+    $('.modal').on('click', '#back-call-btn', function () {
+        var form = $(this).closest('form'),
+            modal = $('.modal');
+        $.post(
+            form.attr('action'),
+            form.serialize(),
+            function (data) {
+				modal.children('.modal-dialog').remove();
+				modal.append(data);
+            }
+        );
+        return false;
+    });
+    
+    
 	
 	$('#activity-btn').hover(
 		function(){$('#profile_header__popup').stop(true,true).fadeIn();},
@@ -546,6 +572,18 @@ jQuery(function($) {
 		
 		event.stopPropagation();
 	});	
+    
+    $(window).scroll(function() {
+        var top = $(document).scrollTop(),
+            max_scroll = 100,
+            elem = $(".top-line");
+        
+       if(top > max_scroll &&  elem.is(':hidden'))
+           elem.fadeIn(300);
+        
+        if(top < max_scroll && elem.is(':visible'))
+            elem.fadeOut(100);
+    });    
 	
 });
 

@@ -140,7 +140,8 @@ class UserSearch extends User
 
 		$query = User::find()
 			->asArray()
-			->where(['{{%user}}.id' => $UserCategories]);
+			->where(['{{%user}}.id' => $UserCategories])
+            ->andWhere(['{{%user}}.user_status'=>User::getActiveUserStatuses()]);
 
 		if(count($region_ids))
 			$query->joinWith(['userRegionsList'])
@@ -159,24 +160,15 @@ class UserSearch extends User
 		$query = User::find()
 			->select(['{{%user}}.id'])
 			->asArray()
-			->where(['{{%user}}.id' => $UserSpecials]);
+			->where(['{{%user}}.id' => $UserSpecials])
+            ->andWhere(['{{%user}}.user_status'=>User::getActiveUserStatuses()]);
 
 		if(count($region_ids))
 			$query->joinWith(['userRegionsList'])
 				->andWhere(['region_id' => $region_ids]);			
 
-
 		$search3 = $query->column();
-		
 
-
-		//echo'<pre>';print_r($search1);echo'</pre>';//die;
-		//echo'<pre>';print_r($search2);echo'</pre>';//die;
-		//echo'<pre>';print_r($search3);echo'</pre>';//die;
-		
-		return array_merge($search1, $search2, $search3);
-		//return $search1;
-
+        return array_merge($search1, $search2, $search3);
 	}
-	
 }

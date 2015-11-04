@@ -685,3 +685,50 @@ a.desc:after {
 	}
 }
 
+.top-line {
+    @extend .font-16;
+    @extend .width100;
+    
+    position: fixed;
+    top: 0;
+    background-color: #464646;
+    color: #fff;
+    //padding: 5px 0;
+    z-index: 777;
+    
+    .container {
+        @extend %ico;
+        
+        padding-left: 40px;
+        
+        &:before {
+            @extend .ico-top-line;
+            left: 0;
+            top: 7px;
+        }
+    }
+    
+    span {
+        @extend %font_28;
+        @extend .dinpro-b;
+        @extend .pos-rel;
+        
+        
+        color: $blue1;
+        padding: 0 20px;
+        top: -3px;
+        vertical-align: middle;
+        
+    }
+    
+    a {
+        @extend .button-gray;
+        @extend %fr;
+        
+        padding-left: 10px;
+        padding-right: 10px;
+        
+        
+    }
+    
+}

@@ -16,6 +16,7 @@ use frontend\widgets\Alert;
 
 use frontend\widgets\ProfiSearch;
 use frontend\widgets\ProfileHeader;
+use frontend\widgets\TopLineWidget;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -51,7 +52,7 @@ if($current_controller == 'catalog' && $current_action == 'black-list')
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <?php $this->head() ?>
 </head>
 <body>
@@ -112,7 +113,7 @@ if($current_controller == 'catalog' && $current_action == 'black-list')
 						//['label' => 'Условия использования', 'url' => '#'],
 						['label' => 'О компании', 'url' => ['/page/view', 'alias'=>'about']],
 						//['label' => 'О компании', 'url' => '#'],
-						['label' => 'Черный список', 'url' => ['catalog/black-list']],
+						//['label' => 'Черный список', 'url' => ['catalog/black-list']],
 					],
 					'options' => [
 						'class' => 'footer_menu__list',
@@ -146,7 +147,14 @@ if($current_controller == 'catalog' && $current_action == 'black-list')
 
 		</div>
 	</footer>
-	<div class="modal fade"></div>
+	<div class="modal fade"></div>    
+   
+    <?php 
+    //if($_SERVER['REMOTE_ADDR'] == '93.125.72.116') {
+        if($current_controller == 'catalog') echo TopLineWidget::widget();
+    //}
+    ?>
+    
     <?php $this->endBody() ?>
     
 <script>

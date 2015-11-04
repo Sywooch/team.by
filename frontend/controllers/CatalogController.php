@@ -341,10 +341,6 @@ class CatalogController extends Controller
 		$modal = Yii::$app->request->get('modal', 0);
 		
 		if($search != '') {
-			
-			
-			
-			
 			//получаем поле для сортировки
 			/*
 			$orderBy = Yii::$app->request->post('orderby', '');

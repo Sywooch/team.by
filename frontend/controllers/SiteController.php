@@ -13,6 +13,7 @@ use frontend\models\RegStep1Form;
 use frontend\models\RegStep2Form;
 use frontend\models\ZakazSpec1;
 use frontend\models\ZakazSpec2;
+use frontend\models\BackCallForm;
 
 use common\models\User;
 use common\models\UserCategories;
@@ -178,11 +179,8 @@ class SiteController extends Controller
 		$model = new RegStep1Form();
 
 		if ($model->load(Yii::$app->request->post())) {
-			//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 			//echo'<pre>';print_r($model);echo'</pre>';die;
-			if ($model->validate()) {
-				//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';die;
-				
+			if ($model->validate()) {				
 				Yii::$app->response->cookies->add(new \yii\web\Cookie([
 					'name' => 'RegStep1Form',
 					'value' => json_encode(Yii::$app->request->post()['RegStep1Form']),
@@ -207,9 +205,7 @@ class SiteController extends Controller
 		
 		//для кооректной загрузки файлов аяксом
 		//устанавливаем с какой моделью будем работать
-		Yii::$app->session->set('profile_model', 'RegStep2Form');	
-		
-		//if(count(Yii::$app->request->post()))
+		Yii::$app->session->set('profile_model', 'RegStep2Form');
 			
 		//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 		if ($model->load(Yii::$app->request->post())) {
@@ -233,11 +229,6 @@ class SiteController extends Controller
 			if ($model->validate() && $region_ok == 1) {
 				$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
 				$RegStep2Form = $model;
-				//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
-				//echo'<pre>';print_r($model);echo'</pre>';//die;
-				//echo'<pre>';print_r($RegStep2Form);echo'</pre>';
-				//die;
-				
 				
 				//создаем поьзователя
 				$user = new User();
@@ -502,6 +493,33 @@ class SiteController extends Controller
 			return $this->redirect($return_url);
 		}
     }
+	
+	public function actionBackCall()
+	{
+		$model = new BackCallForm();
+		
+		$request = Yii::$app->request;
+
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+                //echo'<pre>';print_r($model);echo'</pre>';die;
+                
+				if($model->sendEmail(Yii::$app->params['adminEmail'])) {
+					Yii::$app->getSession()->setFlash('success', 'Мы получили Вашу заявку. Наш оператор свяжется с вами в ближайшее время.');
+				}	else	{
+					Yii::$app->getSession()->setFlash('error', 'При отправке сообщения возникла ошибка');
+				}
+				
+                return $this->renderPartial('sending-mail-result-modal', [
+                    'title' => 'Обратный звонок',
+                ]);
+			}
+		}
+        
+        return $this->renderPartial('back-call', [
+            'model' => $model,
+        ]);
+	}
 	
 	public function actionZakazSpec1()
 	{

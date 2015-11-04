@@ -44,6 +44,7 @@ use yii\helpers\Html;
 						<input type="text" id="profi_search_input" class="inputbox profi_search_inner__inputbox" name="profi_search" value="<?= Html::encode($search_qry)?>" autocomplete="off" placeholder="Введите специальность или услугу">
 				
 						<?/*<input type="text" class="inputbox profi_search_inner__inputbox" value="" placeholder="Введите специальность или услугу">*/?>
+						<?/*
 						<div class="profi_search_inner__regions">
 							<span id="profi_search_regions__active" class="profi_search_inner_regions__active"><?= $region_str?></span>
 							<div id="profi_search_regions__list_cnt" class="profi_search_regions__list_cnt popup_block">
@@ -72,6 +73,7 @@ use yii\helpers\Html;
 								</ul>
 							</div>
 					</div>
+					*/?>
 					<div id="search-result-cnt" class="search-result-cnt"></div>
 					<?php ActiveForm::end(); ?>					
 				</div>

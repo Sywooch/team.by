@@ -9,8 +9,10 @@ use yii\helpers\Html;
 		<input type="hidden" id="profi_search_modal" name="modal" value="1" />
 		<input type="text" id="profi_search_input" class="inputbox profi_search_tab_1__inputbox" name="profi_search" value="<?= Html::encode($search_qry)?>" autocomplete="off" placeholder="Введите специальность или услугу">
 		<div class="profi_search_tab_1__region">
-			<span class="profi_search_tab_1_region__ttl">Ваш регион:</span>
+			<?/*<span class="profi_search_tab_1_region__ttl">Ваш регион:</span>*/?>
+            
 			<div class="profi_search_tab_1__regions">
+                <?/*
 				<span id="profi_search_regions__active" class="profi_search_tab_1_regions__active"><?= $region_str?></span>
 				<div id="profi_search_regions__list_cnt" class="profi_search_tab_1_regions__list_cnt popup_block">
 					<ul class="profi_search_tab_1_regions__list">
@@ -37,6 +39,7 @@ use yii\helpers\Html;
 						<?	}	?>
 					</ul>
 				</div>
+                */?>
 
 				<button class="button-red profi_search__button">Найти</button>
 			</div>
