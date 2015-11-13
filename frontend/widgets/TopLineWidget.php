@@ -23,9 +23,6 @@ class TopLineWidget extends Widget
 
     public function run()
     {
-		if (\Yii::$app->user->isGuest) 
-			return;
-		
 		return $this->render('top-line', [
 			'model' => Page::findOne($this->page_id),
 		]);

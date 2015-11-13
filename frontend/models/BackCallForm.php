@@ -15,8 +15,12 @@ class BackCallForm extends Model
 
     public $name;
     public $phone = '';
+    public $verifyCode;
+    
     public $name1;
     public $phone1;
+    public $country_code = 'by';
+    
     //public $comment;
     //public $user_id = 0;
 	//public $spec_name;
@@ -27,10 +31,13 @@ class BackCallForm extends Model
     public function rules()
     {
         return [
-            [['phone', 'name'], 'required'],
+            [['phone'], 'required', 'message'=>'Укажите номер телефона'],
+            [['name'], 'required', 'message'=>'Укажите Ваше имя'],
 			//[['phone'], 'string', 'min' => 19, 'max' => 19, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
 			[['phone'], 'string', 'max' => 19, 'tooLong'=>'Укажите номер в международном формате'],
 			[['name',], 'string', 'min' => 3, 'max' => 255],
+			[['country_code'], 'string', 'min' => 2, 'max' => 4],
+            ['verifyCode', 'captcha'],
         ];
     }
 	
@@ -56,8 +63,8 @@ class BackCallForm extends Model
     public function sendEmail($email)
     {
         return Yii::$app->mailer->compose('mail-back-call', ['model'=>$this])
-            //->setTo($email)
-            ->setTo("aldegtyarev@yandex.ru")
+            ->setTo($email)
+            //->setTo("aldegtyarev@yandex.ru")
             ->setFrom(\Yii::$app->params['noreplyEmail'])
             ->setSubject('Заявка на обратный звонок')
             ->send();

@@ -13,4 +13,19 @@ return [
 	],
 	
 	'catlist-per-page' => 10,
+	
+	'countries' => [
+		'BY' => [
+			'name' => 'Беларусь',
+			'phone_prefix' => '+375',
+		],
+		'RU' => [
+			'name' => 'Россия',
+			'phone_prefix' => '+7',
+		],
+		'UA' => [
+			'name' => 'Украина',
+			'phone_prefix' => '+380',
+		],
+	]
 ];

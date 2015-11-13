@@ -178,6 +178,7 @@ class UserSearch extends User
     public function searchSpecsDeleted($params)
     {
         $query = User::find()
+            ->distinct()
 			->joinWith(['userCategoriesArray'])
 			->joinWith(['userRegions'])
 			->where(['group_id' => 2])

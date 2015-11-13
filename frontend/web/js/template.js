@@ -2,8 +2,9 @@ jQuery(function($) {
 	var spec_name = '',
 		spec_id = 0,
 		phone_mask = '+375 (99) 999-99-99',
+		phone_mask_ru = '+7 (99) 999-99-99',
+		phone_mask_ua = '+380 (99) 999-99-99',
 		wrap_height_default = $('.wrap__cnt').height();
-	
 	
 	//получаем кол-во миниатюр у блока
 	function getImageNum(block) {
@@ -504,6 +505,7 @@ jQuery(function($) {
 		
         $.get(url, function (data) {
             modal.html(data).modal('show');
+			modal.find('.phone-input').mask(phone_mask);			
         });
         return false;
     });
@@ -571,7 +573,35 @@ jQuery(function($) {
 		   $("#search-result-cnt").fadeOut("fast");
 		
 		event.stopPropagation();
-	});	
+	});
+	
+	$('.modal').on('click', '#cfd-value .cflag18', function () {
+		$('#country-flag-list').fadeToggle();
+	});
+	
+	$('.modal').on('click', '#country-flag-list li', function () {
+		var el = $(this),
+			flag_cnt = $('#cc-active');
+			mask1 = ' (99) 999-99-99',
+			mask = '',
+			flag = '',
+			modal = $('.modal');
+		
+		flag = $(this).data('cc').toLowerCase();
+		flag_cnt.removeClass();
+		flag_cnt.addClass('cflag18');
+		flag_cnt.addClass('cflag-' + flag);
+		
+		mask = $(this).data('prefix') + mask1
+		modal.find('.phone-input').val('');
+		modal.find('.phone-input').mask(mask);
+		modal.find('.country_code').val(flag);
+		
+		//console.log(flag);
+		
+		$('.country-flag-list').fadeToggle();
+	});
+	
     
     $(window).scroll(function() {
         var top = $(document).scrollTop(),

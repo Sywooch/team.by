@@ -715,7 +715,7 @@ a.desc:after {
         
         
         color: $blue1;
-        padding: 0 20px;
+        padding: 0 5px;
         top: -3px;
         vertical-align: middle;
         
@@ -732,3 +732,84 @@ a.desc:after {
     }
     
 }
+
+.field-backcallform-verifycode > label {
+    @extend .hidden;
+} 
+#backcallform-verifycode-image{
+    margin-top: -6px;
+}
+
+.country-flag-dropdown {
+	@extend %pos_abs;
+	
+	top: 36px;	
+	z-index: 777;
+	
+}
+
+.country-flag-list {
+	@extend %pos_abs;
+	
+	background-color: #fff;
+	border: 1px solid #a3b2bf;	
+	//padding: 5px;
+	top: 25px;
+	width: 140px;
+	display: none;
+	
+	
+	li {
+		@extend %font_14;
+		padding: 2px 5px;
+	}
+	
+	
+
+	.cprefix {
+		@extend %font_13;
+	}
+}
+
+.cflag18 {
+	@extend %db;
+	@extend %fl;
+	@extend %ico;
+	
+	width: 18px;
+	height: 12px;
+	margin: 3px 6px 0 0;
+}
+
+
+.cfd-value {
+	@extend %db;
+	@extend %pointer;
+	
+	-webkit-user-select: none;
+	user-select:none;
+	-webkit-touch-callout:none;
+	
+	.cflag18 {
+		margin-left: 6px;
+	}
+	
+}
+
+
+.cflag-by {
+	@extend .ico-flag-by;
+}
+
+.cflag-ru {
+	@extend .ico-flag-ru;
+}
+
+.cflag-ua {
+	@extend .ico-flag-ua;
+}
+
+#backcallform-phone {
+	padding-left: 30px;
+}
+

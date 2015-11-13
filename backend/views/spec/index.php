@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			
             'email:email',
-			
+			/*
 			[
 				'attribute'=>'category_id',
 				'format' => 'raw',
@@ -64,10 +64,11 @@ $this->params['breadcrumbs'][] = $this->title;
 					return $data->userCategoriesList;
 				},
 				'filter' => $searchModel->getDropdownCatList(),
-				
 			],
+            */
             
-			[
+			/*
+            [
 				'attribute'=>'user_status',
 				//'label'=>'Родительская категория',
 				'format'=>'text', // Возможные варианты: raw, html
@@ -76,8 +77,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 				'filter' => User::getUserStatuses(),
 				//'headerOptions' => ['width' => '100'],
-			],			
-			
+			],
+            */
+            
+			/*
 			[
 				'attribute'=>'region_id',
 				//'label'=>'Родительская категория',
@@ -87,7 +90,9 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 				'filter' => $searchModel->getDropdownRegionsList(),
 				//'headerOptions' => ['width' => '100'],
-			],			
+			],
+            */
+            
 			/*
 			[
 				'attribute'=>'is_active',

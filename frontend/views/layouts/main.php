@@ -18,6 +18,8 @@ use frontend\widgets\ProfiSearch;
 use frontend\widgets\ProfileHeader;
 use frontend\widgets\TopLineWidget;
 
+use common\models\User;
+
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -108,13 +110,22 @@ if($current_controller == 'catalog' && $current_action == 'black-list')
 
 			<div class="footer__cnt">
 				<?php
-				echo Menu::widget([
-					'items' => [
+                
+               
+                $black_list_count = User::find()->where(['black_list'=>1])->andWhere(['<>', 'user_status', 3])->count();
+                
+                //echo $black_list_count;
+                $items = [
 						//['label' => 'Условия использования', 'url' => '#'],
 						['label' => 'О компании', 'url' => ['/page/view', 'alias'=>'about']],
 						//['label' => 'О компании', 'url' => '#'],
 						//['label' => 'Черный список', 'url' => ['catalog/black-list']],
-					],
+				];
+                if($black_list_count > 0)
+                    $items[] = ['label' => 'Черный список', 'url' => ['catalog/black-list']];
+                
+				echo Menu::widget([
+					'items' => $items,
 					'options' => [
 						'class' => 'footer_menu__list',
 					],
