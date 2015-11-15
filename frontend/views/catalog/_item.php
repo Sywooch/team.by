@@ -137,7 +137,7 @@ if($_SERVER['REMOTE_ADDR'] = '93.125.76.222') {
 					<div class="col-lg-4">
 						<p class="bold">Обучение:</p>					
 						<ul class="catalog-category-list-item__edu_list">
-							<?php foreach($education_arr as $i) echo Html::tag('li', Html::encode($i), ['class' => 'catalog-category-list-item__edu_item']) ?>
+							<?php foreach($education_arr as $i) if($i != "\r\n") echo Html::tag('li', Html::encode($i), ['class' => 'catalog-category-list-item__edu_item']) ?>
 						</ul>
 					</div>
 					<?php	}	?>
