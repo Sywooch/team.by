@@ -748,6 +748,12 @@ a.desc:after {
 	
 }
 
+.modal-dialog__zakaz-spec1 {
+	.country-flag-dropdown {
+		top: 66px;
+	}
+}
+
 .country-flag-list {
 	@extend %pos_abs;
 	
@@ -755,13 +761,21 @@ a.desc:after {
 	border: 1px solid #a3b2bf;	
 	//padding: 5px;
 	top: 25px;
-	width: 140px;
+	width: 175px;
+	height: 125px;
+	overflow-y: scroll;
 	display: none;
 	
 	
+	
 	li {
+		@extend %pointer;
 		@extend %font_14;
 		padding: 2px 5px;
+		
+		&:hover {
+			background-color: #efefef;
+		}
 	}
 	
 	
@@ -797,19 +811,75 @@ a.desc:after {
 }
 
 
+.cflag-az { 
+	@extend .ico-flag-az;
+}
+
+.cflag-am {
+	@extend .ico-flag-am;
+}
+
 .cflag-by {
 	@extend .ico-flag-by;
+}
+
+.cflag-ge {
+	@extend .ico-flag-ge;
+}
+
+.cflag-il {
+	@extend .ico-flag-il;
+}
+
+.cflag-kz {
+	@extend .ico-flag-kz;
+}
+
+.cflag-kg {
+	@extend .ico-flag-kg;
+}
+
+.cflag-lv {
+	@extend .ico-flag-lv;
+}
+
+.cflag-lt {
+	@extend .ico-flag-lt;
+}
+
+.cflag-md {
+	@extend .ico-flag-md;
+}
+
+.cflag-pl {
+	@extend .ico-flag-pl;
 }
 
 .cflag-ru {
 	@extend .ico-flag-ru;
 }
 
+.cflag-tj {
+	@extend .ico-flag-tj;
+}
+
+.cflag-tm {
+	@extend .ico-flag-tm;
+}
+
+.cflag-uz {
+	@extend .ico-flag-uz;
+}
+
 .cflag-ua {
 	@extend .ico-flag-ua;
 }
 
-#backcallform-phone {
+.cflag-ee {
+	@extend .ico-flag-ee;
+}
+
+.phone-input-with-countries {
 	padding-left: 30px;
 }
 

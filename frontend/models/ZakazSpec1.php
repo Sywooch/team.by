@@ -19,6 +19,8 @@ class ZakazSpec1 extends Model
     public $comment;
     public $user_id = 0;
 	public $spec_name;
+	
+	public $country_code = 'by';
 
     /**
      * @inheritdoc
@@ -30,6 +32,7 @@ class ZakazSpec1 extends Model
 			[['phone'], 'string', 'min' => 19, 'max' => 19, 'tooShort'=>'Укажите номер в международном формате', 'tooLong'=>'Укажите номер в международном формате'],
 			[['name', 'spec_name'], 'string', 'min' => 3, 'max' => 255],
 			[['comment'], 'string', 'min' => 3, 'max' => 255],
+			[['country_code'], 'string', 'min' => 2, 'max' => 4],
 			['user_id', 'integer'],
         ];
     }

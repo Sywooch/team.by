@@ -13,7 +13,7 @@ $this->title = 'Обратный звонок';
 $countries_list = Yii::$app->params['countries'];
 ?>
 
-<div class="modal-dialog modal-dialog__zakaz-spec1 modal-content">
+<div class="modal-dialog modal-dialog__back-call modal-content">
 	<div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -36,7 +36,7 @@ $countries_list = Yii::$app->params['countries'];
 			        		</span>
 			        	</div>
 			        	<??>
-			        	<?= $form->field($model, 'phone')->textInput(['placeholder'=>'Номер телефона', 'class'=>'form-control phone-input']) ?>
+			        	<?= $form->field($model, 'phone')->textInput(['placeholder'=>'Номер телефона', 'class'=>'form-control phone-input phone-input-with-countries']) ?>
 			        	<?= $form->field($model, 'country_code')->hiddenInput(['class'=>'country_code'])->label(false) ?>
 			        </div>
 			        <div class="col-lg-6"><?= $form->field($model, 'name') ?></div>
