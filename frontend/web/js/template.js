@@ -353,7 +353,11 @@ jQuery(function($) {
             form.serialize(),
             function (data) {
 				modal.html(data).modal('show');
-				$('.modal').find('.phone-input').mask(phone_mask);
+				
+				$.mask.definitions = new Object();
+				$.mask.definitions['~']='[0-9]';
+				
+				$('.modal').find('.phone-input').mask('+375 (~~) ~~~-~~-~~');
             }
         );
         return false;
@@ -585,6 +589,10 @@ jQuery(function($) {
 	});
 	
 	$('.modal').on('click', '#cfd-value .cflag18', function () {
+		$('.modal').find('#country-flag-list').fadeToggle();
+	});
+	
+	$('.profi_search_tab__zakaz').on('click', '#cfd-value .cflag18', function () {
 		$('#country-flag-list').fadeToggle();
 	});
 	
@@ -613,6 +621,33 @@ jQuery(function($) {
 		modal.find('.country_code').val(flag);
 		
 
+		
+		$('.country-flag-list').fadeToggle();
+	});
+	
+	$('#country-flag-list li').on('click', function () {
+		var el = $(this),
+			flag_cnt = $('#cc-active');
+			//mask1 = ' (99) 999-99-99',
+			mask1 = ' (~~) ~~~-~~-~~',
+			mask = '',
+			flag = '',
+			modal = $('.profi_search_tab__zakaz');
+		
+		flag = $(this).data('cc').toLowerCase();
+		flag_cnt.removeClass();
+		flag_cnt.addClass('cflag18');
+		flag_cnt.addClass('cflag-' + flag);
+		
+		mask = $(this).data('prefix') + mask1
+		modal.find('.phone-input').val('');
+		
+		//переопределяем симолы маски ввода.
+		$.mask.definitions = new Object();
+		$.mask.definitions['~']='[0-9]';
+		
+		modal.find('.phone-input').mask(mask);
+		modal.find('.country_code').val(flag);
 		
 		$('.country-flag-list').fadeToggle();
 	});
