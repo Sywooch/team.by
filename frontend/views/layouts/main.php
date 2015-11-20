@@ -117,6 +117,7 @@ if($current_controller == 'catalog' && $current_action == 'black-list')
                 //echo $black_list_count;
                 $items = [
 						//['label' => 'Условия использования', 'url' => '#'],
+						['label' => 'Наши преимущества', 'url' => ['/page/view', 'alias'=>'advantages']],
 						['label' => 'О компании', 'url' => ['/page/view', 'alias'=>'about']],
 						//['label' => 'О компании', 'url' => '#'],
 						//['label' => 'Черный список', 'url' => ['catalog/black-list']],

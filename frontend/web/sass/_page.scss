@@ -1,0 +1,52 @@
+.page-body ul,
+.page-body p {
+	@extend .mb-20;
+}
+
+.page-body ul {
+	@extend .ml-20;
+	
+	li {
+		@extend .mb-5;
+		list-style: disc;
+		list-style-position: outside;		
+	}
+}
+
+.page-body ol {
+	
+	li {
+		@extend .mb-5;
+		list-style: decimal;
+		list-style-position: outside;		
+	}
+}
+
+.page-view {
+}
+
+.page-advantages {
+	
+	.page-body {
+		& > h2 {
+			@extend .dinpro-b;
+			@extend %font_28;
+
+
+			color: $gray3;
+			padding: 0 0 30px 0;
+
+		}
+		
+	}
+	td {
+		vertical-align: top;
+		padding-bottom: 20px;
+	}
+	
+	tr {
+		td:first-of-type {
+			padding-right: 15px;
+		}
+	}
+}

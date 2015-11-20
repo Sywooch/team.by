@@ -35,6 +35,7 @@ class PageController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($alias),
+            'alias' => $alias,
         ]);
     }
 
