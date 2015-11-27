@@ -148,6 +148,7 @@ if($current_controller == 'site' && ($current_action == 'index' || $current_acti
 					<img src="<?= Yii::$app->params['proUrl']?>/images/verified-by-visa_h_50.png" alt="" />
 					<img src="<?= Yii::$app->params['proUrl']?>/images/mastercard-securecode_h_50.png" alt="" />
 					<img src="<?= Yii::$app->params['proUrl']?>/images/mastercard_h_50.png" alt="" />
+					<img src="<?= Yii::$app->params['proUrl']?>/images/belkart.jpg" alt="" />					
 				</p>
 			</div>
 			
