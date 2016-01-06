@@ -99,7 +99,8 @@ class ReviewController extends Controller
 				$model->save();
 				$this->checkReviewFoto($model, $reviewMedia_old);
 				
-				if($review->status == 1)
+				
+				if($model->status == 1)
 					$this->calculateRating($model);	
 			}
 			
@@ -196,8 +197,12 @@ class ReviewController extends Controller
 	
 	public function calculateRating($order)
 	{
+		//echo'<pre>';print_r($order);echo'</pre>';//die;
 		$user = $order->user;
+		//echo'<pre>';print_r($user);echo'</pre>';die;
 		$user_reviews = $user->reviews;
+		//echo'<pre>';print_r($user_reviews);echo'</pre>';die;
+		
 		$total_rating = 0;
 		foreach($user_reviews as $rewiew) {
 			$total_rating += $rewiew->review_rating;
@@ -208,6 +213,7 @@ class ReviewController extends Controller
 		
 		
 		$total_rating = $total_rating / count($user_reviews);
+		//echo'<pre>';print_r($total_rating);echo'</pre>';die;
 		
 		$user->total_rating = $total_rating;
 		//$user->total_rating = 4.7;

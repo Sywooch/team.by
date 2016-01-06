@@ -54,20 +54,6 @@ class CatalogController extends Controller
 		//получаем из куки ИД региона
 		$region_id = \Yii::$app->getRequest()->getCookies()->getValue('region', 1);
 		
-		//получаем поле для сортировки
-		/*
-		$orderBy = Yii::$app->request->post('orderby', '');
-		if($orderBy != '') {
-			Yii::$app->response->cookies->add(new \yii\web\Cookie([
-				'name' => 'catlist-orderby',
-				'value' => $orderBy,
-			]));
-			
-			//return $this->redirect(['category', 'category'=>$category]);
-		}	else	{
-			$orderBy = Yii::$app->request->cookies->getValue('catlist-orderby', 'fio');
-		}
-		*/
 		//строим выпадающий блок для сортировки
 		$ordering_arr = Yii::$app->params['catlist-orderby'];
 		$ordering_items = [];
@@ -83,7 +69,6 @@ class CatalogController extends Controller
 			}
 		}
 		
-         //echo'<pre>';print_r($category);echo'</pre>';
 		// Ищем категорию по переданному пути
         $category = Category::find()
 			->where(['path' => $category])
@@ -97,7 +82,7 @@ class CatalogController extends Controller
 		
 		//получаем потомков категории
 		$children = $category->children()->all();
-		//echo'<pre>';print_r($category->leaves()->all());echo'</pre>'; //die;
+
 		if(count($children)) {
 			switch($category->depth) {
 				case 1:
@@ -138,7 +123,6 @@ class CatalogController extends Controller
 		$query->andWhere(['<>', 'black_list', 1])
 			->andWhere(['=', 'is_active', 1])
 			->andWhere(['user_status'=> User::getActiveUserStatuses()])
-			//->orderBy('{{%user}}.'.$orderBy.' ASC');
 			->orderBy('{{%user}}.total_rating DESC');
 		
 		//если указан какой-то регион - то фильтруем по нему и его потомкам
@@ -147,30 +131,24 @@ class CatalogController extends Controller
 			$region_children = $region->children()->all();
 			$region_parent = $region->parents()->all();
 			$region_ids = [$region_id => $region_id] + ArrayHelper::map($region_children, 'id', 'id') + ArrayHelper::map($region_parent, 'id', 'id');
-			//$user_regions = UserRegion::find()->where(['region_id'=>$region_ids])->all();
 			
 			$query->joinWith(['userRegions'])
 				->andWhere(['{{%user_region}}.region_id' => $region_ids]);
-		}	else	{
-			
 		}
-		
 		
 		$DataProvider = new ActiveDataProvider([
 			'query' => $query,
 			
 			'pagination' => [
 				'pageSize' => Yii::$app->params['catlist-per-page'],
-				//'pageSize' => 2,
 				'pageSizeParam' => false,
 			],
 		]);
 				
 		$categories_history = Yii::$app->session->get('categories_history', []);
-		//echo'<pre>';print_r($categories_history);echo'</pre>';
-		foreach($DataProvider->models as $model)	{
+		
+		foreach($DataProvider->models as $model)
 			$categories_history[$model->id] = $category->id;
-		}
 		
 		Yii::$app->session->set('categories_history', $categories_history);
 
@@ -254,7 +232,6 @@ class CatalogController extends Controller
 		if ($model === null) throw new CHttpException(404, 'Аккаунт с данным ID отсутствует в базе');		
 		
 		//echo'<pre>';print_r($categories_history);echo'</pre>'; die;
-		//echo'<pre>';print_r($model->userCategories[0]);echo'</pre>'; die;
 		
 		if(count($categories_history) && isset($categories_history[$id]))	{
 			$category = Category::find()
@@ -307,6 +284,7 @@ class CatalogController extends Controller
 		
 		$reviews_count = Review::find()
 			->where(['user_id'=>$model->id])
+			->andWhere(['status'=>1])			
 			->count();
 		
 		$reviews_list = Review::find()
