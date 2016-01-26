@@ -293,6 +293,7 @@ class SiteController extends Controller
 				}
 				
 				foreach($RegStep2Form->regions as $k=>$item)	{
+					if($item == 0) $item = 2;
 					$userRegions = new UserRegion();
 					$userRegions->user_id = $user->id;
 					$userRegions->region_id = $item;
