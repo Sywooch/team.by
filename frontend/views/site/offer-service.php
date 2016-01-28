@@ -22,7 +22,7 @@ $this->registerJs("jQuery('#captcha-reload-bnt').on('click', function(){jQuery('
 		<?= $form->field($model, 'email') ?>
 		<?= $form->field($model, 'comment') ?>
 		<?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-			'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-1"><img id="captcha-reload-bnt" src="https://team.by/images/reload-btn.png" title="Обновить картинку"></div><div class="col-lg-8">{input}</div></div>',
+			'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-1"><img id="captcha-reload-bnt" src="http://team.by/images/reload-btn.png" title="Обновить картинку"></div><div class="col-lg-8">{input}</div></div>',
 		]) ?>
 
 		<div class="form-group cleafrix">

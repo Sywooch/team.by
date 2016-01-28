@@ -482,7 +482,7 @@ jQuery(function($) {
 			
             modal.html(data);
 			//console.log();
-			modal.find('#offerservicesform-verifycode-image').attr('src', ('https://team.by' + modal.find('#offerservicesform-verifycode-image').attr('src')));
+			modal.find('#offerservicesform-verifycode-image').attr('src', ('http://team.by' + modal.find('#offerservicesform-verifycode-image').attr('src')));
 			modal.modal('show');
         });
         return false;

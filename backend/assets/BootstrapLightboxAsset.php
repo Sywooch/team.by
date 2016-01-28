@@ -23,7 +23,7 @@ class BootstrapLightboxAsset extends AssetBundle
 	];
     public $js = [
 		'js/ekko-lightbox.min.js',
-		'https://team.by/js/ekko-lightbox-init.js',		
+		'http://team.by/js/ekko-lightbox-init.js',		
     ];
     public $depends = [
         //'frontend\assets\AppAsset',

@@ -41,13 +41,10 @@ $this->title = 'Предложение новой услуги';
 	jQuery(document).ready(function () {
 		jQuery('#offerservicesform-verifycode-image').yiiCaptcha({
 			"refreshUrl":"\/site\/captcha?refresh=1",
-			//"refreshUrl":"https:\/\/team.by\/site\/captcha?refresh=1",
 			"hashKey":"yiiCaptcha\/site\/captcha"
-			//"hashKey":"yiiCaptcha\/https:\/\/team.by\/site\/captcha"
 		});
 		jQuery('#captcha-reload-bnt').on('click', function(){
 			jQuery('#offerservicesform-verifycode-image').click()
-			//jQuery('#offerservicesform-verifycode-image').attr('src', ('https://team.by/' + jQuery('#offerservicesform-verifycode-image').attr('src')))
 		});
 	});
 	
