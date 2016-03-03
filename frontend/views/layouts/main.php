@@ -17,6 +17,7 @@ use frontend\widgets\Alert;
 use frontend\widgets\ProfiSearch;
 use frontend\widgets\ProfileHeader;
 use frontend\widgets\TopLineWidget;
+use frontend\assets\BootstrapLightboxAsset;
 
 use common\models\User;
 
@@ -25,7 +26,7 @@ use common\models\User;
 
 AppAsset::register($this);
 
-\frontend\assets\BootstrapLightboxAsset::register($this);
+BootstrapLightboxAsset::register($this);
 
 $current_controller = Yii::$app->controller->id;
 $current_action = Yii::$app->controller->action->id;
