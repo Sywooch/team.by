@@ -166,7 +166,7 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 	
-    public function getActiveUserStatuses()
+    public static function getActiveUserStatuses()
     {
         return [2,10];
     }

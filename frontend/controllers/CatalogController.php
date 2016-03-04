@@ -54,9 +54,23 @@ class CatalogController extends Controller
 		//получаем из куки ИД региона
 		$region_id = \Yii::$app->getRequest()->getCookies()->getValue('region', 1);
 		
+		//получаем поле для сортировки		
+		$orderBy = Yii::$app->request->post('orderby', '');
+		if($orderBy != '') {
+			Yii::$app->response->cookies->add(new \yii\web\Cookie([
+				'name' => 'catlist-orderby',
+				'value' => $orderBy,
+			]));
+		}	else	{
+			$orderBy = Yii::$app->request->cookies->getValue('catlist-orderby', 'rating_total');
+		}
+		
+		
 		//строим выпадающий блок для сортировки
 		$ordering_arr = Yii::$app->params['catlist-orderby'];
 		$ordering_items = [];
+		//print_r($ordering_arr);die;
+				$current_ordering = ['name'=>'рейтингу', 'field'=>'total_rating'];		
 		foreach($ordering_arr as $k=>$i) {
 			if($k == $orderBy)	{
 				$current_ordering = ['name'=>$i, 'field'=>$k];
@@ -490,3 +504,4 @@ class CatalogController extends Controller
 	}
 	*/
 }
+	

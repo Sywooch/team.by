@@ -53,21 +53,23 @@ return [
 			//'enableStrictParsing' => true,
 			'showScriptName' => false,
 			'rules' => [
-				'catalog/search/page/<page:[\d]+>'=>'catalog/search',
-				'catalog/black-list/page/<page:[\d]+>'=>'catalog/black-list',
+				'page/<alias:[\w_\/-]+>' => 'page/view',
 				
-				'catalog/<category:[\w_\/-]+>/page/<page:[\d]+>'=>'catalog/category',
+				//'catalog/search/page/<page:[\d]+>' => 'catalog/search',
 				
-				'catalog/<category:[\w_\/-]+>/<id:[\d]+>'=>'catalog/show',
+				'catalog/black-list/page/<page:[\d]+>' => 'catalog/black-list',
 				
-				'catalog/black-list'=>'catalog/black-list',
-				'catalog/search'=>'catalog/search',
+				'catalog/<category:[\w_\/-]+>/page/<page:[\d]+>' => 'catalog/category',
 				
-				'catalog/<category:[\w_\/-]+>'=>'catalog/category',
+				'catalog/<category:[\w_\/-]+>/<id:[\d]+>' => 'catalog/show',
 				
-				'page/<alias:[\w_\/-]+>'=>'page/view',
+				'catalog/black-list' => 'catalog/black-list',
 				
-				'catalog'=>'catalog/index',
+				'catalog/search' => 'catalog/search',
+				
+				'catalog/<category:[\w_\/-]+>' => 'catalog/category',
+				
+				'catalog' => 'catalog/index',
 				
 				'<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',
 				'<_c:[\w\-]+>' => '<_c>/index',
