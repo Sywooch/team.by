@@ -23,6 +23,8 @@ switch($model->user_type) {
 		$documents_tmpl = '_documents-3';
 		break;
 }
+
+//echo'<pre>';print_r($document_form);echo'</pre>';return;//die;
 ?>
 <div class="user-update">
 
@@ -42,7 +44,7 @@ switch($model->user_type) {
 				],
 				[
 					'label' => 'Документы',
-					'content' => $this->render($documents_tmpl, ['model' => $document_form]),
+					'content' => $this->render($documents_tmpl, ['model' => $model, 'document_form' => $document_form]),
 				],
 				[
 					'label' => 'Перечень услуг',

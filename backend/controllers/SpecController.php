@@ -156,14 +156,12 @@ class SpecController extends Controller
 			$user = $model;
 			switch($user->user_type) {
 				case 1:
-					$document_form = 'DocumentsForm1';
+					//$document_form = 'DocumentsForm1';
 					$document_form = new DocumentsForm1();
 
 					$document_form->passport_num = $user->passport_num;
 					$document_form->passport_vidan = $user->passport_vidan;
 					$document_form->passport_expire = $user->passport_expire;
-
-
 
 					foreach($user->userDocuments as $doc) {
 						switch($doc->document_id) {
@@ -183,7 +181,7 @@ class SpecController extends Controller
 					}
 					break;
 				case 2:
-					$document_form = 'DocumentsForm2';
+					//$document_form = 'DocumentsForm2';
 					$document_form = new DocumentsForm2();
 
 					$user_attr = $user->attributes;
@@ -210,10 +208,10 @@ class SpecController extends Controller
 					}
 
 
-					$tmpl = 'documents-2';
+					//$tmpl = 'documents-2';
 					break;
 				case 3:
-					$document_form = 'DocumentsForm3';
+					//$document_form = 'DocumentsForm3';
 
 					$document_form = new DocumentsForm3();
 					$document_form->license = $user->license;
@@ -232,15 +230,22 @@ class SpecController extends Controller
 						}
 					}
 
-					$tmpl = 'documents-3';
+					//$tmpl = 'documents-3';
 					break;
 			}
 			
 			$userCategories = $model->userCategories;
+			//echo'<pre>';print_r($userCategories);echo'</pre>';die;
 
 			//получаем родителя категорий, к которым относится пользователь
-			$parents_cat = $userCategories[0]->category->parents(1)->one();
-			$model->categoryUser = $parents_cat->id;
+			if(isset($userCategories[0])) {
+				$parents_cat = $userCategories[0]->category->parents(1)->one();
+				$model->categoryUser = $parents_cat->id;				
+			}	else	{
+				$model->categoryUser = 0;
+			}
+			
+			//echo'<pre>';print_r($model->categoryUser);echo'</pre>';//die;
 			
 			
 			

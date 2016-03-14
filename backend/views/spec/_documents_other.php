@@ -1,5 +1,13 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
+
+//echo'<pre>';print_r();echo'</pre>';return;//die;
+//echo'<pre>';print_r(get_class ($document_form));echo'</pre>';return;//die;
+
+$model = $document_form;
+$document_form = StringHelper::basename(get_class($document_form));
+
 ?>
 
 <div class="row clearfix mb-30">

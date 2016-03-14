@@ -9,8 +9,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 ?>
-<div class="to_administration">
-	<h1><?= $title?></h1>
+<div class="tab_pane_cnt">
 
 		<?php $form = ActiveForm::begin([
 			//'options'=> ['enctype' => 'multipart/form-data' ],
