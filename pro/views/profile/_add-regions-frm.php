@@ -8,7 +8,7 @@ if(count($model->regions)) {
 	$regions_rows = 0;
 }
 
-
+//var_dump($model->regions);die;
 ?>
 <div id="regions-wr">
 	<div id="regions-cnt" class="regions-cnt">
