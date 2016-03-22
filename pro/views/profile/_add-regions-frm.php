@@ -16,10 +16,10 @@ if(count($model->regions)) {
 		<?php for ($x=0; $x<=$regions_rows; $x++) { ?>
 			<div <?php if ($x==0) echo 'id="region-row-f"' ?> class="form-group row clearfix region-row">
 				<div class="col-lg-8 region-dd-cnt">
-					<?= Html::dropDownList($form_name.'[regions][]', $model->regions[$x], $model->regionsDropDownList, ['class'=>'form-control']) ?>
+					<?= Html::dropDownList($form_name.'[regions][]', isset($model->regions[$x]) ? $model->regions[$x] : '0', $model->regionsDropDownList, ['class'=>'form-control']) ?>
 				</div>
 				<div class="col-lg-3">
-					<?= Html::textInput($form_name.'[ratios][]', $model->ratios[$x], ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
+					<?= Html::textInput($form_name.'[ratios][]', isset($model->ratios[$x]) ? $model->ratios[$x] : '0', ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
 				</div>
 				<div class="col-lg-1">
 					<a href="#" class="remove_region_row">—</a>
