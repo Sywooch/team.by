@@ -553,7 +553,6 @@ class AjaxController extends Controller
 		return $this->renderPartial('get-spec-fields', [
 			'model'=>$model,
 		]);
-		
 	}
 	
 	
@@ -567,11 +566,8 @@ class AjaxController extends Controller
 			if($id == 0) unset($region_ids[$k]);
 			
 		if(count($region_ids) == '') return
-		
-		
-		
+
 		$selected_ids = [];
-			
 		$selected_ids[] = 1;
 		
 		foreach($region_ids as $id) {
@@ -583,10 +579,8 @@ class AjaxController extends Controller
 			foreach($children as $child) {
 				$selected_ids[] = $child->id;
 			}
-			
 		}
 		
-		//echo'<pre>';print_r($selected_ids);echo'</pre>';//die;
 		$categories = Region::find()
 			->where(['not in', 'id',  $selected_ids])
 			->orderBy('lft, rgt')->all();
@@ -596,9 +590,7 @@ class AjaxController extends Controller
 			for ($x=0; $x++ < $c->depth;) $separator .= '-';
 			$c->name = $separator.' '.$c->name;
 		}
-		
-		
-		//$categories = [0=>'Выберите'] + $categories2;
+
 		$categories = [0=>'Выберите'] + ArrayHelper::map($categories, 'id', 'name');
 		$html = '';
 		$html .= Html::tag('div', Html::dropDownList($form_name.'[regions][]', 0, $categories, ['class'=>'form-control']), ['class'=>'col-lg-8 region-dd-cnt']);
@@ -607,22 +599,63 @@ class AjaxController extends Controller
 		$html = Html::tag('div', $html, ['class'=>'form-group row clearfix region-row']);
 		
 		echo $html;
-		//echo Html::dropDownList($form_name.'[regions][]', 0, $categories, ['class'=>'form-control']);
-		//echo'<pre>';print_r($categories);echo'</pre>';die;
-		
-/*
-			<div class="form-group row clearfix region-row">
-				<div class="col-lg-8 region-dd-cnt">
-					<?= Html::dropDownList($form_name.'[regions][]', $model->regions[$x], $model->regionsDropDownList, ['class'=>'form-control']) ?>
-				</div>
-				<div class="col-lg-3">
-					<?= Html::textInput($form_name.'[ratios][]', $model->ratios[$x], ['placeholder'=>'коэффициент', 'class'=>'form-control']) ?>
-				</div>
-				<div class="col-lg-1">
-					<a href="#" class="remove_region_row">—</a>
-				</div>
-			</div>
-*/
+	}
+
+	public function actionGetCat2($id)
+	{
+		echo'<pre>';print_r($id);echo'</pre>';//die;
+		$model = Category::findOne($id);
+		$childrens = $model->children()->all();
+		//echo'<pre>';print_r($model);echo'</pre>';//die;
+		//echo'<pre>';print_r($childrens);echo'</pre>';//die;
+
+
+		//$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
+		$categories = $model->children()->all();
+		//echo'<pre>';print_r($categories);echo'</pre>';//die;
+
+		$cats_l1 = $cats_l3 = [];
+
+		$cats_l1[] = [
+			'id'=>$model->id,
+			'name'=>$model->name,
+			'alias'=>$model->alias,
+			'path'=>$model->path,
+			'children'=>[],
+		];
+
+		foreach($categories as $c){
+			if($c->depth > 2)	{
+				$cats_l3[$c->parent_id][$c->id] = $c->name;
+			}	else	{
+				/*
+				$cats_l1[] = [
+					'id'=>$c->id,
+					'name'=>$c->name,
+					'alias'=>$c->alias,
+					'path'=>$c->path,
+					'children'=>[],
+				];
+				*/
+			}
+		}
+
+		foreach($cats_l1 as &$c_l1){
+			foreach($categories as $c){
+				if($c->parent_id == $c_l1['id']) {
+					$c_l1['children'][] = [
+						'id'=>$c->id,
+						'name'=>$c->name,
+						'alias'=>$c->alias,
+						'path'=>$c->path,
+					];
+				}
+			}
+		}
+
+		echo'<pre>';print_r($cats_l3);echo'</pre>';//die;
+		echo'<pre>';print_r($cats_l1);echo'</pre>';//die;
+		return;
 	}
 	
 	

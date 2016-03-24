@@ -134,7 +134,7 @@ class SiteController extends Controller
 	public function actionRegStep1()
 	{
 		$model = new RegStep1Form();
-
+		
 		if ($model->load(Yii::$app->request->post())) {
 			//echo'<pre>';print_r($model);echo'</pre>';die;
 			if ($model->validate()) {
@@ -142,7 +142,7 @@ class SiteController extends Controller
 					'name' => 'RegStep1Form',
 					'value' => json_encode(Yii::$app->request->post()['RegStep1Form']),
 				]));
-
+				
 				return $this->redirect(['reg-step2']);
 			}
 		}
@@ -163,15 +163,31 @@ class SiteController extends Controller
 		//для кооректной загрузки файлов аяксом
 		//устанавливаем с какой моделью будем работать
 		Yii::$app->session->set('profile_model', 'RegStep2Form');	
-
+		
+			
+		//echo'<pre>';print_r(Yii::$app->request->post());echo'</pre>';//die;
 		if ($model->load(Yii::$app->request->post())) {
+			
 			$region_ok = 1;
-
+			//если нужно - добавляем новый город
+//			if($model->region_name != '') {
+//				$parent_region = Region::findOne($model->region_parent_id);
+//				if($parent_region === null) {
+//					Yii::$app->getSession()->setFlash('error', 'Ошибка при добавлении нового региона');
+//					$region_ok = 0;
+//				}	else	{
+//					$new_region = new Region();
+//					$new_region->name = $model->region_name;
+//					$new_region->parent_id = $model->region_parent_id;
+//					$new_region->appendTo($parent_region);
+//				}
+//			}
 			foreach($model->ratios as &$ratio) {
 				$ratio = (double) str_replace(',', '.', $ratio);
 				if($ratio == 0) $ratio = 1;
 			}
 
+			
 			if ($model->validate() && $region_ok == 1) {
 				$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
 				$RegStep2Form = $model;
@@ -202,25 +218,25 @@ class SiteController extends Controller
 				$user->save();
 				
 				//перемещаем фото аватара
-				if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.$RegStep2Form['avatar']))
-					rename(Yii::getAlias('@pro').'/web/tmp/'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$RegStep2Form['avatar']);
+				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['avatar']))
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.$RegStep2Form['avatar']);
 				
-				if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar']))
-					rename(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$RegStep2Form['avatar']);
+				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar']))
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['avatar'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['avatars-path'].'/'.'thumb_'.$RegStep2Form['avatar']);
 				
 				if($RegStep2Form['license'] != '') {
 					//перемещаем файл лицензии
-					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.$RegStep2Form['license']))
-						rename(Yii::getAlias('@pro').'/web/tmp/'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$RegStep2Form['license']);
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['license']))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.$RegStep2Form['license']);
 				}
 				
-				if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$RegStep2Form['license']))
-					rename(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.'thumb_'.$RegStep2Form['license']);
+				if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['license']))
+					rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$RegStep2Form['license'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['licenses-path'].'/'.'thumb_'.$RegStep2Form['license']);
 				
 				if($RegStep2Form['price_list'] != '') {
 					//перемещаем прайс-лист
-					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.$RegStep2Form['price_list']))
-						rename(Yii::getAlias('@pro').'/web/tmp/'.$RegStep2Form['price_list'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$RegStep2Form['price_list']);
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['price_list']))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$RegStep2Form['price_list'], Yii::getAlias('@frontend').'/web/'.Yii::$app->params['pricelists-path'].'/'.$RegStep2Form['price_list']);
 				}
 				
 				//назначаем ему категории
@@ -253,11 +269,11 @@ class SiteController extends Controller
 					$UserMedia->save();
 					
 					//перемещаем фото
-					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.$award))
-						rename(Yii::getAlias('@pro').'/web/tmp/'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$award);
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$award))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.$award);
 					
-					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$award))
-						rename(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$award);
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$award))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$award, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['awards-path'].'/'.'thumb_'.$award);
 				}
 				
 				//добавляем примеры работ
@@ -269,21 +285,28 @@ class SiteController extends Controller
 					$UserMedia->save();
 					
 					//перемещаем фото
-					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.$example))
-						rename(Yii::getAlias('@pro').'/web/tmp/'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$example);
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.$example))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.$example);
 					
-					if(file_exists(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$example))
-						rename(Yii::getAlias('@pro').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
+					if(file_exists(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example))
+						rename(Yii::getAlias('@frontend').'/web/tmp/'.'thumb_'.$example, Yii::getAlias('@frontend').'/web/'.Yii::$app->params['examples-path'].'/'.'thumb_'.$example);
 				}
 				
 				foreach($RegStep2Form->regions as $k=>$item)	{
-					if($item == 0) $item = 2;
 					$userRegions = new UserRegion();
 					$userRegions->user_id = $user->id;
 					$userRegions->region_id = $item;
 					$userRegions->ratio = $RegStep2Form->ratios[$k];
 					$userRegions->save();
 				}
+				
+				//echo'<pre>';print_r($user->getId());echo'</pre>';//die;
+				//echo'<pre>';print_r($user->id);echo'</pre>';//die;
+				
+				//назначаем нужный уровень доступа
+				//$name_of_role = 'specialist';
+				//$userRole = Yii::$app->authManager->getRole($name_of_role);
+				//Yii::$app->authManager->assign($userRole, $user->id);
 				
 				Yii::$app->response->cookies->remove('RegStep1Form');
 				
@@ -306,10 +329,13 @@ class SiteController extends Controller
 				//echo'<pre>';print_r($model);echo'</pre>';//die;
 			}
 		}
-
+		
+		
+		
 		$categories = Category::find()->where('id <> 1')->orderBy('lft, rgt')->all();
 		
-		$cats_l1 = $cats_l3 = [];
+		$cats_l1 = [];
+		$cats_l3 = [];
 
 		foreach($categories as $c){
 			if($c->parent_id == 1)	{

@@ -3,15 +3,24 @@
 use yii\helpers\Html;
 \frontend\assets\PriceInputAsset::register($this);
 
+if($_SERVER['REMOTE_ADDR'] == '93.125.44.252') {
+	//echo'<pre>';print_r($categories);echo'</pre>';//die;
+	//echo'<pre>--------------------------------</pre>';//die;
+	//echo'<pre>';print_r($categories_l3);echo'</pre>';//die;
+}
+
 //echo $model_name;
 ?>
 
 <?php 
 	if($show_all === true) echo $form->field($model, 'category1')->dropDownList($model->categoriesLevel1DropDownList, [$model->category1, 'prompt'=>'Я оказываю услуги из раздела...']);
 		else echo Html::activeHiddenInput($model, 'category1');
+
+//return;
+
 ?>
 
-
+<div id="subcat-cnt"></div>
 <?php foreach($categories as $cat1)	{	?>
 	<?php if($show_all === false && $model->category1 != $cat1['id']) continue;  ?>
 	<div id="category-block-<?= $cat1['id']?>" class="categories-block" <?php if($model->category1 == $cat1['id']) echo 'style="display:block;"' ?> >
@@ -91,7 +100,7 @@ use yii\helpers\Html;
 							}
 							$inner_li .= '</ul>';
 						}
-						$elem = Html::tag('li', $inner_li, ['class'=>'col-lg-611'] );	
+						$elem = Html::tag('li', $inner_li/*, ['class'=>'col-lg-611']*/ );
 						
 						$col1 .= $elem;
 
@@ -103,20 +112,13 @@ use yii\helpers\Html;
 
 					}	
 				?>
-				<div class="row clearfix">
-					<div class="col-lg-12">
-						<ul class="row1 clearix1">
+				<?/*<div class="row clearfix">
+					<div class="col-lg-12">*/?>
+						<ul <?/*class="row1 clearix1"*/?>>
 							<?= $col1 ?>
 						</ul>
-					</div>
-					<?/*
-					<div class="col-lg-6">
-						<ul class="row1 clearix1">
-							<?= $col2 ?>
-						</ul>
-					</div>
-					*/?>
-				</div>
+					<?/*</div>
+				</div>*/?>
 
 		<?php	}	?>
 	</div>
