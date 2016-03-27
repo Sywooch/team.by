@@ -136,7 +136,6 @@ class SiteController extends Controller
 		$model = new RegStep1Form();
 
 		if ($model->load(Yii::$app->request->post())) {
-			//echo'<pre>';print_r($model);echo'</pre>';die;
 			if ($model->validate()) {
 				Yii::$app->response->cookies->add(new \yii\web\Cookie([
 					'name' => 'RegStep1Form',
@@ -175,10 +174,10 @@ class SiteController extends Controller
 			if ($model->validate() && $region_ok == 1) {
 				$RegStep1Form = json_decode(Yii::$app->request->cookies->getValue('RegStep1Form'), 1);
 				$RegStep2Form = $model;
-				//echo'<pre>';print_r($RegStep2Form);echo'</pre>';
+				//echo'<pre>';print_r($RegStep2Form);echo'</pre>';die;
 				//die;
 				
-				//создаем поьзователя
+				//создаем пользователя
 				$user = new User();
 				$user->username = $RegStep1Form['email'];	//у нас вторизация по мейлу
 				$user->email = $RegStep1Form['email'];

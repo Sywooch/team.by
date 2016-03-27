@@ -4,7 +4,7 @@
 
 
 <div>
-	<p>Уважаемый <?= $user['fio'] ?></p>
+	<p>Уважаемый <?= $model['fio'] ?></p>
 	<p>Вы зарегистрировались на сайте <a href="<?= Yii::$app->params['homeUrl']?>"><?= Yii::$app->params['sitename']?></a></p>
 	<p>Для входа на сайт используйте следующие данные:</p>
 	<p>E-mail: <?= $model['email']?></p>

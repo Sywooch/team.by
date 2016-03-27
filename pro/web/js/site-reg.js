@@ -360,8 +360,8 @@ jQuery(function($) {
 	});
 
 
-	
-	$('input.reg-step2-category').on('change', function(e){
+	$('#site-reg-step2-frm').on('change', 'input.reg-step2-category', function(e){
+	//$('input.reg-step2-category').on('change', function(e){
 		clicked_el = $(this);
 		
 		$(this).parent().parent().toggleClass('category-block-checked');
@@ -416,9 +416,25 @@ jQuery(function($) {
 			url: '/ajax/get-cat2',
 			data: {id:$(this).val()},
 			dataType: 'html',
-			beforeSend: function () {},
+			beforeSend: function () {
+				$('#subcat-cnt').hide();
+				$('#subcat-cnt').html('');
+			},
 			success: function (msg) {
 				console.log('ok');
+				$('#subcat-cnt').html(msg);
+				$('#subcat-cnt').find('input[type="checkbox"], select').styler();
+				$('#subcat-cnt').find('.price-input').priceFormat({
+					prefix: '',
+					clearPrefix: true,
+					centsSeparator: ',',
+					thousandsSeparator: ' ',
+					centsLimit:0
+				});
+
+				$('#subcat-cnt').find('.categories-block').show();
+				$('#subcat-cnt').show();
+
 			}
 		});
 

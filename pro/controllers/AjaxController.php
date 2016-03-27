@@ -603,7 +603,7 @@ class AjaxController extends Controller
 
 	public function actionGetCat2($id)
 	{
-		echo'<pre>';print_r($id);echo'</pre>';//die;
+		//echo'<pre>';print_r($id);echo'</pre>';//die;
 		$model = Category::findOne($id);
 		$childrens = $model->children()->all();
 		//echo'<pre>';print_r($model);echo'</pre>';//die;
@@ -653,9 +653,15 @@ class AjaxController extends Controller
 			}
 		}
 
-		echo'<pre>';print_r($cats_l3);echo'</pre>';//die;
-		echo'<pre>';print_r($cats_l1);echo'</pre>';//die;
-		return;
+		//echo'<pre>';print_r($cats_l3);echo'</pre>';//die;
+		//echo'<pre>';print_r($cats_l1);echo'</pre>';//die;
+		return $this->renderPartial('get-cat2', [
+			'model' => $model,
+			'categories' => $cats_l1,
+			'categories_l3' => $cats_l3,
+		]);
+
+		//return;
 	}
 	
 	

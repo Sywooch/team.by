@@ -17,11 +17,13 @@ if($_SERVER['REMOTE_ADDR'] == '93.125.44.252') {
 		else echo Html::activeHiddenInput($model, 'category1');
 
 //return;
-
+//var_dump($model->category1);
+if(!is_null($model->category1)) $show_all = false;
 ?>
 
-<div id="subcat-cnt"></div>
+<div id="subcat-cnt">
 <?php foreach($categories as $cat1)	{	?>
+	<?php if(is_null($model->category1)) break; ?>
 	<?php if($show_all === false && $model->category1 != $cat1['id']) continue;  ?>
 	<div id="category-block-<?= $cat1['id']?>" class="categories-block" <?php if($model->category1 == $cat1['id']) echo 'style="display:block;"' ?> >
 		<p><?php echo $cat1['name']?></p>
@@ -126,3 +128,4 @@ if($_SERVER['REMOTE_ADDR'] == '93.125.44.252') {
 	<?php if($show_all === false && $model->category1 == $cat1['id']) break;  ?>
 	
 <?php	}	?>
+</div>
