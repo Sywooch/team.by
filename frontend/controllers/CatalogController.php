@@ -334,7 +334,7 @@ class CatalogController extends Controller
 		
 		if($search != '') {
 			//получаем поле для сортировки
-			/*
+
 			$orderBy = Yii::$app->request->post('orderby', '');
 			if($orderBy != '') {
 				Yii::$app->response->cookies->add(new \yii\web\Cookie([
@@ -344,7 +344,10 @@ class CatalogController extends Controller
 			}	else	{
 				$orderBy = Yii::$app->request->cookies->getValue('catlist-orderby', 'rating_total');
 			}
-			*/
+			$current_ordering = [
+				'name' => '',
+				'field' => '',
+			];
 			if($modal == 0) {
 				$UserSearch = new UserSearch();
 
