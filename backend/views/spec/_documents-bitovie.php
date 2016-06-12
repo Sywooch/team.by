@@ -1,4 +1,4 @@
-<?php if($model->reg_file != '')	{	?>
+<?php if($document_form->reg_file != '')	{	?>
 <div class="row clearfix">
 	<div class="col-lg-6 form-group">
 		<div id="uploading-bitovie-file" class="form-group row clearfix pt-30">

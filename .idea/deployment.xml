@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="On explicit save action" promptOnRemoteOverwrite="CHECK_TIMESTAMP" serverName="team.by" autoUploadExternalChanges="true" notifyRemoteChanges="true">
+  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="team.by (1)" autoUploadExternalChanges="true">
     <serverData>
-      <paths name="fleshkabel.medialine.by">
+      <paths name="facecontrol">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="fantasy">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="tapas.medialine.by">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
@@ -16,7 +30,9 @@
           </mappings>
           <excludedPaths>
             <excludedPath path="/console" />
+            <excludedPath path="/domains" />
             <excludedPath path="/environments" />
+            <excludedPath path="/tests" />
             <excludedPath path="/vendor" />
             <excludedPath path="/vendor---" />
             <excludedPath path="/1.txt" />
@@ -35,7 +51,6 @@
             <excludedPath path="/yii.bat" />
             <excludedPath path="/backend/runtime" />
             <excludedPath path="/backend/web/assets" />
-            <excludedPath path="/backend/web/files" />
             <excludedPath path="/backend/web/sxd" />
             <excludedPath path="/backend/web/tmp" />
             <excludedPath path="/backend/web/upload" />
@@ -46,15 +61,15 @@
             <excludedPath path="/backend/web/index-test.php" />
             <excludedPath path="/backend/web/index.php" />
             <excludedPath path="/backend/web/robots.txt" />
+            <excludedPath path="/backend/web/files" />
+            <excludedPath path="/backend/modules" />
             <excludedPath path="/frontend/runtime" />
             <excludedPath path="/frontend/files" />
-            <excludedPath path="/frontend/web/assets" />
+            <excludedPath path="/frontend/web/tmp" />
+            <excludedPath path="/frontend/web/sxd" />
             <excludedPath path="/frontend/web/fonts" />
             <excludedPath path="/frontend/web/files" />
             <excludedPath path="/frontend/web/favicons" />
-            <excludedPath path="/frontend/web/image" />
-            <excludedPath path="/frontend/web/sxd" />
-            <excludedPath path="/frontend/web/tmp" />
             <excludedPath path="/frontend/web/.gitignore" />
             <excludedPath path="/frontend/web/.htaccess" />
             <excludedPath path="/frontend/web/1.txt" />
@@ -93,14 +108,17 @@
             <excludedPath path="/frontend/web/mstile-310x150.png" />
             <excludedPath path="/frontend/web/mstile-310x310.png" />
             <excludedPath path="/frontend/web/mstile-70x70.png" />
+            <excludedPath path="/frontend/web/phpinfo.php" />
             <excludedPath path="/frontend/web/robots.txt" />
             <excludedPath path="/frontend/web/safari-pinned-tab.svg" />
+            <excludedPath path="/frontend/web/image" />
+            <excludedPath path="/frontend/web/images" />
             <excludedPath path="/pro/runtime" />
-            <excludedPath path="/pro/xml.xml" />
             <excludedPath path="/pro/web/assets" />
-            <excludedPath path="/pro/web/tmp" />
-            <excludedPath path="/pro/web/team.by" />
             <excludedPath path="/pro/web/fonts" />
+            <excludedPath path="/pro/web/images" />
+            <excludedPath path="/pro/web/team.by" />
+            <excludedPath path="/pro/web/tmp" />
             <excludedPath path="/pro/web/.gitignore" />
             <excludedPath path="/pro/web/.htaccess" />
             <excludedPath path="/pro/web/260FF67368D7C953C2808CD352C19BFB.txt" />
@@ -111,9 +129,141 @@
             <excludedPath path="/pro/web/webpay.log" />
             <excludedPath path="/pro/web/xml.log" />
             <excludedPath path="/pro/web/xml.xml" />
-            <excludedPath path="/tests" />
-            <excludedPath path="/pro/web/images" />
+            <excludedPath path="/pro/xml.xml" />
+            <excludedPath local="true" path="$PROJECT_DIR$/makets" />
+            <excludedPath local="true" path="$PROJECT_DIR$/docs" />
+            <excludedPath local="true" path="$PROJECT_DIR$/ТЗ_правки_2.doc" />
+            <excludedPath local="true" path="$PROJECT_DIR$/Преимущества_для_специалистов.docx" />
+            <excludedPath local="true" path="$PROJECT_DIR$/button_lk.psd" />
+            <excludedPath local="true" path="$PROJECT_DIR$/favicons" />
+            <excludedPath local="true" path="$PROJECT_DIR$/menu.psd" />
+            <excludedPath local="true" path="$PROJECT_DIR$/select_lk.psd" />
           </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="team.by (1)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath path="/console" />
+            <excludedPath path="/domains" />
+            <excludedPath path="/environments" />
+            <excludedPath path="/tests" />
+            <excludedPath path="/vendor" />
+            <excludedPath path="/vendor---" />
+            <excludedPath path="/1.txt" />
+            <excludedPath path="/backend.zip" />
+            <excludedPath path="/composer.json" />
+            <excludedPath path="/composer.lock" />
+            <excludedPath path="/composer.phar" />
+            <excludedPath path="/init" />
+            <excludedPath path="/init.bat" />
+            <excludedPath path="/LICENSE.md" />
+            <excludedPath path="/README.md" />
+            <excludedPath path="/requirements.php" />
+            <excludedPath path="/vendor-b.tar.gz" />
+            <excludedPath path="/vendor.zip" />
+            <excludedPath path="/yii" />
+            <excludedPath path="/yii.bat" />
+            <excludedPath path="/backend/runtime" />
+            <excludedPath path="/backend/web/assets" />
+            <excludedPath path="/backend/web/sxd" />
+            <excludedPath path="/backend/web/tmp" />
+            <excludedPath path="/backend/web/upload" />
+            <excludedPath path="/backend/web/.gitignore" />
+            <excludedPath path="/backend/web/.htaccess" />
+            <excludedPath path="/backend/web/error_log" />
+            <excludedPath path="/backend/web/favicon.ico" />
+            <excludedPath path="/backend/web/index-test.php" />
+            <excludedPath path="/backend/web/index.php" />
+            <excludedPath path="/backend/web/robots.txt" />
+            <excludedPath path="/backend/web/files" />
+            <excludedPath path="/backend/modules" />
+            <excludedPath path="/frontend/runtime" />
+            <excludedPath path="/frontend/files" />
+            <excludedPath path="/frontend/web/tmp" />
+            <excludedPath path="/frontend/web/sxd" />
+            <excludedPath path="/frontend/web/fonts" />
+            <excludedPath path="/frontend/web/files" />
+            <excludedPath path="/frontend/web/favicons" />
+            <excludedPath path="/frontend/web/.gitignore" />
+            <excludedPath path="/frontend/web/.htaccess" />
+            <excludedPath path="/frontend/web/1.txt" />
+            <excludedPath path="/frontend/web/123.php" />
+            <excludedPath path="/frontend/web/android-chrome-144x144.png" />
+            <excludedPath path="/frontend/web/android-chrome-192x192.png" />
+            <excludedPath path="/frontend/web/android-chrome-36x36.png" />
+            <excludedPath path="/frontend/web/android-chrome-48x48.png" />
+            <excludedPath path="/frontend/web/android-chrome-72x72.png" />
+            <excludedPath path="/frontend/web/android-chrome-96x96.png" />
+            <excludedPath path="/frontend/web/apple-touch-icon-114x114.png" />
+            <excludedPath path="/frontend/web/apple-touch-icon-120x120.png" />
+            <excludedPath path="/frontend/web/apple-touch-icon-144x144.png" />
+            <excludedPath path="/frontend/web/apple-touch-icon-152x152.png" />
+            <excludedPath path="/frontend/web/apple-touch-icon-180x180.png" />
+            <excludedPath path="/frontend/web/apple-touch-icon-57x57.png" />
+            <excludedPath path="/frontend/web/apple-touch-icon-60x60.png" />
+            <excludedPath path="/frontend/web/apple-touch-icon-72x72.png" />
+            <excludedPath path="/frontend/web/apple-touch-icon-76x76.png" />
+            <excludedPath path="/frontend/web/apple-touch-icon-precomposed.png" />
+            <excludedPath path="/frontend/web/apple-touch-icon.png" />
+            <excludedPath path="/frontend/web/browserconfig.xml" />
+            <excludedPath path="/frontend/web/cron.log" />
+            <excludedPath path="/frontend/web/DBFF62360B8B0F76C06EDF9A537BE777.txt" />
+            <excludedPath path="/frontend/web/error_log" />
+            <excludedPath path="/frontend/web/favicon-16x16.png" />
+            <excludedPath path="/frontend/web/favicon-194x194.png" />
+            <excludedPath path="/frontend/web/favicon-32x32.png" />
+            <excludedPath path="/frontend/web/favicon-96x96.png" />
+            <excludedPath path="/frontend/web/favicon.ico" />
+            <excludedPath path="/frontend/web/index-test.php" />
+            <excludedPath path="/frontend/web/index.php" />
+            <excludedPath path="/frontend/web/manifest.json" />
+            <excludedPath path="/frontend/web/mstile-144x144.png" />
+            <excludedPath path="/frontend/web/mstile-150x150.png" />
+            <excludedPath path="/frontend/web/mstile-310x150.png" />
+            <excludedPath path="/frontend/web/mstile-310x310.png" />
+            <excludedPath path="/frontend/web/mstile-70x70.png" />
+            <excludedPath path="/frontend/web/phpinfo.php" />
+            <excludedPath path="/frontend/web/robots.txt" />
+            <excludedPath path="/frontend/web/safari-pinned-tab.svg" />
+            <excludedPath path="/frontend/web/image" />
+            <excludedPath path="/frontend/web/images" />
+            <excludedPath path="/pro/runtime" />
+            <excludedPath path="/pro/web/assets" />
+            <excludedPath path="/pro/web/fonts" />
+            <excludedPath path="/pro/web/images" />
+            <excludedPath path="/pro/web/team.by" />
+            <excludedPath path="/pro/web/tmp" />
+            <excludedPath path="/pro/web/.gitignore" />
+            <excludedPath path="/pro/web/.htaccess" />
+            <excludedPath path="/pro/web/260FF67368D7C953C2808CD352C19BFB.txt" />
+            <excludedPath path="/pro/web/favicon.ico" />
+            <excludedPath path="/pro/web/index-test.php" />
+            <excludedPath path="/pro/web/index.php" />
+            <excludedPath path="/pro/web/robots.txt" />
+            <excludedPath path="/pro/web/webpay.log" />
+            <excludedPath path="/pro/web/xml.log" />
+            <excludedPath path="/pro/web/xml.xml" />
+            <excludedPath path="/pro/xml.xml" />
+            <excludedPath local="true" path="$PROJECT_DIR$/makets" />
+            <excludedPath local="true" path="$PROJECT_DIR$/docs" />
+            <excludedPath local="true" path="$PROJECT_DIR$/ТЗ_правки_2.doc" />
+            <excludedPath local="true" path="$PROJECT_DIR$/Преимущества_для_специалистов.docx" />
+            <excludedPath local="true" path="$PROJECT_DIR$/button_lk.psd" />
+            <excludedPath local="true" path="$PROJECT_DIR$/favicons" />
+            <excludedPath local="true" path="$PROJECT_DIR$/menu.psd" />
+            <excludedPath local="true" path="$PROJECT_DIR$/select_lk.psd" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="vip-kvartira.by">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
         </serverdata>
       </paths>
     </serverData>

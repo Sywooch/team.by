@@ -28,6 +28,8 @@ if($model->education != '')	{
 	$education_arr = [];
 }
 
+
+
 //print_r($education_arr);
 
 $model_awards = [];
@@ -46,7 +48,8 @@ foreach($model->userMedia as $media)	{
 
 $rating_active = 20 * $model->total_rating; // максимальная оценка 5 это 100%.  Значит каждая единица = 20%
 
-//echo'<pre>';print_r($model->userSpecialsList);echo'</pre>';//die;
+$userSpecialsList = $model->userSpecialsList;
+//echo'<pre>';print_r($userSpecialsList);echo'</pre>';die;
 ?>
 
 <div class="catalog-item">
@@ -65,8 +68,11 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 						<img class="catalog-category-list-item__avatar" src="<?= Url::home(true) ?>/images/no-avatar.jpg" alt="" width="277" height="282" />
 					<?php }	?>						
 				</span>
+
+
 				
 				<?= $model->youtubeBlock ?>
+
 				
 				<ul class="catalog-item_body__awards">
 					<?php
@@ -76,13 +82,14 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 				</ul>
 				
 			</div>
+
 			<div class="catalog-item_body_right">
 				<div class="catalog-item_body__info_row clearfix">
 					<div class="catalog-item_body__ttl_cnt catalog-item_body__ttl_profi">
 						<h1 class="catalog-item_body__ttl"><?= $model->fio;?></h1>
 						<p class="catalog-item_body__town"><?= $model->townsList ?></p>
 					</div>
-					
+
 					<?php if($model->to_client == 1)	{	?>
 						<p class="catalog-item_body__to_client">Выезд к клиенту</p>
 					<?php	}	?>
@@ -94,9 +101,10 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 							<div class="catalog-item_body__rating_active" style="width:<?=$rating_active?>%;"></div>
 						</div>
 					</div>
-					
+
 					<?php echo $model->medalImage ?>
 				</div>
+
 				<div class="catalog-item_body__info_row catalog-item_body__about clearfix">
 					<?= nl2br($model->about) ?>
 					
@@ -105,30 +113,32 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 						<p><?= $model->specialization ?></p>
 					<?php	}	?>
 				</div>
-				
+
 				<div class="catalog-item_body__info_row catalog-item_body__uslugi clearfix">
 					<p class="catalog-item_body__uslugi_ttl">Виды услуг</p>
+
 					<ul class="catalog-item_body__uslugi_list row clearfix">
 						<?php $i = 1;	?>
-						<?php foreach($model->userSpecialsList as $user_spec)	{	?>
+						<?php foreach($userSpecialsList as $user_spec)	{	?>
 							<?php 
 								if(($i-1)%2 == 0) $clr = ' clear';
 									else $clr = '';
+
 								$i++;
 							?>
 							<li class="catalog-item_body__uslugi_item col-lg-6 <?= $clr?>">
 								<div class="row">
 									<p class="col-lg-6">• <?= $user_spec->category->name ?></p>
 									<p class="col-lg-6"><?= $user_spec->price ? DPriceHelper::formatPrice($user_spec->price * $model->regionRatio) : ''; ?><?= $user_spec->unit ? (' за '.$user_spec->unit) : ''?></p>
-									<?/*<p class="col-lg-6"><?= \Yii::$app->formatter->asDecimal($user_spec->price); ?></p> */?>
 								</div>
 							</li>
 						<?php	}	?>
-					</ul>	
-					
+					</ul>
+
 					<?php if($model->price_list) echo Html::a('Скачать полный прайс', Url::home(true).Yii::$app->params['pricelists-path'].'/'.$model->price_list, ['class'=>'catalog-item_body__pricelist'])?>
 					
 				</div>
+
 				
 				<div class="catalog-item_body__info_row_bottom row clearfix">
 					<?php if(count($education_arr))	{	?>
@@ -151,6 +161,8 @@ $rating_active = 20 * $model->total_rating; // максимальная оцен
 			</div>
 			
 	</div>
+
+
 	
 	<?php if(count($model_examples))	{	?>
 			<div id="examples" class="catalog-item__examples">

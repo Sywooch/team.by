@@ -179,6 +179,7 @@ class OrderController extends Controller
 		$model->scenario = ''; //выключаем сценарий
 		return $this->render('create', [
 			'model' => $model,
+            'orderStatusHistories' => array(),
 		]);
        
     }

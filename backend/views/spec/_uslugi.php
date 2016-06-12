@@ -2,17 +2,14 @@
 use common\helpers\DPriceHelper;
 ?>
 
-
-
-
 <div class="tab_pane_cnt">
-	<table class="table table-bordered table-striped">
-		<?php foreach($model->userSpecials as $user_spec)	{	?>
-			<tr>
-				<td><?= $user_spec->category->name ?></td>
-				<td><?= DPriceHelper::formatPrice($user_spec->price); ?></td>
-				<td>за <?= $user_spec->unit; ?></td>
-			</tr>
-		<?php	}	?>
-	</table>
+    <table class="table table-bordered table-striped">
+        <?php foreach($model->userSpecials as $user_spec)	{	?>
+            <tr>
+                <td><?= $user_spec->category->name ?></td>
+                <td><?= DPriceHelper::formatPrice($user_spec->price); ?></td>
+                <td>за <?= $user_spec->unit; ?></td>
+            </tr>
+        <?php	}	?>
+    </table>
 </div>

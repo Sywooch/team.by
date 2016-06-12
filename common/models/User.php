@@ -366,11 +366,16 @@ class User extends ActiveRecord implements IdentityInterface
     public function getUserSpecialsList()
     {
 		$rows = $this->userSpecials;
-		
-		foreach($rows as $row) {
+        //echo'<pre>regionRatio ';print_r($this->regionRatio);echo'</pre>';die;
+        //echo'<pre>';print_r($rows);echo'</pre>';die;
+
+
+        foreach($rows as &$row) {
 			$row->price = DPriceHelper::roundValue($row->price * $this->regionRatio);
+            //echo'<pre>';var_dump($row->price);echo'</pre>';//die;
 		}
-		
+        //echo'<pre>';print_r($rows);echo'</pre>';die;
+		//die;
 		return $rows;
     }
 	/*

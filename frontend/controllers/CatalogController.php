@@ -243,7 +243,8 @@ class CatalogController extends Controller
         $categories_history = Yii::$app->session->get('categories_history', []);
 		
 		$model = User::findOne($id);		
-		if ($model === null) throw new CHttpException(404, 'Аккаунт с данным ID отсутствует в базе');		
+		if ($model === null) throw new NotFoundHttpException('Аккаунт с данным ID отсутствует в базе', 404);
+        //if ($model === null) throw new CHttpException(404, 'Аккаунт с данным ID отсутствует в базе');
 		
 		//echo'<pre>';print_r($categories_history);echo'</pre>'; die;
 		
@@ -260,12 +261,18 @@ class CatalogController extends Controller
 
 			if($category === null) throw new NotFoundHttpException('Ошибка категории');
 		}
+
+
 		
 		//получаем всех родителей данной категории для хлебной крошки
 		$parents = $category->parents()->all();
+
+        //echo'<pre>';print_r($parents);echo'</pre>'; die;
 		
 		//получаем потомков категории
 		$children = $category->children()->all();
+
+        //echo'<pre>';print_r($children);echo'</pre>'; die;
 		
 		//получаем массив ИД категорий для поиска аккаунтов в них
 		$cat_ids = [$category->id];
@@ -294,12 +301,15 @@ class CatalogController extends Controller
 				'pageSize' => 5,
 				'pageSizeParam' => false,
 			],
-		]);		
+		]);
+        //echo'<pre>';print_r($relatedDataProvider);echo'</pre>'; die;
 		
 		$reviews_count = Review::find()
 			->where(['user_id'=>$model->id])
 			->andWhere(['status'=>1])			
 			->count();
+
+        //echo'<pre>';print_r($reviews_count);echo'</pre>'; die;
 		
 		$reviews_list = Review::find()
 			->where(['user_id'=>$model->id])
@@ -308,10 +318,12 @@ class CatalogController extends Controller
 			->limit(3)
 			->orderBy('id DESC')
 			->all();
+
 		
 		//$model = $this->loadModel($id)
 		
 		//echo'<pre>';print_r($this->getSpecials());echo'</pre>'; die;
+        $specials = $this->getSpecials();
  
         return $this->render('show', [
 			'model'=>$model,
@@ -319,7 +331,7 @@ class CatalogController extends Controller
 			'parents'=>$parents,
 			'children'=>$children,
 			'relatedDataProvider'=>$relatedDataProvider,
-			'specials'=>$this->getSpecials(),
+			'specials'=>$specials,
 			'reviews_list'=>$reviews_list,
 			'reviews_count'=>$reviews_count,
 		]);

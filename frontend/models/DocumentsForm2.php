@@ -12,7 +12,7 @@ use common\models\UserDocuments;
 // http://bootstrap-datepicker.readthedocs.org/en/release/
 
 /**
- * Signup form
+ * UserDocuments form
  */
 class DocumentsForm2 extends UserDocuments
 {
